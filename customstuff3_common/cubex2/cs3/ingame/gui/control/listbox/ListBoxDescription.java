@@ -23,6 +23,7 @@ public class ListBoxDescription<E>
     public int elementWidth = -1;
     public int elementHeight = 13;
     public int sliderWidth = 20;
+    public int listBoxItemMeta = 0;
     public boolean canSelect = true;
     public boolean multiSelect = false;
     public List<E> elements;

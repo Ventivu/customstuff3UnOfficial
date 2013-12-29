@@ -6,6 +6,8 @@ import cubex2.cs3.ingame.gui.control.*;
 import java.util.Collections;
 import java.util.List;
 
+
+// TODO one element -> delete -> new element
 public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueListener
 {
     private static final int HORIZONTAL_GAP = 1;
@@ -19,6 +21,7 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
     private final int elementHeight;
     private final int elementWidth;
     private final int columns;
+    private final int listBoxItemMeta;
     private VerticalSlider slider;
 
     private IListBoxItemClickListener itemClickListener;
@@ -32,6 +35,7 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
         elementHeight = desc.elementHeight;
         elementWidth = desc.elementWidth == -1 ? (getWidth() - (desc.columns - 1) * HORIZONTAL_GAP) / desc.columns : desc.elementWidth;
         columns = desc.columns;
+        listBoxItemMeta = desc.listBoxItemMeta;
 
         createListBoxItems();
 
@@ -141,7 +145,7 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
             int elementX = (elementWidth + HORIZONTAL_GAP) * (i % columns);
             int elementY = i / columns * (elementHeight + VERTICAL_GAP);
 
-            addControl(ListBoxItemProvider.createListBoxItem(elements.get(i), i, elementX, elementY, elementWidth, elementHeight, this));
+            addControl(ListBoxItemProvider.createListBoxItem(elements.get(i), i, listBoxItemMeta, elementX, elementY, elementWidth, elementHeight, this));
         }
     }
 

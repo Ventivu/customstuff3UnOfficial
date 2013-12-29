@@ -31,6 +31,9 @@ public class IngameContentPack extends ContentPack implements IPurpuseStringProv
 
     public void save()
     {
+        if (!IngameContentPackLoader.initialized)
+            return;
+
         NBTTagCompound compound = new NBTTagCompound();
 
         NBTTagList managerList = new NBTTagList();

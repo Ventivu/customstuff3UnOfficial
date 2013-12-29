@@ -16,13 +16,17 @@ public abstract class BaseContentPack implements IContentPack
     protected final Map<Class<? extends Content>, ContentManager> contentManagers = Maps.newHashMap();
     private final Map<String, ContentManager> nameToManagerMap = Maps.newHashMap();
 
+    public final AliasManager aliasManager;
+
     public BaseContentPack(File directory)
     {
         this.directory = directory;
         this.name = directory.isDirectory() ? directory.getName() : directory.getName().substring(0, directory.getName().length() - 4);
         logger = Logger.getLogger(ModInfo.ID + "_" + name);
 
-        registerContentManager(new AliasManager(this), Alias.class);
+        aliasManager = new AliasManager(this);
+        registerContentManager(aliasManager, Alias.class);
+        registerContentManager(new FuelManager(this), Fuel.class);
     }
 
     @Override
@@ -67,9 +71,13 @@ public abstract class BaseContentPack implements IContentPack
         nameToManagerMap.put(manager.getName(), manager);
     }
 
-    public void save(){}
+    public void save()
+    {
+    }
 
-    public void load(){}
+    public void load()
+    {
+    }
 
     public abstract void prepare();
 

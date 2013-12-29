@@ -10,7 +10,7 @@ import java.util.List;
 
 public class WindowEditPack extends Window implements IListBoxItemClickListener<String>
 {
-    private static final List<String> listBoxElements = Lists.newArrayList("Aliases");
+    private static final List<String> listBoxElements = Lists.newArrayList("Aliases", "Fuels");
 
     private IngameContentPack pack;
 
@@ -44,6 +44,10 @@ public class WindowEditPack extends Window implements IListBoxItemClickListener<
             if (item.equals("Aliases"))
             {
                 GuiBase.openWindow(new WindowAliases(pack));
+            }
+            else if(item.equals("Fuels"))
+            {
+                GuiBase.openWindow(new WindowFuels(pack));
             }
         }
     }

@@ -12,6 +12,8 @@ public class IngameContentPackLoader
 {
     private static final IngameContentPackLoader instance = new IngameContentPackLoader();
 
+    public static boolean initialized = false;
+
     private List<IngameContentPack> contentPacks;
 
     private IngameContentPackLoader()
@@ -67,6 +69,7 @@ public class IngameContentPackLoader
         {
             pack.init();
         }
+        initialized = true;
     }
 
     private final FilenameFilter contentPackFilter = new FilenameFilter()

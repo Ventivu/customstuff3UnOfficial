@@ -1,33 +1,30 @@
 package cubex2.cs3.common;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class Alias implements Content
+public class Fuel implements Content
 {
-    public Item item;
-    public int damageValue;
-    public String name;
+    public Alias alias;
+    public int duration;
 
-    protected BaseContentPack pack;
+    private BaseContentPack pack;
 
-    public Alias(BaseContentPack pack)
+    public Fuel(Alias alias, int duration, BaseContentPack pack)
     {
+        this.alias = alias;
+        this.duration = duration;
         this.pack = pack;
     }
 
-    public Alias(Item item, int damageValue, String name, BaseContentPack pack)
+    public Fuel(BaseContentPack pack)
     {
-        this.item = item;
-        this.damageValue = damageValue;
         this.pack = pack;
-        this.name = name;
     }
 
     public ItemStack newItemStack()
     {
-        return new ItemStack(item, 1, damageValue);
+        return alias.newItemStack();
     }
 
     @Override
@@ -65,16 +62,14 @@ public class Alias implements Content
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
-        compound.setString("Name", name);
-        compound.setInteger("ItemID", item.itemID);
-        compound.setShort("DamageValue", (short) damageValue);
+        compound.setString("Alias", alias.name);
+        compound.setInteger("Duration", duration);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
-        name = compound.getString("Name");
-        item = Item.itemsList[compound.getInteger("ItemID")];
-        damageValue = compound.getShort("DamageValue");
+        alias = pack.aliasManager.getAlias(compound.getString("Alias"));
+        duration = compound.getInteger("Duration");
     }
 }
