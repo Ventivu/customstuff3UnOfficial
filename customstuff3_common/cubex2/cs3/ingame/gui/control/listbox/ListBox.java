@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 
 
-// TODO one element -> delete -> new element
 public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueListener
 {
     private static final int HORIZONTAL_GAP = 1;
@@ -132,7 +131,7 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
         selectedIndices.clear();
         height = calculateHeight(this.elements, elementHeight, columns);
         if (height < getHeight())
-            setCurrentScroll(height - getVisibleRect().getHeight());
+            setCurrentScroll(Math.max(height - getVisibleRect().getHeight(), 0));
         createListBoxItems();
         updateRect();
     }

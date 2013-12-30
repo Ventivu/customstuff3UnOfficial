@@ -37,7 +37,7 @@ public class IngameContentPack extends ContentPack implements IPurpuseStringProv
         NBTTagCompound compound = new NBTTagCompound();
 
         NBTTagList managerList = new NBTTagList();
-        for (ContentManager contentManager : contentManagers.values())
+        for (ContentManager contentManager : contentManagerList)
         {
             NBTTagCompound managerTag = new NBTTagCompound();
             contentManager.writeToNBT(managerTag);

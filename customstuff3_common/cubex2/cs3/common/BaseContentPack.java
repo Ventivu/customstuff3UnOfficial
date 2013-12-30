@@ -1,10 +1,12 @@
 package cubex2.cs3.common;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cubex2.cs3.api.IContentPack;
 import cubex2.cs3.lib.ModInfo;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -13,6 +15,7 @@ public abstract class BaseContentPack implements IContentPack
     public final String name;
     public final File directory;
     protected final Logger logger;
+    protected final List<ContentManager> contentManagerList = Lists.newArrayList();
     protected final Map<Class<? extends Content>, ContentManager> contentManagers = Maps.newHashMap();
     private final Map<String, ContentManager> nameToManagerMap = Maps.newHashMap();
 
@@ -69,6 +72,7 @@ public abstract class BaseContentPack implements IContentPack
             contentManagers.put(clazz, manager);
         }
         nameToManagerMap.put(manager.getName(), manager);
+        contentManagerList.add(manager);
     }
 
     public void save()
