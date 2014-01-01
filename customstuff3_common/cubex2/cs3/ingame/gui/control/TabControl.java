@@ -1,10 +1,10 @@
 package cubex2.cs3.ingame.gui.control;
 
 import com.google.common.collect.Lists;
+import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.lib.Textures;
 import net.minecraft.util.MathHelper;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -32,8 +32,21 @@ public class TabControl extends Control
     {
         Tab tab = new Tab(title, 0, 0, getWidth(), getHeight(), this);
         tabs.add(tab);
-        maxScroll = tabs.size() - maxPossibleTabs;
+        if (activeTab == null)
+            activeTab = tab;
+        maxScroll = Math.max(tabs.size() - maxPossibleTabs, 0);
         return tab;
+    }
+
+    @Override
+    public void updateRect()
+    {
+        super.updateRect();
+
+        for (int i = 0; i < tabs.size(); i++)
+        {
+            tabs.get(i).updateRect();
+        }
     }
 
     @Override
@@ -101,7 +114,7 @@ public class TabControl extends Control
     @Override
     public void draw(int mouseX, int mouseY)
     {
-        int wheel = Mouse.getDWheel();
+        int wheel = GuiBase.dWheel;
         if (wheel != 0 && mouseX >= getX() - tabWidth && mouseX < getX() && mouseY >= getY() && mouseY < getY() + getHeight())
         {
             scroll = MathHelper.clamp_int(scroll - wheel / 120, 0, maxScroll);
@@ -159,9 +172,19 @@ public class TabControl extends Control
             int y = getY() + i * tabHeight + (tabHeight - 9) / 2 + 1;
             mc.fontRenderer.drawString(tab.title, x, y, tab == activeTab ? Color.BLACK : 0x404040);
         }
+
         if (activeTab != null)
         {
             activeTab.draw(mouseX, mouseY);
+        }
+    }
+
+    @Override
+    public void drawForeground(int mouseX, int mouseY)
+    {
+        if (activeTab != null)
+        {
+            activeTab.drawForeground(mouseX, mouseY);
         }
     }
 }
