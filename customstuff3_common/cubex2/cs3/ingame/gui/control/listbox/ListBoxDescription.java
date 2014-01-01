@@ -26,5 +26,6 @@ public class ListBoxDescription<E>
     public int listBoxItemMeta = 0;
     public boolean canSelect = true;
     public boolean multiSelect = false;
+    public boolean sorted = false;
     public List<E> elements;
 }

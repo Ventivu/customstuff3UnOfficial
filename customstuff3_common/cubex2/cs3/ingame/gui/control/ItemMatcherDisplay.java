@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui.control;
 
 import com.google.common.collect.Lists;
-import cubex2.cs3.common.Alias;
+import cubex2.cs3.common.IItemMatcher;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.GuiHelper;
@@ -15,9 +15,9 @@ import org.lwjgl.opengl.GL12;
 
 import java.util.List;
 
-public class AliasDisplay extends Control
+public class ItemMatcherDisplay extends Control
 {
-    private Alias alias;
+    private IItemMatcher itemMatcher;
     private ItemStack currentRenderStack;
     private List<ItemStack> renderStacks;
 
@@ -25,65 +25,79 @@ public class AliasDisplay extends Control
     private int tickCounter = 1;
     private int currentIndex = 0;
 
-    private IAliasToolTipModifier toolTipModifier;
+    private IItemMatcherToolTipModifier toolTipModifier;
 
-    public AliasDisplay(int x, int y, Control parent)
+    public ItemMatcherDisplay(int x, int y, Control parent)
     {
         super(x, y, 16, 16, parent);
+
+        if (rootControl instanceof IItemMatcherToolTipModifier)
+        {
+            toolTipModifier = (IItemMatcherToolTipModifier) rootControl;
+        }
     }
 
-    public AliasDisplay setDrawSlotBackground()
+    public ItemMatcherDisplay setDrawSlotBackground()
     {
         drawSlotBackground = true;
         return this;
     }
 
-    public void setToolTipModifier(IAliasToolTipModifier modifier)
+    public IItemMatcher getItemMatcher()
     {
-        toolTipModifier = modifier;
+        return itemMatcher;
     }
 
-    public Alias getAlias()
+    public void setItemMatcher(IItemMatcher itemMatcher)
     {
-        return alias;
-    }
-
-    public void setAlias(Alias alias)
-    {
-        if (alias == null)
+        if (itemMatcher == null)
         {
-            this.alias = null;
+            if (toolTipModifier instanceof IItemMatcher)
+            {
+                toolTipModifier = null;
+            }
+            this.itemMatcher = null;
             currentRenderStack = null;
             renderStacks = null;
             return;
         }
-        this.alias = alias;
-        ItemStack stack = alias.getItemStack();
-        currentRenderStack = stack;
-        if (stack.getItem() != null)
+        if (itemMatcher instanceof IItemMatcherToolTipModifier)
         {
-            if (stack.getHasSubtypes() && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+            toolTipModifier = (IItemMatcherToolTipModifier) itemMatcher;
+        }
+        this.itemMatcher = itemMatcher;
+
+        renderStacks = Lists.newArrayList();
+
+        for (ItemStack stack : itemMatcher.getItemStacks())
+        {
+            if (stack.getItem() != null)
             {
-                renderStacks = Lists.newArrayList();
-                stack.getItem().getSubItems(stack.itemID, null, renderStacks);
-                if (renderStacks.size() == 0)
+                if (stack.getHasSubtypes() && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
                 {
-                    renderStacks = null;
+                    List<ItemStack> subItems = Lists.newArrayList();
+                    stack.getItem().getSubItems(stack.itemID, null, subItems);
+                    renderStacks.addAll(subItems);
                 }
                 else
                 {
-                    currentRenderStack = renderStacks.get(0);
+                    renderStacks.add(stack);
                 }
             }
-            else
-            {
-                renderStacks = null;
-            }
+        }
 
-            if (currentRenderStack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
-            {
-                currentRenderStack.setItemDamage(0);
-            }
+        if (renderStacks.size() == 0)
+        {
+            renderStacks = null;
+        }
+        else
+        {
+            currentRenderStack = renderStacks.get(0);
+        }
+
+        if (currentRenderStack != null && currentRenderStack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+        {
+            currentRenderStack.setItemDamage(0);
         }
     }
 
@@ -152,11 +166,9 @@ public class AliasDisplay extends Control
                 }
             }
 
-            list.add(EnumChatFormatting.GRAY + "Alias: " + alias.name);
-
             if (toolTipModifier != null)
             {
-                toolTipModifier.modifyToolTip(list, alias);
+                toolTipModifier.modifyToolTip(list, itemMatcher);
             }
 
             FontRenderer font = currentRenderStack.getItem().getFontRenderer(currentRenderStack);

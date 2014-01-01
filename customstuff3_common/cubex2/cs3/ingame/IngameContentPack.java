@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagList;
 
 import java.io.File;
 
-public class IngameContentPack extends ContentPack implements IPurpuseStringProvider
+public class IngameContentPack extends ContentPack implements IPurpuseStringProvider, Comparable<IngameContentPack>
 {
     public IngameContentPack(File directory)
     {
@@ -68,5 +68,11 @@ public class IngameContentPack extends ContentPack implements IPurpuseStringProv
     public String getStringForPurpose(StringProviderPurpose purpose)
     {
         return purpose == StringProviderPurpose.LIST_BOX_ITEM_LABEl ? getName() : null;
+    }
+
+    @Override
+    public int compareTo(IngameContentPack o)
+    {
+        return name.compareTo(o.name);
     }
 }

@@ -2,6 +2,7 @@ package cubex2.cs3.common;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class Fuel implements Content
 {
@@ -24,7 +25,13 @@ public class Fuel implements Content
 
     public ItemStack newItemStack()
     {
-        return alias.newItemStack();
+        return alias.getItemStack();
+    }
+
+    public boolean isRepresentingStack(ItemStack stack)
+    {
+        return alias.item.itemID == stack.itemID &&
+                (alias.damageValue == stack.getItemDamage() || alias.damageValue == OreDictionary.WILDCARD_VALUE);
     }
 
     @Override

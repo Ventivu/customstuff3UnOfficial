@@ -25,6 +25,7 @@ public class WindowContentPacks extends Window implements IListBoxItemClickListe
         desc.width = 166;
         desc.rows = 12;
         desc.elements = IngameContentPackLoader.instance().getContentPacks();
+        desc.sorted = true;
         desc.canSelect = false;
         lbPacks = new ListBox<>(desc, this);
         addControl(lbPacks);

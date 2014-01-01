@@ -48,4 +48,32 @@ public class ItemStackHelper
 
         return stacks;
     }
+
+    public static List<ItemStack> getOreItemStacks(String oreName)
+    {
+        List<ItemStack> stacks = Lists.newArrayList();
+        List<ItemStack> oreStacks = OreDictionary.getOres(oreName);
+
+        for (int i = 0; i < oreStacks.size(); i++)
+        {
+            ItemStack stack = oreStacks.get(i);
+            Item item = stack.getItem();
+            if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE && item != null)
+            {
+                if (item.getHasSubtypes())
+                {
+                    stacks.addAll(ItemStackHelper.getSubTypes(item));
+                }
+                else
+                {
+                    stacks.add(new ItemStack(i, 1, 0));
+                }
+            }
+            else
+            {
+                stacks.add(stack.copy());
+            }
+        }
+        return stacks;
+    }
 }

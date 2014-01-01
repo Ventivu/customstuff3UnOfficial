@@ -45,7 +45,7 @@ public class WindowEditPack extends Window implements IListBoxItemClickListener<
             {
                 GuiBase.openWindow(new WindowAliases(pack));
             }
-            else if(item.equals("Fuels"))
+            else if (item.equals("Fuels"))
             {
                 GuiBase.openWindow(new WindowFuels(pack));
             }

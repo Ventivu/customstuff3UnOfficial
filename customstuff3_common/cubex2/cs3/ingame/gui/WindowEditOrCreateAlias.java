@@ -54,7 +54,7 @@ public class WindowEditOrCreateAlias extends Window implements IValidityProvider
         itemDisplay = new ItemDisplay(7, 52, this);
         itemDisplay.setDrawSlotBackground();
         if (editingAlias != null)
-            itemDisplay.setItemStack(editingAlias.newItemStack());
+            itemDisplay.setItemStack(editingAlias.getItemStack());
         addControl(itemDisplay);
 
         updateButton(tbName.hasValidText());

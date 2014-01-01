@@ -21,6 +21,7 @@ public class ItemDisplay extends Control
     private List<ItemStack> renderStacks;
 
     private boolean drawSlotBackground = false;
+    private boolean showIdAndDamageValue = true;
     private int tickCounter = 1;
     private int currentIndex = 0;
 
@@ -148,6 +149,12 @@ public class ItemDisplay extends Control
                 {
                     list.set(k, EnumChatFormatting.GRAY + (String) list.get(k));
                 }
+            }
+
+            if (showIdAndDamageValue)
+            {
+                list.add(EnumChatFormatting.GRAY + "ID: " + originStack.itemID);
+                list.add(EnumChatFormatting.GRAY + "DV: " + originStack.getItemDamage());
             }
 
             if (toolTipModifier != null)

@@ -1,10 +1,14 @@
 package cubex2.cs3.common;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.oredict.OreDictionary;
 
-public class Alias implements Content
+import java.util.List;
+
+public class Alias implements Content, IItemMatcher, Comparable<Alias>
 {
     public Item item;
     public int damageValue;
@@ -23,11 +27,6 @@ public class Alias implements Content
         this.damageValue = damageValue;
         this.pack = pack;
         this.name = name;
-    }
-
-    public ItemStack newItemStack()
-    {
-        return new ItemStack(item, 1, damageValue);
     }
 
     @Override
@@ -76,5 +75,29 @@ public class Alias implements Content
         name = compound.getString("Name");
         item = Item.itemsList[compound.getInteger("ItemID")];
         damageValue = compound.getShort("DamageValue");
+    }
+
+    @Override
+    public ItemStack getItemStack()
+    {
+        return new ItemStack(item, 1, damageValue);
+    }
+
+    @Override
+    public List<ItemStack> getItemStacks()
+    {
+        return Lists.newArrayList(getItemStack());
+    }
+
+    @Override
+    public boolean isRepresentingStack(ItemStack stack)
+    {
+        return stack.getItem() == item && (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE || stack.getItemDamage() == damageValue);
+    }
+
+    @Override
+    public int compareTo(Alias o)
+    {
+        return name.compareTo(o.name);
     }
 }

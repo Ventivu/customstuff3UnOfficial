@@ -35,6 +35,7 @@ public class WindowSelectAlias extends Window implements IListBoxItemClickListen
         desc.columns = 7;
         desc.rows = 7;
         desc.elements = pack.getContentManager(Alias.class).getContentList();
+        desc.sorted = true;
         desc.listBoxItemMeta = 1;
         lbItems = new ListBox<>(desc, this);
         addControl(lbItems);

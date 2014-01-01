@@ -17,6 +17,7 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
 
     private final boolean multiSelect;
     private final boolean canSelect;
+    private final boolean isSorted;
     private final int elementHeight;
     private final int elementWidth;
     private final int columns;
@@ -31,10 +32,14 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
         elements = Lists.newArrayList(desc.elements);
         canSelect = desc.canSelect;
         multiSelect = desc.multiSelect;
+        isSorted = desc.sorted;
         elementHeight = desc.elementHeight;
         elementWidth = desc.elementWidth == -1 ? (getWidth() - (desc.columns - 1) * HORIZONTAL_GAP) / desc.columns : desc.elementWidth;
         columns = desc.columns;
         listBoxItemMeta = desc.listBoxItemMeta;
+
+        if (isSorted)
+            Collections.sort((List<Comparable>) elements);
 
         createListBoxItems();
 
@@ -124,10 +129,23 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
         return Collections.unmodifiableList(items);
     }
 
+    public void removeSelection()
+    {
+        selectedIndices.clear();
+        for (int i = 0; i < controls.size(); i++)
+        {
+            ((ListBoxItem) controls.get(i)).setSelected(false);
+        }
+    }
+
     public void updateElements(List<T> elements)
     {
         this.elements.clear();
         this.elements.addAll(elements);
+
+        if (isSorted)
+            Collections.sort((List<Comparable>) this.elements);
+
         selectedIndices.clear();
         height = calculateHeight(this.elements, elementHeight, columns);
         if (height < getHeight())

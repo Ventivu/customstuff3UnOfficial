@@ -29,6 +29,7 @@ public class WindowAliases extends Window implements IListBoxItemClickListener<A
         desc.rows = 7;
         desc.elementHeight = 22;
         desc.elements = pack.getContentManager("AliasManager").getContentList();
+        desc.sorted = true;
         desc.canSelect = true;
         listBox = new ListBox<>(desc, this);
         addControl(listBox);
