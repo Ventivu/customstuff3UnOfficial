@@ -14,9 +14,13 @@ import org.lwjgl.util.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Clean up code
 public class TextField extends Control
 {
+    private static final int COMMENT_COLOR = Color.DARK_GREY;
+    private static final int STRING_COLOR = 0xff5f8651;
+    private static final int NUMBER_COLOR = 0xff6897bb;
+    private static final int KEYWORD_COLOR = 0xffb3602d;
+
     private final FontRenderer fontRenderer;
 
     private boolean canLoseFocus = true;
@@ -28,7 +32,7 @@ public class TextField extends Control
 
     // Content
     private List<String> lines = Lists.newArrayList("");
-    private List<List<Integer>> colors = Lists.newArrayList();
+    private final List<List<Integer>> colors = Lists.newArrayList();
 
     // Cursor
     private boolean replaceMode = false;
@@ -38,8 +42,6 @@ public class TextField extends Control
     private int selectionEndX = -1;
     private int selectionEndY = -1;
 
-    // MaxCharWidth: 9
-    // MostCharWidth: 6
     public TextField(int x, int y, int width, int height, Control parent)
     {
         super(x, y, width, height, parent);
@@ -50,7 +52,14 @@ public class TextField extends Control
 
     public String getText()
     {
-        return null;//text;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < lines.size(); i++)
+        {
+            sb.append(lines.get(i));
+            if (i < lines.size() - 1)
+                sb.append('\n');
+        }
+        return sb.toString();
     }
 
     public void setText(String text)
@@ -69,10 +78,37 @@ public class TextField extends Control
         textChanged();
     }
 
+    public String getSelectedText()
+    {
+        if (selectionEndX == -1)
+            return "";
+
+        int selStartX = cursorX;
+        int selStarY = cursorY;
+        int selEndX = selectionEndX;
+        int selEndY = selectionEndY;
+        if (getOneDimPosition(cursorX, cursorY) > getOneDimPosition(selectionEndX, selectionEndY))
+        {
+            selStartX = selectionEndX;
+            selStarY = selectionEndY;
+            selEndX = cursorX;
+            selEndY = cursorY;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < selEndY - selStarY + 1; i++)
+        {
+            int startIdx = i == 0 ? selStartX : 0;
+            int endIdx = i == selEndY - selStarY ? selEndX : lines.get(i + selStarY).length();
+            sb.append(lines.get(i + selStarY).substring(startIdx, endIdx));
+            if (i < selEndY - selStarY)
+                sb.append('\n');
+        }
+        return sb.toString();
+    }
+
     private void textChanged()
     {
-        int color = Color.WHITE;
-
         boolean inMultiLineComment = false;
         boolean inQuotes = false;
         char quoteChar = 0;
@@ -83,66 +119,53 @@ public class TextField extends Control
             for (int j = 0; j < lines.get(i).length(); j++)
             {
                 char c = lines.get(i).charAt(j);
+                boolean isLastChar = j == lines.get(i).length() - 1;
+                char nextChar = isLastChar ? 0 : lines.get(i).charAt(j + 1);
 
                 if (inMultiLineComment)
                 {
-                    if (c == '*' && j < lines.get(i).length() - 1 && lines.get(i).charAt(j + 1) == '/')
+                    colors.get(i).add(COMMENT_COLOR);
+                    if (c == '*' && !isLastChar && nextChar == '/')
                     {
-                        colors.get(i).add(Color.DARK_GREY);
-                        colors.get(i).add(Color.DARK_GREY);
+                        colors.get(i).add(COMMENT_COLOR);
                         inMultiLineComment = false;
                         j++;
-                        continue;
                     }
-                    else
-                    {
-                        colors.get(i).add(Color.DARK_GREY);
-                        continue;
-                    }
+                    continue;
                 }
                 boolean quoteStateChanged = false;
-                if (c == '"' && quoteChar != '\'')
+                if ((c == '"' && quoteChar != '\'') || (c == '\'' && quoteChar != '"'))
                 {
                     if (!inQuotes || (inQuotes && numBackslashes(j, i) % 2 == 0))
                     {
                         inQuotes = !inQuotes;
                         quoteStateChanged = true;
                     }
-                    quoteChar = inQuotes ? '"' : 0;
-                }
-                if (c == '\'' && quoteChar != '"')
-                {
-                    if (!inQuotes || (inQuotes && numBackslashes(j, i) % 2 == 0))
-                    {
-                        inQuotes = !inQuotes;
-                        quoteStateChanged = true;
-                    }
-                    quoteChar = inQuotes ? '\'' : 0;
+                    quoteChar = inQuotes ? c : 0;
                 }
                 if (!inQuotes)
                 {
-                    if (c == '/' && j < lines.get(i).length() - 1 && lines.get(i).charAt(j + 1) == '*')
+                    if (c == '/' && !isLastChar && nextChar == '*')
                     {
-                        colors.get(i).add(Color.DARK_GREY);
-                        colors.get(i).add(Color.DARK_GREY);
+                        colors.get(i).add(COMMENT_COLOR);
+                        colors.get(i).add(COMMENT_COLOR);
                         inMultiLineComment = true;
                         j++;
                         continue;
                     }
-                    if (c == '/' && j < lines.get(i).length() - 1 && lines.get(i).charAt(j + 1) == '/')
+                    if (c == '/' && !isLastChar && nextChar == '/')
                     {
                         while (true)
                         {
-                            colors.get(i).add(Color.DARK_GREY);
-                            j++;
-                            if (j == lines.get(i).length())
+                            colors.get(i).add(COMMENT_COLOR);
+                            if (++j == lines.get(i).length())
                                 break;
                         }
                         break;
                     }
                     else if (c == ',' || c == ';')
                     {
-                        colors.get(i).add(0xffb3602d);
+                        colors.get(i).add(KEYWORD_COLOR);
                         continue;
                     }
                     else if (Character.isDigit(c) &&
@@ -150,16 +173,14 @@ public class TextField extends Control
                     {
                         while (true)
                         {
-                            colors.get(i).add(0xff6897bb);
+                            colors.get(i).add(NUMBER_COLOR);
 
-                            j++;
-                            if (j == lines.get(i).length())
+                            if (++j == lines.get(i).length())
                                 break;
 
-                            char nextChar = lines.get(i).charAt(j);
-                            if (!Character.isLetterOrDigit(nextChar) && nextChar != '.')
+                            char c1 = lines.get(i).charAt(j);
+                            if (!Character.isLetterOrDigit(c1) && c1 != '.')
                                 break;
-
                         }
                         j--;
 
@@ -167,23 +188,20 @@ public class TextField extends Control
                     }
                     else
                     {
-                        int length = reservedWordLength(i, j);
+                        int length = keyWordLength(i, j);
                         if (length != 0)
                         {
                             for (int k = 0; k < length; k++)
                             {
-                                colors.get(i).add(0xffb3602d);
+                                colors.get(i).add(KEYWORD_COLOR);
                                 j++;
                             }
                             j--;
                             continue;
                         }
                     }
-
                 }
-                color = inQuotes || quoteStateChanged ? 0xff5f8651 : Color.WHITE;
-
-                colors.get(i).add(color);
+                colors.get(i).add(inQuotes || quoteStateChanged ? STRING_COLOR : Color.WHITE);
             }
             inQuotes = false;
         }
@@ -194,7 +212,7 @@ public class TextField extends Control
             "instanceof", "new", "return", "switch", "this", "throw", "try", "typeof", "var", "void",
             "while", "with", "true", "false" };
 
-    private int reservedWordLength(int line, int pos)
+    private int keyWordLength(int line, int pos)
     {
         int length = lines.get(line).length();
         for (int i = 0; i < RESERVED_WORDS.length; i++)
@@ -582,6 +600,10 @@ public class TextField extends Control
                             if (i < split.length - 1)
                                 writeText("\n");
                         }
+                    }
+                    else if (key == Keyboard.KEY_C && GuiScreen.isCtrlKeyDown())
+                    {
+                        GuiScreen.setClipboardString(getSelectedText());
                     }
                     else if (ChatAllowedCharacters.isAllowedCharacter(c))
                     {
