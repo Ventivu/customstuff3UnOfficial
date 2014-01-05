@@ -44,6 +44,11 @@ public class GuiBase extends GuiScreen
             ((IWindowClosedListener) instance.window).windowClosed(currentWindow);
     }
 
+    public boolean doesGuiPauseGame()
+    {
+        return false;
+    }
+
     @Override
     public void initGui()
     {
