@@ -77,6 +77,11 @@ public class Alias implements Content, IItemMatcher, Comparable<Alias>
         damageValue = compound.getShort("DamageValue");
     }
 
+    public ItemStack getItemStackForInventory(int stackSize)
+    {
+        return new ItemStack(item, stackSize, damageValue == OreDictionary.WILDCARD_VALUE ? 0 : damageValue);
+    }
+
     @Override
     public ItemStack getItemStack()
     {
