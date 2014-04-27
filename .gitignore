@@ -1,2 +1,6 @@
-build.properties
-/rhino
+.gradle
+build
+eclipse
+out
+CustomStuff3.iws
+lib
