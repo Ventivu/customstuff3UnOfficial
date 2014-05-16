@@ -80,4 +80,16 @@ public class ArrayHelper
         Arrays.fill(temp, value);
         return temp;
     }
+
+    public static <T> int indexOf(T value, T[] array)
+    {
+        for (int i = 0; i < array.length; i++)
+        {
+            if (array[i] == value)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

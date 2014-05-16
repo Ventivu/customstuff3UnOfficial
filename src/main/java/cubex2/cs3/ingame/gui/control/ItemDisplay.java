@@ -44,6 +44,25 @@ public class ItemDisplay extends Control
         toolTipModifier = modifier;
     }
 
+    public void setStackSize(int stackSize)
+    {
+        if (originStack != null)
+        {
+            originStack.stackSize = stackSize;
+            if (renderStacks != null)
+            {
+                for (ItemStack renderStack : renderStacks)
+                {
+                    renderStack.stackSize = originStack.stackSize;
+                }
+            }
+            else
+            {
+                currentRenderStack.stackSize = originStack.stackSize;
+            }
+        }
+    }
+
     public ItemStack getItemStack()
     {
         return originStack;
@@ -71,6 +90,10 @@ public class ItemDisplay extends Control
                     renderStacks = null;
                 } else
                 {
+                    for (ItemStack renderStack : renderStacks)
+                    {
+                        renderStack.stackSize = originStack.stackSize;
+                    }
                     currentRenderStack = renderStacks.get(0);
                 }
             } else

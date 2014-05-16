@@ -10,7 +10,8 @@ import java.util.List;
 
 public class WindowEditPack extends Window implements IListBoxItemClickListener<String>
 {
-    private static final List<String> listBoxElements = Lists.newArrayList("Aliases", "Fuels", "Smelting Recipes", "Ore Dictionary");
+    private static final List<String> listBoxElements = Lists.newArrayList("Fuels", "Smelting Recipes",
+            "Ore Dictionary", "Shaped Recipes");
 
     private IngameContentPack pack;
 
@@ -41,11 +42,7 @@ public class WindowEditPack extends Window implements IListBoxItemClickListener<
     {
         if (button == 0)
         {
-            if (item.equals("Aliases"))
-            {
-                GuiBase.openWindow(new WindowAliases(pack));
-            }
-            else if (item.equals("Fuels"))
+            if (item.equals("Fuels"))
             {
                 GuiBase.openWindow(new WindowFuels(pack));
             }
@@ -56,6 +53,10 @@ public class WindowEditPack extends Window implements IListBoxItemClickListener<
             else if (item.equals("Ore Dictionary"))
             {
                 GuiBase.openWindow(new WindowOreDictionaryEntries(pack));
+            }
+            else if (item.equals("Shaped Recipes"))
+            {
+                GuiBase.openWindow(new WindowShapedRecipes(pack));
             }
         }
     }

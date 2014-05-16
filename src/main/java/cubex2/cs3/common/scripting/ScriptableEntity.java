@@ -1,6 +1,5 @@
 package cubex2.cs3.common.scripting;
 
-import cubex2.cs3.common.Alias;
 import cubex2.cs3.common.BaseContentPack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -35,8 +34,7 @@ public class ScriptableEntity
     /**
      * Sets the entity on fire
      *
-     * @param duration
-     *         The duration in seconds
+     * @param duration The duration in seconds
      */
     public void setFire(int duration)
     {
@@ -64,17 +62,15 @@ public class ScriptableEntity
     /**
      * Drops an item at the position of the entity
      *
-     * @param alias
-     *         The alias name
-     * @param stacksize
-     *         The item's stacksize
+     * @param alias     The stack name
+     * @param stacksize The item's stacksize
      */
     public void dropItem(String alias, int stacksize)
     {
         if (!entity.worldObj.isRemote)
         {
-            Alias alias1 = pack.aliasRegistry.getAlias(alias);
-            entity.entityDropItem(alias1.getItemStackForInventory(stacksize), 0.0f);
+            //Alias alias1 = pack.aliasRegistry.getAlias(stack);
+            //entity.entityDropItem(alias1.getItemStackForInventory(stacksize), 0.0f);
         }
     }
 
@@ -108,8 +104,7 @@ public class ScriptableEntity
     /**
      * Sets the x-position of the entity
      *
-     * @param x
-     *         The x-position
+     * @param x The x-position
      */
     public void setPosX(double x)
     {
@@ -119,8 +114,7 @@ public class ScriptableEntity
     /**
      * Sets the y-position of the entity
      *
-     * @param y
-     *         The y-position
+     * @param y The y-position
      */
     public void setPosY(double y)
     {
@@ -130,8 +124,7 @@ public class ScriptableEntity
     /**
      * Sets the z-position of the entity
      *
-     * @param z
-     *         The z-position
+     * @param z The z-position
      */
     public void setPosZ(double z)
     {
@@ -141,12 +134,9 @@ public class ScriptableEntity
     /**
      * Sets the position of the entity
      *
-     * @param x
-     *         The x-position
-     * @param y
-     *         The y-position
-     * @param z
-     *         The z-position
+     * @param x The x-position
+     * @param y The y-position
+     * @param z The z-position
      */
     public void setPosition(double x, double y, double z)
     {
@@ -156,8 +146,7 @@ public class ScriptableEntity
     /**
      * Sets the position of the entity
      *
-     * @param position
-     *         the position
+     * @param position the position
      */
     public void setPosition(ScriptablePosition position)
     {
@@ -177,12 +166,9 @@ public class ScriptableEntity
     /**
      * Adds the given values to the living's position
      *
-     * @param x
-     *         The x-value
-     * @param y
-     *         The y-value
-     * @param z
-     *         The z-value
+     * @param x The x-value
+     * @param y The y-value
+     * @param z The z-value
      */
     public void move(double x, double y, double z)
     {
@@ -192,8 +178,7 @@ public class ScriptableEntity
     /**
      * Adds velocity to the entity into the direction it looks
      *
-     * @param velocity
-     *         The amount of velocity
+     * @param velocity The amount of velocity
      */
     public void addVelocityToLookingDirection(double velocity)
     {
@@ -210,8 +195,7 @@ public class ScriptableEntity
     /**
      * Sets the velocity to the entity into the direction it looks
      *
-     * @param velocity
-     *         The amount of velocity
+     * @param velocity The amount of velocity
      */
     public void setVelocityToLookingDirection(double velocity)
     {
@@ -228,12 +212,9 @@ public class ScriptableEntity
     /**
      * Adds velocity to the entity
      *
-     * @param x
-     *         The velocity in x-direction
-     * @param y
-     *         The velocity in y-direction
-     * @param z
-     *         The velocity in z-direction
+     * @param x The velocity in x-direction
+     * @param y The velocity in y-direction
+     * @param z The velocity in z-direction
      */
     public void addVelocity(double x, double y, double z)
     {
@@ -243,12 +224,9 @@ public class ScriptableEntity
     /**
      * Sets the velocity of the entity
      *
-     * @param x
-     *         The velocity in x-direction
-     * @param y
-     *         The velocity in y-direction
-     * @param z
-     *         The velocity in z-direction
+     * @param x The velocity in x-direction
+     * @param y The velocity in y-direction
+     * @param z The velocity in z-direction
      */
     public void setVelocity(double x, double y, double z)
     {
@@ -258,8 +236,7 @@ public class ScriptableEntity
     /**
      * Sets the x-direction velocity
      *
-     * @param value
-     *         The new velocity
+     * @param value The new velocity
      */
     public void setVelocityX(double value)
     {
@@ -269,8 +246,7 @@ public class ScriptableEntity
     /**
      * Sets the y-direction velocity
      *
-     * @param value
-     *         The new velocity
+     * @param value The new velocity
      */
     public void setVelocityY(double value)
     {
@@ -280,8 +256,7 @@ public class ScriptableEntity
     /**
      * Sets the z-direction velocity
      *
-     * @param value
-     *         The new velocity
+     * @param value The new velocity
      */
     public void setVelocityZ(double value)
     {
@@ -325,8 +300,7 @@ public class ScriptableEntity
     /**
      * Sets the entity's fall distance which is the amount of blocks that the player has already been fallen.
      *
-     * @param distance
-     *         The new fall distance
+     * @param distance The new fall distance
      */
     public void setFallDistance(float distance)
     {

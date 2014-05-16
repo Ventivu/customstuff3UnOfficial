@@ -1,18 +1,20 @@
 package cubex2.cs3.common;
 
+import cubex2.cs3.util.ItemStackHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class OreDictionaryEntry extends BaseContent
 {
     public String oreClass;
-    public Alias alias;
+    public ItemStack stack;
 
-    public OreDictionaryEntry(String oreClass, Alias alias, BaseContentPack pack)
+    public OreDictionaryEntry(String oreClass, ItemStack stack, BaseContentPack pack)
     {
         super(pack);
         this.oreClass = oreClass;
-        this.alias = alias;
+        this.stack = stack;
     }
 
     public OreDictionaryEntry(BaseContentPack pack)
@@ -23,7 +25,7 @@ public class OreDictionaryEntry extends BaseContent
     @Override
     public void apply()
     {
-        OreDictionary.registerOre(oreClass, alias.getItemStack());
+        OreDictionary.registerOre(oreClass, stack);
 
         super.apply();
     }
@@ -38,13 +40,13 @@ public class OreDictionaryEntry extends BaseContent
     public void writeToNBT(NBTTagCompound compound)
     {
         compound.setString("OreClass", oreClass);
-        compound.setString("Alias", alias.name);
+        compound.setTag("Stack", ItemStackHelper.writeToNBT(stack));
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
         oreClass = compound.getString("OreClass");
-        alias = pack.aliasRegistry.getAlias(compound.getString("Alias"));
+        stack = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Stack"));
     }
 }

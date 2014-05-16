@@ -1,34 +1,34 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.common.Alias;
 import cubex2.cs3.common.SmeltingRecipe;
 import cubex2.cs3.ingame.IngameContentPack;
-import cubex2.cs3.ingame.gui.control.AliasDisplay;
 import cubex2.cs3.ingame.gui.control.Control;
+import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.PictureBox;
 import cubex2.cs3.lib.Textures;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
-public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowClosedListener<WindowSelectAlias>
+public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowClosedListener<WindowSelectItem>
 {
     private IngameContentPack pack;
     private SmeltingRecipe editingRecipe;
 
     /*private Label lblInput;
     private Label lblResult;*/
-    private AliasDisplay inputDisplay;
-    private AliasDisplay resultDisplay;
+    private ItemDisplay inputDisplay;
+    private ItemDisplay resultDisplay;
     private PictureBox pbArrow;
 
     public WindowEditOrCreateSmeltingRecipe(IngameContentPack pack)
     {
-        super("New Smelting Recipe", CREATE | CANCEL, 180, 201);
+        super("New Smelting Recipe", CREATE | CANCEL, 180, 100);
         this.pack = pack;
     }
 
     public WindowEditOrCreateSmeltingRecipe(SmeltingRecipe recipe, IngameContentPack pack)
     {
-        super("Edit Smelting Recipe", EDIT | CANCEL, 180, 201);
+        super("Edit Smelting Recipe", EDIT | CANCEL, 180, 100);
         this.pack = pack;
         editingRecipe = recipe;
     }
@@ -38,22 +38,22 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
     {
         super.init();
 
-        inputDisplay = new AliasDisplay(7, 17, this);
+        inputDisplay = new ItemDisplay(55, 25, this);
         inputDisplay.setDrawSlotBackground();
 
-        resultDisplay = new AliasDisplay(7 + 30 + 22, 17, this);
+        resultDisplay = new ItemDisplay(55 + 30 + 22, 25, this);
         resultDisplay.setDrawSlotBackground();
 
         if (editingRecipe != null)
         {
-            inputDisplay.setAlias(editingRecipe.input);
-            resultDisplay.setAlias(editingRecipe.result);
+            inputDisplay.setItemStack(editingRecipe.input);
+            resultDisplay.setItemStack(editingRecipe.result);
         }
 
         addControl(inputDisplay);
         addControl(resultDisplay);
 
-        pbArrow = new PictureBox(Textures.CONTROLS, 218, 18, 7 + 18 + 4, 17, 22, 15, this);
+        pbArrow = new PictureBox(Textures.CONTROLS, 218, 18, 55 + 18 + 4, 25, 22, 15, this);
         addControl(pbArrow);
 
         updateButton();
@@ -64,14 +64,14 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
     {
         if (c == inputDisplay)
         {
-            GuiBase.openWindow(new WindowSelectAlias(pack), "input");
+            GuiBase.openWindow(new WindowSelectItem(), "input");
         } else if (c == resultDisplay)
         {
-            GuiBase.openWindow(new WindowSelectAlias(pack), "result");
+            GuiBase.openWindow(new WindowSelectItem(false), "result");
         } else if (c == btnCreate)
         {
-            Alias input = inputDisplay.getAlias();
-            Alias result = resultDisplay.getAlias();
+            ItemStack input = inputDisplay.getItemStack();
+            ItemStack result = resultDisplay.getItemStack();
 
             SmeltingRecipe recipe = new SmeltingRecipe(input, result, pack);
             recipe.apply();
@@ -79,8 +79,8 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
             GuiBase.openPrevWindow();
         } else if (c == btnEdit)
         {
-            editingRecipe.input = inputDisplay.getAlias();
-            editingRecipe.result = resultDisplay.getAlias();
+            editingRecipe.input = inputDisplay.getItemStack();
+            editingRecipe.result = resultDisplay.getItemStack();
             editingRecipe.edit();
             GuiBase.openPrevWindow();
         } else
@@ -91,7 +91,7 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
 
     private void updateButton()
     {
-        boolean validData = inputDisplay.getAlias() != null && resultDisplay.getAlias() != null && FurnaceRecipes.smelting().getSmeltingResult(inputDisplay.getAlias().getItemStack()) == null;
+        boolean validData = inputDisplay.getItemStack() != null && resultDisplay.getItemStack() != null && FurnaceRecipes.smelting().getSmeltingResult(inputDisplay.getItemStack()) == null;
         if (editingRecipe == null)
         {
             btnCreate.setEnabled(validData);
@@ -102,12 +102,12 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
     }
 
     @Override
-    public void windowClosed(WindowSelectAlias window)
+    public void windowClosed(WindowSelectItem window)
     {
-        if (window.getSelectedAlias() != null)
+        if (window.getSelectedStack() != null)
         {
-            AliasDisplay display = window.tag.equals("input") ? inputDisplay : resultDisplay;
-            display.setAlias(window.getSelectedAlias());
+            ItemDisplay display = window.tag.equals("input") ? inputDisplay : resultDisplay;
+            display.setItemStack(window.getSelectedStack());
         }
         updateButton();
     }

@@ -138,6 +138,11 @@ public class ItemStackHelper
 
     public static List<ItemStack> getAllItemStacks()
     {
+        return getAllItemStacks(true);
+    }
+
+    public static List<ItemStack> getAllItemStacks(boolean wildCardStacks)
+    {
         List<ItemStack> stacks = Lists.newArrayList();
 
         for (Object o : GameData.itemRegistry.getKeys())
@@ -148,11 +153,10 @@ public class ItemStackHelper
             if (item.getHasSubtypes())
             {
                 itemStacks.addAll(ItemStackHelper.getSubTypes(item));
-                if (itemStacks.size() > 1)
+                if (wildCardStacks && itemStacks.size() > 1)
                 {
                     itemStacks.add(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
                 }
-
             }
             else
             {
@@ -215,5 +219,12 @@ public class ItemStackHelper
         }
 
         return itemEqual && damageEqual;
+    }
+
+    public static NBTTagCompound writeToNBT(ItemStack stack)
+    {
+        NBTTagCompound nbt = new NBTTagCompound();
+        stack.writeToNBT(nbt);
+        return nbt;
     }
 }

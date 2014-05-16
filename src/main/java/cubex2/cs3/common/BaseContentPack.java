@@ -20,19 +20,16 @@ public abstract class BaseContentPack implements IContentPack
     protected final Map<Class<? extends Content>, ContentRegistry> contentRegistry = Maps.newHashMap();
     private final Map<String, ContentRegistry> nameToRegistryMap = Maps.newHashMap();
 
-    public final AliasRegistry aliasRegistry;
-
     public BaseContentPack(File directory)
     {
         this.directory = directory;
         this.name = directory.isDirectory() ? directory.getName() : directory.getName().substring(0, directory.getName().length() - 4);
         logger = Logger.getLogger(ModInfo.ID + "_" + name);
 
-        aliasRegistry = new AliasRegistry(this);
-        registerContentRegistry(aliasRegistry, Alias.class);
         registerContentRegistry(new OreDictEntryRegistry(this), OreDictionaryEntry.class);
         registerContentRegistry(new FuelRegistry(this), Fuel.class);
         registerContentRegistry(new SmeltingRecipeRegistry(this), SmeltingRecipe.class);
+        registerContentRegistry(new ShapedRecipeRegistry(this), ShapedRecipe.class);
     }
 
     @Override

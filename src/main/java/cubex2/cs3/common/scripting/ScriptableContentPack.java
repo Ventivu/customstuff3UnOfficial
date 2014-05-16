@@ -19,34 +19,17 @@ public class ScriptableContentPack
     }
 
     /**
-     * Adds an alias for an item.
-     *
-     * @param item
-     *         The item in the format "[id] [damage value]". The damage value is optional and defaults to 32767.
-     * @param aliasName
-     *         The name for the alias
-     */
-    public void addAlias(String item, String aliasName)
-    {
-        /*String[] split = item.split(" ");
-        int id = Integer.parseInt(split[0]);
-        int damageValue = split.length > 1 ? Integer.parseInt(split[1]) : OreDictionary.WILDCARD_VALUE;
-        Alias alias = new Alias(Item.itemsList[id], damageValue, aliasName, pack);
-        alias.apply();*/
-    }
-
-    /**
      * Adds a fuel for the vanilla furnace.
      *
      * @param alias
-     *         The alias.
+     *         The stack.
      * @param duration
      *         The duration in ticks.
      */
     public void addFuel(String alias, int duration)
     {
-        Fuel fuel = new Fuel(pack.aliasRegistry.getAlias(alias), duration, pack);
-        fuel.apply();
+        //Fuel fuel = new Fuel(pack.aliasRegistry.getAlias(stack), duration, pack);
+        //fuel.apply();
     }
 }
 

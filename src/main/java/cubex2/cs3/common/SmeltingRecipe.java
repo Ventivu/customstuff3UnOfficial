@@ -1,6 +1,7 @@
 package cubex2.cs3.common;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cubex2.cs3.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,10 +10,10 @@ import java.util.Map;
 
 public class SmeltingRecipe extends BaseContent
 {
-    public Alias input;
-    public Alias result;
+    public ItemStack input;
+    public ItemStack result;
 
-    public SmeltingRecipe(Alias input, Alias result, BaseContentPack pack)
+    public SmeltingRecipe(ItemStack input, ItemStack result, BaseContentPack pack)
     {
         super(pack);
         this.input = input;
@@ -27,7 +28,7 @@ public class SmeltingRecipe extends BaseContent
     @Override
     public void apply()
     {
-        GameRegistry.addSmelting(input.getItemStack(), result.getItemStackForInventory(1), 0.0f);
+        GameRegistry.addSmelting(input, result, 0.0f);
         super.apply();
     }
 
@@ -44,7 +45,7 @@ public class SmeltingRecipe extends BaseContent
         for (Object o : smeltingList.keySet())
         {
             ItemStack stack = (ItemStack) o;
-            if (stack.getItem() == input.item && stack.getItemDamage() == input.damageValue)
+            if (stack.getItem() == input.getItem() && stack.getItemDamage() == input.getItemDamage())
             {
                 smeltingList.remove(o);
                 break;
@@ -56,7 +57,7 @@ public class SmeltingRecipe extends BaseContent
     public void edit()
     {
         remove_do();
-        GameRegistry.addSmelting(input.getItemStack(), result.getItemStackForInventory(1), 0.0f);
+        GameRegistry.addSmelting(input, result, 0.0f);
         super.edit();
     }
 
@@ -65,14 +66,14 @@ public class SmeltingRecipe extends BaseContent
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
-        compound.setString("Input", input.name);
-        compound.setString("Result", result.name);
+        compound.setTag("Input", ItemStackHelper.writeToNBT(input));
+        compound.setTag("Result", ItemStackHelper.writeToNBT(result));
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
-        input = pack.aliasRegistry.getAlias(compound.getString("Input"));
-        result = pack.aliasRegistry.getAlias(compound.getString("Result"));
+        input = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Input"));
+        result = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Result"));
     }
 }

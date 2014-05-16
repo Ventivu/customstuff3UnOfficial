@@ -2,17 +2,13 @@ package cubex2.cs3.util;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import cubex2.cs3.common.IItemMatcher;
-import cubex2.cs3.ingame.gui.control.IItemMatcherToolTipModifier;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public final class OreDictionaryClass implements IItemMatcher, IItemMatcherToolTipModifier, Comparable<OreDictionaryClass>
+public final class OreDictionaryClass implements Comparable<OreDictionaryClass>
 {
     private static final Map<String, OreDictionaryClass> instances = Maps.newHashMap();
 
@@ -41,14 +37,14 @@ public final class OreDictionaryClass implements IItemMatcher, IItemMatcherToolT
         return list;
     }
 
-    private final String oreClass;
+    public final String oreClass;
 
     private OreDictionaryClass(String oreClass)
     {
         this.oreClass = oreClass;
     }
 
-    @Override
+    /*@Override
     public ItemStack getItemStack()
     {
         return OreDictionary.getOres(oreClass).get(0);
@@ -70,13 +66,13 @@ public final class OreDictionaryClass implements IItemMatcher, IItemMatcherToolT
                 return true;
         }
         return false;
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void modifyToolTip(List<String> toolTipList, IItemMatcher itemMatcher)
     {
         toolTipList.add(EnumChatFormatting.GRAY + "Ore Class: " + oreClass);
-    }
+    }*/
 
     @Override
     public int compareTo(OreDictionaryClass o)

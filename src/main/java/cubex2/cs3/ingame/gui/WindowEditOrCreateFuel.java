@@ -1,30 +1,30 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.common.Alias;
 import cubex2.cs3.common.Fuel;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.util.ValidateHelper;
+import net.minecraft.item.ItemStack;
 
-public class WindowEditOrCreateFuel extends Window implements IValidityProvider, IWindowClosedListener<WindowSelectAlias>
+public class WindowEditOrCreateFuel extends Window implements IValidityProvider, IWindowClosedListener<WindowSelectItem>
 {
     private IngameContentPack pack;
     private Fuel editingFuel;
 
     private Label lblItem;
     private Label lblDuration;
-    private AliasDisplay aliasDisplay;
+    private ItemDisplay itemDisplay;
     private TextBox tbDuration;
 
     public WindowEditOrCreateFuel(IngameContentPack pack)
     {
-        super("New Fuel", CREATE | CANCEL, 180, 201);
+        super("New Fuel", CREATE | CANCEL, 180, 100);
         this.pack = pack;
     }
 
     public WindowEditOrCreateFuel(Fuel fuel, IngameContentPack pack)
     {
-        super("Edit Fuel", EDIT | CANCEL, 180, 201);
+        super("Edit Fuel", EDIT | CANCEL, 180, 100);
         this.pack = pack;
         editingFuel = fuel;
     }
@@ -37,11 +37,11 @@ public class WindowEditOrCreateFuel extends Window implements IValidityProvider,
         lblItem = new Label("Item:", 7, 7, this);
         addControl(lblItem);
 
-        aliasDisplay = new AliasDisplay(7, 17, this);
-        aliasDisplay.setDrawSlotBackground();
+        itemDisplay = new ItemDisplay(7, 17, this);
+        itemDisplay.setDrawSlotBackground();
         if (editingFuel != null)
-            aliasDisplay.setAlias(editingFuel.alias);
-        addControl(aliasDisplay);
+            itemDisplay.setItemStack(editingFuel.stack);
+        addControl(itemDisplay);
 
         lblDuration = new Label("Duration:", 7, 37, this);
         addControl(lblDuration);
@@ -60,26 +60,23 @@ public class WindowEditOrCreateFuel extends Window implements IValidityProvider,
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY, int button)
     {
-        if (c == aliasDisplay)
+        if (c == itemDisplay)
         {
-            GuiBase.openWindow(new WindowSelectAlias(pack));
-        }
-        else if (c == btnCreate)
+            GuiBase.openWindow(new WindowSelectItem());
+        } else if (c == btnCreate)
         {
-            Alias alias = aliasDisplay.getAlias();
+            ItemStack stack = itemDisplay.getItemStack();
             int duration = Integer.valueOf(tbDuration.getText().trim());
-            Fuel fuel = new Fuel(alias, duration, pack);
+            Fuel fuel = new Fuel(stack, duration, pack);
             fuel.apply();
             GuiBase.openPrevWindow();
-        }
-        else if (c == btnEdit)
+        } else if (c == btnEdit)
         {
-            editingFuel.alias = aliasDisplay.getAlias();
+            editingFuel.stack = itemDisplay.getItemStack();
             editingFuel.duration = Integer.valueOf(tbDuration.getText().trim());
             editingFuel.edit();
             GuiBase.openPrevWindow();
-        }
-        else
+        } else
         {
             super.controlClicked(c, mouseX, mouseY, button);
         }
@@ -89,11 +86,10 @@ public class WindowEditOrCreateFuel extends Window implements IValidityProvider,
     {
         if (editingFuel == null)
         {
-            btnCreate.setEnabled(tbValidity && aliasDisplay.getAlias() != null);
-        }
-        else
+            btnCreate.setEnabled(tbValidity && itemDisplay.getItemStack() != null);
+        } else
         {
-            btnEdit.setEnabled(tbValidity && aliasDisplay.getAlias() != null);
+            btnEdit.setEnabled(tbValidity && itemDisplay.getItemStack() != null);
         }
     }
 
@@ -106,8 +102,7 @@ public class WindowEditOrCreateFuel extends Window implements IValidityProvider,
         if (text.length() == 0)
         {
             message = "Enter a value.";
-        }
-        else if (!ValidateHelper.isValidIntegerString(text))
+        } else if (!ValidateHelper.isValidIntegerString(text))
         {
             message = "Enter a valid number.";
         }
@@ -118,10 +113,10 @@ public class WindowEditOrCreateFuel extends Window implements IValidityProvider,
     }
 
     @Override
-    public void windowClosed(WindowSelectAlias window)
+    public void windowClosed(WindowSelectItem window)
     {
-        if (window.getSelectedAlias() != null)
-            aliasDisplay.setAlias(window.getSelectedAlias());
+        if (window.getSelectedStack() != null)
+            itemDisplay.setItemStack(window.getSelectedStack());
         updateButton(tbDuration.hasValidText());
     }
 }

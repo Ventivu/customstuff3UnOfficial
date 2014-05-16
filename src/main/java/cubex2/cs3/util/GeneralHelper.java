@@ -1,7 +1,6 @@
 package cubex2.cs3.util;
 
 import cpw.mods.fml.common.registry.GameData;
-import cubex2.cs3.registry.AliasRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
@@ -24,17 +23,6 @@ public class GeneralHelper
     public static Item getItem(String value)
     {
         return GameData.itemRegistry.getObject(value);
-    }
-
-    public static Item getItem(String value, AliasRegistry aliasHandler)
-    {
-        if (aliasHandler.getAlias(value) != null)
-        {
-            return aliasHandler.getAlias(value).item;
-        } else
-        {
-            return getItem(value);
-        }
     }
 
     public static String getItemName(Item item)

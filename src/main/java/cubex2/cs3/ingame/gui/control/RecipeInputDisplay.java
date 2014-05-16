@@ -1,10 +1,11 @@
 package cubex2.cs3.ingame.gui.control;
 
 import com.google.common.collect.Lists;
-import cubex2.cs3.common.Alias;
+import cpw.mods.fml.common.registry.GameData;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.GuiHelper;
+import cubex2.cs3.util.RecipeInput;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
@@ -15,73 +16,84 @@ import org.lwjgl.opengl.GL12;
 
 import java.util.List;
 
-public class AliasDisplay extends Control
+public class RecipeInputDisplay extends Control
 {
-    private Alias alias;
+    private RecipeInput recipeInput;
     private ItemStack currentRenderStack;
     private List<ItemStack> renderStacks;
 
     private boolean drawSlotBackground = false;
+    private boolean showItemData = true;
     private int tickCounter = 1;
     private int currentIndex = 0;
 
-    private IAliasToolTipModifier toolTipModifier;
+    private IRecipeInputToolTipModifier toolTipModifier;
 
-    public AliasDisplay(int x, int y, Control parent)
+    public RecipeInputDisplay(int x, int y, Control parent)
     {
         super(x, y, 16, 16, parent);
+
+        if (rootControl instanceof IRecipeInputToolTipModifier)
+        {
+            toolTipModifier = (IRecipeInputToolTipModifier) rootControl;
+        }
     }
 
-    public AliasDisplay setDrawSlotBackground()
+    public RecipeInputDisplay setDrawSlotBackground()
     {
         drawSlotBackground = true;
         return this;
     }
 
-    public void setToolTipModifier(IAliasToolTipModifier modifier)
+    public RecipeInput getRecipeInput()
     {
-        toolTipModifier = modifier;
+        return recipeInput;
     }
 
-    public Alias getAlias()
+    public void setRecipeInput(RecipeInput recipeInput)
     {
-        return alias;
-    }
-
-    public void setAlias(Alias alias)
-    {
-        if (alias == null)
+        if (recipeInput == null)
         {
-            this.alias = null;
+            this.recipeInput = null;
             currentRenderStack = null;
             renderStacks = null;
             return;
         }
-        this.alias = alias;
-        ItemStack stack = alias.getItemStack();
-        currentRenderStack = stack;
-        if (stack.getItem() != null)
+        if (recipeInput instanceof IRecipeInputToolTipModifier)
         {
-            if (stack.getHasSubtypes() && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+            toolTipModifier = (IRecipeInputToolTipModifier) recipeInput;
+        }
+        this.recipeInput = recipeInput;
+
+        renderStacks = Lists.newArrayList();
+
+        for (ItemStack stack : recipeInput.getStacks())
+        {
+            if (stack.getItem() != null)
             {
-                renderStacks = Lists.newArrayList();
-                stack.getItem().getSubItems(stack.getItem(), null, renderStacks);
-                if (renderStacks.size() == 0)
+                if (stack.getHasSubtypes() && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
                 {
-                    renderStacks = null;
+                    List<ItemStack> subItems = Lists.newArrayList();
+                    stack.getItem().getSubItems(stack.getItem(), null, subItems);
+                    renderStacks.addAll(subItems);
                 } else
                 {
-                    currentRenderStack = renderStacks.get(0);
+                    renderStacks.add(stack);
                 }
-            } else
-            {
-                renderStacks = null;
             }
+        }
 
-            if (currentRenderStack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
-            {
-                currentRenderStack.setItemDamage(0);
-            }
+        if (renderStacks.size() == 0)
+        {
+            renderStacks = null;
+        } else
+        {
+            currentRenderStack = renderStacks.get(0);
+        }
+
+        if (currentRenderStack != null && currentRenderStack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+        {
+            currentRenderStack.setItemDamage(0);
         }
     }
 
@@ -149,11 +161,23 @@ public class AliasDisplay extends Control
                 }
             }
 
-            list.add(EnumChatFormatting.GRAY + "Alias: " + alias.name);
+            if (showItemData)
+            {
+                if (recipeInput.isOreClass())
+                {
+                    list.add(EnumChatFormatting.GRAY + "Ore class: " + recipeInput.getInput());
+                }
+                else
+                {
+                    ItemStack stack = (ItemStack) recipeInput.getInput();
+                    list.add(EnumChatFormatting.GRAY + "Name: " + GameData.itemRegistry.getNameForObject(stack.getItem()));
+                    list.add(EnumChatFormatting.GRAY + "DV: " + stack.getItemDamage());
+                }
+            }
 
             if (toolTipModifier != null)
             {
-                toolTipModifier.modifyToolTip(list, alias);
+                toolTipModifier.modifyToolTip(list, recipeInput);
             }
 
             FontRenderer font = currentRenderStack.getItem().getFontRenderer(currentRenderStack);

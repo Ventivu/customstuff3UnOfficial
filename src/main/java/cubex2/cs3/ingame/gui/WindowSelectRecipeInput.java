@@ -1,8 +1,5 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.common.Alias;
-import cubex2.cs3.common.IItemMatcher;
-import cubex2.cs3.util.OreDictionaryClass;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.Tab;
@@ -10,24 +7,29 @@ import cubex2.cs3.ingame.gui.control.TabControl;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
+import cubex2.cs3.util.ItemStackHelper;
+import cubex2.cs3.util.OreDictionaryClass;
+import cubex2.cs3.util.RecipeInput;
+import net.minecraft.item.ItemStack;
 
-public class WindowSelectItemMatcher extends Window implements IListBoxItemClickListener<IItemMatcher>
+public class WindowSelectRecipeInput extends Window implements IListBoxItemClickListener
 {
     private IngameContentPack pack;
-    private ListBox<Alias> lbAliases;
+    private ListBox<ItemStack> lbItems;
     private ListBox<OreDictionaryClass> lbOreDictClasses;
     private TabControl tabControl;
-    private IItemMatcher selectedItem = null;
+    private Object selectedInput = null;
 
-    public WindowSelectItemMatcher(IngameContentPack pack)
+    public WindowSelectRecipeInput(IngameContentPack pack)
     {
         super("Select", SELECT | CANCEL, 197, 201);
         this.pack = pack;
     }
 
-    public IItemMatcher getSelectedItem()
+    public RecipeInput getSelectedInput()
     {
-        return selectedItem;
+        if (selectedInput == null) return null;
+        return selectedInput instanceof ItemStack ? new RecipeInput((ItemStack) selectedInput) : new RecipeInput(((OreDictionaryClass) selectedInput).oreClass);
     }
 
     @Override
@@ -36,20 +38,20 @@ public class WindowSelectItemMatcher extends Window implements IListBoxItemClick
         super.init();
 
         tabControl = new TabControl(70, 20, getWidth(), getHeight(), this);
-        Tab aliasTab = tabControl.addTab("Aliases");
+        Tab aliasTab = tabControl.addTab("Items");
         Tab oreTab = tabControl.addTab("Ore Classes");
         addControl(tabControl);
 
-        ListBoxDescription<Alias> desc = new ListBoxDescription<Alias>(7, 7);
+        ListBoxDescription<ItemStack> desc = new ListBoxDescription<ItemStack>(7, 7);
         desc.elementWidth = 22;
         desc.elementHeight = 22;
         desc.columns = 7;
         desc.rows = 7;
-        desc.elements = pack.getContentRegistry(Alias.class).getContentList();
-        desc.sorted = true;
+        desc.elements = ItemStackHelper.getAllItemStacks();
+        desc.sorted = false;
         desc.listBoxItemMeta = 1;
-        lbAliases = new ListBox<Alias>(desc, aliasTab);
-        aliasTab.addControl(lbAliases);
+        lbItems = new ListBox<ItemStack>(desc, aliasTab);
+        aliasTab.addControl(lbItems);
 
         ListBoxDescription<OreDictionaryClass> desc1 = new ListBoxDescription<OreDictionaryClass>(7, 7);
         desc1.elementWidth = 22;
@@ -69,9 +71,8 @@ public class WindowSelectItemMatcher extends Window implements IListBoxItemClick
     {
         if (c == btnCancel)
         {
-            selectedItem = null;
-        }
-        else if (c == btnSelect)
+            selectedInput = null;
+        } else if (c == btnSelect)
         {
             GuiBase.openPrevWindow();
         }
@@ -79,11 +80,12 @@ public class WindowSelectItemMatcher extends Window implements IListBoxItemClick
     }
 
     @Override
-    public void itemClicked(IItemMatcher item, ListBox<IItemMatcher> listBox, int button)
+    public void itemClicked(Object item, ListBox listBox, int button)
     {
-        ListBox<? extends IItemMatcher> otherListBox = (listBox.getRect() == lbAliases.getRect() ? lbOreDictClasses : lbAliases);
+        ListBox otherListBox = (listBox.getRect() == lbItems.getRect() ? lbOreDictClasses : lbItems);
         btnSelect.setEnabled(listBox.getSelectedIndex() != -1);
         otherListBox.removeSelection();
-        selectedItem = listBox.getSelectedItem();
+
+        selectedInput = listBox.getSelectedItem();
     }
 }

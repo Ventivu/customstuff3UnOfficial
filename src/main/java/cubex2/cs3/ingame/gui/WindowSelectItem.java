@@ -11,10 +11,17 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
 {
     private ListBox<ItemStack> lbItems;
     private ItemStack selectedStack = null;
+    private boolean wildCardStacks = true;
 
     public WindowSelectItem()
     {
         super("Select Item", SELECT | CANCEL, 197, 201);
+    }
+
+    public WindowSelectItem(boolean wildCardStacks)
+    {
+        super("Select Item", SELECT | CANCEL, 197, 201);
+        this.wildCardStacks = wildCardStacks;
     }
 
     public ItemStack getSelectedStack()
@@ -32,7 +39,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         desc.elementHeight = 22;
         desc.columns = 7;
         desc.rows = 7;
-        desc.elements = ItemStackHelper.getAllItemStacks();
+        desc.elements = ItemStackHelper.getAllItemStacks(wildCardStacks);
         lbItems = new ListBox<ItemStack>(desc, this);
         addControl(lbItems);
 

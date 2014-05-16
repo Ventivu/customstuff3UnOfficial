@@ -1,6 +1,5 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.common.Alias;
 import cubex2.cs3.common.OreDictionaryEntry;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.*;
@@ -9,15 +8,15 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.List;
 
-public class WindowEditOrCreateOreDictEntry extends Window implements IValidityProvider, IWindowClosedListener<WindowSelectAlias>
+public class WindowEditOrCreateOreDictEntry extends Window implements IValidityProvider, IWindowClosedListener<WindowSelectItem>
 {
     private IngameContentPack pack;
     private OreDictionaryEntry editingEntry;
 
-    private Label lblAlias;
+    private Label lblItem;
     private Label lblOreClass;
     private Label lblOtherItems;
-    private AliasDisplay aliasDisplay;
+    private ItemDisplay itemDisplay;
     private TextBox tbOreClass;
     private ItemDisplay[] itemDisplays;
 
@@ -39,14 +38,14 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
     {
         super.init();
 
-        lblAlias = new Label("Alias:", 7, 7, this);
-        addControl(lblAlias);
+        lblItem = new Label("Item:", 7, 7, this);
+        addControl(lblItem);
 
-        aliasDisplay = new AliasDisplay(7, 17, this);
-        aliasDisplay.setDrawSlotBackground();
+        itemDisplay = new ItemDisplay(7, 17, this);
+        itemDisplay.setDrawSlotBackground();
         if (editingEntry != null)
-            aliasDisplay.setAlias(editingEntry.alias);
-        addControl(aliasDisplay);
+            itemDisplay.setItemStack(editingEntry.stack);
+        addControl(itemDisplay);
 
         lblOreClass = new Label("Ore Class:", 7, 37, this);
         addControl(lblOreClass);
@@ -83,8 +82,7 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
             if (i < ores.size())
             {
                 itemDisplays[i].setItemStack(ores.get(i).copy());
-            }
-            else
+            } else
             {
                 itemDisplays[i].setItemStack(null);
             }
@@ -94,19 +92,19 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY, int button)
     {
-        if (c == aliasDisplay)
+        if (c == itemDisplay)
         {
-            GuiBase.openWindow(new WindowSelectAlias(pack));
+            GuiBase.openWindow(new WindowSelectItem());
         } else if (c == btnCreate)
         {
-            Alias alias = aliasDisplay.getAlias();
+            ItemStack stack = itemDisplay.getItemStack();
             String oreClass = tbOreClass.getText().trim();
-            OreDictionaryEntry entry = new OreDictionaryEntry(oreClass, alias, pack);
+            OreDictionaryEntry entry = new OreDictionaryEntry(oreClass, stack, pack);
             entry.apply();
             GuiBase.openPrevWindow();
         } else if (c == btnEdit)
         {
-            editingEntry.alias = aliasDisplay.getAlias();
+            editingEntry.stack = itemDisplay.getItemStack();
             editingEntry.oreClass = tbOreClass.getText().trim();
             editingEntry.edit();
             GuiBase.openPrevWindow();
@@ -120,10 +118,10 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
     {
         if (editingEntry == null)
         {
-            btnCreate.setEnabled(tbValidity && aliasDisplay.getAlias() != null);
+            btnCreate.setEnabled(tbValidity && itemDisplay.getItemStack() != null);
         } else
         {
-            btnEdit.setEnabled(tbValidity && aliasDisplay.getAlias() != null);
+            btnEdit.setEnabled(tbValidity && itemDisplay.getItemStack() != null);
         }
     }
 
@@ -145,10 +143,10 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
     }
 
     @Override
-    public void windowClosed(WindowSelectAlias window)
+    public void windowClosed(WindowSelectItem window)
     {
-        if (window.getSelectedAlias() != null)
-            aliasDisplay.setAlias(window.getSelectedAlias());
+        if (window.getSelectedStack() != null)
+            itemDisplay.setItemStack(window.getSelectedStack());
         updateButton(tbOreClass.hasValidText());
     }
 }
