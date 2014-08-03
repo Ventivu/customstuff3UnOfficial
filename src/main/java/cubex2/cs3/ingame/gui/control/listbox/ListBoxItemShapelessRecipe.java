@@ -1,6 +1,6 @@
 package cubex2.cs3.ingame.gui.control.listbox;
 
-import cubex2.cs3.common.scripting.ShapelessRecipe;
+import cubex2.cs3.common.ShapelessRecipe;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.PictureBox;

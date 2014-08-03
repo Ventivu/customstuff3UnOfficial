@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui;
 
 import com.google.common.collect.Lists;
-import cubex2.cs3.common.scripting.ShapelessRecipe;
+import cubex2.cs3.common.ShapelessRecipe;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Textures;

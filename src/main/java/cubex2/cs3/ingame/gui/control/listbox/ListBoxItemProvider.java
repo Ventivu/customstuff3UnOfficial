@@ -4,7 +4,7 @@ import cubex2.cs3.common.Fuel;
 import cubex2.cs3.common.OreDictionaryEntry;
 import cubex2.cs3.common.ShapedRecipe;
 import cubex2.cs3.common.SmeltingRecipe;
-import cubex2.cs3.common.scripting.ShapelessRecipe;
+import cubex2.cs3.common.ShapelessRecipe;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.util.OreDictionaryClass;

@@ -1,4 +1,4 @@
-package cubex2.cs3.common.scripting;
+package cubex2.cs3.common;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cubex2.cs3.common.BaseContent;

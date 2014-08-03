@@ -1,7 +1,7 @@
 package cubex2.cs3.registry;
 
 import cubex2.cs3.common.BaseContentPack;
-import cubex2.cs3.common.scripting.ShapelessRecipe;
+import cubex2.cs3.common.ShapelessRecipe;
 import cubex2.cs3.lib.Strings;
 
 public class ShapelessRecipeRegistry extends ContentRegistry<ShapelessRecipe>
