@@ -3,6 +3,7 @@ package cubex2.cs3.common;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cubex2.cs3.api.IContentPack;
+import cubex2.cs3.common.scripting.ShapelessRecipe;
 import cubex2.cs3.lib.ModInfo;
 import cubex2.cs3.registry.*;
 
@@ -30,6 +31,7 @@ public abstract class BaseContentPack implements IContentPack
         registerContentRegistry(new FuelRegistry(this), Fuel.class);
         registerContentRegistry(new SmeltingRecipeRegistry(this), SmeltingRecipe.class);
         registerContentRegistry(new ShapedRecipeRegistry(this), ShapedRecipe.class);
+        registerContentRegistry(new ShapelessRecipeRegistry(this), ShapelessRecipe.class);
     }
 
     @Override

@@ -36,6 +36,32 @@ public class ShapedRecipe extends BaseContent
     @Override
     public void apply()
     {
+        recipe = new ShapedOreRecipe(result, createRecipeObjects());
+        GameRegistry.addRecipe(recipe);
+
+        super.apply();
+    }
+
+    @Override
+    public void remove()
+    {
+        CraftingManager.getInstance().getRecipeList().remove(recipe);
+
+        super.remove();
+    }
+
+    @Override
+    public void edit()
+    {
+        CraftingManager.getInstance().getRecipeList().remove(recipe);
+        recipe = new ShapedOreRecipe(result, createRecipeObjects());
+        GameRegistry.addRecipe(recipe);
+
+        super.edit();
+    }
+
+    private Object[] createRecipeObjects()
+    {
         Object[] recipeObjects = new Object[height + (width * height) * 2];
 
         String[] shape = createShape();
@@ -47,21 +73,12 @@ public class ShapedRecipe extends BaseContent
         for (int i = 0, n = 0; i < width * height * 2; i += 2)
         {
             int idx = i + height;
-            recipeObjects[idx] = (char) (n++);
-            recipeObjects[idx + 1] = input[n - 1] != null ? input[n - 1].getInput() : Blocks.air;
+            recipeObjects[idx] = input[n] != null ? (char) (n) : Character.MAX_VALUE;
+            recipeObjects[idx + 1] = input[n] != null ? input[n].getInput() : Blocks.air;
+            n += 1;
         }
 
-        recipe = new ShapedOreRecipe(result, recipeObjects);
-        GameRegistry.addRecipe(recipe);
-        super.apply();
-    }
-
-    @Override
-    public void remove()
-    {
-        CraftingManager.getInstance().getRecipeList().remove(recipe);
-
-        super.remove();
+        return recipeObjects;
     }
 
     private String[] createShape()

@@ -1,21 +1,21 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.common.ShapedRecipe;
+import cubex2.cs3.common.scripting.ShapelessRecipe;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 
-public class WindowShapedRecipes extends Window implements IWindowClosedListener<WindowEditOreCreateShapedRecipe>, IListBoxItemClickListener<ShapedRecipe>
+public class WindowShapelessRecipes extends Window implements IWindowClosedListener<WindowEditOrCreateShapelessRecipe>, IListBoxItemClickListener<ShapelessRecipe>
 {
-    private IngameContentPack pack;
+    private final IngameContentPack pack;
 
-    private ListBox<ShapedRecipe> listBox;
+    private ListBox<ShapelessRecipe> listBox;
 
-    public WindowShapedRecipes(IngameContentPack pack)
+    public WindowShapelessRecipes(IngameContentPack pack)
     {
-        super("Shaped Recipes", NEW | EDIT | DELETE | BACK, 263, 165);
+        super("Shapeless Recipes", NEW | EDIT | DELETE | BACK, 263, 165);
         this.pack = pack;
     }
 
@@ -24,14 +24,14 @@ public class WindowShapedRecipes extends Window implements IWindowClosedListener
     {
         super.init();
 
-        ListBoxDescription<ShapedRecipe> desc = new ListBoxDescription<ShapedRecipe>(7, 7);
+        ListBoxDescription<ShapelessRecipe> desc = new ListBoxDescription<ShapelessRecipe>(7, 7);
         desc.width = 249;
         desc.rows = 2;
         desc.columns = 2;
         desc.elementHeight = 60;
-        desc.elements = pack.getContentRegistry(ShapedRecipe.class).getContentList();
+        desc.elements = pack.getContentRegistry(ShapelessRecipe.class).getContentList();
         desc.canSelect = true;
-        listBox = new ListBox<ShapedRecipe>(desc, this);
+        listBox = new ListBox<ShapelessRecipe>(desc, this);
         addControl(listBox);
 
         btnEdit.setEnabled(false);
@@ -43,14 +43,14 @@ public class WindowShapedRecipes extends Window implements IWindowClosedListener
     {
         if (c == btnNew)
         {
-            GuiBase.openWindow(new WindowEditOreCreateShapedRecipe(pack));
+            GuiBase.openWindow(new WindowEditOrCreateShapelessRecipe(pack));
         } else if (c == btnEdit)
         {
-            GuiBase.openWindow(new WindowEditOreCreateShapedRecipe(listBox.getSelectedItem(), pack));
+            GuiBase.openWindow(new WindowEditOrCreateShapelessRecipe(listBox.getSelectedItem(), pack));
         } else if (c == btnDelete)
         {
             listBox.getSelectedItem().remove();
-            listBox.updateElements(pack.getContentRegistry(ShapedRecipe.class).getContentList());
+            listBox.updateElements(pack.getContentRegistry(ShapelessRecipe.class).getContentList());
             btnDelete.setEnabled(false);
             btnEdit.setEnabled(false);
         } else
@@ -60,15 +60,15 @@ public class WindowShapedRecipes extends Window implements IWindowClosedListener
     }
 
     @Override
-    public void windowClosed(WindowEditOreCreateShapedRecipe window)
+    public void windowClosed(WindowEditOrCreateShapelessRecipe window)
     {
-        listBox.updateElements(pack.getContentRegistry(ShapedRecipe.class).getContentList());
+        listBox.updateElements(pack.getContentRegistry(ShapelessRecipe.class).getContentList());
         btnDelete.setEnabled(false);
         btnEdit.setEnabled(false);
     }
 
     @Override
-    public void itemClicked(ShapedRecipe item, ListBox<ShapedRecipe> listBox, int button)
+    public void itemClicked(ShapelessRecipe item, ListBox<ShapelessRecipe> listBox, int button)
     {
         btnEdit.setEnabled(listBox.getSelectedIndex() != -1);
         btnDelete.setEnabled(listBox.getSelectedIndex() != -1);

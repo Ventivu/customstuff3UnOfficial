@@ -55,13 +55,7 @@ public class WindowOreDictionaryEntries extends Window implements IListBoxItemCl
     @Override
     public void itemClicked(OreDictionaryEntry item, ListBox<OreDictionaryEntry> listBox, int button)
     {
-        if (button == 0)
-        {
-            btnDelete.setEnabled(item.canRemove());
-        } else
-        {
-            btnDelete.setEnabled(false);
-        }
+        btnDelete.setEnabled(listBox.getSelectedIndex() != -1);
     }
 
     @Override

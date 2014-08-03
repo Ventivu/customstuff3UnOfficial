@@ -8,7 +8,7 @@ public class ScissorHelper
 {
     public static void startScissor(Minecraft mc, int x, int y, int w, int h)
     {
-        ScaledResolution scaledRes = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+        ScaledResolution scaledRes = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int scale = scaledRes.getScaleFactor();
 
         int scissorWidth = w * scale;

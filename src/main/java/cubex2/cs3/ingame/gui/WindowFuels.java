@@ -40,16 +40,8 @@ public class WindowFuels extends Window implements IListBoxItemClickListener<Fue
     @Override
     public void itemClicked(Fuel item, ListBox<Fuel> listBox, int button)
     {
-        if (button == 0)
-        {
-            btnEdit.setEnabled(item.canEdit());
-            btnDelete.setEnabled(item.canRemove());
-        }
-        else
-        {
-            btnEdit.setEnabled(false);
-            btnDelete.setEnabled(false);
-        }
+        btnEdit.setEnabled(listBox.getSelectedIndex() != -1);
+        btnDelete.setEnabled(listBox.getSelectedIndex() != -1);
     }
 
     @Override
@@ -58,19 +50,16 @@ public class WindowFuels extends Window implements IListBoxItemClickListener<Fue
         if (c == btnNew)
         {
             GuiBase.openWindow(new WindowEditOrCreateFuel(pack));
-        }
-        else if (c == btnEdit)
+        } else if (c == btnEdit)
         {
             GuiBase.openWindow(new WindowEditOrCreateFuel(listBox.getSelectedItem(), pack));
-        }
-        else if (c == btnDelete)
+        } else if (c == btnDelete)
         {
             listBox.getSelectedItem().remove();
             listBox.updateElements(pack.getContentRegistry(Fuel.class).getContentList());
             btnDelete.setEnabled(false);
             btnEdit.setEnabled(false);
-        }
-        else
+        } else
         {
             super.controlClicked(c, mouseX, mouseY, button);
         }

@@ -545,7 +545,7 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
 
     private MovingObjectPosition getMop()
     {
-        Vec3 vec1 = player.worldObj.getWorldVec3Pool().getVecFromPool(player.posX, player.posY + player.getEyeHeight(), player.posZ);
+        Vec3 vec1 = Vec3.createVectorHelper(player.posX, player.posY + player.getEyeHeight(), player.posZ);
         Vec3 vec2 = player.getLookVec();
         Vec3 vec3 = vec1.addVector(vec2.xCoord * 1000, vec2.yCoord * 1000, vec2.zCoord * 1000);
         MovingObjectPosition mop = player.worldObj.rayTraceBlocks(vec1, vec3);

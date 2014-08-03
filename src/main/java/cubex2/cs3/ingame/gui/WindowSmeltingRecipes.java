@@ -1,13 +1,11 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.common.Fuel;
 import cubex2.cs3.common.SmeltingRecipe;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
-import cubex2.cs3.lib.Strings;
 
 public class WindowSmeltingRecipes extends Window implements IListBoxItemClickListener<SmeltingRecipe>, IWindowClosedListener<WindowEditOrCreateSmeltingRecipe>
 {
@@ -43,18 +41,8 @@ public class WindowSmeltingRecipes extends Window implements IListBoxItemClickLi
     @Override
     public void itemClicked(SmeltingRecipe item, ListBox<SmeltingRecipe> listBox, int button)
     {
-        if (button == 0)
-        {
-            if (button == 0)
-            {
-                btnEdit.setEnabled(item.canEdit());
-                btnDelete.setEnabled(item.canRemove());
-            } else
-            {
-                btnEdit.setEnabled(false);
-                btnDelete.setEnabled(false);
-            }
-        }
+        btnEdit.setEnabled(listBox.getSelectedIndex() != -1);
+        btnDelete.setEnabled(listBox.getSelectedIndex() != -1);
     }
 
     @Override
@@ -63,19 +51,16 @@ public class WindowSmeltingRecipes extends Window implements IListBoxItemClickLi
         if (c == btnNew)
         {
             GuiBase.openWindow(new WindowEditOrCreateSmeltingRecipe(pack));
-        }
-        else if (c == btnEdit)
+        } else if (c == btnEdit)
         {
             GuiBase.openWindow(new WindowEditOrCreateSmeltingRecipe(listBox.getSelectedItem(), pack));
-        }
-        else if (c == btnDelete)
+        } else if (c == btnDelete)
         {
             listBox.getSelectedItem().remove();
             listBox.updateElements(pack.getContentRegistry(SmeltingRecipe.class).getContentList());
             btnDelete.setEnabled(false);
             btnEdit.setEnabled(false);
-        }
-        else
+        } else
         {
             super.controlClicked(c, mouseX, mouseY, button);
         }
