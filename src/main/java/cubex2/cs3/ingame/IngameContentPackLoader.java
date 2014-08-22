@@ -1,11 +1,12 @@
 package cubex2.cs3.ingame;
 
 import com.google.common.collect.Lists;
-import cubex2.cs3.CustomStuff3;
+import cubex2.cs3.asm.ICSMod;
+import cubex2.cs3.asm.ModGenData;
+import cubex2.cs3.asm.ModGenerator;
 import cubex2.cs3.lib.Directories;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.List;
 
 public class IngameContentPackLoader
@@ -14,7 +15,7 @@ public class IngameContentPackLoader
 
     public static boolean initialized = false;
 
-    private List<IngameContentPack> contentPacks;
+    private List<IngameContentPack> contentPacks = Lists.newArrayList();
 
     private IngameContentPackLoader()
     {
@@ -30,29 +31,27 @@ public class IngameContentPackLoader
         return contentPacks;
     }
 
-    public IngameContentPack newContentPack(String name)
+    public void createContentPack(String name, String id)
     {
-        File directory = new File(Directories.CONTENT_PACKS_INGAME, name);
+        File directory = new File(Directories.MODS, id);
         directory.mkdirs();
-        IngameContentPack pack = new IngameContentPack(directory);
-        contentPacks.add(pack);
-        pack.prepare();
-        pack.init();
-        return pack;
-    }
 
-    public void searchPacks()
-    {
-        CustomStuff3.logger.info("Searching " + Directories.CONTENT_PACKS_INGAME.getAbsolutePath() + " for ingame content packs...");
+        File textures = new File(directory, "assets/" + id.toLowerCase() + "/" + Directories.TEXTURES);
+        textures.mkdirs();
+        new File(textures, Directories.ARMOR_TEXTURES).mkdirs();
+        new File(textures, Directories.BLOCK_TEXTURES).mkdir();
+        new File(textures, Directories.GUI_TEXTURES).mkdir();
+        new File(textures, Directories.ITEM_TEXTURES).mkdir();
+        new File(textures, Directories.CHEST_TEXTURES).mkdirs();
 
-        File[] packFiles = Directories.CONTENT_PACKS_INGAME.listFiles(contentPackFilter);
-        contentPacks = Lists.newArrayListWithCapacity(packFiles.length);
-        for (int i = 0; i < packFiles.length; i++)
-        {
-            contentPacks.add(new IngameContentPack(packFiles[i]));
-        }
+        ModGenData data = new ModGenData();
+        data.modClassName = id.replace(" ", "");
+        data.modId = id;
+        data.modName = name;
+        data.modVersion = "1.0.0";
+        data.isIngamePack = true;
 
-        CustomStuff3.logger.info("Found " + contentPacks.size() + " ingame content packs");
+        new ModGenerator(data, directory);
     }
 
     public void preparePacks()
@@ -72,12 +71,9 @@ public class IngameContentPackLoader
         initialized = true;
     }
 
-    private final FilenameFilter contentPackFilter = new FilenameFilter()
+    public void loadPack(ICSMod pack)
     {
-        @Override
-        public boolean accept(File dir, String name)
-        {
-            return dir.isDirectory() || name.endsWith(".zip");
-        }
-    };
+        IngameContentPack ipack = new IngameContentPack(new File(Directories.MODS, pack.getId()), pack.getName(), pack.getId());
+        contentPacks.add(ipack);
+    }
 }

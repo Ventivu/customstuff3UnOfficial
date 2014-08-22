@@ -11,7 +11,7 @@ import java.util.List;
 public class WindowEditPack extends Window implements IListBoxItemClickListener<String>
 {
     private static final List<String> listBoxElements = Lists.newArrayList("Fuels", "Smelting Recipes",
-            "Ore Dictionary", "Shaped Recipes", "Shapeless Recipes");
+            "Ore Dictionary", "Shaped Recipes", "Shapeless Recipes", "Items");
 
     private IngameContentPack pack;
 
@@ -45,22 +45,21 @@ public class WindowEditPack extends Window implements IListBoxItemClickListener<
             if (item.equals("Fuels"))
             {
                 GuiBase.openWindow(new WindowFuels(pack));
-            }
-            else if (item.equals("Smelting Recipes"))
+            } else if (item.equals("Smelting Recipes"))
             {
                 GuiBase.openWindow(new WindowSmeltingRecipes(pack));
-            }
-            else if (item.equals("Ore Dictionary"))
+            } else if (item.equals("Ore Dictionary"))
             {
                 GuiBase.openWindow(new WindowOreDictionaryEntries(pack));
-            }
-            else if (item.equals("Shaped Recipes"))
+            } else if (item.equals("Shaped Recipes"))
             {
                 GuiBase.openWindow(new WindowShapedRecipes(pack));
-            }
-            else if (item.equals("Shapeless Recipes"))
+            } else if (item.equals("Shapeless Recipes"))
             {
                 GuiBase.openWindow(new WindowShapelessRecipes(pack));
+            } else if (item.equals("Items"))
+            {
+                GuiBase.openWindow(new WindowItems(pack));
             }
         }
     }

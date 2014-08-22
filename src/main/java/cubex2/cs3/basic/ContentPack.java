@@ -6,9 +6,9 @@ import java.io.File;
 
 public class ContentPack extends BaseContentPack
 {
-    public ContentPack(File directory)
+    public ContentPack(File directory, String name, String id)
     {
-        super(directory);
+        super(directory, name, id);
     }
 
     @Override

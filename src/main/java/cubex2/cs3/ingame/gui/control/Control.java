@@ -17,23 +17,18 @@ public abstract class Control
     protected float zLevel = 0F;
     protected final boolean useIntersectRect;
 
-    protected int x;
-    protected int y;
+    public int x;
+    public int y;
     protected int width;
     protected int height;
     private final ScrollContainer scrollContainer;
 
     /**
-     * @param x
-     *         The x-position relative to the parent. Or absolute if the parent is null.
-     * @param y
-     *         The y-position relative to the parent. Or absolute if the parent is null.
-     * @param width
-     *         The control's width
-     * @param height
-     *         The control's height
-     * @param parent
-     *         The parent control. Can be null.
+     * @param x      The x-position relative to the parent. Or absolute if the parent is null.
+     * @param y      The y-position relative to the parent. Or absolute if the parent is null.
+     * @param width  The control's width
+     * @param height The control's height
+     * @param parent The parent control. Can be null.
      */
     public Control(int x, int y, int width, int height, Control parent)
     {
@@ -73,7 +68,7 @@ public abstract class Control
         }
     }
 
-    protected boolean isMouseOverControl(int mouseX, int mouseY)
+    public boolean isMouseOverControl(int mouseX, int mouseY)
     {
         if (useIntersectRect)
         {
@@ -103,8 +98,7 @@ public abstract class Control
             }
             absX += parent.rect.getX();
             absY += parent.rect.getY();
-        }
-        else // Windows
+        } else // Windows
         {
             absX = (GuiBase.instance.width - width) / 2;
             absY = (GuiBase.instance.height - height) / 2;
@@ -112,6 +106,15 @@ public abstract class Control
         rect.setBounds(absX, absY, width, height);
     }
 
+    public final boolean canHandleInput()
+    {
+        return GuiBase.inputLockedControl == null || GuiBase.inputLockedControl == this;
+    }
+
+    public Control getParent()
+    {
+        return parent;
+    }
 
     /**
      * Gets the control's rectangle.
@@ -141,6 +144,26 @@ public abstract class Control
     public int getHeight()
     {
         return rect.getHeight();
+    }
+
+    /**
+     * Gets the controls x-position relative to its parent.
+     *
+     * @return
+     */
+    public int getRelX()
+    {
+        return x;
+    }
+
+    /**
+     * Gets the controls y-position relative to its parent.
+     *
+     * @return
+     */
+    public int getRelY()
+    {
+        return y;
     }
 
     public void setEnabled(boolean value)
@@ -173,14 +196,10 @@ public abstract class Control
     /**
      * This is called when the user clicks anywhere on the screen but only if the control is enabled and visible.
      *
-     * @param mouseX
-     *         The absolute mouse x-position
-     * @param mouseY
-     *         The absolute mouse y-position
-     * @param button
-     *         The mouse button with that has been clicked.
-     * @param intoControl
-     *         true if the user has clicked into this control.
+     * @param mouseX      The absolute mouse x-position
+     * @param mouseY      The absolute mouse y-position
+     * @param button      The mouse button with that has been clicked.
+     * @param intoControl true if the user has clicked into this control.
      */
     public void mouseClicked(int mouseX, int mouseY, int button, boolean intoControl)
     {
@@ -190,12 +209,9 @@ public abstract class Control
     /**
      * This is called when the user clicks into this control but only if the control is enabled and visible.
      *
-     * @param mouseX
-     *         The absolute mouse x-position
-     * @param mouseY
-     *         The absolute mouse y-position
-     * @param button
-     *         The mouse button with that has been clicked.
+     * @param mouseX The absolute mouse x-position
+     * @param mouseY The absolute mouse y-position
+     * @param button The mouse button with that has been clicked.
      */
     public void mouseDown(int mouseX, int mouseY, int button)
     {
@@ -204,12 +220,9 @@ public abstract class Control
     /**
      * This is called when the user releases a mouse button.
      *
-     * @param mouseX
-     *         The absolute mouse x-position
-     * @param mouseY
-     *         The absolute mouse y-position
-     * @param button
-     *         0: left button, 1: right button
+     * @param mouseX The absolute mouse x-position
+     * @param mouseY The absolute mouse y-position
+     * @param button 0: left button, 1: right button
      */
     public void mouseUp(int mouseX, int mouseY, int button)
     {
@@ -218,20 +231,16 @@ public abstract class Control
     /**
      * This is called when the user typed a key on the keyboard.
      *
-     * @param c
-     *         The key as char.
-     * @param key
-     *         The key as int.
+     * @param c   The key as char.
+     * @param key The key as int.
      */
     public void keyTyped(char c, int key)
     {
     }
 
     /**
-     * @param mouseX
-     *         The absolute mouse x-position.
-     * @param mouseY
-     *         The absolute mouse y-position.
+     * @param mouseX The absolute mouse x-position.
+     * @param mouseY The absolute mouse y-position.
      */
     public void draw(int mouseX, int mouseY)
     {
@@ -240,10 +249,8 @@ public abstract class Control
     /**
      * Draw the foreground, i.e. hover text
      *
-     * @param mouseX
-     *         The absolute mouse x-position.
-     * @param mouseY
-     *         The absolute mouse y-position.
+     * @param mouseX The absolute mouse x-position.
+     * @param mouseY The absolute mouse y-position.
      */
     public void drawForeground(int mouseX, int mouseY)
     {

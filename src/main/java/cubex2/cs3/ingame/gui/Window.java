@@ -112,8 +112,7 @@ public abstract class Window extends ControlContainer
             if (c == btnBack)
             {
                 GuiBase.openPrevWindow();
-            }
-            else if (c == btnCancel)
+            } else if (c == btnCancel)
             {
                 GuiBase.openPrevWindow();
             }
@@ -125,16 +124,20 @@ public abstract class Window extends ControlContainer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        int x1 = getX();
+
         mc.renderEngine.bindTexture(Textures.BG);
+
+        int heightChange = rect.getHeight() % 2 != 0 ? 1 : 0;
+        int widthChange = rect.getWidth() % 2 != 0 ? 1 : 0;
+
         // Top Left
-        drawTexturedModalRect(rect.getX(), rect.getY(), 0, 0, rect.getWidth() / 2, rect.getHeight() / 2);
+        drawTexturedModalRect(rect.getX(), rect.getY(), 0, 0, rect.getWidth() / 2 + widthChange, rect.getHeight() / 2 + heightChange);
         // Top Right
-        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2, rect.getY(), 256 - rect.getWidth() / 2, 0, rect.getWidth() / 2, rect.getHeight() / 2);
+        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2 + widthChange, rect.getY(), 256 - rect.getWidth() / 2, 0, rect.getWidth() / 2, rect.getHeight() / 2 + heightChange);
         // Bottom Left
-        drawTexturedModalRect(rect.getX(), rect.getY() + rect.getHeight() / 2, 0, 256 - rect.getHeight() / 2, rect.getWidth() / 2, rect.getHeight() / 2);
+        drawTexturedModalRect(rect.getX(), rect.getY() + rect.getHeight() / 2 + heightChange, 0, 256 - rect.getHeight() / 2, rect.getWidth() / 2 + widthChange, rect.getHeight() / 2);
         // Bottom Right
-        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2, 256 - rect.getWidth() / 2, 256 - rect.getHeight() / 2, rect.getWidth() / 2, rect.getHeight() / 2);
+        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2 + widthChange, rect.getY() + rect.getHeight() / 2 + heightChange, 256 - rect.getWidth() / 2, 256 - rect.getHeight() / 2, rect.getWidth() / 2, rect.getHeight() / 2);
 
         if (title != null)
         {
@@ -149,4 +152,5 @@ public abstract class Window extends ControlContainer
 
         super.draw(mouseX, mouseY);
     }
+
 }

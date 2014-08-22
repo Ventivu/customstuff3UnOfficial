@@ -10,8 +10,11 @@ import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 
 public class WindowNewPack extends Window implements IValidityProvider
 {
-    private TextBox tbName;
     private Label lblName;
+    private Label lblId;
+    private TextBox tbName;
+    private TextBox tbId;
+
     private ListBox<IngameContentPack> parentListBox;
 
     public WindowNewPack(ListBox<IngameContentPack> listBox)
@@ -25,12 +28,14 @@ public class WindowNewPack extends Window implements IValidityProvider
     {
         super.init();
 
-        lblName = new Label("Name:", 7, 7, this);
-        addControl(lblName);
-
-        tbName = new TextBox(7, 17, 166, 17, this);
+        lblName = label("Name:").at(7,7).add();
+        tbName = textBox().below(lblName).fillWidth(7).height(17).add();
         tbName.setValidityProvider(this);
-        addControl(tbName);
+
+        lblId = label("ID:").below(tbName).add();
+        infoButton("This has to be unique and|is used to reference items,|blocks and textures.").rightTo(lblId).add();
+        tbId = textBox().below(lblId).fillWidth(7).height(17).add();
+        tbId.setValidityProvider(this);
 
         btnCreate.setEnabled(false);
     }
@@ -40,7 +45,7 @@ public class WindowNewPack extends Window implements IValidityProvider
     {
         if (c == btnCreate && button == 0)
         {
-            IngameContentPack newPack = IngameContentPackLoader.instance().newContentPack(tbName.getText().trim());
+            IngameContentPackLoader.instance().createContentPack(tbName.getText().trim(), tbId.getText().trim());
             parentListBox.updateElements(IngameContentPackLoader.instance().getContentPacks());
             GuiBase.openPrevWindow();
         }
@@ -51,26 +56,50 @@ public class WindowNewPack extends Window implements IValidityProvider
     }
 
     @Override
+    public void keyTyped(char c, int key)
+    {
+        super.keyTyped(c, key);
+
+        btnCreate.setEnabled(tbId.hasValidText() && tbName.hasValidText());
+    }
+
+    @Override
     public String checkValidity(TextBox tb)
     {
         String message = null;
 
         String text = tb.getText().trim();
         if (text.length() == 0)
-            message = "Enter a name.";
+        {
+            message = tb == tbName ? "Enter a name." : "Enter an ID.";
+        }
+        else if (text.contains(" ") && tb== tbId)
+        {
+            message = "Whitespaces are not allowed.";
+        }
         else
         {
             for (IngameContentPack pack : IngameContentPackLoader.instance().getContentPacks())
             {
-                if (pack.name.equals(text))
+                if (tb == tbName)
                 {
-                    message = "There is already a pack with this name.";
-                    break;
+                    if (pack.name.equals(text))
+                    {
+                        message = "There is already a pack with this name.";
+                        break;
+                    }
+                }
+                else
+                {
+                    if (pack.id.equals(text))
+                    {
+                        message = "There is already a pack with this id.";
+                        break;
+                    }
                 }
             }
         }
 
-        btnCreate.setEnabled(message == null);
         return message;
     }
 }

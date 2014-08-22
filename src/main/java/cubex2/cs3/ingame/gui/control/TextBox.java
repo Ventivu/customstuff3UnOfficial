@@ -20,6 +20,7 @@ public class TextBox extends Control
     {
         super(x, y, width, height, parent);
         textField = new GuiTextField(mc.fontRenderer, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        textField.setMaxStringLength(maxLength);
         validityRect = new Rectangle(rect.getX() + rect.getWidth() - 12, rect.getY() + (rect.getHeight() - 9) / 2, 9, 9);
     }
 
@@ -50,7 +51,7 @@ public class TextBox extends Control
 
     public void setMaxLength(int value)
     {
-        maxLength = value;
+        maxLength = value; textField.setMaxStringLength(value);
     }
 
     @Override
@@ -60,6 +61,7 @@ public class TextBox extends Control
 
         String text = getText();
         textField = new GuiTextField(mc.fontRenderer, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        textField.setMaxStringLength(maxLength);
         setText(text);
         validityRect = new Rectangle(rect.getX() + rect.getWidth() - 12, rect.getY() + (rect.getHeight() - 9) / 2, 9, 9);
     }

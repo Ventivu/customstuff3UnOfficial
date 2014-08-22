@@ -34,25 +34,20 @@ public class WindowEditOrCreateFuel extends Window implements IValidityProvider,
     {
         super.init();
 
-        lblItem = new Label("Item:", 7, 7, this);
-        addControl(lblItem);
+        lblItem = label("Item:").at(7,7).add();
+        itemDisplay = itemDisplay().below(lblItem).add();
+        lblDuration = label("Duration:").below(itemDisplay, 5).add();
+        tbDuration = textBox().below(lblDuration).fillWidth(7).height(20).add();
 
-        itemDisplay = new ItemDisplay(7, 17, this);
         itemDisplay.setDrawSlotBackground();
         if (editingFuel != null)
             itemDisplay.setItemStack(editingFuel.stack);
-        addControl(itemDisplay);
 
-        lblDuration = new Label("Duration:", 7, 37, this);
-        addControl(lblDuration);
-
-        tbDuration = new TextBox(7, 47, 166, 20, this);
         if (editingFuel != null)
         {
             tbDuration.setText(String.valueOf(editingFuel.duration));
         }
         tbDuration.setValidityProvider(this);
-        addControl(tbDuration);
 
         updateButton(tbDuration.hasValidText());
     }

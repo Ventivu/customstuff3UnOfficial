@@ -50,6 +50,9 @@ public class Label extends Control
 
         rect.setWidth(width);
         rect.setHeight(lines.length * 9 + (lines.length - 1) * 4);
+
+        this.width = rect.getWidth();
+        this.height = rect.getHeight();
     }
 
     @Override

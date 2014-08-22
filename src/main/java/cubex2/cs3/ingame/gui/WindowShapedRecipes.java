@@ -7,7 +7,7 @@ import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 
-public class WindowShapedRecipes extends Window implements IWindowClosedListener<WindowEditOreCreateShapedRecipe>, IListBoxItemClickListener<ShapedRecipe>
+public class WindowShapedRecipes extends Window implements IWindowClosedListener<WindowEditOrCreateShapedRecipe>, IListBoxItemClickListener<ShapedRecipe>
 {
     private IngameContentPack pack;
 
@@ -43,10 +43,10 @@ public class WindowShapedRecipes extends Window implements IWindowClosedListener
     {
         if (c == btnNew)
         {
-            GuiBase.openWindow(new WindowEditOreCreateShapedRecipe(pack));
+            GuiBase.openWindow(new WindowEditOrCreateShapedRecipe(pack));
         } else if (c == btnEdit)
         {
-            GuiBase.openWindow(new WindowEditOreCreateShapedRecipe(listBox.getSelectedItem(), pack));
+            GuiBase.openWindow(new WindowEditOrCreateShapedRecipe(listBox.getSelectedItem(), pack));
         } else if (c == btnDelete)
         {
             listBox.getSelectedItem().remove();
@@ -60,7 +60,7 @@ public class WindowShapedRecipes extends Window implements IWindowClosedListener
     }
 
     @Override
-    public void windowClosed(WindowEditOreCreateShapedRecipe window)
+    public void windowClosed(WindowEditOrCreateShapedRecipe window)
     {
         listBox.updateElements(pack.getContentRegistry(ShapedRecipe.class).getContentList());
         btnDelete.setEnabled(false);

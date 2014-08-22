@@ -14,16 +14,18 @@ import java.util.logging.Logger;
 public abstract class BaseContentPack implements IContentPack
 {
     public final String name;
+    public final String id;
     public final File directory;
     protected final Logger logger;
     protected final List<ContentRegistry> contentRegistryList = Lists.newArrayList();
     protected final Map<Class<? extends Content>, ContentRegistry> contentRegistry = Maps.newHashMap();
     private final Map<String, ContentRegistry> nameToRegistryMap = Maps.newHashMap();
 
-    public BaseContentPack(File directory)
+    public BaseContentPack(File directory, String name, String id)
     {
         this.directory = directory;
-        this.name = directory.isDirectory() ? directory.getName() : directory.getName().substring(0, directory.getName().length() - 4);
+        this.name = name;
+        this.id = id;
         logger = Logger.getLogger(ModInfo.ID + "_" + name);
 
         registerContentRegistry(new OreDictEntryRegistry(this), OreDictionaryEntry.class);
@@ -31,6 +33,7 @@ public abstract class BaseContentPack implements IContentPack
         registerContentRegistry(new SmeltingRecipeRegistry(this), SmeltingRecipe.class);
         registerContentRegistry(new ShapedRecipeRegistry(this), ShapedRecipe.class);
         registerContentRegistry(new ShapelessRecipeRegistry(this), ShapelessRecipe.class);
+        registerContentRegistry(new ItemRegistry(this), WrappedItem.class);
     }
 
     @Override

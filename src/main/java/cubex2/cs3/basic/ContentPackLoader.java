@@ -1,6 +1,7 @@
 package cubex2.cs3.basic;
 
 import cubex2.cs3.CustomStuff3;
+import cubex2.cs3.asm.ICSMod;
 import cubex2.cs3.lib.Directories;
 
 import java.io.File;
@@ -23,7 +24,7 @@ public class ContentPackLoader
 
     public void searchPacks()
     {
-        CustomStuff3.logger.info("Searching " + Directories.CONTENT_PACKS_DEFAULT.getAbsolutePath() + " for content packs...");
+        /* TODO CustomStuff3.logger.info("Searching " + Directories.CONTENT_PACKS_DEFAULT.getAbsolutePath() + " for content packs...");
 
         File[] packFiles = Directories.CONTENT_PACKS_DEFAULT.listFiles(contentPackFilter);
         contentPacks = new ContentPack[packFiles.length];
@@ -32,7 +33,7 @@ public class ContentPackLoader
             contentPacks[i] = new ContentPack(packFiles[i]);
         }
 
-        CustomStuff3.logger.info("Found " + contentPacks.length + " content packs");
+        CustomStuff3.logger.info("Found " + contentPacks.length + " content packs");*/
     }
 
     public void preparePacks()
@@ -41,6 +42,11 @@ public class ContentPackLoader
     }
 
     public void initPacks()
+    {
+
+    }
+
+    public void loadPack(ICSMod pack)
     {
 
     }

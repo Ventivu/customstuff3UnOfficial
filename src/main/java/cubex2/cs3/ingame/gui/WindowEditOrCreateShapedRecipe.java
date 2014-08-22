@@ -8,7 +8,7 @@ import cubex2.cs3.util.ArrayHelper;
 import cubex2.cs3.util.RecipeInput;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditOreCreateShapedRecipe extends Window implements IWindowClosedListener
+public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClosedListener
 {
     private final IngameContentPack pack;
     private ShapedRecipe editingRecipe;
@@ -21,13 +21,13 @@ public class WindowEditOreCreateShapedRecipe extends Window implements IWindowCl
     private Label lblWidth;
     private Label lblHeight;
 
-    public WindowEditOreCreateShapedRecipe(IngameContentPack pack)
+    public WindowEditOrCreateShapedRecipe(IngameContentPack pack)
     {
         super("New Shaped Recipe", CREATE | CANCEL, 180, 150);
         this.pack = pack;
     }
 
-    public WindowEditOreCreateShapedRecipe(ShapedRecipe recipe, IngameContentPack pack)
+    public WindowEditOrCreateShapedRecipe(ShapedRecipe recipe, IngameContentPack pack)
     {
         super("Edit Shaped Recipe", EDIT | CANCEL, 180, 150);
         this.pack = pack;

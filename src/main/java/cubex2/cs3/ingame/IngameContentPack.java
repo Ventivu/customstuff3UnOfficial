@@ -12,9 +12,9 @@ import java.io.File;
 
 public class IngameContentPack extends ContentPack implements IPurpuseStringProvider, Comparable<IngameContentPack>
 {
-    public IngameContentPack(File directory)
+    public IngameContentPack(File directory, String name, String id)
     {
-        super(directory);
+        super(directory, name, id);
     }
 
     @Override

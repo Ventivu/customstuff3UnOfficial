@@ -2,6 +2,7 @@ package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.ingame.gui.control.Button;
 import cubex2.cs3.ingame.gui.control.Control;
+import cubex2.cs3.ingame.gui.control.DropBox;
 
 public class WindowMain extends Window
 {
@@ -19,14 +20,9 @@ public class WindowMain extends Window
     {
         super.init();
 
-        btnClose = new Button("Close", 7, -7, 100, this);
-        addControl(btnClose);
-
-        btnContentPacks = new Button("Content Packs", 7, 7, 100, this);
-        addControl(btnContentPacks);
-
-        btnTextEditor = new Button("Text Editor", 7, 30, 100, this);
-        addControl(btnTextEditor);
+        btnClose = button("Close").y(-7).fillWidth(7).add();
+        btnContentPacks = button("Content Packs").y(7).fillWidth(7).add();
+        btnTextEditor = button("Text Editor").below(btnContentPacks, 7).fillWidth(7).add();
     }
 
     @Override
@@ -35,12 +31,10 @@ public class WindowMain extends Window
         if (c == btnClose)
         {
             GuiBase.closeGui();
-        }
-        else if (c == btnContentPacks)
+        } else if (c == btnContentPacks)
         {
             GuiBase.openWindow(new WindowContentPacks());
-        }
-        else if (c == btnTextEditor)
+        } else if (c == btnTextEditor)
         {
             GuiBase.openWindow(new WindowTextField());
         }

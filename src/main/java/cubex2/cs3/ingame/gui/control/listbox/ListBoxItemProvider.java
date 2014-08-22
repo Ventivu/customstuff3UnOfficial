@@ -1,10 +1,6 @@
 package cubex2.cs3.ingame.gui.control.listbox;
 
-import cubex2.cs3.common.Fuel;
-import cubex2.cs3.common.OreDictionaryEntry;
-import cubex2.cs3.common.ShapedRecipe;
-import cubex2.cs3.common.SmeltingRecipe;
-import cubex2.cs3.common.ShapelessRecipe;
+import cubex2.cs3.common.*;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.util.OreDictionaryClass;
@@ -30,6 +26,8 @@ public class ListBoxItemProvider
             return new ListBoxItemShapedRecipe((ShapedRecipe) value, idx, x, y, width, height, parent);
         if (value instanceof ShapelessRecipe)
             return new ListBoxItemShapelessRecipe((ShapelessRecipe) value, idx, x, y, width, height, parent);
+        if (value instanceof WrappedItem)
+            return new ListBoxItemWrappedItem((WrappedItem) value, idx, x, y, width, height, parent);
         throw new RuntimeException("Not supported object for ListBox.");
     }
 }

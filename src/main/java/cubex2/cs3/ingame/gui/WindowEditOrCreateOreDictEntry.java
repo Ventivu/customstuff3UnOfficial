@@ -38,29 +38,22 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
     {
         super.init();
 
-        lblItem = new Label("Item:", 7, 7, this);
-        addControl(lblItem);
+        lblItem = label("Item:").at(7,7).add();
+        itemDisplay = itemDisplay().below(lblItem).add();
+        lblOreClass = label("Ore Class:").below(itemDisplay,5).add();
+        tbOreClass = textBox().below(lblOreClass).fillWidth(7).height(20).add();
+        lblOtherItems = label("Items in ore class:").below(tbOreClass, 10).add();
 
-        itemDisplay = new ItemDisplay(7, 17, this);
         itemDisplay.setDrawSlotBackground();
         if (editingEntry != null)
             itemDisplay.setItemStack(editingEntry.stack);
-        addControl(itemDisplay);
 
-        lblOreClass = new Label("Ore Class:", 7, 37, this);
-        addControl(lblOreClass);
 
-        tbOreClass = new TextBox(7, 47, 168, 20, this);
         if (editingEntry != null)
         {
             tbOreClass.setText(String.valueOf(editingEntry.oreClass));
         }
         tbOreClass.setValidityProvider(this);
-        addControl(tbOreClass);
-
-        lblOtherItems = new Label("Items in ore class:", 7, 81, this);
-        addControl(lblOtherItems);
-
 
         itemDisplays = new ItemDisplay[9];
         for (int i = 0; i < itemDisplays.length; i++)

@@ -31,8 +31,11 @@ public class PictureBox extends Control
     @Override
     public void draw(int mouseX, int mouseY)
     {
+
         mc.renderEngine.bindTexture(texture);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.drawTexturedModalRect(rect.getX(), rect.getY(), u, v, rect.getWidth(), rect.getHeight());
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
     }
 }

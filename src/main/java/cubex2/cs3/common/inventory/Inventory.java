@@ -28,7 +28,7 @@ public class Inventory
     public int fill(Item item, int metadata)
     {
         int amount = 0;
-        int maxStack = item.getItemStackLimit();
+        int maxStack = item.getItemStackLimit(new ItemStack(item, 1, metadata));
 
         for (int i = 0; i < inv.getSizeInventory(); i++)
         {
@@ -159,7 +159,7 @@ public class Inventory
     public int setSlot(int slotId, Item item, int count, int metadata)
     {
         int amount = 0;
-        int maxStack = Math.min(count, item.getItemStackLimit());
+        int maxStack = Math.min(count, item.getItemStackLimit(new ItemStack(item, 1, metadata)));
 
         ItemStack stack = inv.getStackInSlot(slotId);
         if (stack == null || stack.getItem() != item || stack.getItemDamage() != metadata)

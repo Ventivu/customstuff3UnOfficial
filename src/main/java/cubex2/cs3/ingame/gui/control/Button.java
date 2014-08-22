@@ -65,14 +65,16 @@ public class Button extends Control
         hover = isMouseOverControl(mouseX, mouseY);
 
         int k = getHoverState(hover);
+        int heightChange = rect.getHeight() % 2 != 0 ? 1 : 0;
+        int widthChange = rect.getWidth() % 2 != 0 ? 1 : 0;
         // Top Left
-        drawTexturedModalRect(rect.getX(), rect.getY(), 0, k * 70, rect.getWidth() / 2, rect.getHeight() / 2);
+        drawTexturedModalRect(rect.getX(), rect.getY(), 0, k * 70, rect.getWidth() / 2 + widthChange, rect.getHeight() / 2 + heightChange);
         // Top Right
-        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2, rect.getY(), 200 - rect.getWidth() / 2, k * 70, rect.getWidth() / 2, rect.getHeight() / 2);
+        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2 + widthChange, rect.getY(), 200 - rect.getWidth() / 2, k * 70, rect.getWidth() / 2, rect.getHeight() / 2 + heightChange);
         // Bottom Left
-        drawTexturedModalRect(rect.getX(), rect.getY() + rect.getHeight() / 2, 0, 70 - rect.getHeight() / 2 + k * 70, rect.getWidth() / 2, rect.getHeight() / 2);
+        drawTexturedModalRect(rect.getX(), rect.getY() + rect.getHeight() / 2 + heightChange, 0, 70 - rect.getHeight() / 2 + k * 70, rect.getWidth() / 2 + widthChange, rect.getHeight() / 2);
         // Bottom Right
-        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2, 200 - rect.getWidth() / 2, 70 - rect.getHeight() / 2 + k * 70, rect.getWidth() / 2, rect.getHeight() / 2);
+        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2 + widthChange, rect.getY() + rect.getHeight() / 2 + heightChange, 200 - rect.getWidth() / 2, 70 - rect.getHeight() / 2 + k * 70, rect.getWidth() / 2, rect.getHeight() / 2);
 
         drawContent(mouseX, mouseY);
     }
