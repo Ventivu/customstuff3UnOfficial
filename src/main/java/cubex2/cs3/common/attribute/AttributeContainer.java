@@ -133,4 +133,28 @@ public class AttributeContainer
 
         return null;
     }
+
+    public <T> T getAttribute(String attributeName)
+    {
+        try
+        {
+            return (T) getClass().getField(attributeName).get(this);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public <T> void setAttriubte(String attributeName, T value)
+    {
+        try
+        {
+            getClass().getField(attributeName).set(this,value);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

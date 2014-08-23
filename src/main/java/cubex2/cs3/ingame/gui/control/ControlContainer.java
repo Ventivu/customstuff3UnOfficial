@@ -212,4 +212,9 @@ public abstract class ControlContainer extends Control
     {
         return new CheckBoxBuilder(this);
     }
+
+    public TextFieldBuilder textField()
+    {
+        return new TextFieldBuilder(this);
+    }
 }

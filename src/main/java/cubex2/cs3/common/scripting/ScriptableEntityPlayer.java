@@ -125,8 +125,7 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
     {
         if (!player.worldObj.isRemote)
         {
-            // TODO: chat message
-            //player.addChatMessage(message);
+            player.addChatComponentMessage(new ChatComponentText(message));
         }
     }
 

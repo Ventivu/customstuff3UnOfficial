@@ -3,6 +3,7 @@ package cubex2.cs3.common.attribute;
 import com.google.common.collect.Maps;
 import cubex2.cs3.common.attribute.bridges.*;
 import cubex2.cs3.util.IconWrapper;
+import cubex2.cs3.util.ScriptWrapper;
 import net.minecraft.creativetab.CreativeTabs;
 
 import java.util.Map;
@@ -32,5 +33,6 @@ public abstract class DefaultAttributeBridges
         register(int.class, IntegerBridge.class);
         register(boolean.class, BooleanBridge.class);
         register(CreativeTabs.class, CreativeTabBridge.class);
+        register(ScriptWrapper.class, ScriptWrapperBridge.class);
     }
 }

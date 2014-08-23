@@ -3,8 +3,7 @@ package cubex2.cs3.util;
 import cubex2.cs3.api.scripting.IScriptableObjectProvider;
 import cubex2.cs3.api.scripting.ITriggerData;
 import cubex2.cs3.common.BaseContentPack;
-import cubex2.cs3.common.scripting.ScriptObjectManager;
-import cubex2.cs3.common.scripting.ScriptableContentPack;
+import cubex2.cs3.common.scripting.*;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
@@ -107,12 +106,11 @@ public class JavaScriptHelper
 
     public static <T> T executeTrigger(Script script, ITriggerData data, BaseContentPack pack, T defaultResult)
     {
-        return null;
-       /* T result = defaultResult;
+        T result = defaultResult;
         Context cx = Context.enter();
         try
         {
-            Scriptable scope = JavaScriptHelper.getInstanceScope(cx, mod);
+            Scriptable scope = JavaScriptHelper.getInstanceScope(cx, pack);
             ScriptableObject.defineClass(scope, ScriptablePosition.class);
 
             if (result != null)
@@ -122,7 +120,7 @@ public class JavaScriptHelper
             if (data.getWorld() != null)
             {
                 ScriptableWorld scriptableWorld = new ScriptableWorld(data.getWorld());
-                scriptableWorld.setMod(mod);
+                scriptableWorld.setMod(pack);
                 ScriptableObject.putProperty(scope, "world", scriptableWorld);
             }
             if (data.getPositionX() != null)
@@ -136,13 +134,13 @@ public class JavaScriptHelper
             if (data.getPlayer() != null)
             {
                 ScriptableEntityPlayer player = new ScriptableEntityPlayer(data.getPlayer());
-                player.setMod(mod);
+                //player.setMod(pack);
                 ScriptableObject.putProperty(scope, "player", player);
             }
             if (data.getInteractPlayer() != null)
             {
                 ScriptableEntityPlayer player = new ScriptableEntityPlayer(data.getInteractPlayer());
-                player.setMod(mod);
+                //player.setMod(mod);
                 ScriptableObject.putProperty(scope, "interactPlayer", player);
             }
             if (data.getLiving() != null)
@@ -170,9 +168,9 @@ public class JavaScriptHelper
             {
                 ScriptableObject.putProperty(scope, "side", data.getSide());
             }
-            if (data.getBlockId() != null)
+            if (data.getBlockName() != null)
             {
-                ScriptableObject.putProperty(scope, "blockId", data.getBlockId());
+                ScriptableObject.putProperty(scope, "blockName", data.getBlockName());
             }
             if (data.getSlotId() != null)
             {
@@ -205,10 +203,14 @@ public class JavaScriptHelper
                 ScriptableObject.putProperty(scope, "width", data.getWidth());
                 ScriptableObject.putProperty(scope, "height", data.getHeight());
             }
+            if (data.getCraftMatrix() != null)
+            {
+                ScriptableObject.putProperty(scope, "craftMatrix", new ScriptableInventory(data.getCraftMatrix()));
+            }
 
             for (IScriptableObjectProvider provider : ScriptObjectManager.providers)
             {
-                List<Object> scriptObjects = provider.getScriptObjectsForTrigger(data, mod);
+                List<Object> scriptObjects = provider.getScriptObjectsForTrigger(data, pack);
                 if (scriptObjects != null)
                 {
                     for (int i = 0; i < scriptObjects.size(); i += 2)
@@ -232,6 +234,6 @@ public class JavaScriptHelper
             Context.exit();
         }
 
-        return result;*/
+        return result;
     }
 }

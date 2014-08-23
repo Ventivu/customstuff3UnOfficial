@@ -33,6 +33,7 @@ public class TextField extends Control
     // Content
     private List<String> lines = Lists.newArrayList("");
     private final List<List<Integer>> colors = Lists.newArrayList();
+    private boolean syntaxHighlighting = true;
 
     // Cursor
     private boolean replaceMode = false;
@@ -48,6 +49,11 @@ public class TextField extends Control
         fontRenderer = mc.fontRenderer;
         linesToDisplay = getHeight() / 10;
         colsToDisplay = getWidth() / 6;
+    }
+
+    public void disableSyntaxHighlighting()
+    {
+        syntaxHighlighting = false;
     }
 
     public String getText()
@@ -109,6 +115,9 @@ public class TextField extends Control
 
     private void textChanged()
     {
+        if (!syntaxHighlighting)
+            return;
+
         boolean inMultiLineComment = false;
         boolean inQuotes = false;
         char quoteChar = 0;
@@ -304,7 +313,7 @@ public class TextField extends Control
         }
         else
         {
-            s = ChatAllowedCharacters.filerAllowedCharacters(s);
+            s = filterAllowedCharacters(s);
 
             String prev = lines.get(cursorY);
             lines.set(cursorY, prev.substring(0, cursorX) + s + prev.substring(replaceMode && cursorX < lines.get(cursorY).length() ? cursorX + 1 : cursorX, prev.length()));
@@ -313,6 +322,25 @@ public class TextField extends Control
         scrollToCursor();
 
         textChanged();
+    }
+
+    private String filterAllowedCharacters(String s)
+    {
+        StringBuilder stringbuilder = new StringBuilder();
+        char[] achar = s.toCharArray();
+        int i = achar.length;
+
+        for (int j = 0; j < i; ++j)
+        {
+            char c0 = achar[j];
+
+            if (c0 == 167 || ChatAllowedCharacters.isAllowedCharacter(c0))
+            {
+                stringbuilder.append(c0);
+            }
+        }
+
+        return stringbuilder.toString();
     }
 
     private Point getLeftWordPosition()
@@ -605,7 +633,7 @@ public class TextField extends Control
                     {
                         GuiScreen.setClipboardString(getSelectedText());
                     }
-                    else if (ChatAllowedCharacters.isAllowedCharacter(c))
+                    else if (c == 167 || ChatAllowedCharacters.isAllowedCharacter(c))
                     {
                         writeText(String.valueOf(c));
                     }
@@ -702,7 +730,7 @@ public class TextField extends Control
                 int charOffset = (6 - charWidth) / 2;
 
                 int pos = getOneDimPosition(col, row);
-                int color = colors.get(row).get(col);
+                int color = syntaxHighlighting ? colors.get(row).get(col) : Color.WHITE;
                 if (pos >= selStart && pos < selEnd)
                     GuiHelper.drawRect(getX() + 2 + j * 6 - 1, getY() + 2 + i * 9, getX() + 2 + j * 6 + 6, getY() + 2 + i * 9 + 8, Color.BLUE);
                 fontRenderer.drawString(String.valueOf(c), getX() + 2 + j * 6 + charOffset, getY() + 2 + i * 9, color);
