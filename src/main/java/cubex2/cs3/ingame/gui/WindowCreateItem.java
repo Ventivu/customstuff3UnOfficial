@@ -12,7 +12,7 @@ public class WindowCreateItem extends Window implements IValidityProvider
     private Label lblName;
     private TextBox tbName;
     private Label lblType;
-    private DropBox dbType;
+    private DropBox<String> dbType;
 
     private Label lblInfo;
 

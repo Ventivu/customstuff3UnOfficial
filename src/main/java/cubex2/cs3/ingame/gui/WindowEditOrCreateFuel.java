@@ -3,10 +3,10 @@ package cubex2.cs3.ingame.gui;
 import cubex2.cs3.common.Fuel;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.*;
-import cubex2.cs3.util.ValidateHelper;
+import cubex2.cs3.lib.TextBoxValidators;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditOrCreateFuel extends Window implements IValidityProvider, IWindowClosedListener<WindowSelectItem>
+public class WindowEditOrCreateFuel extends Window implements IWindowClosedListener<WindowSelectItem>
 {
     private IngameContentPack pack;
     private Fuel editingFuel;
@@ -40,6 +40,7 @@ public class WindowEditOrCreateFuel extends Window implements IValidityProvider,
         tbDuration = textBox().below(lblDuration).fillWidth(7).height(20).add();
 
         itemDisplay.setDrawSlotBackground();
+        itemDisplay.enableNullStackCheck();
         if (editingFuel != null)
             itemDisplay.setItemStack(editingFuel.stack);
 
@@ -47,9 +48,7 @@ public class WindowEditOrCreateFuel extends Window implements IValidityProvider,
         {
             tbDuration.setText(String.valueOf(editingFuel.duration));
         }
-        tbDuration.setValidityProvider(this);
-
-        updateButton(tbDuration.hasValidText());
+        tbDuration.setValidityProvider(TextBoxValidators.POSITIVE_INTEGER);
     }
 
     @Override
@@ -77,41 +76,10 @@ public class WindowEditOrCreateFuel extends Window implements IValidityProvider,
         }
     }
 
-    private void updateButton(boolean tbValidity)
-    {
-        if (editingFuel == null)
-        {
-            btnCreate.setEnabled(tbValidity && itemDisplay.getItemStack() != null);
-        } else
-        {
-            btnEdit.setEnabled(tbValidity && itemDisplay.getItemStack() != null);
-        }
-    }
-
-    @Override
-    public String checkValidity(TextBox tb)
-    {
-        String message = null;
-
-        String text = tbDuration.getText().trim();
-        if (text.length() == 0)
-        {
-            message = "Enter a value.";
-        } else if (!ValidateHelper.isValidIntegerString(text))
-        {
-            message = "Enter a valid number.";
-        }
-
-        updateButton(message == null);
-
-        return message;
-    }
-
     @Override
     public void windowClosed(WindowSelectItem window)
     {
         if (window.getSelectedStack() != null)
             itemDisplay.setItemStack(window.getSelectedStack());
-        updateButton(tbDuration.hasValidText());
     }
 }

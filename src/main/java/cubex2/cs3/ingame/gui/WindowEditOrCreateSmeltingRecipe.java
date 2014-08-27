@@ -6,6 +6,7 @@ import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.PictureBox;
 import cubex2.cs3.lib.Textures;
+import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
@@ -14,8 +15,6 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
     private IngameContentPack pack;
     private SmeltingRecipe editingRecipe;
 
-    /*private Label lblInput;
-    private Label lblResult;*/
     private ItemDisplay inputDisplay;
     private ItemDisplay resultDisplay;
     private PictureBox pbArrow;
@@ -38,10 +37,12 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
     {
         super.init();
 
-        inputDisplay = new ItemDisplay(55, 25, this);
+        inputDisplay = itemDisplay().at(55, 25).add();
+        inputDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_SMELTING_INPUT);
         inputDisplay.setDrawSlotBackground();
 
-        resultDisplay = new ItemDisplay(55 + 30 + 22, 25, this);
+        resultDisplay = itemDisplay().at(55 + 30 + 22, 25).add();
+        resultDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
         resultDisplay.setDrawSlotBackground();
 
         if (editingRecipe != null)
@@ -50,13 +51,7 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
             resultDisplay.setItemStack(editingRecipe.result);
         }
 
-        addControl(inputDisplay);
-        addControl(resultDisplay);
-
-        pbArrow = new PictureBox(Textures.CONTROLS, 218, 18, 55 + 18 + 4, 25, 22, 15, this);
-        addControl(pbArrow);
-
-        updateButton();
+        pbArrow = pictureBox(Textures.CONTROLS, 218, 18).at(55 + 18 + 4, 25).size(22, 15).add();
     }
 
     @Override
@@ -89,18 +84,6 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
         }
     }
 
-    private void updateButton()
-    {
-        boolean validData = inputDisplay.getItemStack() != null && resultDisplay.getItemStack() != null && FurnaceRecipes.smelting().getSmeltingResult(inputDisplay.getItemStack()) == null;
-        if (editingRecipe == null)
-        {
-            btnCreate.setEnabled(validData);
-        } else
-        {
-            btnEdit.setEnabled(validData);
-        }
-    }
-
     @Override
     public void windowClosed(WindowSelectItem window)
     {
@@ -109,6 +92,5 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
             ItemDisplay display = window.tag.equals("input") ? inputDisplay : resultDisplay;
             display.setItemStack(window.getSelectedStack());
         }
-        updateButton();
     }
 }

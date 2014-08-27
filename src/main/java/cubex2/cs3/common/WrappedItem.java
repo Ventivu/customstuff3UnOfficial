@@ -15,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -317,5 +318,10 @@ public class WrappedItem extends BaseContent
         {
             list.add(split[i]);
         }
+    }
+
+    public EnumAction getItemUseAction(ItemStack stack)
+    {
+        return container.usingAction;
     }
 }

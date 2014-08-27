@@ -3,11 +3,11 @@ package cubex2.cs3.ingame.gui.control.builder;
 import cubex2.cs3.ingame.gui.control.ControlContainer;
 import cubex2.cs3.ingame.gui.control.DropBox;
 
-public class DropBoxBuilder extends ControlBuilder<DropBox>
+public class DropBoxBuilder<T> extends ControlBuilder<DropBox<T>>
 {
-    private String[] values;
+    private T[] values;
 
-    public DropBoxBuilder(String[] values, ControlContainer c)
+    public DropBoxBuilder(T[] values, ControlContainer c)
     {
         super(c);
         this.values = values;
@@ -15,8 +15,8 @@ public class DropBoxBuilder extends ControlBuilder<DropBox>
     }
 
     @Override
-    protected DropBox newInstance()
+    protected DropBox<T> newInstance()
     {
-        return new DropBox(values, posX, posY, width, height, container);
+        return new DropBox<T>(values, posX, posY, width, height, container);
     }
 }

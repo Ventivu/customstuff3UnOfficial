@@ -5,13 +5,14 @@ import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.DropBox;
-import cubex2.cs3.lib.CreativeTabs;
+import cubex2.cs3.ingame.gui.control.IStringProvider;
+import net.minecraft.creativetab.CreativeTabs;
 
-public class WindowEditCreativeTab extends Window
+public class WindowEditCreativeTab extends Window implements IStringProvider<CreativeTabs>
 {
     private WrappedItem wrappedItem;
 
-    private DropBox dbTabs;
+    private DropBox<CreativeTabs> dbTabs;
 
     public WindowEditCreativeTab(WrappedItem item)
     {
@@ -24,8 +25,9 @@ public class WindowEditCreativeTab extends Window
     {
         super.init();
 
-        dbTabs = dropBox(CreativeTabs.getTabNames()).y(7).fillWidth(7).add();
-        dbTabs.setSelectedValue(wrappedItem.container.creativeTab.getTabLabel());
+        dbTabs = dropBox(CreativeTabs.creativeTabArray).y(7).fillWidth(7).add();
+        dbTabs.setStringProvider(this);
+        dbTabs.setSelectedValue(wrappedItem.container.creativeTab);
     }
 
     @Override
@@ -36,14 +38,19 @@ public class WindowEditCreativeTab extends Window
 
         if (c == btnEdit)
         {
-            wrappedItem.container.creativeTab = CreativeTabs.getCreativeTab(dbTabs.getSelectedValue());
+            wrappedItem.container.creativeTab = dbTabs.getSelectedValue();
             wrappedItem.getPack().save();
 
             GuiBase.openPrevWindow();
-        }
-        else
+        } else
         {
             super.controlClicked(c, mouseX, mouseY, button);
         }
+    }
+
+    @Override
+    public String getStringFor(CreativeTabs value)
+    {
+        return value.getTabLabel();
     }
 }

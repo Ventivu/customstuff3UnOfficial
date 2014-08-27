@@ -5,6 +5,7 @@ import cubex2.cs3.common.attribute.bridges.*;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.EnumAction;
 
 import java.util.Map;
 
@@ -34,5 +35,6 @@ public abstract class DefaultAttributeBridges
         register(boolean.class, BooleanBridge.class);
         register(CreativeTabs.class, CreativeTabBridge.class);
         register(ScriptWrapper.class, ScriptWrapperBridge.class);
+        register(EnumAction.class, EnumActionBridge.class);
     }
 }

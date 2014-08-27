@@ -6,6 +6,7 @@ import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
+import cubex2.cs3.ingame.gui.item.WindowEditInteger;
 import cubex2.cs3.ingame.gui.item.WindowEditScript;
 
 public class WindowEditItem extends Window implements IListBoxItemClickListener<String>
@@ -51,6 +52,9 @@ public class WindowEditItem extends Window implements IListBoxItemClickListener<
             if (windowClass == WindowEditScript.class)
             {
                 GuiBase.openWindow(new WindowEditScript(item, wrappedItem));
+            } else if (windowClass == WindowEditInteger.class)
+            {
+                GuiBase.openWindow(new WindowEditInteger(item, wrappedItem));
             } else
             {
                 GuiBase.openWindow(windowClass.getConstructor(WrappedItem.class).newInstance(wrappedItem));

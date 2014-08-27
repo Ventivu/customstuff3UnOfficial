@@ -3,6 +3,7 @@ package cubex2.cs3.ingame.gui;
 import cubex2.cs3.common.OreDictionaryEntry;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.*;
+import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -44,16 +45,17 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
         tbOreClass = textBox().below(lblOreClass).fillWidth(7).height(20).add();
         lblOtherItems = label("Items in ore class:").below(tbOreClass, 10).add();
 
+        itemDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
         itemDisplay.setDrawSlotBackground();
         if (editingEntry != null)
             itemDisplay.setItemStack(editingEntry.stack);
 
 
+        tbOreClass.setValidityProvider(this);
         if (editingEntry != null)
         {
             tbOreClass.setText(String.valueOf(editingEntry.oreClass));
         }
-        tbOreClass.setValidityProvider(this);
 
         itemDisplays = new ItemDisplay[9];
         for (int i = 0; i < itemDisplays.length; i++)
@@ -63,8 +65,6 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
             addControl(itemDisplays[i]);
         }
         updateItemDisplays();
-
-        updateButton(tbOreClass.hasValidText());
     }
 
     private void updateItemDisplays()
@@ -107,17 +107,6 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
         }
     }
 
-    private void updateButton(boolean tbValidity)
-    {
-        if (editingEntry == null)
-        {
-            btnCreate.setEnabled(tbValidity && itemDisplay.getItemStack() != null);
-        } else
-        {
-            btnEdit.setEnabled(tbValidity && itemDisplay.getItemStack() != null);
-        }
-    }
-
     @Override
     public String checkValidity(TextBox tb)
     {
@@ -129,7 +118,6 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
             message = "Enter a value.";
         }
 
-        updateButton(message == null);
         updateItemDisplays();
 
         return message;
@@ -140,6 +128,5 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
     {
         if (window.getSelectedStack() != null)
             itemDisplay.setItemStack(window.getSelectedStack());
-        updateButton(tbOreClass.hasValidText());
     }
 }

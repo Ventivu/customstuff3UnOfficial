@@ -1,13 +1,14 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.ingame.gui.control.Button;
-import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.ControlContainer;
+import com.google.common.collect.Lists;
+import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.lib.Textures;
 import org.lwjgl.opengl.GL11;
 
-public abstract class Window extends ControlContainer
+import java.util.List;
+
+public abstract class Window extends ControlContainer implements IValueChangedListener
 {
     protected static final int BACK = 1;
     protected static final int CANCEL = 2;
@@ -31,6 +32,8 @@ public abstract class Window extends ControlContainer
     private final int usedControls;
 
     private String title;
+
+    private List<IValidityControl> validityControls = Lists.newArrayList();
 
     public Window(int width, int height)
     {
@@ -61,6 +64,7 @@ public abstract class Window extends ControlContainer
     public void init()
     {
         controls.clear();
+        validityControls.clear();
 
         if ((usedControls & BACK) == BACK)
         {
@@ -105,6 +109,19 @@ public abstract class Window extends ControlContainer
     }
 
     @Override
+    public void addControl(Control c)
+    {
+        if (c instanceof IValidityControl)
+        {
+            IValidityControl vc = (IValidityControl) c;
+            validityControls.add(vc);
+            vc.setValueChangedListener(this);
+        }
+
+        super.addControl(c);
+    }
+
+    @Override
     protected void controlClicked(Control c, int mouseX, int mouseY, int button)
     {
         if (button == 0)
@@ -120,10 +137,29 @@ public abstract class Window extends ControlContainer
     }
 
     @Override
+    public void valueChanged(Control c)
+    {
+        boolean allValidValues = true;
+        for (int i = 0; i < validityControls.size(); i++)
+        {
+            if (!validityControls.get(i).hasValidValue())
+            {
+                allValidValues = false;
+                break;
+            }
+        }
+
+        if (btnCreate != null)
+            btnCreate.setEnabled(allValidValues);
+
+        if (btnEdit != null)
+            btnEdit.setEnabled(allValidValues);
+    }
+
+    @Override
     public void draw(int mouseX, int mouseY)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
 
         mc.renderEngine.bindTexture(Textures.BG);
 

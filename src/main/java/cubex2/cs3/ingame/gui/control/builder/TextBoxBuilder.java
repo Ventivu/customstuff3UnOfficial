@@ -8,6 +8,7 @@ public class TextBoxBuilder extends ControlBuilder<TextBox>
     public TextBoxBuilder(ControlContainer c)
     {
         super(c);
+        height = 15;
     }
 
     @Override

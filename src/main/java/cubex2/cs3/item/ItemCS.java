@@ -8,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -151,5 +152,11 @@ public class ItemCS extends Item
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced)
     {
         wrappedItem.addInformation(stack, player, list, advanced);
+    }
+
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack)
+    {
+        return wrappedItem.getItemUseAction(stack);
     }
 }

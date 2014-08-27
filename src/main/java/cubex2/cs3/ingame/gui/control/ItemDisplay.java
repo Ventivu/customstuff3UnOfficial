@@ -1,5 +1,6 @@
 package cubex2.cs3.ingame.gui.control;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
 import cubex2.cs3.ingame.gui.GuiBase;
@@ -7,6 +8,7 @@ import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.GuiHelper;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.OreDictionary;
@@ -15,7 +17,7 @@ import org.lwjgl.opengl.GL12;
 
 import java.util.List;
 
-public class ItemDisplay extends Control
+public class ItemDisplay extends ValidityControl<ItemDisplay>
 {
     private ItemStack originStack;
     private ItemStack currentRenderStack;
@@ -48,6 +50,8 @@ public class ItemDisplay extends Control
     {
         showIdAndDamageValue = true;
     }
+
+
     public void setStackSize(int stackSize)
     {
         if (originStack != null)
@@ -59,12 +63,13 @@ public class ItemDisplay extends Control
                 {
                     renderStack.stackSize = originStack.stackSize;
                 }
-            }
-            else
+            } else
             {
                 currentRenderStack.stackSize = originStack.stackSize;
             }
         }
+
+        valueChanged();
     }
 
     public ItemStack getItemStack()
@@ -79,6 +84,7 @@ public class ItemDisplay extends Control
             originStack = null;
             currentRenderStack = null;
             renderStacks = null;
+            valueChanged();
             return;
         }
         originStack = stack;
@@ -110,6 +116,8 @@ public class ItemDisplay extends Control
                 currentRenderStack.setItemDamage(0);
             }
         }
+
+        valueChanged();
     }
 
     @Override

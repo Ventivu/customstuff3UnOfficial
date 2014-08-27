@@ -3,10 +3,12 @@ package cubex2.cs3.item.attributes;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
+import cubex2.cs3.ingame.gui.WindowEditUsingAction;
 import cubex2.cs3.ingame.gui.item.*;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.EnumAction;
 import org.mozilla.javascript.Script;
 
 public class ItemAttributes extends AttributeContainer
@@ -23,6 +25,7 @@ public class ItemAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditMaxStack.class)
     public int maxStack = 64;
 
+    @Attribute(windowClass = WindowEditInteger.class)
     public int maxUsingDuration = 0;
 
     @Attribute(windowClass = WindowEditFull3D.class)
@@ -33,6 +36,9 @@ public class ItemAttributes extends AttributeContainer
 
     @Attribute(windowClass = WindowEditCreativeTab.class)
     public CreativeTabs creativeTab = CreativeTabs.tabAllSearch;
+
+    @Attribute(windowClass = WindowEditUsingAction.class)
+    public EnumAction usingAction = EnumAction.none;
 
     @Attribute(windowClass = WindowEditScript.class)
     public ScriptWrapper onRightClick = null;

@@ -3,6 +3,7 @@ package cubex2.cs3.ingame.gui.control;
 import com.google.common.collect.Lists;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.control.builder.*;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.Collections;
 import java.util.List;
@@ -178,9 +179,9 @@ public abstract class ControlContainer extends Control
         return new TextBoxBuilder(this);
     }
 
-    public DropBoxBuilder dropBox(String[] values)
+    public <T> DropBoxBuilder<T> dropBox(T[] values)
     {
-        return new DropBoxBuilder(values, this);
+        return new DropBoxBuilder<T>(values, this);
     }
 
     public ButtonBuilder button(String text)
@@ -216,5 +217,10 @@ public abstract class ControlContainer extends Control
     public TextFieldBuilder textField()
     {
         return new TextFieldBuilder(this);
+    }
+
+    public PictureBoxBuilder pictureBox(ResourceLocation texture, int u, int v)
+    {
+        return new PictureBoxBuilder(texture, u, v, this);
     }
 }

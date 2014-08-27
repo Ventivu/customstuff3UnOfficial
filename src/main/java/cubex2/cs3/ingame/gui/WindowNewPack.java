@@ -60,7 +60,7 @@ public class WindowNewPack extends Window implements IValidityProvider
     {
         super.keyTyped(c, key);
 
-        btnCreate.setEnabled(tbId.hasValidText() && tbName.hasValidText());
+        btnCreate.setEnabled(tbId.hasValidValue() && tbName.hasValidValue());
     }
 
     @Override

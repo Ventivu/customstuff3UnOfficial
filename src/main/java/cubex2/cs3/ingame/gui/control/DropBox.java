@@ -6,27 +6,34 @@ import cubex2.cs3.util.GuiHelper;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.util.Rectangle;
 
-public class DropBox extends Control
+public class DropBox<T> extends Control
 {
-    private final String[] values;
-    private String selectedValue = null;
+    private final T[] values;
+    private T selectedValue = null;
     private boolean isExpanded = false;
 
     private int offset = 0;
     private int maxShowedValues = 6;
 
-    public DropBox(String[] values, int x, int y, int width, int height, Control parent)
+    private IStringProvider<T> stringProvider;
+
+    public DropBox(T[] values, int x, int y, int width, int height, Control parent)
     {
         super(x, y, width, height, parent);
         this.values = values;
     }
 
-    public void setSelectedValue(String value)
+    public void setStringProvider(IStringProvider<T> provider)
+    {
+        stringProvider = provider;
+    }
+
+    public void setSelectedValue(T value)
     {
         selectedValue = value;
     }
 
-    public String getSelectedValue()
+    public T getSelectedValue()
     {
         return selectedValue;
     }
@@ -49,7 +56,7 @@ public class DropBox extends Control
 
         if (selectedValue != null)
         {
-            mc.fontRenderer.drawString(selectedValue, rect.getX() + 3, rect.getY() + 3, Color.BLACK);
+            mc.fontRenderer.drawString(getTextToDraw(selectedValue), rect.getX() + 3, rect.getY() + 3, Color.BLACK);
         }
     }
 
@@ -69,9 +76,14 @@ public class DropBox extends Control
                 int borderColor = rect.contains(mouseX, mouseY) ? Color.WHITE : Color.DARK_GREY;
                 GuiHelper.drawOutlinedRect(rect, borderColor, Color.LIGHT_GREY);
 
-                mc.fontRenderer.drawString(values[index], rx + 3, ry + 3, Color.BLACK);
+                mc.fontRenderer.drawString(getTextToDraw(values[index]), rx + 3, ry + 3, Color.BLACK);
             }
         }
+    }
+
+    private String getTextToDraw(T value)
+    {
+        return stringProvider == null ? value.toString() : stringProvider.getStringFor(value);
     }
 
     @Override

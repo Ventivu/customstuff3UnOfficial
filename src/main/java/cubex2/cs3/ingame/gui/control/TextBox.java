@@ -6,10 +6,11 @@ import cubex2.cs3.util.GuiHelper;
 import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.util.Rectangle;
 
-public class TextBox extends Control
+public class TextBox extends Control implements IValidityControl
 {
     private GuiTextField textField;
     private IValidityProvider validityProvider;
+    private IValueChangedListener valueChangedListener;
     private String validityMessage;
     private boolean isValid = true;
     private Rectangle validityRect;
@@ -32,22 +33,26 @@ public class TextBox extends Control
     public void setText(String value)
     {
         textField.setText(value);
-        if (validityProvider != null)
-        {
-            validityMessage = validityProvider.checkValidity(this);
-            isValid = validityMessage == null;
-        }
+        valueChanged();
     }
 
-    public boolean hasValidText()
+    @Override
+    public boolean hasValidValue()
     {
         return isValid;
+    }
+
+    @Override
+    public void setValueChangedListener(IValueChangedListener listener)
+    {
+        valueChangedListener = listener;
     }
 
     public void setValidityProvider(IValidityProvider validityProvider)
     {
         this.validityProvider = validityProvider;
     }
+
 
     public void setMaxLength(int value)
     {
@@ -75,17 +80,28 @@ public class TextBox extends Control
         {
             setText(getText().substring(0, getText().length() - 1));
         }
-        if (validityProvider != null)
-        {
-            validityMessage = validityProvider.checkValidity(this);
-            isValid = validityMessage == null;
-        }
+
+        valueChanged();
     }
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button, boolean intoControl)
     {
         textField.mouseClicked(mouseX, mouseY, button);
+    }
+
+    private void valueChanged()
+    {
+        if (validityProvider != null)
+        {
+            validityMessage = validityProvider.checkValidity(this);
+            isValid = validityMessage == null;
+        }
+
+        if (valueChangedListener != null)
+        {
+            valueChangedListener.valueChanged(this);
+        }
     }
 
     @Override
