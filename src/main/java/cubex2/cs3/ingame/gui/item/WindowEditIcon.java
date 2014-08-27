@@ -8,6 +8,7 @@ import cubex2.cs3.ingame.gui.control.InfoButton;
 import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.Color;
+import cubex2.cs3.lib.Strings;
 import cubex2.cs3.util.GuiHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -35,15 +36,7 @@ public class WindowEditIcon extends Window
         super.init();
 
         lblIcon = label("Icon name:").at(7, 7).add();
-        infoButton = infoButton("The format is [modId]:[texture]|" +
-                "[modId] is the mod's ID in all lowercase|" +
-                "  this has to match the name of folder|" +
-                "  located in the assets folder of the mod|" +
-                "[texture] is name of the file without \".png\"||" +
-                "Example: If the texture is located at|" +
-                " \"assets/mymod/textures/items/myItem.png\"|" +
-                "you have to enter|" +
-                " \"mymod:myItem\"").rightTo(lblIcon).add();
+        infoButton = infoButton(Strings.INFO_TEXURE_FILE).rightTo(lblIcon).add();
         textBox = textBox().below(lblIcon).height(16).fillWidth(7).add();
         textBox.setMaxLength(256);
 

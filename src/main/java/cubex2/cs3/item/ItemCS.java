@@ -1,5 +1,6 @@
 package cubex2.cs3.item;
 
+import com.google.common.collect.Multimap;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedItem;
 import net.minecraft.block.Block;
@@ -158,5 +159,23 @@ public class ItemCS extends Item
     public EnumAction getItemUseAction(ItemStack stack)
     {
         return wrappedItem.getItemUseAction(stack);
+    }
+
+    @Override
+    public int getMaxDamage()
+    {
+        return wrappedItem.getMaxDamage();
+    }
+
+    @Override
+    public boolean isDamageable()
+    {
+        return wrappedItem.isDamageable();
+    }
+
+    @Override
+    public Multimap getAttributeModifiers(ItemStack stack)
+    {
+        return wrappedItem.getAttributeModifiers(super.getAttributeModifiers(stack), field_111210_e);
     }
 }

@@ -28,6 +28,12 @@ public class ItemAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditInteger.class)
     public int maxUsingDuration = 0;
 
+    @Attribute(windowClass = WindowEditInteger.class)
+    public int damage = 0;
+
+    @Attribute(windowClass = WindowEditInteger.class)
+    public int maxDamage = 0;
+
     @Attribute(windowClass = WindowEditFull3D.class)
     public boolean full3d = false;
 

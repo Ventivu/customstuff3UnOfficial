@@ -19,8 +19,8 @@ public abstract class Control
 
     public int x;
     public int y;
-    protected int width;
-    protected int height;
+    public int width;
+    public int height;
     private final ScrollContainer scrollContainer;
 
     /**

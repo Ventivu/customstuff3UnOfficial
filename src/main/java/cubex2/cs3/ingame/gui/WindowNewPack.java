@@ -7,6 +7,7 @@ import cubex2.cs3.ingame.gui.control.IValidityProvider;
 import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
+import cubex2.cs3.lib.Strings;
 
 public class WindowNewPack extends Window implements IValidityProvider
 {
@@ -33,7 +34,7 @@ public class WindowNewPack extends Window implements IValidityProvider
         tbName.setValidityProvider(this);
 
         lblId = label("ID:").below(tbName).add();
-        infoButton("This has to be unique and|is used to reference items,|blocks and textures.").rightTo(lblId).add();
+        infoButton(Strings.INFO_NEW_PACK).rightTo(lblId).add();
         tbId = textBox().below(lblId).fillWidth(7).height(17).add();
         tbId.setValidityProvider(this);
 

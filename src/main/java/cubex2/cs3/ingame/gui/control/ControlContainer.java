@@ -59,8 +59,14 @@ public abstract class ControlContainer extends Control
 
         for (int i = 0; i < controls.size(); i++)
         {
+            adjustSize(controls.get(i));
             controls.get(i).updateRect();
         }
+    }
+
+    protected void adjustSize(Control c)
+    {
+
     }
 
     @Override

@@ -139,6 +139,11 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
     @Override
     public void valueChanged(Control c)
     {
+        updateValidation();
+    }
+
+    protected void updateValidation()
+    {
         boolean allValidValues = true;
         for (int i = 0; i < validityControls.size(); i++)
         {
@@ -155,6 +160,7 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
         if (btnEdit != null)
             btnEdit.setEnabled(allValidValues);
     }
+
 
     @Override
     public void draw(int mouseX, int mouseY)

@@ -33,6 +33,7 @@ public class WindowEditItem extends Window implements IListBoxItemClickListener<
         desc.elementHeight = 22;
         desc.elements = Lists.newArrayList(wrappedItem.container.getAttributeFieldNames());
         desc.canSelect = false;
+        desc.sorted = true;
         listBox = new ListBox<String>(desc, this);
         addControl(listBox);
     }

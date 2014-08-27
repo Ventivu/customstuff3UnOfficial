@@ -52,6 +52,8 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
         }
 
         pbArrow = pictureBox(Textures.CONTROLS, 218, 18).at(55 + 18 + 4, 25).size(22, 15).add();
+
+        updateValidation();
     }
 
     @Override

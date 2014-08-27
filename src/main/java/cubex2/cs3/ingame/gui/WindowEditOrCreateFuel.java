@@ -4,6 +4,7 @@ import cubex2.cs3.common.Fuel;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.TextBoxValidators;
+import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
 
 public class WindowEditOrCreateFuel extends Window implements IWindowClosedListener<WindowSelectItem>
@@ -40,7 +41,7 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
         tbDuration = textBox().below(lblDuration).fillWidth(7).height(20).add();
 
         itemDisplay.setDrawSlotBackground();
-        itemDisplay.enableNullStackCheck();
+        itemDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
         if (editingFuel != null)
             itemDisplay.setItemStack(editingFuel.stack);
 

@@ -1,5 +1,6 @@
 package cubex2.cs3.common;
 
+import com.google.common.collect.Multimap;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cubex2.cs3.api.scripting.ITriggerData;
@@ -14,6 +15,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -24,6 +27,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 public class WrappedItem extends BaseContent
 {
@@ -323,5 +327,24 @@ public class WrappedItem extends BaseContent
     public EnumAction getItemUseAction(ItemStack stack)
     {
         return container.usingAction;
+    }
+
+    public boolean isDamageable()
+    {
+        return container.maxDamage > 0;
+    }
+
+    public int getMaxDamage()
+    {
+        return container.maxDamage;
+    }
+
+    public Multimap getAttributeModifiers(Multimap multimap, UUID uuid)
+    {
+        if (container.damage >= 1)
+        {
+            multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(uuid, "Weapon modifier", (double) container.damage, 0));
+        }
+        return multimap;
     }
 }

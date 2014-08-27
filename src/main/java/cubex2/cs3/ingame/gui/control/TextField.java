@@ -425,12 +425,6 @@ public class TextField extends Control
     }
 
     @Override
-    public void updateRect()
-    {
-        super.updateRect();
-    }
-
-    @Override
     public void mouseClicked(int mouseX, int mouseY, int button, boolean intoControl)
     {
         if (intoControl)
@@ -698,7 +692,8 @@ public class TextField extends Control
         counter++;
         if (GuiBase.dWheel != 0)
         {
-            verticalScroll = MathHelper.clamp_int(verticalScroll - GuiBase.dWheel / 120, 0, lines.size() - linesToDisplay);
+            int maxVertScroll =  Math.max(0, lines.size() - linesToDisplay);
+            verticalScroll = MathHelper.clamp_int(verticalScroll - GuiBase.dWheel / 120, 0, maxVertScroll);
         }
     }
 
