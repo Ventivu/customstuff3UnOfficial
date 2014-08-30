@@ -80,11 +80,11 @@ public class ShapelessRecipe extends BaseContent
         }
         compound.setTag("Input", tagList);
 
-        compound.setTag("Result", ItemStackHelper.writeToNBT(result));
+        compound.setTag("Result", ItemStackHelper.writeToNBTNamed(result));
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public boolean readFromNBT(NBTTagCompound compound)
     {
         NBTTagList tagList = compound.getTagList("Input", 10);
         input = new RecipeInput[tagList.tagCount()];
@@ -92,8 +92,13 @@ public class ShapelessRecipe extends BaseContent
         {
             NBTTagCompound compound1 = tagList.getCompoundTagAt(i);
             input[i] = RecipeInput.loadFromNBT(compound1);
+            if (input[i].getInput() == null)
+            {
+                return false;
+            }
         }
 
-        result = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Result"));
+        result = ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Result"));
+        return result != null;
     }
 }

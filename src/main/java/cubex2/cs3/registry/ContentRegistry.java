@@ -3,6 +3,8 @@ package cubex2.cs3.registry;
 import com.google.common.collect.Lists;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.Content;
+import cubex2.cs3.util.PostponableTask;
+import cubex2.cs3.util.PostponeHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -57,10 +59,22 @@ public abstract class ContentRegistry<T extends Content>
         NBTTagList contentTagList = compound.getTagList("ContentList", 10);
         for (int i = 0; i < contentTagList.tagCount(); i++)
         {
-            NBTTagCompound contentCompound = contentTagList.getCompoundTagAt(i);
-            T data = newDataInstance();
-            data.readFromNBT(contentCompound);
-            data.apply();
+            final NBTTagCompound contentCompound = contentTagList.getCompoundTagAt(i);
+            final T data = newDataInstance();
+
+            PostponeHandler.executeTask(new PostponableTask()
+            {
+                @Override
+                protected boolean doWork()
+                {
+                    boolean result = data.readFromNBT(contentCompound);
+                    if (result)
+                    {
+                        data.apply();
+                    }
+                    return result;
+                }
+            });
         }
     }
 

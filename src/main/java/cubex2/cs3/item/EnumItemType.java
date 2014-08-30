@@ -2,6 +2,7 @@ package cubex2.cs3.item;
 
 import com.google.common.collect.Maps;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cubex2.cs3.common.BaseContentPack;
@@ -35,6 +36,7 @@ public enum EnumItemType
         {
             Item item = itemClass.getConstructor(WrappedItem.class).newInstance(wrappedItem);
             GameRegistry.registerItem(item, wrappedItem.getName());
+            System.err.println("Item ID: " +  GameData.getItemRegistry().getId(item));
 
             if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
             {

@@ -24,12 +24,12 @@ public class RecipeInput
 
     public boolean isOreClass()
     {
-        return stack == null;
+        return oreClass != null;
     }
 
     public Object getInput()
     {
-        return stack != null ? stack : oreClass;
+        return isOreClass() ? oreClass : stack;
     }
 
     public List<ItemStack> getStacks()
@@ -53,7 +53,7 @@ public class RecipeInput
             compound.setString("OreClass", oreClass);
         } else
         {
-            compound.setTag("Stack", ItemStackHelper.writeToNBT(stack));
+            compound.setTag("Stack", ItemStackHelper.writeToNBTNamed(stack));
         }
     }
 
@@ -70,7 +70,7 @@ public class RecipeInput
             return new RecipeInput(compound.getString("OreClass"));
         } else
         {
-            return new RecipeInput(ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Stack")));
+            return new RecipeInput(ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Stack")));
         }
     }
 }

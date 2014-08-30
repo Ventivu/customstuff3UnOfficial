@@ -221,10 +221,39 @@ public class ItemStackHelper
         return itemEqual && damageEqual;
     }
 
-    public static NBTTagCompound writeToNBT(ItemStack stack)
+    public static void writeToNBTNamed(ItemStack stack, NBTTagCompound nbt)
+    {
+        nbt.setString("ItemName", Item.itemRegistry.getNameForObject(stack.getItem()));
+        nbt.setByte("Count", (byte)stack.stackSize);
+        nbt.setShort("Damage", (short)stack.getItemDamage());
+
+        if (stack.stackTagCompound != null)
+        {
+            nbt.setTag("tag", stack.stackTagCompound);
+        }
+    }
+
+    public static NBTTagCompound writeToNBTNamed(ItemStack stack)
     {
         NBTTagCompound nbt = new NBTTagCompound();
-        stack.writeToNBT(nbt);
+        writeToNBTNamed(stack, nbt);
         return nbt;
+    }
+
+    public static ItemStack readFromNBTNamed(NBTTagCompound compound)
+    {
+        ItemStack stack = new ItemStack((Item)null);
+        stack.func_150996_a(GameData.getItemRegistry().getObject(compound.getString("ItemName")));
+        if (stack.getItem() == null)
+            return null;
+        stack.stackSize = compound.getByte("Count");
+        stack.setItemDamage(compound.getShort("Damage"));
+
+        if (compound.hasKey("tag", 10))
+        {
+            stack.stackTagCompound = compound.getCompoundTag("tag");
+        }
+
+        return stack;
     }
 }

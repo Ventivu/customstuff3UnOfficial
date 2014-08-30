@@ -26,7 +26,7 @@ public class WindowEditContainerItem extends Window implements IWindowClosedList
     {
         super.init();
 
-        itemDisplay = itemDisplay().at(7, 7).add();
+        itemDisplay = itemDisplay().y(31).centerHor().add();
         itemDisplay.setDrawSlotBackground();
         itemDisplay.setItemStack(wrappedItem.container.containerItem);
     }

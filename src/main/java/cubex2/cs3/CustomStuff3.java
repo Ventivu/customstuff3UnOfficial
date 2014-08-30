@@ -13,6 +13,7 @@ import cubex2.cs3.basic.ContentPackLoader;
 import cubex2.cs3.ingame.IngameContentPackLoader;
 import cubex2.cs3.lib.Directories;
 import cubex2.cs3.lib.ModInfo;
+import cubex2.cs3.util.PostponeHandler;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = ModInfo.ID, name = ModInfo.NAME, version = ModInfo.VERSION, dependencies = ModInfo.DEPENDENCIES)
@@ -50,7 +51,7 @@ public class CustomStuff3
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-
+        PostponeHandler.executePostponedTasks();
     }
 
     public static void loadPack(ICSMod pack)

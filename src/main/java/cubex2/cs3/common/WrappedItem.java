@@ -111,7 +111,7 @@ public class WrappedItem extends BaseContent
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public boolean readFromNBT(NBTTagCompound compound)
     {
         name = compound.getString("Name");
         type = EnumItemType.get(compound.getString("Type"));
@@ -120,6 +120,8 @@ public class WrappedItem extends BaseContent
 
         container = type.createAttributeContainer(this);
         container.loadFromNBT(compound.getCompoundTag("Attributes"));
+
+        return true;
     }
 
     /* Item methods */

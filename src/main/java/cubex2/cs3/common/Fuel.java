@@ -31,14 +31,16 @@ public class Fuel extends BaseContent
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
-        compound.setTag("Stack", ItemStackHelper.writeToNBT(stack));
+        compound.setTag("Stack", ItemStackHelper.writeToNBTNamed(stack));
         compound.setInteger("Duration", duration);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public boolean readFromNBT(NBTTagCompound compound)
     {
-        stack = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Stack"));
+        stack = ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Stack"));
         duration = compound.getInteger("Duration");
+
+        return stack != null;
     }
 }

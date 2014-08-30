@@ -40,13 +40,15 @@ public class OreDictionaryEntry extends BaseContent
     public void writeToNBT(NBTTagCompound compound)
     {
         compound.setString("OreClass", oreClass);
-        compound.setTag("Stack", ItemStackHelper.writeToNBT(stack));
+        compound.setTag("Stack", ItemStackHelper.writeToNBTNamed(stack));
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public boolean readFromNBT(NBTTagCompound compound)
     {
         oreClass = compound.getString("OreClass");
-        stack = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Stack"));
+        stack = ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Stack"));
+
+        return stack != null;
     }
 }

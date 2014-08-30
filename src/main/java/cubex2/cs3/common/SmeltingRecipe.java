@@ -66,14 +66,16 @@ public class SmeltingRecipe extends BaseContent
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
-        compound.setTag("Input", ItemStackHelper.writeToNBT(input));
-        compound.setTag("Result", ItemStackHelper.writeToNBT(result));
+        compound.setTag("Input", ItemStackHelper.writeToNBTNamed(input));
+        compound.setTag("Result", ItemStackHelper.writeToNBTNamed(result));
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public boolean readFromNBT(NBTTagCompound compound)
     {
-        input = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Input"));
-        result = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Result"));
+        input = ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Input"));
+        result = ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Result"));
+
+        return input != null && result != null;
     }
 }

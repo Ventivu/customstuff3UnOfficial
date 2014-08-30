@@ -19,6 +19,8 @@ public class ShapedRecipe extends BaseContent
 
     private ShapedOreRecipe recipe;
 
+    private boolean postponed = false;
+
     public ShapedRecipe(BaseContentPack pack)
     {
         super(pack);
@@ -116,11 +118,11 @@ public class ShapedRecipe extends BaseContent
         }
         compound.setTag("Input", tagList);
 
-        compound.setTag("Result", ItemStackHelper.writeToNBT(result));
+        compound.setTag("Result", ItemStackHelper.writeToNBTNamed(result));
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public boolean readFromNBT(NBTTagCompound compound)
     {
         width = compound.getByte("Width");
         height = compound.getByte("Height");
@@ -132,8 +134,15 @@ public class ShapedRecipe extends BaseContent
             NBTTagCompound compound1 = tagList.getCompoundTagAt(i);
             int idx = compound1.getByte("Index");
             input[idx] = RecipeInput.loadFromNBT(compound1);
+            if (input[idx].getInput() == null)
+            {
+                return false;
+            }
         }
 
-        result = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Result"));
+        result = ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Result"));
+        return result != null;
+
+
     }
 }

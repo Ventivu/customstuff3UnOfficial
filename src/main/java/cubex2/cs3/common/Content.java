@@ -45,5 +45,5 @@ public interface Content
      *
      * @param compound
      */
-    void readFromNBT(NBTTagCompound compound);
+    boolean readFromNBT(NBTTagCompound compound);
 }
