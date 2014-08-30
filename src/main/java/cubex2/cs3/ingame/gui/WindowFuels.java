@@ -47,6 +47,9 @@ public class WindowFuels extends Window implements IListBoxItemClickListener<Fue
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY, int button)
     {
+        if (button != 0)
+            return;
+
         if (c == btnNew)
         {
             GuiBase.openWindow(new WindowEditOrCreateFuel(pack));

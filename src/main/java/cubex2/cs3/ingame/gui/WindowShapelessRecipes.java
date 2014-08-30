@@ -41,6 +41,9 @@ public class WindowShapelessRecipes extends Window implements IWindowClosedListe
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY, int button)
     {
+        if (button != 0)
+            return;
+
         if (c == btnNew)
         {
             GuiBase.openWindow(new WindowEditOrCreateShapelessRecipe(pack));

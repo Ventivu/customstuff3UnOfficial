@@ -145,15 +145,23 @@ public class ItemStackHelper
     {
         List<ItemStack> stacks = Lists.newArrayList();
 
-        for (Object o : GameData.itemRegistry.getKeys())
+        for (Object o : GameData.getItemRegistry().getKeys())
         {
-            Item item = (Item) GameData.itemRegistry.getObject(o);
+            Item item = (Item) GameData.getItemRegistry().getObject(o);
 
             List<ItemStack> itemStacks = Lists.newArrayList();
             if (item.getHasSubtypes())
             {
                 itemStacks.addAll(ItemStackHelper.getSubTypes(item));
                 if (wildCardStacks && itemStacks.size() > 1)
+                {
+                    itemStacks.add(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
+                }
+            }
+            else if (item.isDamageable())
+            {
+                itemStacks.add(new ItemStack(item, 1, 0));
+                if (wildCardStacks)
                 {
                     itemStacks.add(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
                 }

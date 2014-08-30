@@ -76,7 +76,14 @@ public class RecipeInputDisplay extends Control
                     List<ItemStack> subItems = Lists.newArrayList();
                     stack.getItem().getSubItems(stack.getItem(), null, subItems);
                     renderStacks.addAll(subItems);
-                } else
+                } else if (stack.isItemStackDamageable() && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        renderStacks.add(new ItemStack(stack.getItem(), 1, (int) (stack.getMaxDamage() * 0.25 * i)));
+                    }
+                }
+                else
                 {
                     renderStacks.add(stack);
                 }

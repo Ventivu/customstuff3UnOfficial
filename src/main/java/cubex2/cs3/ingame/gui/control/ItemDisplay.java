@@ -1,6 +1,5 @@
 package cubex2.cs3.ingame.gui.control;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
 import cubex2.cs3.ingame.gui.GuiBase;
@@ -8,7 +7,6 @@ import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.GuiHelper;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.OreDictionary;
@@ -106,6 +104,14 @@ public class ItemDisplay extends ValidityControl<ItemDisplay>
                     }
                     currentRenderStack = renderStacks.get(0);
                 }
+            } else if (stack.isItemStackDamageable() && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+            {
+                renderStacks = Lists.newArrayList();
+                for (int i = 0; i < 5; i++)
+                {
+                    renderStacks.add(new ItemStack(stack.getItem(), 1, (int) (stack.getMaxDamage() * 0.25 * i)));
+                }
+                currentRenderStack = renderStacks.get(0);
             } else
             {
                 renderStacks = null;

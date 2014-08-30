@@ -87,9 +87,19 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY, int button)
     {
+        if (button != 0 && !(c instanceof RecipeInputDisplay) && c != resultDisplay)
+            return;
+
         if (c == resultDisplay)
         {
-            GuiBase.openWindow(new WindowSelectItem(false), "result");
+            if (button == 0)
+            {
+                GuiBase.openWindow(new WindowSelectItem(false), "result");
+            }
+            else if (button == 1)
+            {
+                resultDisplay.setItemStack(null);
+            }
         } else if (c == btnCreate)
         {
             int[] minMax = getMinMax();
@@ -151,7 +161,14 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
 
             if (index != -1)
             {
-                GuiBase.openWindow(new WindowSelectRecipeInput(pack), "" + index);
+                if (button == 0)
+                {
+                    GuiBase.openWindow(new WindowSelectRecipeInput(pack), "" + index);
+                }
+                else if (button == 1)
+                {
+                    inputDisplays[index].setRecipeInput(null);
+                }
             } else
             {
                 super.controlClicked(c, mouseX, mouseY, button);

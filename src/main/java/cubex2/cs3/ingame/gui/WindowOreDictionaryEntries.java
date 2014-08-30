@@ -38,6 +38,9 @@ public class WindowOreDictionaryEntries extends Window implements IListBoxItemCl
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY, int button)
     {
+        if (button != 0)
+            return;
+
         if (c == btnNew)
         {
             GuiBase.openWindow(new WindowEditOrCreateOreDictEntry(pack));
