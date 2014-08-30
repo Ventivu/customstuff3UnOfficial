@@ -365,4 +365,9 @@ public class WrappedItem extends BaseContent
     {
         return container.anvilMaterial != null && ItemStackHelper.itemStackEqual(container.anvilMaterial, material);
     }
+
+    public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack)
+    {
+        return !container.leaveContainerItem;
+    }
 }

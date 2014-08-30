@@ -3,6 +3,7 @@ package cubex2.cs3.item.attributes;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
+import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.WindowEditUsingAction;
 import cubex2.cs3.ingame.gui.item.*;
 import cubex2.cs3.util.IconWrapper;
@@ -52,6 +53,9 @@ public class ItemAttributes extends AttributeContainer
 
     @Attribute(windowClass = WindowEditContainerItem.class)
     public ItemStack containerItem = null;
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public boolean leaveContainerItem = false;
 
     @Attribute(windowClass = WindowEditAnvilMaterial.class)
     public ItemStack anvilMaterial = null;

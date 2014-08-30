@@ -5,6 +5,7 @@ import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.IWindowClosedListener;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.WindowSelectItem;
+import cubex2.cs3.ingame.gui.control.CheckBox;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import net.minecraft.item.ItemStack;
@@ -14,6 +15,7 @@ public class WindowEditContainerItem extends Window implements IWindowClosedList
     private WrappedItem wrappedItem;
 
     private ItemDisplay itemDisplay;
+    private CheckBox checkBox;
 
     public WindowEditContainerItem(WrappedItem item)
     {
@@ -26,9 +28,15 @@ public class WindowEditContainerItem extends Window implements IWindowClosedList
     {
         super.init();
 
-        itemDisplay = itemDisplay().y(31).centerHor().add();
+        itemDisplay = itemDisplay().y(8).centerHor().add();
         itemDisplay.setDrawSlotBackground();
         itemDisplay.setItemStack(wrappedItem.container.containerItem);
+
+        checkBox = checkBox().below(itemDisplay, 5).x(7).add();
+        checkBox.setIsChecked(wrappedItem.container.leaveContainerItem);
+
+        label("Remain in crafting grid").rightTo(checkBox).add();
+
     }
 
     @Override
@@ -40,6 +48,7 @@ public class WindowEditContainerItem extends Window implements IWindowClosedList
         if (c == btnEdit)
         {
             wrappedItem.container.containerItem = itemDisplay.getItemStack();
+            wrappedItem.container.leaveContainerItem = checkBox.getIsChecked();
             wrappedItem.getPack().save();
 
             GuiBase.openPrevWindow();

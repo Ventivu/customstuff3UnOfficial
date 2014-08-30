@@ -191,9 +191,18 @@ public class ItemCS extends Item
         return wrappedItem.getContainerItem(stack);
     }
 
+
+    @Override
+    public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack)
+    {
+        return wrappedItem.doesContainerItemLeaveCraftingGrid(stack);
+    }
+
     @Override
     public boolean getIsRepairable(ItemStack stack, ItemStack material)
     {
         return wrappedItem.getIsRepairable(stack, material);
     }
+
+
 }
