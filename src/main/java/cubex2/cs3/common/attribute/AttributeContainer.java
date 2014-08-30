@@ -24,7 +24,7 @@ public class AttributeContainer
 
     public void loadFromNBT(NBTTagCompound compound)
     {
-        Field[] fields = getAttributeFields();
+        Field[] fields = getAttributeFields(ALL_ATTRIBUTES);
 
         try
         {
@@ -45,7 +45,7 @@ public class AttributeContainer
 
     public void writeToNBT(NBTTagCompound compound)
     {
-        Field[] fields = getAttributeFields();
+        Field[] fields = getAttributeFields(ALL_ATTRIBUTES);
 
         try
         {
@@ -65,26 +65,18 @@ public class AttributeContainer
         }
     }
 
-    private Field[] getAttributeFields()
+    private Field[] getAttributeFields(Predicate<Field> predicate)
     {
         Iterator<Field> fields = Iterators.forArray(getClass().getFields());
-        fields = Iterators.filter(fields, new Predicate<Field>()
-        {
-            @Override
-            public boolean apply(Field input)
-            {
-                return input.isAnnotationPresent(Attribute.class);
-            }
-        });
+        fields = Iterators.filter(fields, predicate);
         return Iterators.toArray(fields, Field.class);
     }
-
 
     private void createBridges()
     {
         try
         {
-            for (Field field : getAttributeFields())
+            for (Field field : getAttributeFields(ALL_ATTRIBUTES))
             {
                 bridgeMap.put(field, getBridge(field));
             }
@@ -110,9 +102,14 @@ public class AttributeContainer
         return bridge;
     }
 
+    /**
+     * Gets the names of the attribute fields that have 'hasOwnWindow' set to true.
+     *
+     * @return The names of the fields.
+     */
     public String[] getAttributeFieldNames()
     {
-        Field[] fields = getAttributeFields();
+        Field[] fields = getAttributeFields(ATTRIBUTE_WITH_OWN_WINDOW);
         String[] names = new String[fields.length];
         for (int i = 0; i < names.length; i++)
         {
@@ -151,10 +148,28 @@ public class AttributeContainer
     {
         try
         {
-            getClass().getField(attributeName).set(this,value);
+            getClass().getField(attributeName).set(this, value);
         } catch (Exception e)
         {
             e.printStackTrace();
         }
     }
+
+    private static final Predicate<Field> ALL_ATTRIBUTES = new Predicate<Field>()
+    {
+        @Override
+        public boolean apply(Field input)
+        {
+            return input.isAnnotationPresent(Attribute.class);
+        }
+    };
+
+    private static final Predicate<Field> ATTRIBUTE_WITH_OWN_WINDOW = new Predicate<Field>()
+    {
+        @Override
+        public boolean apply(Field input)
+        {
+            return input.isAnnotationPresent(Attribute.class) && input.getAnnotation(Attribute.class).hasOwnWindow();
+        }
+    };
 }

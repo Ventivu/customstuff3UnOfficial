@@ -13,6 +13,13 @@ public @interface Attribute
     Class<? extends Window> windowClass();
 
     /**
+     * Set this to false if this attribute hasn't its own window, for example when it's edited with the same window as another attribute.
+     *
+     * @return True if it has its own window, false otherwise.
+     */
+    boolean hasOwnWindow() default true;
+
+    /**
      * Additional information that is passed to the AttributeJsHandler
      *
      * @return The additional information
