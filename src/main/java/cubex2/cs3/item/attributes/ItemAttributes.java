@@ -53,6 +53,9 @@ public class ItemAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditContainerItem.class)
     public ItemStack containerItem = null;
 
+    @Attribute(windowClass = WindowEditAnvilMaterial.class)
+    public ItemStack anvilMaterial = null;
+
     @Attribute(windowClass = WindowEditScript.class)
     public ScriptWrapper onRightClick = null;
     @Attribute(windowClass = WindowEditScript.class)

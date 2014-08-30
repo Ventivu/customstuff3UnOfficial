@@ -9,6 +9,7 @@ import cubex2.cs3.common.scripting.TriggerData;
 import cubex2.cs3.item.EnumItemType;
 import cubex2.cs3.item.attributes.ItemAttributes;
 import cubex2.cs3.util.GeneralHelper;
+import cubex2.cs3.util.ItemStackHelper;
 import cubex2.cs3.util.JavaScriptHelper;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -358,5 +359,10 @@ public class WrappedItem extends BaseContent
     public ItemStack getContainerItem(ItemStack stack)
     {
         return container.containerItem.copy();
+    }
+
+    public boolean getIsRepairable(ItemStack stack, ItemStack material)
+    {
+        return container.anvilMaterial != null && ItemStackHelper.itemStackEqual(container.anvilMaterial, material);
     }
 }

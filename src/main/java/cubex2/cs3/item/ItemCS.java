@@ -190,4 +190,10 @@ public class ItemCS extends Item
     {
         return wrappedItem.getContainerItem(stack);
     }
+
+    @Override
+    public boolean getIsRepairable(ItemStack stack, ItemStack material)
+    {
+        return wrappedItem.getIsRepairable(stack, material);
+    }
 }
