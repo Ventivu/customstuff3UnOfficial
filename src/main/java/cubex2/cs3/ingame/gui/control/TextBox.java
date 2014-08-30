@@ -107,12 +107,14 @@ public class TextBox extends Control implements IValidityControl
     @Override
     public void draw(int mouseX, int mouseY)
     {
-        textField.drawTextBox();
         if (!isValid)
         {
             mc.renderEngine.bindTexture(Textures.CONTROLS);
+            zLevel += 10.0f;
             drawTexturedModalRect(validityRect.getX(), validityRect.getY(), 200, 72, validityRect.getWidth(), validityRect.getHeight());
+            zLevel -= 10.0f;
         }
+        textField.drawTextBox();
     }
 
     @Override
