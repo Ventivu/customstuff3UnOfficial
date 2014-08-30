@@ -9,6 +9,7 @@ import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemStack;
 import org.mozilla.javascript.Script;
 
 public class ItemAttributes extends AttributeContainer
@@ -45,6 +46,12 @@ public class ItemAttributes extends AttributeContainer
 
     @Attribute(windowClass = WindowEditUsingAction.class)
     public EnumAction usingAction = EnumAction.none;
+
+    @Attribute(windowClass = WindowEditRenderScale.class)
+    public float renderScale = 1.0f;
+
+    @Attribute(windowClass = WindowEditContainerItem.class)
+    public ItemStack containerItem = null;
 
     @Attribute(windowClass = WindowEditScript.class)
     public ScriptWrapper onRightClick = null;

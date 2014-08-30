@@ -178,4 +178,16 @@ public class ItemCS extends Item
     {
         return wrappedItem.getAttributeModifiers(super.getAttributeModifiers(stack), field_111210_e);
     }
+
+    @Override
+    public boolean hasContainerItem(ItemStack stack)
+    {
+        return wrappedItem.hasContainerItem(stack);
+    }
+
+    @Override
+    public ItemStack getContainerItem(ItemStack stack)
+    {
+        return wrappedItem.getContainerItem(stack);
+    }
 }

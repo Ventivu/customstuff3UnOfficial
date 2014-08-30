@@ -347,4 +347,14 @@ public class WrappedItem extends BaseContent
         }
         return multimap;
     }
+
+    public boolean hasContainerItem(ItemStack stack)
+    {
+        return container.containerItem != null;
+    }
+
+    public ItemStack getContainerItem(ItemStack stack)
+    {
+        return container.containerItem.copy();
+    }
 }

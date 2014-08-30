@@ -6,6 +6,7 @@ import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemStack;
 
 import java.util.Map;
 
@@ -36,5 +37,7 @@ public abstract class DefaultAttributeBridges
         register(CreativeTabs.class, CreativeTabBridge.class);
         register(ScriptWrapper.class, ScriptWrapperBridge.class);
         register(EnumAction.class, EnumActionBridge.class);
+        register(float.class, FloatBridge.class);
+        register(ItemStack.class, ItemStackBridge.class);
     }
 }

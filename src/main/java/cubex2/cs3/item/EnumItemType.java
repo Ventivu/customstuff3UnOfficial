@@ -1,12 +1,16 @@
 package cubex2.cs3.item;
 
 import com.google.common.collect.Maps;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedItem;
 import cubex2.cs3.common.attribute.AttributeContainer;
+import cubex2.cs3.common.client.renderer.CSItemRenderer;
 import cubex2.cs3.item.attributes.ItemAttributes;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 import java.util.Map;
 
@@ -31,6 +35,12 @@ public enum EnumItemType
         {
             Item item = itemClass.getConstructor(WrappedItem.class).newInstance(wrappedItem);
             GameRegistry.registerItem(item, wrappedItem.getName());
+
+            if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+            {
+                MinecraftForgeClient.registerItemRenderer(item, new CSItemRenderer(wrappedItem));
+            }
+
             return item;
         } catch (Exception e)
         {
