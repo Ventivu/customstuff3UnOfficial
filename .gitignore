@@ -1,6 +1,6 @@
 .gradle
-build
-eclipse
-out
+/build
+/eclipse
+/out
 CustomStuff3.iws
-lib
+/lib
