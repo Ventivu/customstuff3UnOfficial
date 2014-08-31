@@ -6,11 +6,9 @@ import java.util.List;
 
 public class PostponeHandler
 {
-    private static final PostponeHandler instance = new PostponeHandler();
-
     private List<PostponableTask> postponedTasks = Lists.newArrayList();
 
-    private PostponeHandler()
+    public PostponeHandler()
     {
 
     }
@@ -22,21 +20,21 @@ public class PostponeHandler
      *
      * @return true if task has been executed successfully, false otherwise
      */
-    public static boolean executeTask(PostponableTask task)
+    public boolean executeTask(PostponableTask task)
     {
         boolean result = task.doWork();
 
         if (!result)
         {
-            instance.postponedTasks.add(task);
+            postponedTasks.add(task);
         }
 
         return result;
     }
 
-    public static void executePostponedTasks()
+    public void executePostponedTasks()
     {
-        for (PostponableTask task : instance.postponedTasks)
+        for (PostponableTask task : postponedTasks)
         {
             boolean result = task.doWork();
 
@@ -46,6 +44,6 @@ public class PostponeHandler
             }
         }
 
-        instance.postponedTasks.clear();
+        postponedTasks.clear();
     }
 }

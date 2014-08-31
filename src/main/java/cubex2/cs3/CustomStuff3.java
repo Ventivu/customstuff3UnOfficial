@@ -36,7 +36,6 @@ public class CustomStuff3
 
         ContentPackLoader.instance().searchPacks();
         ContentPackLoader.instance().preparePacks();
-        IngameContentPackLoader.instance().preparePacks();
     }
 
     @EventHandler
@@ -45,24 +44,47 @@ public class CustomStuff3
         proxy.registerKeyBindings();
 
         ContentPackLoader.instance().initPacks();
-        IngameContentPackLoader.instance().initPacks();
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        PostponeHandler.executePostponedTasks();
+
     }
 
-    public static void loadPack(ICSMod pack)
+    public static void onPreInitPack(ICSMod pack)
     {
         if (pack.isIngamePack())
         {
-            IngameContentPackLoader.instance().loadPack(pack);
+            IngameContentPackLoader.instance().onPreInitPack(pack);
         }
         else
         {
             ContentPackLoader.instance().loadPack(pack);
+        }
+    }
+
+    public static void onInitPack(ICSMod pack)
+    {
+        if (pack.isIngamePack())
+        {
+            IngameContentPackLoader.instance().onInitPack(pack);
+        }
+        else
+        {
+
+        }
+    }
+
+    public static void onPostInitPack(ICSMod pack)
+    {
+        if (pack.isIngamePack())
+        {
+            IngameContentPackLoader.instance().onPostInitPack(pack);
+        }
+        else
+        {
+
         }
     }
 }

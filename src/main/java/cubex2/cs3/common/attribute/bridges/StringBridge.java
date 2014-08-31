@@ -11,12 +11,20 @@ public class StringBridge extends AttributeBridge<String>
     @Override
     public String loadValueFromNBT(NBTTagCompound compound)
     {
-        return compound.getString("Value");
+        if (compound.hasKey("Value"))
+        {
+            return compound.getString("Value");
+        }
+
+        return null;
     }
 
     @Override
     public void writeValueToNBT(NBTTagCompound compound, String value)
     {
-        compound.setString("Value", value);
+        if (value != null && value.length() > 0)
+        {
+            compound.setString("Value", value);
+        }
     }
 }

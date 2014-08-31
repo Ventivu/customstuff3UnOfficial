@@ -70,6 +70,7 @@ public class TextField extends Control
 
     public void setText(String text)
     {
+        if (text == null) text = "";
         setTextNoCursorReset(text);
 
         cursorX = 0;

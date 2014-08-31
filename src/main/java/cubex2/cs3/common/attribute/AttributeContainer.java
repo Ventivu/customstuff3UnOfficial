@@ -47,9 +47,10 @@ public class AttributeContainer
     {
         Field[] fields = getAttributeFields(ALL_ATTRIBUTES);
 
-        try
+
+        for (Field field : fields)
         {
-            for (Field field : fields)
+            try
             {
                 AttributeBridge bridge = bridgeMap.get(field);
                 NBTTagCompound attributeCompound = new NBTTagCompound();
@@ -58,11 +59,12 @@ public class AttributeContainer
                 bridge.writeValueToNBT(attributeCompound, value);
 
                 compound.setTag(field.getName(), attributeCompound);
+            } catch (Exception e)
+            {
+                e.printStackTrace();
             }
-        } catch (Exception e)
-        {
-            e.printStackTrace();
         }
+
     }
 
     private Field[] getAttributeFields(Predicate<Field> predicate)

@@ -9,7 +9,7 @@ public class Test implements ICSMod
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        CustomStuff3.loadPack(this);
+        CustomStuff3.onPreInitPack(this);
     }
 
     @Override

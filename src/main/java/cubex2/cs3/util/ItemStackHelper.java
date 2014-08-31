@@ -250,6 +250,9 @@ public class ItemStackHelper
 
     public static ItemStack readFromNBTNamed(NBTTagCompound compound)
     {
+        if (!compound.hasKey("ItemName"))
+            return null;
+
         ItemStack stack = new ItemStack((Item)null);
         stack.func_150996_a(GameData.getItemRegistry().getObject(compound.getString("ItemName")));
         if (stack.getItem() == null)

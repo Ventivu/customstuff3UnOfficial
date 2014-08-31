@@ -16,14 +16,11 @@ import java.util.Set;
 
 public class IngameContentPack extends ContentPack implements IPurpuseStringProvider, Comparable<IngameContentPack>
 {
+    private boolean initialized = false;
+
     public IngameContentPack(File directory, String name, String id)
     {
         super(directory, name, id);
-    }
-
-    @Override
-    public void prepare()
-    {
     }
 
     @Override
@@ -31,11 +28,12 @@ public class IngameContentPack extends ContentPack implements IPurpuseStringProv
     {
         logger.info("Initializing...");
         load();
+        initialized = true;
     }
 
     public void save()
     {
-        if (!IngameContentPackLoader.initialized)
+        if (!initialized)
             return;
 
         NBTTagCompound compound = new NBTTagCompound();

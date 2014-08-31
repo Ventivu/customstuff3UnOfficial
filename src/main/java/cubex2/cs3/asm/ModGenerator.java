@@ -84,7 +84,29 @@ public class ModGenerator
         av.visitEnd();
         mv.visitCode();
         mv.visitVarInsn(ALOAD, 0);
-        mv.visitMethodInsn(INVOKESTATIC, "cubex2/cs3/CustomStuff3", "loadPack", "(Lcubex2/cs3/asm/ICSMod;)V");
+        mv.visitMethodInsn(INVOKESTATIC, "cubex2/cs3/CustomStuff3", "onPreInitPack", "(Lcubex2/cs3/asm/ICSMod;)V");
+        mv.visitInsn(RETURN);
+        mv.visitMaxs(1, 2);
+        mv.visitEnd();
+
+        // Init
+        mv = cw.visitMethod(ACC_PUBLIC, "init", "(Lcpw/mods/fml/common/event/FMLInitializationEvent;)V", null, null);
+        av = mv.visitAnnotation("Lcpw/mods/fml/common/Mod$EventHandler;", true);
+        av.visitEnd();
+        mv.visitCode();
+        mv.visitVarInsn(ALOAD, 0);
+        mv.visitMethodInsn(INVOKESTATIC, "cubex2/cs3/CustomStuff3", "onInitPack", "(Lcubex2/cs3/asm/ICSMod;)V");
+        mv.visitInsn(RETURN);
+        mv.visitMaxs(1, 2);
+        mv.visitEnd();
+
+        // PostInit
+        mv = cw.visitMethod(ACC_PUBLIC, "postInit", "(Lcpw/mods/fml/common/event/FMLPostInitializationEvent;)V", null, null);
+        av = mv.visitAnnotation("Lcpw/mods/fml/common/Mod$EventHandler;", true);
+        av.visitEnd();
+        mv.visitCode();
+        mv.visitVarInsn(ALOAD, 0);
+        mv.visitMethodInsn(INVOKESTATIC, "cubex2/cs3/CustomStuff3", "onPostInitPack", "(Lcubex2/cs3/asm/ICSMod;)V");
         mv.visitInsn(RETURN);
         mv.visitMaxs(1, 2);
         mv.visitEnd();

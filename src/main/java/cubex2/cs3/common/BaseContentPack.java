@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import cubex2.cs3.api.IContentPack;
 import cubex2.cs3.lib.ModInfo;
 import cubex2.cs3.registry.*;
+import cubex2.cs3.util.PostponeHandler;
 
 import java.io.File;
 import java.util.List;
@@ -16,6 +17,7 @@ public abstract class BaseContentPack implements IContentPack
     public final String name;
     public final String id;
     public final File directory;
+    public final PostponeHandler postponeHandler = new PostponeHandler();
     protected final Logger logger;
     protected final List<ContentRegistry> contentRegistryList = Lists.newArrayList();
     protected final Map<Class<? extends Content>, ContentRegistry> contentRegistry = Maps.newHashMap();

@@ -62,7 +62,7 @@ public abstract class ContentRegistry<T extends Content>
             final NBTTagCompound contentCompound = contentTagList.getCompoundTagAt(i);
             final T data = newDataInstance();
 
-            PostponeHandler.executeTask(new PostponableTask()
+            pack.postponeHandler.executeTask(new PostponableTask()
             {
                 @Override
                 protected boolean doWork()

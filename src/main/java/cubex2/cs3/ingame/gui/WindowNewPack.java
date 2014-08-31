@@ -38,6 +38,8 @@ public class WindowNewPack extends Window implements IValidityProvider
         tbId = textBox().below(lblId).fillWidth(7).height(17).add();
         tbId.setValidityProvider(this);
 
+        label("You need to restart Minecraft\nfor the pack to appear.").below(tbId, 10).add();
+
         btnCreate.setEnabled(false);
     }
 

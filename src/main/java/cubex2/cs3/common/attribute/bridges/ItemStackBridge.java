@@ -16,6 +16,9 @@ public class ItemStackBridge extends AttributeBridge<ItemStack>
     @Override
     public void writeValueToNBT(NBTTagCompound compound, ItemStack value)
     {
-        ItemStackHelper.writeToNBTNamed(value, compound);
+        if (value != null)
+        {
+            ItemStackHelper.writeToNBTNamed(value, compound);
+        }
     }
 }
