@@ -1,6 +1,6 @@
-package cubex2.cs3.ingame.gui.item;
+package cubex2.cs3.ingame.gui.common;
 
-import cubex2.cs3.common.WrappedItem;
+import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Control;
@@ -9,15 +9,15 @@ import cubex2.cs3.lib.TextBoxValidators;
 
 public class WindowEditInteger extends Window
 {
-    private WrappedItem wrappedItem;
+    protected AttributeContainer container;
     private String fieldName;
 
     private TextBox textBox;
 
-    public WindowEditInteger(String fieldName, WrappedItem item)
+    public WindowEditInteger(String fieldName, AttributeContainer container)
     {
         super(fieldName, EDIT | CANCEL, 150, 55);
-        wrappedItem = item;
+        this.container = container;
         this.fieldName = fieldName;
     }
 
@@ -28,7 +28,7 @@ public class WindowEditInteger extends Window
 
         textBox = textBox().y(7).fillWidth(7).add();
         textBox.setValidityProvider(TextBoxValidators.POSITIVE_INTEGER);
-        textBox.setText(String.valueOf(wrappedItem.container.getAttribute(fieldName)));
+        textBox.setText(String.valueOf(container.getAttribute(fieldName)));
     }
 
     @Override
@@ -36,14 +36,19 @@ public class WindowEditInteger extends Window
     {
         if (c == btnEdit)
         {
-            wrappedItem.container.setAttriubte(fieldName, Integer.parseInt(textBox.getText()));
-            wrappedItem.getPack().save();
+            container.setAttriubte(fieldName, Integer.parseInt(textBox.getText()));
+            applyChangedValue();
+            container.getPack().save();
 
             GuiBase.openPrevWindow();
-        }
-        else
+        } else
         {
             super.controlClicked(c, mouseX, mouseY, button);
         }
+    }
+
+    protected void applyChangedValue()
+    {
+
     }
 }

@@ -22,6 +22,11 @@ public class AttributeContainer
         createBridges();
     }
 
+    public BaseContentPack getPack()
+    {
+        return pack;
+    }
+
     public void loadFromNBT(NBTTagCompound compound)
     {
         Field[] fields = getAttributeFields(ALL_ATTRIBUTES);

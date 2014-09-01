@@ -12,11 +12,6 @@ public class ContentPack extends BaseContentPack
     }
 
     @Override
-    public void prepare()
-    {
-    }
-
-    @Override
     public void init()
     {
         logger.info("Initializing...");

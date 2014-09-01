@@ -36,6 +36,7 @@ public abstract class BaseContentPack implements IContentPack
         registerContentRegistry(new ShapedRecipeRegistry(this), ShapedRecipe.class);
         registerContentRegistry(new ShapelessRecipeRegistry(this), ShapelessRecipe.class);
         registerContentRegistry(new ItemRegistry(this), WrappedItem.class);
+        registerContentRegistry(new BlockRegistry(this), WrappedBlock.class);
     }
 
     @Override
@@ -88,8 +89,6 @@ public abstract class BaseContentPack implements IContentPack
     public void load()
     {
     }
-
-    public abstract void prepare();
 
     public abstract void init();
 }

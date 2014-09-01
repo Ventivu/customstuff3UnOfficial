@@ -1,6 +1,8 @@
-package cubex2.cs3.ingame.gui.item;
+package cubex2.cs3.ingame.gui.common;
 
 import cubex2.cs3.common.WrappedItem;
+import cubex2.cs3.common.attribute.Attribute;
+import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Button;
@@ -12,7 +14,7 @@ import cubex2.cs3.util.ScriptWrapper;
 
 public class WindowEditScript extends Window
 {
-    private WrappedItem wrappedItem;
+    private AttributeContainer container;
     private ScriptWrapper scriptWrapper;
     private String scriptName;
 
@@ -20,12 +22,12 @@ public class WindowEditScript extends Window
     private Label lblError;
 
 
-    public WindowEditScript(String scriptName, WrappedItem item)
+    public WindowEditScript(String scriptName, AttributeContainer container)
     {
         super(null, EDIT | CANCEL, Math.min(GuiBase.instance.width, 504), Math.min(GuiBase.instance.height, 504));
         this.scriptName = scriptName;
-        wrappedItem = item;
-        scriptWrapper = item.container.getAttribute(scriptName);
+        this.container = container;
+        scriptWrapper = container.getAttribute(scriptName);
         if (scriptWrapper == null)
         {
             scriptWrapper = new ScriptWrapper("");
@@ -80,8 +82,8 @@ public class WindowEditScript extends Window
 
             if(!hasErrors)
             {
-                wrappedItem.container.setAttriubte(scriptName, scriptWrapper);
-                wrappedItem.getPack().save();
+                container.setAttriubte(scriptName, scriptWrapper);
+                container.getPack().save();
 
                 GuiBase.openPrevWindow();
             }

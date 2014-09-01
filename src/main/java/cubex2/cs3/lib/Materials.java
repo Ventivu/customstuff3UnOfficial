@@ -38,6 +38,11 @@ public class Materials
         return name;
     }
 
+    public static Material[] getAllMaterials()
+    {
+        return materialMap.values().toArray(new Material[materialMap.values().size()]);
+    }
+
     static
     {
         materialMap.put("cactus", Material.cactus);

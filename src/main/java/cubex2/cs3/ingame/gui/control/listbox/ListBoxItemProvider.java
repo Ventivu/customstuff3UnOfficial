@@ -28,6 +28,8 @@ public class ListBoxItemProvider
             return new ListBoxItemShapelessRecipe((ShapelessRecipe) value, idx, x, y, width, height, parent);
         if (value instanceof WrappedItem)
             return new ListBoxItemWrappedItem((WrappedItem) value, idx, x, y, width, height, parent);
+        if (value instanceof WrappedBlock)
+            return new ListBoxItemWrappedBlock((WrappedBlock) value, idx, x, y, width, height, parent);
         throw new RuntimeException("Not supported object for ListBox.");
     }
 }

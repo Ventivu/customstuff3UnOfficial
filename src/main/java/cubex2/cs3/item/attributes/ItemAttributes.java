@@ -5,13 +5,14 @@ import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.WindowEditUsingAction;
+import cubex2.cs3.ingame.gui.common.WindowEditInteger;
+import cubex2.cs3.ingame.gui.common.WindowEditScript;
 import cubex2.cs3.ingame.gui.item.*;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
-import org.mozilla.javascript.Script;
 
 public class ItemAttributes extends AttributeContainer
 {

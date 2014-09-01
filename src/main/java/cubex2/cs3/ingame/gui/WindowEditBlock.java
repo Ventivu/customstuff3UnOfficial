@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui;
 
 import com.google.common.collect.Lists;
-import cubex2.cs3.common.WrappedItem;
+import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
@@ -9,16 +9,16 @@ import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 import cubex2.cs3.ingame.gui.common.WindowEditInteger;
 import cubex2.cs3.ingame.gui.common.WindowEditScript;
 
-public class WindowEditItem extends Window implements IListBoxItemClickListener<String>
+public class WindowEditBlock extends Window implements IListBoxItemClickListener<String>
 {
-    private final WrappedItem wrappedItem;
+    private final WrappedBlock wrappedBlock;
 
     private ListBox<String> listBox;
 
-    public WindowEditItem(WrappedItem wrappedItem)
+    public WindowEditBlock(WrappedBlock wrappedBlock)
     {
-        super(wrappedItem.getName(), BACK, 263, 160);
-        this.wrappedItem = wrappedItem;
+        super(wrappedBlock.getName(), BACK, 263, 160);
+        this.wrappedBlock = wrappedBlock;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class WindowEditItem extends Window implements IListBoxItemClickListener<
         desc.rows = 5;
         desc.columns = 1;
         desc.elementHeight = 22;
-        desc.elements = Lists.newArrayList(wrappedItem.container.getAttributeFieldNames());
+        desc.elements = Lists.newArrayList(wrappedBlock.container.getAttributeFieldNames());
         desc.canSelect = false;
         desc.sorted = true;
         listBox = new ListBox<String>(desc, this);
@@ -49,16 +49,16 @@ public class WindowEditItem extends Window implements IListBoxItemClickListener<
     {
         try
         {
-            Class<? extends Window> windowClass = wrappedItem.container.getWindowClass(item);
+            Class<? extends Window> windowClass = wrappedBlock.container.getWindowClass(item);
             if (windowClass == WindowEditScript.class)
             {
-                GuiBase.openWindow(new WindowEditScript(item, wrappedItem.container));
+                GuiBase.openWindow(new WindowEditScript(item, wrappedBlock.container));
             } else if (windowClass == WindowEditInteger.class)
             {
-                GuiBase.openWindow(new WindowEditInteger(item, wrappedItem.container));
+                GuiBase.openWindow(new WindowEditInteger(item, wrappedBlock.container));
             } else
             {
-                GuiBase.openWindow(windowClass.getConstructor(WrappedItem.class).newInstance(wrappedItem));
+                GuiBase.openWindow(windowClass.getConstructor(WrappedBlock.class).newInstance(wrappedBlock));
             }
         } catch (Exception e)
         {
