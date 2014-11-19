@@ -7,6 +7,7 @@ import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.block.*;
 import cubex2.cs3.ingame.gui.common.WindowEditInteger;
 import cubex2.cs3.ingame.gui.common.WindowEditScript;
+import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -46,6 +47,25 @@ public class BlockAttributes extends AttributeContainer
 
     @Attribute(windowClass = WindowEditMaterial.class)
     public Material material = Material.ground;
+
+    @Attribute(windowClass = WindowEditTextures.class, customName = "textures")
+    public IconWrapper textureBottom = new IconWrapper("");
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public IconWrapper textureTop = new IconWrapper("");
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public IconWrapper textureNorth = new IconWrapper("");
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public IconWrapper textureSouth = new IconWrapper("");
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public IconWrapper textureEast = new IconWrapper("");
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public IconWrapper textureWest = new IconWrapper("");
+
 
     @Attribute(windowClass = WindowEditScript.class)
     public ScriptWrapper onUpdate = null;
@@ -89,5 +109,24 @@ public class BlockAttributes extends AttributeContainer
     public BlockAttributes(BaseContentPack pack)
     {
         super(pack);
+    }
+
+    public IconWrapper getTexture(int side)
+    {
+        switch (side)
+        {
+            case 0:
+                return textureBottom;
+            case 1:
+                return textureTop;
+            case 2:
+                return textureNorth;
+            case 3:
+                return textureSouth;
+            case 4:
+                return textureEast;
+            default:
+                return textureWest;
+        }
     }
 }

@@ -4,10 +4,13 @@ import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -128,5 +131,23 @@ public class BlockCS extends Block
     public int getFireSpreadSpeed(IBlockAccess world, int x, int y, int z, ForgeDirection face)
     {
         return wrappedBlock.getFireSpreadSpeed(world, x, y, z, face);
+    }
+
+    @Override
+    public CreativeTabs getCreativeTabToDisplayOn()
+    {
+        return wrappedBlock.getCreativeTabToDisplayOn();
+    }
+
+    @Override
+    public IIcon getIcon(int side, int meta)
+    {
+        return wrappedBlock.getIcon(side, meta);
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister iconRegister)
+    {
+        wrappedBlock.registerBlockIcons(iconRegister);
     }
 }

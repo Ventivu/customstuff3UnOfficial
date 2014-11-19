@@ -13,7 +13,6 @@ import cubex2.cs3.basic.ContentPackLoader;
 import cubex2.cs3.ingame.IngameContentPackLoader;
 import cubex2.cs3.lib.Directories;
 import cubex2.cs3.lib.ModInfo;
-import cubex2.cs3.util.PostponeHandler;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = ModInfo.ID, name = ModInfo.NAME, version = ModInfo.VERSION, dependencies = ModInfo.DEPENDENCIES)
@@ -42,6 +41,7 @@ public class CustomStuff3
     public void init(FMLInitializationEvent event)
     {
         proxy.registerKeyBindings();
+        proxy.registerEventHandlers();
 
         ContentPackLoader.instance().initPacks();
     }
@@ -49,7 +49,6 @@ public class CustomStuff3
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-
     }
 
     public static void onPreInitPack(ICSMod pack)
@@ -57,8 +56,7 @@ public class CustomStuff3
         if (pack.isIngamePack())
         {
             IngameContentPackLoader.instance().onPreInitPack(pack);
-        }
-        else
+        } else
         {
             ContentPackLoader.instance().loadPack(pack);
         }
@@ -69,8 +67,7 @@ public class CustomStuff3
         if (pack.isIngamePack())
         {
             IngameContentPackLoader.instance().onInitPack(pack);
-        }
-        else
+        } else
         {
 
         }
@@ -81,8 +78,7 @@ public class CustomStuff3
         if (pack.isIngamePack())
         {
             IngameContentPackLoader.instance().onPostInitPack(pack);
-        }
-        else
+        } else
         {
 
         }

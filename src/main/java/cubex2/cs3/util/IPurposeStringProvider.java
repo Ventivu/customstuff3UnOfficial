@@ -1,6 +1,6 @@
 package cubex2.cs3.util;
 
-public interface IPurpuseStringProvider
+public interface IPurposeStringProvider
 {
     String getStringForPurpose(StringProviderPurpose purpose);
 }

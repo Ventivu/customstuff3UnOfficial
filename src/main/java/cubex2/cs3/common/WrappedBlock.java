@@ -10,6 +10,8 @@ import cubex2.cs3.block.attributes.BlockAttributes;
 import cubex2.cs3.common.scripting.TriggerData;
 import cubex2.cs3.util.JavaScriptHelper;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -324,5 +327,21 @@ public class WrappedBlock extends BaseContent
         return container.containerItem.copy();
     }
 
+    public IIcon getIcon(int side, int meta)
+    {
+        return container.getTexture(side).icon;
+    }
 
+    public void registerBlockIcons(IIconRegister iconRegister)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            container.getTexture(i).setIcon(iconRegister);
+        }
+    }
+
+    public CreativeTabs getCreativeTabToDisplayOn()
+    {
+        return container.creativeTab;
+    }
 }

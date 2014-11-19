@@ -25,4 +25,11 @@ public @interface Attribute
      * @return The additional information
      */
     String additionalInfo() default "";
+
+    /**
+     * The name that is shown in the attributes list instead of the field name.
+     *
+     * @return The custom name
+     */
+    String customName() default "";
 }

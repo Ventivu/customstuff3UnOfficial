@@ -19,7 +19,7 @@ public class Button extends Control
     }
 
     /**
-     * Uses 16 for width.
+     * Uses 16 for height.
      */
     public Button(String text, int x, int y, int width, Control parent)
     {

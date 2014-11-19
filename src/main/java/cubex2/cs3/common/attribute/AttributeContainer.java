@@ -120,9 +120,25 @@ public class AttributeContainer
         String[] names = new String[fields.length];
         for (int i = 0; i < names.length; i++)
         {
-            names[i] = fields[i].getName();
+            names[i] = getCustomName(fields[i]).length() > 0 ? getCustomName(fields[i]) : fields[i].getName();
         }
         return names;
+    }
+
+    /**
+     * Gets the data of the attributes that have 'hasOwnWindow' set to true.
+     *
+     * @return The names of the fields.
+     */
+    public AttributeData[] getAttributeDatas()
+    {
+        Field[] fields = getAttributeFields(ATTRIBUTE_WITH_OWN_WINDOW);
+        AttributeData[] datas = new AttributeData[fields.length];
+        for (int i = 0; i < datas.length; i++)
+        {
+            datas[i] = new AttributeData(fields[i].getAnnotation(Attribute.class), fields[i]);
+        }
+        return datas;
     }
 
     public Class<? extends Window> getWindowClass(String attributeName)
@@ -160,6 +176,16 @@ public class AttributeContainer
         {
             e.printStackTrace();
         }
+    }
+
+    private static String getCustomName(Field field)
+    {
+        if (field.isAnnotationPresent(Attribute.class))
+        {
+            return field.getAnnotation(Attribute.class).customName();
+        }
+
+        return "";
     }
 
     private static final Predicate<Field> ALL_ATTRIBUTES = new Predicate<Field>()

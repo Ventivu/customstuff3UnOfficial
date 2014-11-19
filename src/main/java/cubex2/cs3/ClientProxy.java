@@ -12,4 +12,10 @@ public class ClientProxy extends CommonProxy
         FMLCommonHandler.instance().bus().register(KeyBindingHandler.INSTANCE);
     }
 
+    @Override
+    public void registerEventHandlers()
+    {
+        super.registerEventHandlers();
+    }
+
 }

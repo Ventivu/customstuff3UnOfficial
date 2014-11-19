@@ -1,6 +1,7 @@
 package cubex2.cs3.ingame.gui.control.listbox;
 
 import cubex2.cs3.common.*;
+import cubex2.cs3.common.attribute.AttributeData;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.util.OreDictionaryClass;
@@ -30,6 +31,8 @@ public class ListBoxItemProvider
             return new ListBoxItemWrappedItem((WrappedItem) value, idx, x, y, width, height, parent);
         if (value instanceof WrappedBlock)
             return new ListBoxItemWrappedBlock((WrappedBlock) value, idx, x, y, width, height, parent);
+        if (value instanceof AttributeData)
+            return new ListBoxItemAttributeData((AttributeData) value,idx,x,y,width,height,parent);
         throw new RuntimeException("Not supported object for ListBox.");
     }
 }
