@@ -5,7 +5,6 @@ import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.block.*;
-import cubex2.cs3.ingame.gui.common.WindowEditFloat;
 import cubex2.cs3.ingame.gui.common.WindowEditInteger;
 import cubex2.cs3.ingame.gui.common.WindowEditScript;
 import cubex2.cs3.util.IconWrapper;
@@ -19,6 +18,9 @@ public class BlockAttributes extends AttributeContainer
 {
     @Attribute(windowClass = WindowEditDisplayName.class)
     public String displayName = "Unnamed";
+
+    @Attribute(windowClass = WindowEditInformation.class)
+    public String information = null;
 
     @Attribute(windowClass = WindowEditCreativeTab.class)
     public CreativeTabs creativeTab = CreativeTabs.tabAllSearch;
@@ -80,7 +82,7 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public boolean semiTransparent = false;
 
-    @Attribute(windowClass = Window.class,hasOwnWindow = false)
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public boolean tileTransparent = true;
 
     @Attribute(windowClass = WindowEditScript.class)

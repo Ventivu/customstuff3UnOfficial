@@ -2,8 +2,11 @@ package cubex2.cs3.item;
 
 import cubex2.cs3.common.WrappedBlock;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 public class ItemCSBlock extends ItemBlock
 {
@@ -27,5 +30,11 @@ public class ItemCSBlock extends ItemBlock
     public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack)
     {
         return wrappedBlock.doesContainerItemLeaveCraftingGrid(stack);
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced)
+    {
+        wrappedBlock.addInformation(stack,player,list,advanced);
     }
 }

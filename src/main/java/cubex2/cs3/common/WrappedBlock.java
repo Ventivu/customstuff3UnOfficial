@@ -24,6 +24,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
@@ -370,5 +371,16 @@ public class WrappedBlock extends BaseContent
     public CreativeTabs getCreativeTabToDisplayOn()
     {
         return container.creativeTab;
+    }
+
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced)
+    {
+        if (container.information == null) return;
+
+        String[] split = container.information.split("\n");
+        for (int i = 0; i < split.length; i++)
+        {
+            list.add(split[i]);
+        }
     }
 }
