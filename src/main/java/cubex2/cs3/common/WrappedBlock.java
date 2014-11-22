@@ -64,6 +64,7 @@ public class WrappedBlock extends BaseContent
         block.setBlockName(name);
         block.setLightOpacity(container.opacity);
         blockItem.setMaxStackSize(container.maxStack);
+        block.slipperiness = container.slipperiness;
 
 
         Map<String, Properties> modLangData = ReflectionHelper.getPrivateValue(LanguageRegistry.class, LanguageRegistry.instance(), "modLanguageData");

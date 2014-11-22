@@ -5,6 +5,7 @@ import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.block.*;
+import cubex2.cs3.ingame.gui.common.WindowEditFloat;
 import cubex2.cs3.ingame.gui.common.WindowEditInteger;
 import cubex2.cs3.ingame.gui.common.WindowEditScript;
 import cubex2.cs3.util.IconWrapper;
@@ -38,6 +39,9 @@ public class BlockAttributes extends AttributeContainer
 
     @Attribute(windowClass = WindowEditInteger.class)
     public int tickrate = 10;
+
+    @Attribute(windowClass = WindowEditFloat.class)
+    public float slipperiness = 0.6f;
 
     @Attribute(windowClass = WindowEditContainerItem.class)
     public ItemStack containerItem = null;
