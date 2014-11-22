@@ -114,6 +114,31 @@ public class WrappedBlock extends BaseContent
     }
 
     /* Block methods */
+    public boolean isOpaqueCube()
+    {
+        return !container.transparent && !container.semiTransparent;
+    }
+
+    public int getRenderBlockPass()
+    {
+        return container.semiTransparent ? 1 : 0;
+    }
+
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
+    {
+        if (!container.tileTransparent)
+        {
+            Block block = world.getBlock(x, y, z);
+            return block != this.block && shouldSideBeRenderedDefault(world, x, y, z, side);
+        }
+        return shouldSideBeRenderedDefault(world, x, y, z, side);
+    }
+
+    private boolean shouldSideBeRenderedDefault(IBlockAccess world, int x, int y, int z, int side)
+    {
+        return side == 0 && block.getBlockBoundsMinY() > 0.0D ? true : side == 1 && block.getBlockBoundsMaxY() < 1.0D ? true : side == 2 && block.getBlockBoundsMinZ() > 0.0D ? true : side == 3 && block.getBlockBoundsMaxZ() < 1.0D ? true : side == 4 && block.getBlockBoundsMinX() > 0.0D ? true : side == 5 && block.getBlockBoundsMaxX() < 1.0D ? true : !world.getBlock(x, y, z).isOpaqueCube();
+    }
+
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
         if (container.onUpdate != null && container.onUpdate.script != null)

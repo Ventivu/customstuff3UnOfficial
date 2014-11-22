@@ -3,12 +3,12 @@ package cubex2.cs3.ingame.gui;
 import com.google.common.collect.Lists;
 import cubex2.cs3.common.WrappedItem;
 import cubex2.cs3.common.attribute.AttributeData;
+import cubex2.cs3.ingame.gui.common.WindowEditInteger;
+import cubex2.cs3.ingame.gui.common.WindowEditScript;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
-import cubex2.cs3.ingame.gui.common.WindowEditInteger;
-import cubex2.cs3.ingame.gui.common.WindowEditScript;
 
 public class WindowEditItem extends Window implements IListBoxItemClickListener<AttributeData>
 {

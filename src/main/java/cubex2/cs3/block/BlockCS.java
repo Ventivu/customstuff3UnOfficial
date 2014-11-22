@@ -30,6 +30,30 @@ public class BlockCS extends Block
     }
 
     @Override
+    public boolean isOpaqueCube()
+    {
+        return wrappedBlock != null && wrappedBlock.isOpaqueCube();
+    }
+
+    @Override
+    public int getRenderBlockPass()
+    {
+        return wrappedBlock.getRenderBlockPass();
+    }
+
+    @Override
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
+    {
+        return wrappedBlock.shouldSideBeRendered(world, x, y, z, side);
+    }
+
+    @Override
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
         wrappedBlock.updateTick(world, x, y, z, rand);

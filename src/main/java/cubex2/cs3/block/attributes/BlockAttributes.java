@@ -74,6 +74,14 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public IconWrapper textureWest = new IconWrapper("");
 
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public boolean transparent = false;
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public boolean semiTransparent = false;
+
+    @Attribute(windowClass = Window.class,hasOwnWindow = false)
+    public boolean tileTransparent = true;
 
     @Attribute(windowClass = WindowEditScript.class)
     public ScriptWrapper onUpdate = null;

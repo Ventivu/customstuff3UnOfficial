@@ -3,6 +3,7 @@ package cubex2.cs3.ingame.gui.block;
 import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
+import cubex2.cs3.ingame.gui.control.CheckBox;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.TextBox;
@@ -19,9 +20,13 @@ public class WindowEditTextures extends Window
     private TextBox[] textBoxes;
     private ResourceLocation[] locations;
 
+    private CheckBox cbTransparent;
+    private CheckBox cbSemiTransparent;
+    private CheckBox cbTileTransparent;
+
     public WindowEditTextures(WrappedBlock block)
     {
-        super("textures", EDIT | CANCEL, 150, 230);
+        super("textures", EDIT | CANCEL, 150 + 153, 200);
         wrappedBlock = block;
     }
 
@@ -38,10 +43,11 @@ public class WindowEditTextures extends Window
         {
             LabelBuilder lb = label(directions[i]);
             if (i == 0) lb = (LabelBuilder) lb.at(7, 7);
-            else lb = (LabelBuilder) lb.below(textBoxes[i - 1]);
+            else if (i == 1) lb = (LabelBuilder) lb.at(7 + 153, 7);
+            else lb = (LabelBuilder) lb.below(textBoxes[i - 2]);
             labels[i] = lb.add();
 
-            textBoxes[i] = textBox().below(labels[i]).height(16).width(150 - 14 - 18).add();
+            textBoxes[i] = textBox().below(labels[i]).height(13).width(150 - 14 - 18).add();
             textBoxes[i].setMaxLength(256);
 
             String textureString = wrappedBlock.container.getTexture(i).iconString;
@@ -49,6 +55,18 @@ public class WindowEditTextures extends Window
                 textureString = textureString.split(":")[1];
             textBoxes[i].setText(textureString);
         }
+
+        cbTransparent = checkBox().below(textBoxes[4], 9).add();
+        cbTransparent.setIsChecked(wrappedBlock.container.transparent);
+        label("Transparent").rightTo(cbTransparent).add();
+
+        cbSemiTransparent = checkBox().below(cbTransparent, 7).add();
+        cbSemiTransparent.setIsChecked(wrappedBlock.container.semiTransparent);
+        label("Semi Transparent").rightTo(cbSemiTransparent).add();
+
+        cbTileTransparent = checkBox().below(cbSemiTransparent, 7).add();
+        cbTileTransparent.setIsChecked(wrappedBlock.container.tileTransparent);
+        label("Tile Transparent").rightTo(cbTileTransparent).add();
 
         updatePreviewLocations();
     }
@@ -71,6 +89,10 @@ public class WindowEditTextures extends Window
                 if (textureName.length() > 0)
                     wrappedBlock.container.getTexture(i).iconString = modId + ":" + textureName;
             }
+
+            wrappedBlock.container.transparent = cbTransparent.getIsChecked();
+            wrappedBlock.container.semiTransparent = cbSemiTransparent.getIsChecked();
+            wrappedBlock.container.tileTransparent = cbTileTransparent.getIsChecked();
 
             wrappedBlock.getPack().save();
 
