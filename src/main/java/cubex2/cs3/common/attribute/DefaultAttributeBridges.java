@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import cubex2.cs3.common.attribute.bridges.*;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumAction;
@@ -41,5 +42,6 @@ public abstract class DefaultAttributeBridges
         register(float.class, FloatBridge.class);
         register(ItemStack.class, ItemStackBridge.class);
         register(Material.class, MaterialBridge.class);
+        register(Block.SoundType.class, StepSoundBridge.class);
     }
 }

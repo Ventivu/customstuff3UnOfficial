@@ -38,6 +38,11 @@ public class StepSounds
         return name;
     }
 
+    public static Block.SoundType[] getAllSounds()
+    {
+        return stepSoundMap.values().toArray(new Block.SoundType[stepSoundMap.values().size()]);
+    }
+
     static
     {
         stepSoundMap.put("anvil", Block.soundTypeAnvil);

@@ -10,6 +10,7 @@ import cubex2.cs3.ingame.gui.common.WindowEditInteger;
 import cubex2.cs3.ingame.gui.common.WindowEditScript;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -51,6 +52,9 @@ public class BlockAttributes extends AttributeContainer
 
     @Attribute(windowClass = WindowEditMaterial.class)
     public Material material = Material.ground;
+
+    @Attribute(windowClass = WindowEditStepSound.class)
+    public Block.SoundType stepSound = Block.soundTypeStone;
 
     @Attribute(windowClass = WindowEditTextures.class, customName = "textures")
     public IconWrapper textureBottom = new IconWrapper("");

@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 public class Button extends Control
 {
+    public boolean playSound = true;
     protected boolean hover;
     protected String text = "";
 
@@ -35,7 +36,7 @@ public class Button extends Control
     @Override
     public void mouseDown(int mouseX, int mouseY, int button)
     {
-        if (button == 0)
+        if (button == 0 && playSound)
         {
             mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
         }

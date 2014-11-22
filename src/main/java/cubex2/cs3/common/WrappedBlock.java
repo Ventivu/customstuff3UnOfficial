@@ -64,6 +64,7 @@ public class WrappedBlock extends BaseContent
         block.setBlockName(name);
         block.setLightOpacity(container.opacity);
         blockItem.setMaxStackSize(container.maxStack);
+        block.setStepSound(container.stepSound);
         block.slipperiness = container.slipperiness;
 
 
