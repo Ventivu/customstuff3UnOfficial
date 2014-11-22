@@ -41,7 +41,7 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditInteger.class)
     public int tickrate = 10;
 
-    @Attribute(windowClass = WindowEditFloat.class)
+    @Attribute(windowClass = WindowEditSlipperiness.class)
     public float slipperiness = 0.6f;
 
     @Attribute(windowClass = WindowEditContainerItem.class)
