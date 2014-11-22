@@ -85,6 +85,15 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public boolean tileTransparent = true;
 
+    @Attribute(windowClass = WindowEditPlacementRules.class, customName = "placement")
+    public boolean canPlaceOnFloor = true;
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public boolean canPlaceOnCeiling = true;
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public boolean canPlaceOnWall = true;
+
     @Attribute(windowClass = WindowEditScript.class)
     public ScriptWrapper onUpdate = null;
     @Attribute(windowClass = WindowEditScript.class)

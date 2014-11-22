@@ -373,6 +373,16 @@ public class WrappedBlock extends BaseContent
         return container.creativeTab;
     }
 
+    public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side)
+    {
+        if (side == 0 && !container.canPlaceOnCeiling)
+            return false;
+        if (side == 1 && !container.canPlaceOnFloor)
+            return false;
+
+        return !(side > 1 && !container.canPlaceOnWall);
+    }
+
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced)
     {
         if (container.information == null) return;

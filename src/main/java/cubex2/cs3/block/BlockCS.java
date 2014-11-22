@@ -158,6 +158,12 @@ public class BlockCS extends Block
     }
 
     @Override
+    public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side)
+    {
+        return wrappedBlock.canPlaceBlockOnSide(world, x, y, z, side);
+    }
+
+    @Override
     public CreativeTabs getCreativeTabToDisplayOn()
     {
         return wrappedBlock.getCreativeTabToDisplayOn();
