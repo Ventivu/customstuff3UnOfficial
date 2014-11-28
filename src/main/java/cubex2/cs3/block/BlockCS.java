@@ -145,6 +145,11 @@ public class BlockCS extends Block
         return wrappedBlock.getLightValue(world, x, y, z);
     }
 
+    public int getExpDrop(IBlockAccess world, int metadata, int fortune)
+    {
+        return wrappedBlock.getExpDrop(world, metadata, fortune);
+    }
+
     @Override
     public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face)
     {

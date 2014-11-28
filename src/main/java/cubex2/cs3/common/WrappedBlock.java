@@ -38,6 +38,8 @@ public class WrappedBlock extends BaseContent
     private String name;
     private EnumBlockType type;
 
+    private Random random = new Random();
+
     public WrappedBlock(String name, EnumBlockType type, BaseContentPack pack)
     {
         super(pack);
@@ -402,5 +404,13 @@ public class WrappedBlock extends BaseContent
         {
             list.add(split[i]);
         }
+    }
+
+    public int getExpDrop(IBlockAccess world, int metadata, int fortune)
+    {
+        int min = container.expDropMin;
+        int max = container.expDropMax;
+
+        return random.nextInt(max + 1 - min) + min;
     }
 }
