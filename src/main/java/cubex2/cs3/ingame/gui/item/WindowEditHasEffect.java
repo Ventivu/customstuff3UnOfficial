@@ -61,10 +61,10 @@ public class WindowEditHasEffect extends Window
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         wrappedItem.container.hasEffect = newHasEffect;
-        super.draw(mouseX, mouseY);
+        super.draw(mouseX, mouseY, renderTick);
         wrappedItem.container.hasEffect = oldHasEffect;
     }
 }

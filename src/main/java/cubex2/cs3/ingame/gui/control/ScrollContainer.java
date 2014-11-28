@@ -102,7 +102,7 @@ public class ScrollContainer extends ControlContainer
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         ScissorHelper.startScissor(mc, visibleRect.getX(), visibleRect.getY(), visibleRect.getWidth(), visibleRect.getHeight());
 
@@ -111,7 +111,7 @@ public class ScrollContainer extends ControlContainer
             Control c = controls.get(i);
             if (c.isVisible && c.getY() >= visibleRect.getY() - c.getHeight() && c.getY() <= visibleRect.getY() + visibleRect.getHeight())
             {
-                c.draw(mouseX, mouseY);
+                c.draw(mouseX, mouseY, renderTick);
             }
         }
 

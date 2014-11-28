@@ -182,7 +182,7 @@ public class GuiBase extends GuiScreen
     @Override
     public void drawScreen(int mouseX, int mouseY, float renderTick)
     {
-        window.draw(mouseX, mouseY);
+        window.draw(mouseX, mouseY, renderTick);
         window.drawForeground(mouseX, mouseY);
 
         if (devMode)

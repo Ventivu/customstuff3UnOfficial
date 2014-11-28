@@ -3,6 +3,7 @@ package cubex2.cs3.ingame.gui.control;
 import com.google.common.collect.Lists;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.control.builder.*;
+import cubex2.cs3.util.SimulatedWorld;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Collections;
@@ -149,14 +150,14 @@ public abstract class ControlContainer extends Control
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         for (int i = 0; i < controls.size(); i++)
         {
             Control c = controls.get(i);
             if (c.isVisible)
             {
-                c.draw(mouseX, mouseY);
+                c.draw(mouseX, mouseY, renderTick);
             }
         }
     }
@@ -228,5 +229,10 @@ public abstract class ControlContainer extends Control
     public PictureBoxBuilder pictureBox(ResourceLocation texture, int u, int v)
     {
         return new PictureBoxBuilder(texture, u, v, this);
+    }
+
+    public WorldDisplayBuilder worldDisplay(SimulatedWorld world)
+    {
+        return new WorldDisplayBuilder(world, this);
     }
 }

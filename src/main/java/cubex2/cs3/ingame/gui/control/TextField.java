@@ -699,7 +699,7 @@ public class TextField extends Control
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         GuiHelper.drawRect(rect, Color.BLACK);
 

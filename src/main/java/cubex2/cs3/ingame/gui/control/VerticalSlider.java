@@ -4,7 +4,6 @@ import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.util.GuiHelper;
 import net.minecraft.util.MathHelper;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.Rectangle;
 
 public class VerticalSlider extends Control
@@ -148,7 +147,7 @@ public class VerticalSlider extends Control
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         mouseOverControl = rect.contains(mouseX, mouseY);
 

@@ -49,7 +49,7 @@ public class DropBox<T> extends Control
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         int borderColor = getRect().contains(mouseX,mouseY) && !isExpanded ? Color.WHITE : Color.DARK_GREY;
         GuiHelper.drawOutlinedRect(getRect(), borderColor, Color.LIGHT_GREY);

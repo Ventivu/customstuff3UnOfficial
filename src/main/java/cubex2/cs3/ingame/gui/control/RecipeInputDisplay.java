@@ -115,7 +115,7 @@ public class RecipeInputDisplay extends Control
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         if (drawSlotBackground)
         {

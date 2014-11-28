@@ -56,7 +56,7 @@ public class Label extends Control
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         for (int i = 0; i < lines.length; i++)
         {

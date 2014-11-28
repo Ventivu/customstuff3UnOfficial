@@ -59,7 +59,7 @@ public class Button extends Control
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         mc.renderEngine.bindTexture(Textures.CONTROLS);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

@@ -94,9 +94,9 @@ public class WindowEditIcon extends Window
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
-        super.draw(mouseX, mouseY);
+        super.draw(mouseX, mouseY, renderTick);
 
         if (location != null)
         {

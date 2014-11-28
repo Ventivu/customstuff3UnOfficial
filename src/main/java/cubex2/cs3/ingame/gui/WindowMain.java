@@ -2,7 +2,6 @@ package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.ingame.gui.control.Button;
 import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.DropBox;
 
 public class WindowMain extends Window
 {

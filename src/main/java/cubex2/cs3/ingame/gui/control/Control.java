@@ -241,8 +241,9 @@ public abstract class Control
     /**
      * @param mouseX The absolute mouse x-position.
      * @param mouseY The absolute mouse y-position.
+     * @param renderTick
      */
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
     }
 

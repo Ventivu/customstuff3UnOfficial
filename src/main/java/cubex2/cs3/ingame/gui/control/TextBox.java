@@ -105,7 +105,7 @@ public class TextBox extends Control implements IValidityControl
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         if (!isValid)
         {

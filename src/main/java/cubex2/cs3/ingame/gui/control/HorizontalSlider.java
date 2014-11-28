@@ -102,7 +102,7 @@ public class HorizontalSlider extends Control
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         mouseOverControl = rect.contains(mouseX, mouseY);
 

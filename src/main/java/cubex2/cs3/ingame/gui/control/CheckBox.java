@@ -35,7 +35,7 @@ public class CheckBox extends Control
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         mc.renderEngine.bindTexture(Textures.CONTROLS);
 

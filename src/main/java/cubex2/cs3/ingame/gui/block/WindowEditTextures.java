@@ -3,11 +3,11 @@ package cubex2.cs3.ingame.gui.block;
 import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.control.CheckBox;
-import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.Label;
-import cubex2.cs3.ingame.gui.control.TextBox;
+import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.ingame.gui.control.builder.LabelBuilder;
+import cubex2.cs3.util.SimulatedWorld;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -24,10 +24,28 @@ public class WindowEditTextures extends Window
     private CheckBox cbSemiTransparent;
     private CheckBox cbTileTransparent;
 
+    private WorldDisplay blockDisplay;
+
+    private SimulatedWorld world;
+
     public WindowEditTextures(WrappedBlock block)
     {
         super("textures", EDIT | CANCEL, 150 + 153, 200);
         wrappedBlock = block;
+
+        world = new SimulatedWorld(-1, -1, -2, 2, 0, 1);
+        world.setBlock(wrappedBlock.block, 0, 0, -1);
+        world.setBlock(wrappedBlock.block, 1, 0, -1);
+        world.setBlock(wrappedBlock.block, 0, 0, 0);
+        world.setBlock(wrappedBlock.block, 1, 0, 0);
+
+        for (int i = -1; i < 3; i++)
+        {
+            for (int j = -2; j < 2; j++)
+            {
+                world.setBlock(Blocks.stone, i, -1, j);
+            }
+        }
     }
 
     @Override
@@ -58,7 +76,7 @@ public class WindowEditTextures extends Window
 
         cbTransparent = checkBox().below(textBoxes[4], 9).add();
         cbTransparent.setIsChecked(wrappedBlock.container.transparent);
-        label("Transparent").rightTo(cbTransparent).add();
+        Label lbl =label("Transparent").rightTo(cbTransparent).add();
 
         cbSemiTransparent = checkBox().below(cbTransparent, 7).add();
         cbSemiTransparent.setIsChecked(wrappedBlock.container.semiTransparent);
@@ -68,6 +86,12 @@ public class WindowEditTextures extends Window
         cbTileTransparent.setIsChecked(wrappedBlock.container.tileTransparent);
         label("Tile Transparent").rightTo(cbTileTransparent).add();
 
+        blockDisplay = worldDisplay(world).rightTo(lbl, 30).size(75,75).add();
+        blockDisplay.rotate = false;
+        blockDisplay.camY = 2.0f;
+        blockDisplay.camX = 0.5f;
+        blockDisplay.lookX = 1.0f;
+
         updatePreviewLocations();
     }
 
@@ -76,6 +100,11 @@ public class WindowEditTextures extends Window
     {
         if (button != 0)
             return;
+
+        if (cbTileTransparent.getIsChecked() && !cbTransparent.getIsChecked())
+        {
+            cbTransparent.setIsChecked(true);
+        }
 
         if (c == btnEdit)
         {
@@ -127,9 +156,22 @@ public class WindowEditTextures extends Window
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
-        super.draw(mouseX, mouseY);
+        boolean prevTile = wrappedBlock.container.tileTransparent;
+        boolean prevTrans = wrappedBlock.container.transparent;
+        boolean prevSemi = wrappedBlock.container.semiTransparent;
+        wrappedBlock.container.tileTransparent = cbTileTransparent.getIsChecked();
+        wrappedBlock.container.transparent = cbTransparent.getIsChecked();
+        wrappedBlock.container.semiTransparent = cbSemiTransparent.getIsChecked();
+        super.draw(mouseX, mouseY, renderTick);
+        wrappedBlock.container.tileTransparent = prevTile;
+        wrappedBlock.container.transparent = prevTrans;
+        wrappedBlock.container.semiTransparent = prevSemi;
+
+        GL11.glEnable(GL11.GL_BLEND);
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
 
         for (int i = 0; i < locations.length; i++)
         {
@@ -137,7 +179,7 @@ public class WindowEditTextures extends Window
                 continue;
 
             int posX = textBoxes[i].getX() + textBoxes[i].getWidth() + 3;
-            int posY = textBoxes[i].getY();
+            int posY = textBoxes[i].getY() - 1;
 
             if (locations[i] != null)
             {
@@ -148,5 +190,10 @@ public class WindowEditTextures extends Window
                 GL11.glScalef(16.0F, 16.0F, 1.0F);
             }
         }
+
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
     }
+
+
 }

@@ -42,7 +42,7 @@ public class ListBoxItem<T> extends ControlContainer
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         if (drawDefaultBackground)
         {
@@ -53,7 +53,7 @@ public class ListBoxItem<T> extends ControlContainer
             GuiHelper.drawOutlinedRect(getRect(), color1, color2);
         }
 
-        super.draw(mouseX, mouseY);
+        super.draw(mouseX, mouseY, renderTick);
     }
 
     protected final int getDefaultColor1(boolean isSelected, boolean isMouseOver)

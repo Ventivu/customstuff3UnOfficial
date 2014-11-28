@@ -163,7 +163,7 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
 
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -192,7 +192,7 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
             mc.fontRenderer.drawString(title, rect.getX() + (rect.getWidth() - mc.fontRenderer.getStringWidth(title)) / 2, rect.getY() - 10, Color.BLACK);
         }
 
-        super.draw(mouseX, mouseY);
+        super.draw(mouseX, mouseY, renderTick);
     }
 
 }

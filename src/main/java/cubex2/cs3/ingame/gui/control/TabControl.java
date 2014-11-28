@@ -112,7 +112,7 @@ public class TabControl extends Control
     }
 
     @Override
-    public void draw(int mouseX, int mouseY)
+    public void draw(int mouseX, int mouseY, float renderTick)
     {
         int wheel = GuiBase.dWheel;
         if (wheel != 0 && mouseX >= getX() - tabWidth && mouseX < getX() && mouseY >= getY() && mouseY < getY() + getHeight())
@@ -175,7 +175,7 @@ public class TabControl extends Control
 
         if (activeTab != null)
         {
-            activeTab.draw(mouseX, mouseY);
+            activeTab.draw(mouseX, mouseY, renderTick);
         }
     }
 
