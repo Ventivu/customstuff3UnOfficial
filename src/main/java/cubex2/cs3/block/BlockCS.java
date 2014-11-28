@@ -164,6 +164,18 @@ public class BlockCS extends Block
     }
 
     @Override
+    public float getBlockHardness(World world, int x, int y, int z)
+    {
+        return wrappedBlock.getHardness(world.getBlockMetadata(x, y, z));
+    }
+
+    @Override
+    public float getExplosionResistance(Entity entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ)
+    {
+        return wrappedBlock.getExplosionResistance(entity, world, x, y, z, explosionX, explosionY, explosionZ);
+    }
+
+    @Override
     public CreativeTabs getCreativeTabToDisplayOn()
     {
         return wrappedBlock.getCreativeTabToDisplayOn();

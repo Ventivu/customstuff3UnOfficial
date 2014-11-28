@@ -327,6 +327,16 @@ public class WrappedBlock extends BaseContent
         return container.tickrate;
     }
 
+    public float getHardness(int meta)
+    {
+        return container.hardness;
+    }
+
+    public float getExplosionResistance(Entity entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ)
+    {
+        return container.resistance / 5.0f;
+    }
+
     public int getLightValue(IBlockAccess world, int x, int y, int z)
     {
         return container.light;
