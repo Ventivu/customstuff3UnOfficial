@@ -71,6 +71,17 @@ public abstract class ControlBuilder<T extends Control>
         return this;
     }
 
+    public ControlBuilder<T> centerVert()
+    {
+        return centerVert(0);
+    }
+
+    public ControlBuilder<T> centerVert(int offset)
+    {
+        posY = (container.getHeight() - height) / 2 + offset;
+        return this;
+    }
+
     public ControlBuilder<T> size(int w, int h)
     {
         width = w;

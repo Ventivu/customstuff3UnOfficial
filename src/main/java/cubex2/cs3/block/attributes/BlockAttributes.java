@@ -8,6 +8,7 @@ import cubex2.cs3.ingame.gui.block.*;
 import cubex2.cs3.ingame.gui.common.WindowEditFloat;
 import cubex2.cs3.ingame.gui.common.WindowEditInteger;
 import cubex2.cs3.ingame.gui.common.WindowEditScript;
+import cubex2.cs3.util.BlockDrop;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
 import net.minecraft.block.Block;
@@ -32,8 +33,8 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditOpacity.class)
     public int opacity = 255;
 
-    @Attribute(windowClass = WindowEditInteger.class)
-    public int light = 10;
+    @Attribute(windowClass = WindowEditInteger.class, additionalInfo = "0-15")
+    public int light = 0;
 
     @Attribute(windowClass = WindowEditInteger.class)
     public int flammability = 10;
@@ -44,10 +45,13 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditInteger.class)
     public int tickrate = 10;
 
+    @Attribute(windowClass = WindowEditDrops.class)
+    public BlockDrop drop = null;
+
     @Attribute(windowClass = WindowEditExpDrop.class, customName = "expDrop")
     public int expDropMin = 0;
 
-    @Attribute(windowClass =  Window.class, hasOwnWindow = false)
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public int expDropMax = 0;
 
     @Attribute(windowClass = WindowEditSlipperiness.class)
@@ -167,6 +171,14 @@ public class BlockAttributes extends AttributeContainer
                 return textureEast;
             default:
                 return textureWest;
+        }
+    }
+
+    public void postCreateBlock(Block block)
+    {
+        if (drop == null)
+        {
+            drop = new BlockDrop(block, 0);
         }
     }
 }

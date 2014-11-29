@@ -9,6 +9,7 @@ public class LabelBuilder extends ControlBuilder<Label>
     public LabelBuilder(String text, ControlContainer c)
     {
         super(c);
+        this.height = 9;
         this.text = text;
     }
 

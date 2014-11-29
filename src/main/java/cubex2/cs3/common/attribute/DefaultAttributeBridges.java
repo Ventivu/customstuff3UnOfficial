@@ -2,6 +2,7 @@ package cubex2.cs3.common.attribute;
 
 import com.google.common.collect.Maps;
 import cubex2.cs3.common.attribute.bridges.*;
+import cubex2.cs3.util.BlockDrop;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
 import net.minecraft.block.Block;
@@ -43,5 +44,6 @@ public abstract class DefaultAttributeBridges
         register(ItemStack.class, ItemStackBridge.class);
         register(Material.class, MaterialBridge.class);
         register(Block.SoundType.class, StepSoundBridge.class);
+        register(BlockDrop.class, BlockDropBridge.class);
     }
 }

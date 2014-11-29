@@ -1,5 +1,6 @@
 package cubex2.cs3.common;
 
+import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -24,10 +25,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 
 public class WrappedBlock extends BaseContent
 {
@@ -112,6 +110,8 @@ public class WrappedBlock extends BaseContent
 
         block = type.createBlock(this);
         blockItem = GameData.getItemRegistry().getObject(pack.id + ":" + getName());
+
+        container.postCreateBlock(block);
 
         return true;
     }
@@ -400,10 +400,7 @@ public class WrappedBlock extends BaseContent
         if (container.information == null) return;
 
         String[] split = container.information.split("\n");
-        for (int i = 0; i < split.length; i++)
-        {
-            list.add(split[i]);
-        }
+        Collections.addAll(list, split);
     }
 
     public int getExpDrop(IBlockAccess world, int metadata, int fortune)
@@ -412,5 +409,10 @@ public class WrappedBlock extends BaseContent
         int max = container.expDropMax;
 
         return random.nextInt(max + 1 - min) + min;
+    }
+
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
+    {
+        return container.drop.getDrops(fortune, random);
     }
 }
