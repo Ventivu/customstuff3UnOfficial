@@ -8,28 +8,28 @@ public class GeneralHelper
 {
     public static Block getBlock(String value)
     {
-        return GameData.blockRegistry.getObject(value);
+        return GameData.getBlockRegistry().getObject(value);
     }
 
     public static String getBlockName(Block block)
     {
-        if (GameData.blockRegistry.getId(block) > 0)
+        if (GameData.getBlockRegistry().getId(block) > 0)
         {
-            return GameData.blockRegistry.getNameForObject(block);
+            return GameData.getBlockRegistry().getNameForObject(block);
         }
         return null;
     }
 
     public static Item getItem(String value)
     {
-        return GameData.itemRegistry.getObject(value);
+        return GameData.getItemRegistry().getObject(value);
     }
 
     public static String getItemName(Item item)
     {
-        if (GameData.itemRegistry.getId(item) > 0)
+        if (GameData.getItemRegistry().getId(item) > 0)
         {
-            return GameData.itemRegistry.getNameForObject(item);
+            return GameData.getItemRegistry().getNameForObject(item);
         }
         return null;
     }

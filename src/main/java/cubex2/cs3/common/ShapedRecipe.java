@@ -67,10 +67,7 @@ public class ShapedRecipe extends BaseContent
         Object[] recipeObjects = new Object[height + (width * height) * 2];
 
         String[] shape = createShape();
-        for (int i = 0; i < height; i++)
-        {
-            recipeObjects[i] = shape[i];
-        }
+        System.arraycopy(shape, 0, recipeObjects, 0, shape.length);
 
         for (int i = 0, n = 0; i < width * height * 2; i += 2)
         {

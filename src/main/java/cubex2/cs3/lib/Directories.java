@@ -19,7 +19,7 @@ public class Directories
     public static File MAIN_DIRECTORY;
     public static File MODS;
 
-    public static final void init(File baseDir)
+    public static void init(File baseDir)
     {
         MAIN_DIRECTORY = baseDir;
         MODS = new File(baseDir, "mods");

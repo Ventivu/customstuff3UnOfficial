@@ -4,9 +4,9 @@ import cubex2.cs3.common.ShapedRecipe;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Textures;
-import cubex2.cs3.util.ArrayHelper;
 import cubex2.cs3.util.RecipeInput;
 import net.minecraft.item.ItemStack;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClosedListener
 {
@@ -157,7 +157,7 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
             updateButtons();
         } else
         {
-            int index = ArrayHelper.indexOf(c, inputDisplays);
+            int index = ArrayUtils.indexOf(inputDisplays, c);
 
             if (index != -1)
             {

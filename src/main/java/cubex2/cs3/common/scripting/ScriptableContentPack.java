@@ -1,7 +1,6 @@
 package cubex2.cs3.common.scripting;
 
 import cubex2.cs3.common.BaseContentPack;
-import cubex2.cs3.common.Fuel;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 

@@ -1387,7 +1387,7 @@ public class ScriptableWorld
         int amount = 0;
         for (String entity : entities.split(","))
         {
-            Class<? extends Entity> mobClass = null;
+            Class<? extends Entity> mobClass;
             if (entity.equals("hostile"))
             {
                 mobClass = EntityMob.class;

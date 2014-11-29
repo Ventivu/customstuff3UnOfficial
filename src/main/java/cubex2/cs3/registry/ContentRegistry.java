@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.Content;
 import cubex2.cs3.util.PostponableTask;
-import cubex2.cs3.util.PostponeHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 

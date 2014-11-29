@@ -35,7 +35,7 @@ public class WindowEditExpDrop extends Window
         Label lblMax = label("Max").below(tbMin).add();
 
         tbMax = textBox().below(lblMax).fillWidth(7).add();
-        tbMax.setValidityProvider(TextBoxValidators.POSITIVE_INTEGER);
+        tbMax.setValidityProvider(new TextBoxValidators.MinMaxValidator(tbMin));
         tbMax.setText(String.valueOf(wrappedBlock.container.expDropMax));
     }
 

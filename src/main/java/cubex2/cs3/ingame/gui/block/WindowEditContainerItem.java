@@ -1,7 +1,6 @@
 package cubex2.cs3.ingame.gui.block;
 
 import cubex2.cs3.common.WrappedBlock;
-import cubex2.cs3.common.WrappedItem;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.IWindowClosedListener;
 import cubex2.cs3.ingame.gui.Window;

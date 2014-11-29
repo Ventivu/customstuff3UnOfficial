@@ -158,7 +158,7 @@ public class Inventory
 
     public int setSlot(int slotId, Item item, int count, int metadata)
     {
-        int amount = 0;
+        int amount;
         int maxStack = Math.min(count, item.getItemStackLimit(new ItemStack(item, 1, metadata)));
 
         ItemStack stack = inv.getStackInSlot(slotId);
@@ -166,7 +166,7 @@ public class Inventory
         {
             inv.setInventorySlotContents(slotId, new ItemStack(item, maxStack, metadata));
             amount = maxStack;
-        } else if (stack.getItem() == item && stack.getItemDamage() == metadata)
+        } else
         {
             amount = maxStack - stack.stackSize;
             inv.setInventorySlotContents(slotId, new ItemStack(item, maxStack, metadata));
@@ -372,10 +372,7 @@ public class Inventory
     public boolean hasEnchantment(int slotId, int id, int level)
     {
         ItemStack stack = inv.getStackInSlot(slotId);
-        if (stack != null)
-            return ItemStackHelper.hasEnchantment(stack, id, level);
-        else
-            return false;
+        return stack != null && ItemStackHelper.hasEnchantment(stack, id, level);
     }
 
     public void clearEnchantments(int slotId)

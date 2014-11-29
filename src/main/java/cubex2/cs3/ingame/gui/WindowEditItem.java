@@ -56,7 +56,7 @@ public class WindowEditItem extends Window implements IListBoxItemClickListener<
                 GuiBase.openWindow(new WindowEditScript(item.field.getName(), wrappedItem.container));
             } else if (windowClass == WindowEditInteger.class)
             {
-                GuiBase.openWindow(new WindowEditInteger(item.field.getName(), wrappedItem.container));
+                GuiBase.openWindow(new WindowEditInteger(item, wrappedItem.container));
             } else
             {
                 GuiBase.openWindow(windowClass.getConstructor(WrappedItem.class).newInstance(wrappedItem));

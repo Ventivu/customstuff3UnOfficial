@@ -13,11 +13,11 @@ import java.util.zip.ZipInputStream;
 
 public class ZipHelper
 {
-    public static String readEntryContent(File zipFile, String entryName) throws ZipException, IOException
+    public static String readEntryContent(File zipFile, String entryName) throws IOException
     {
         FileInputStream fin = new FileInputStream(zipFile);
         ZipInputStream zin = new ZipInputStream(fin);
-        ZipEntry ze = null;
+        ZipEntry ze;
         String ret = null;
         while ((ze = zin.getNextEntry()) != null)
         {
@@ -44,7 +44,7 @@ public class ZipHelper
     {
         FileInputStream fin = new FileInputStream(zipFile);
         ZipInputStream zin = new ZipInputStream(fin);
-        ZipEntry ze = null;
+        ZipEntry ze;
         List<String> entries = Lists.newArrayList();
         while ((ze = zin.getNextEntry()) != null)
         {

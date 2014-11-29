@@ -5,9 +5,9 @@ import cubex2.cs3.common.ShapelessRecipe;
 import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Textures;
-import cubex2.cs3.util.ArrayHelper;
 import cubex2.cs3.util.RecipeInput;
 import net.minecraft.item.ItemStack;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
 
@@ -125,7 +125,7 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
             updateButtons();
         } else
         {
-            int index = ArrayHelper.indexOf(c, inputDisplays);
+            int index = ArrayUtils.indexOf(inputDisplays, c);
 
             if (index != -1)
             {
@@ -155,7 +155,7 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
             }
         }
 
-        return inputs.toArray(new RecipeInput[0]);
+        return inputs.toArray(new RecipeInput[inputs.size()]);
     }
 
     private void updateButtons()

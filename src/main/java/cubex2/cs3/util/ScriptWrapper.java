@@ -20,7 +20,7 @@ public class ScriptWrapper
     public void setSource(String s)
     {
         source = s;
-        if (source == null && s.length() == 0)
+        if (source == null)
         {
             script = null;
         }

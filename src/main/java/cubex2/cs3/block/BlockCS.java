@@ -3,7 +3,6 @@ package cubex2.cs3.block;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -15,6 +14,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class BlockCS extends Block
@@ -145,6 +145,13 @@ public class BlockCS extends Block
         return wrappedBlock.getLightValue(world, x, y, z);
     }
 
+    @Override
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
+    {
+        return wrappedBlock.getDrops(world, x, y, z, metadata, fortune);
+    }
+
+    @Override
     public int getExpDrop(IBlockAccess world, int metadata, int fortune)
     {
         return wrappedBlock.getExpDrop(world, metadata, fortune);

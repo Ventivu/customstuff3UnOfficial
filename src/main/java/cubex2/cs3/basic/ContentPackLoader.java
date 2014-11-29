@@ -1,8 +1,6 @@
 package cubex2.cs3.basic;
 
-import cubex2.cs3.CustomStuff3;
 import cubex2.cs3.asm.ICSMod;
-import cubex2.cs3.lib.Directories;
 
 import java.io.File;
 import java.io.FilenameFilter;

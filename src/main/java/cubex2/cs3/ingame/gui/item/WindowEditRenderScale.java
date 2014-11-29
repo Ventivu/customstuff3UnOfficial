@@ -8,7 +8,6 @@ import cubex2.cs3.ingame.gui.control.IPlayerDisplayPlayerModifier;
 import cubex2.cs3.ingame.gui.control.PlayerDisplay;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.TextBoxValidators;
-import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
 
 public class WindowEditRenderScale extends Window implements IPlayerDisplayPlayerModifier

@@ -43,8 +43,7 @@ public class ScriptablePosition extends ScriptableObject implements Cloneable
 
     public Scriptable jsContructor(double x, double y, double z)
     {
-        ScriptablePosition result = new ScriptablePosition(x, y, z);
-        return result;
+        return new ScriptablePosition(x, y, z);
     }
 
     public ScriptablePosition(double x, double y, double z)
@@ -70,8 +69,7 @@ public class ScriptablePosition extends ScriptableObject implements Cloneable
     @Override
     public Object clone()
     {
-        ScriptablePosition pos = new ScriptablePosition(x, y, z);
-        return pos;
+        return new ScriptablePosition(x, y, z);
     }
 
 }

@@ -7,7 +7,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedItem;
-import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.common.client.renderer.CSItemRenderer;
 import cubex2.cs3.item.attributes.ItemAttributes;
 import net.minecraft.item.Item;

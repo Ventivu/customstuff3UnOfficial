@@ -8,7 +8,6 @@ import cubex2.cs3.ingame.gui.control.PictureBox;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowClosedListener<WindowSelectItem>
 {

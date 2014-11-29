@@ -25,10 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
 
 public class WrappedItem extends BaseContent
 {
@@ -321,10 +318,7 @@ public class WrappedItem extends BaseContent
         if (container.information == null) return;
 
         String[] split = container.information.split("\n");
-        for (int i = 0; i < split.length; i++)
-        {
-            list.add(split[i]);
-        }
+        Collections.addAll(list, split);
     }
 
     public EnumAction getItemUseAction(ItemStack stack)

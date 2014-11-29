@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.GuiHelper;
 import net.minecraft.client.gui.GuiTextField;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 
 public class TextBox extends Control implements IValidityControl
@@ -56,7 +57,8 @@ public class TextBox extends Control implements IValidityControl
 
     public void setMaxLength(int value)
     {
-        maxLength = value; textField.setMaxStringLength(value);
+        maxLength = value;
+        textField.setMaxStringLength(value);
     }
 
     @Override
@@ -111,6 +113,7 @@ public class TextBox extends Control implements IValidityControl
         {
             mc.renderEngine.bindTexture(Textures.CONTROLS);
             zLevel += 10.0f;
+            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             drawTexturedModalRect(validityRect.getX(), validityRect.getY(), 200, 72, validityRect.getWidth(), validityRect.getHeight());
             zLevel -= 10.0f;
         }
