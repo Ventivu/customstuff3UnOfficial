@@ -39,7 +39,7 @@ public class WindowBlocks extends Window implements IWindowClosedListener, IList
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
         if (c == btnNew)
         {
@@ -55,7 +55,7 @@ public class WindowBlocks extends Window implements IWindowClosedListener, IList
             btnEdit.setEnabled(false);
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

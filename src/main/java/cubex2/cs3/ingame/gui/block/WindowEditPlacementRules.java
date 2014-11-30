@@ -1,23 +1,17 @@
 package cubex2.cs3.ingame.gui.block;
 
 import cubex2.cs3.common.WrappedBlock;
-import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.CheckBox;
-import cubex2.cs3.ingame.gui.control.Control;
 
-public class WindowEditPlacementRules extends Window
+public class WindowEditPlacementRules extends WindowEditBlockAttribute
 {
-    private final WrappedBlock wrappedBlock;
-
     private CheckBox cbPlaceOnFloor;
     private CheckBox cbPlaceOnCeiling;
     private CheckBox cbPlaceOnWall;
 
     public WindowEditPlacementRules(WrappedBlock block)
     {
-        super("placement", EDIT | CANCEL, 150, 100);
-        wrappedBlock = block;
+        super(block, "placement", 150, 100);
     }
 
     @Override
@@ -36,22 +30,10 @@ public class WindowEditPlacementRules extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void applyChanges()
     {
-        if (button != 0)
-            return;
-
-        if (c == btnEdit)
-        {
-            wrappedBlock.container.canPlaceOnFloor = cbPlaceOnFloor.getIsChecked();
-            wrappedBlock.container.canPlaceOnCeiling = cbPlaceOnCeiling.getIsChecked();
-            wrappedBlock.container.canPlaceOnWall = cbPlaceOnWall.getIsChecked();
-            wrappedBlock.getPack().save();
-
-            GuiBase.openPrevWindow();
-        } else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+        wrappedBlock.container.canPlaceOnFloor = cbPlaceOnFloor.getIsChecked();
+        wrappedBlock.container.canPlaceOnCeiling = cbPlaceOnCeiling.getIsChecked();
+        wrappedBlock.container.canPlaceOnWall = cbPlaceOnWall.getIsChecked();
     }
 }

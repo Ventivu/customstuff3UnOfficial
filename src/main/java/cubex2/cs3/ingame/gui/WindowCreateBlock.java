@@ -41,11 +41,8 @@ public class WindowCreateBlock extends Window implements IValidityProvider, IStr
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnCreate)
         {
             WrappedBlock block = new WrappedBlock(tbName.getText().trim(), dbType.getSelectedValue(), pack);
@@ -54,7 +51,7 @@ public class WindowCreateBlock extends Window implements IValidityProvider, IStr
             GuiBase.openPrevWindow();
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

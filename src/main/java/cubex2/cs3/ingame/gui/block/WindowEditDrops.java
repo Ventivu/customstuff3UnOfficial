@@ -12,16 +12,13 @@ import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 import cubex2.cs3.util.BlockDrop;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditDrops extends Window implements IWindowClosedListener, IListBoxItemClickListener<BlockDrop.DropData>
+public class WindowEditDrops extends WindowEditBlockAttribute implements IWindowClosedListener, IListBoxItemClickListener<BlockDrop.DropData>
 {
-    private final WrappedBlock wrappedBlock;
-
     private ListBox<BlockDrop.DropData> listBox;
 
     public WindowEditDrops(WrappedBlock block)
     {
-        super("drops", NEW | EDIT | DELETE | BACK, 263, 160);
-        wrappedBlock = block;
+        super(block, "drops", NEW | EDIT | DELETE | BACK, 263, 160);
     }
 
     @Override
@@ -44,17 +41,11 @@ public class WindowEditDrops extends Window implements IWindowClosedListener, IL
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnNew)
         {
             GuiBase.openWindow(new WindowSelectItem(false));
-        } else if (c == btnEdit)
-        {
-            GuiBase.openWindow(new WindowEditDropData(wrappedBlock, listBox.getSelectedItem()));
         } else if (c == btnDelete)
         {
             BlockDrop.DropData drop = listBox.getSelectedItem();
@@ -66,8 +57,20 @@ public class WindowEditDrops extends Window implements IWindowClosedListener, IL
             wrappedBlock.getPack().save();
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
+    }
+
+    @Override
+    protected void handleEditButtonClicked()
+    {
+        applyChanges();
+    }
+
+    @Override
+    protected void applyChanges()
+    {
+        GuiBase.openWindow(new WindowEditDropData(wrappedBlock, listBox.getSelectedItem()));
     }
 
     @Override

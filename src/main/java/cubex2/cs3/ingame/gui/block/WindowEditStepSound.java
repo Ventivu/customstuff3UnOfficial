@@ -1,8 +1,6 @@
 package cubex2.cs3.ingame.gui.block;
 
 import cubex2.cs3.common.WrappedBlock;
-import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Button;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.DropBox;
@@ -12,10 +10,8 @@ import net.minecraft.block.Block;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 
-public class WindowEditStepSound extends Window implements IStringProvider<Block.SoundType>
+public class WindowEditStepSound extends WindowEditBlockAttribute implements IStringProvider<Block.SoundType>
 {
-    private WrappedBlock wrappedBlock;
-
     private DropBox<Block.SoundType> dbSounds;
     private Button btnPlayPlace;
     private Button btnPlayBreak;
@@ -23,8 +19,7 @@ public class WindowEditStepSound extends Window implements IStringProvider<Block
 
     public WindowEditStepSound(WrappedBlock block)
     {
-        super("stepSound", EDIT | CANCEL, 200, 100);
-        wrappedBlock = block;
+        super(block, "stepSound", 200, 100);
     }
 
     @Override
@@ -47,11 +42,8 @@ public class WindowEditStepSound extends Window implements IStringProvider<Block
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnPlayPlace)
         {
             mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(new ResourceLocation(dbSounds.getSelectedValue().func_150496_b())));
@@ -61,17 +53,17 @@ public class WindowEditStepSound extends Window implements IStringProvider<Block
         } else if (c == btnPlayStep)
         {
             mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(new ResourceLocation(dbSounds.getSelectedValue().getStepResourcePath())));
-        } else if (c == btnEdit)
-        {
-            wrappedBlock.container.stepSound = dbSounds.getSelectedValue();
-            wrappedBlock.block.stepSound = dbSounds.getSelectedValue();
-            wrappedBlock.getPack().save();
-
-            GuiBase.openPrevWindow();
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
+    }
+
+    @Override
+    protected void applyChanges()
+    {
+        wrappedBlock.container.stepSound = dbSounds.getSelectedValue();
+        wrappedBlock.block.stepSound = dbSounds.getSelectedValue();
     }
 
     @Override

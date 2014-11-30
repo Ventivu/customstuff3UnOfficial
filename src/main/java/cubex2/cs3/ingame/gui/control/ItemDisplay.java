@@ -23,6 +23,7 @@ public class ItemDisplay extends ValidityControl<ItemDisplay>
 
     private boolean drawSlotBackground = false;
     private boolean showIdAndDamageValue = false;
+    private boolean clearOnRightClick = false;
     private int tickCounter = 1;
     private int currentIndex = 0;
 
@@ -49,6 +50,10 @@ public class ItemDisplay extends ValidityControl<ItemDisplay>
         showIdAndDamageValue = true;
     }
 
+    public void setClearOnRightClick()
+    {
+        clearOnRightClick = true;
+    }
 
     public void setStackSize(int stackSize)
     {
@@ -124,6 +129,16 @@ public class ItemDisplay extends ValidityControl<ItemDisplay>
         }
 
         valueChanged();
+    }
+
+
+    @Override
+    public void mouseDown(int mouseX, int mouseY, int button)
+    {
+        if (button == 1 && clearOnRightClick)
+        {
+            setItemStack(null);
+        }
     }
 
     @Override

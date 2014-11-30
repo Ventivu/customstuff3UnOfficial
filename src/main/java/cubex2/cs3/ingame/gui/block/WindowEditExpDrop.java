@@ -8,17 +8,14 @@ import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.TextBoxValidators;
 
-public class WindowEditExpDrop extends Window
+public class WindowEditExpDrop extends WindowEditBlockAttribute
 {
-    private WrappedBlock wrappedBlock;
-
     private TextBox tbMin;
     private TextBox tbMax;
 
     public WindowEditExpDrop(WrappedBlock block)
     {
-        super("expDrop", EDIT | CANCEL, 150, 95);
-        wrappedBlock = block;
+        super(block, "expDrop", 150, 95);
     }
 
     @Override
@@ -40,22 +37,9 @@ public class WindowEditExpDrop extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void applyChanges()
     {
-        if (button != 0)
-            return;
-
-        if (c == btnEdit)
-        {
-            wrappedBlock.container.expDropMin = Integer.parseInt(tbMin.getText());
-            wrappedBlock.container.expDropMax = Integer.parseInt(tbMax.getText());
-            wrappedBlock.container.getPack().save();
-
-            GuiBase.openPrevWindow();
-        }
-        else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+        wrappedBlock.container.expDropMin = Integer.parseInt(tbMin.getText());
+        wrappedBlock.container.expDropMax = Integer.parseInt(tbMax.getText());
     }
 }

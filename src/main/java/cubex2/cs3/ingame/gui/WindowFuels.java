@@ -45,11 +45,8 @@ public class WindowFuels extends Window implements IListBoxItemClickListener<Fue
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnNew)
         {
             GuiBase.openWindow(new WindowEditOrCreateFuel(pack));
@@ -64,7 +61,7 @@ public class WindowFuels extends Window implements IListBoxItemClickListener<Fue
             btnEdit.setEnabled(false);
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

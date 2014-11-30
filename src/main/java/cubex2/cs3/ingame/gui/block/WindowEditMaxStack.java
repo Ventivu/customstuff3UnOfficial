@@ -2,27 +2,23 @@ package cubex2.cs3.ingame.gui.block;
 
 import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.ButtonUpDown;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
-public class WindowEditMaxStack extends Window
+public class WindowEditMaxStack extends WindowEditBlockAttribute
 {
-    private WrappedBlock wrappedBlock;
-
     private ItemDisplay itemDisplay;
     private ButtonUpDown btnUp;
     private ButtonUpDown btnDown;
 
     private int newMaxStack;
 
-    public WindowEditMaxStack(WrappedBlock item)
+    public WindowEditMaxStack(WrappedBlock block)
     {
-        super("maxStack", EDIT | CANCEL, 150, 100);
-        wrappedBlock = item;
+        super(block, "maxStack", 150, 100);
         newMaxStack = wrappedBlock.container.maxStack;
     }
 
@@ -50,26 +46,23 @@ public class WindowEditMaxStack extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnUp || c == btnDown)
         {
             int numChange = (GuiBase.isShiftKeyDown() ? 5 : 1) * (c == btnUp ? 1 : -1);
             newMaxStack = MathHelper.clamp_int(newMaxStack + numChange, 1, 64);
             maxStackChanged();
-        } else if (c == btnEdit)
-        {
-            wrappedBlock.container.maxStack = newMaxStack;
-            wrappedBlock.blockItem.setMaxStackSize(newMaxStack);
-            wrappedBlock.getPack().save();
-
-            GuiBase.openPrevWindow();
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
+    }
+
+    @Override
+    protected void applyChanges()
+    {
+        wrappedBlock.container.maxStack = newMaxStack;
+        wrappedBlock.blockItem.setMaxStackSize(newMaxStack);
     }
 }

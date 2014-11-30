@@ -171,7 +171,7 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
                 }
             } else
             {
-                super.controlClicked(c, mouseX, mouseY, button);
+                handleDefaultButtonClick(c);
             }
         }
     }

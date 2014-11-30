@@ -53,7 +53,7 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
         if (c == itemDisplay)
         {
@@ -73,7 +73,7 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
             GuiBase.openPrevWindow();
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

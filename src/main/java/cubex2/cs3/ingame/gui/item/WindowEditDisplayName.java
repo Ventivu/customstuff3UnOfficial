@@ -12,16 +12,13 @@ import cubex2.cs3.ingame.gui.control.TextBox;
 import java.util.Map;
 import java.util.Properties;
 
-public class WindowEditDisplayName extends Window implements IValidityProvider
+public class WindowEditDisplayName extends WindowEditItemAttribute implements IValidityProvider
 {
-    private WrappedItem wrappedItem;
-
     private TextBox textBox;
 
     public WindowEditDisplayName(WrappedItem item)
     {
-        super("displayName", EDIT | CANCEL, 150, 60);
-        this.wrappedItem = item;
+        super(item, "displayName", EDIT | CANCEL, 150, 60);
     }
 
     @Override
@@ -35,27 +32,15 @@ public class WindowEditDisplayName extends Window implements IValidityProvider
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void applyChanges()
     {
-        if (button != 0)
-            return;
+        wrappedItem.container.displayName = textBox.getText().trim();
 
-        if (c == btnEdit)
-        {
-            wrappedItem.container.displayName = textBox.getText().trim();
-            wrappedItem.getPack().save();
+        Map<String, Properties> modLangData = ReflectionHelper.getPrivateValue(LanguageRegistry.class, LanguageRegistry.instance(), "modLanguageData");
+        Properties p = modLangData.get("en_US");
+        p.put("item." + wrappedItem.getName() + ".name", wrappedItem.container.displayName);
 
-            Map<String, Properties> modLangData = ReflectionHelper.getPrivateValue(LanguageRegistry.class, LanguageRegistry.instance(), "modLanguageData");
-            Properties p = modLangData.get("en_US");
-            p.put("item." + wrappedItem.getName() + ".name", wrappedItem.container.displayName);
-
-            mc.refreshResources();
-
-            GuiBase.openPrevWindow();
-        } else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+        mc.refreshResources();
     }
 
     @Override

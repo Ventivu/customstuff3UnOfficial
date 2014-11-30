@@ -83,7 +83,7 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
         if (c == itemDisplay)
         {
@@ -103,7 +103,7 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
             GuiBase.openPrevWindow();
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

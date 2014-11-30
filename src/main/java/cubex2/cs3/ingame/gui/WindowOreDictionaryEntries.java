@@ -36,11 +36,8 @@ public class WindowOreDictionaryEntries extends Window implements IListBoxItemCl
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnNew)
         {
             GuiBase.openWindow(new WindowEditOrCreateOreDictEntry(pack));
@@ -51,7 +48,7 @@ public class WindowOreDictionaryEntries extends Window implements IListBoxItemCl
             btnDelete.setEnabled(false);
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

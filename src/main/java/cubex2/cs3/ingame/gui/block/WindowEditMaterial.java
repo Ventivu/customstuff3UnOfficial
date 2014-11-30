@@ -9,16 +9,13 @@ import cubex2.cs3.ingame.gui.control.IStringProvider;
 import cubex2.cs3.lib.Materials;
 import net.minecraft.block.material.Material;
 
-public class WindowEditMaterial extends Window implements IStringProvider<Material>
+public class WindowEditMaterial extends WindowEditBlockAttribute implements IStringProvider<Material>
 {
-    private WrappedBlock wrappedBlock;
-
     private DropBox<Material> dbTabs;
 
     public WindowEditMaterial(WrappedBlock block)
     {
-        super("creativeTab", EDIT | CANCEL, 170, 100);
-        wrappedBlock = block;
+        super(block, "creativeTab", 170, 100);
     }
 
     @Override
@@ -34,21 +31,9 @@ public class WindowEditMaterial extends Window implements IStringProvider<Materi
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void applyChanges()
     {
-        if (button != 0)
-            return;
-
-        if (c == btnEdit)
-        {
-            wrappedBlock.container.material = dbTabs.getSelectedValue();
-            wrappedBlock.getPack().save();
-
-            GuiBase.openPrevWindow();
-        } else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+        wrappedBlock.container.material = dbTabs.getSelectedValue();
     }
 
     @Override

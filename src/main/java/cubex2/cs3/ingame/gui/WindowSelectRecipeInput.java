@@ -67,7 +67,7 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
         if (c == btnCancel)
         {
@@ -76,7 +76,10 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         {
             GuiBase.openPrevWindow();
         }
-        super.controlClicked(c, mouseX, mouseY, button);
+        else
+        {
+            handleDefaultButtonClick(c);
+        }
     }
 
     @Override

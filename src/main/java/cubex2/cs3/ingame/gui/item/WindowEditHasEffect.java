@@ -1,17 +1,13 @@
 package cubex2.cs3.ingame.gui.item;
 
 import cubex2.cs3.common.WrappedItem;
-import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.CheckBox;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditHasEffect extends Window
+public class WindowEditHasEffect extends WindowEditItemAttribute
 {
-    private WrappedItem wrappedItem;
-
     private CheckBox checkBox;
     private ItemDisplay itemDisplay;
 
@@ -20,8 +16,7 @@ public class WindowEditHasEffect extends Window
 
     public WindowEditHasEffect(WrappedItem item)
     {
-        super("hasEffect", EDIT | CANCEL, 150, 100);
-        wrappedItem = item;
+        super(item, "hasEffect", 150, 100);
         oldHasEffect = newHasEffect = wrappedItem.container.hasEffect;
     }
 
@@ -40,24 +35,21 @@ public class WindowEditHasEffect extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == checkBox)
         {
             newHasEffect = checkBox.getIsChecked();
-        } else if (c == btnEdit)
-        {
-            wrappedItem.container.hasEffect = newHasEffect;
-            wrappedItem.getPack().save();
-
-            GuiBase.openPrevWindow();
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
+    }
+
+    @Override
+    protected void applyChanges()
+    {
+        wrappedItem.container.hasEffect = newHasEffect;
     }
 
     @Override

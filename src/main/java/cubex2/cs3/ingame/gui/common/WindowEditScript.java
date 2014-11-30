@@ -55,7 +55,7 @@ public class WindowEditScript extends Window
     {
         super.init();
 
-        textField = textField().y(7).fillWidth(7).height(getHeight()- 34).add();
+        textField = textField().y(7).fillWidth(7).height(getHeight() - 34).add();
         textField.setText(scriptWrapper.getSource());
 
         lblError = label("Script has syntax errors!").rightTo(btnEdit).add();
@@ -64,34 +64,26 @@ public class WindowEditScript extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void handleEditButtonClicked()
     {
-        if (c == btnEdit)
+        boolean hasErrors = false;
+        try
         {
-            boolean hasErrors = false;
-            try
-            {
-                scriptWrapper.setSource(textField.getText());
-            } catch (Exception e)
-            {
-                hasErrors = true;
-            }
-
-            if(!hasErrors)
-            {
-                container.setAttriubte(scriptName, scriptWrapper);
-                container.getPack().save();
-
-                GuiBase.openPrevWindow();
-            }
-            else
-            {
-                lblError.setVisible(true);
-            }
+            scriptWrapper.setSource(textField.getText());
+        } catch (Exception e)
+        {
+            hasErrors = true;
         }
-        else
+
+        if (!hasErrors)
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            container.setAttriubte(scriptName, scriptWrapper);
+            container.getPack().save();
+
+            GuiBase.openPrevWindow();
+        } else
+        {
+            lblError.setVisible(true);
         }
     }
 }

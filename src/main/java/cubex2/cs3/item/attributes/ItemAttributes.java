@@ -4,7 +4,7 @@ import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.WindowEditUsingAction;
+import cubex2.cs3.ingame.gui.item.WindowEditUsingAction;
 import cubex2.cs3.ingame.gui.common.WindowEditInteger;
 import cubex2.cs3.ingame.gui.common.WindowEditScript;
 import cubex2.cs3.ingame.gui.item.*;

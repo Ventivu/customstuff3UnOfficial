@@ -23,11 +23,8 @@ public class WindowMain extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnClose)
         {
             GuiBase.closeGui();

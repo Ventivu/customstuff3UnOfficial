@@ -139,7 +139,7 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
                 }
             } else
             {
-                super.controlClicked(c, mouseX, mouseY, button);
+                handleDefaultButtonClick(c);
             }
         }
     }

@@ -46,11 +46,8 @@ public class WindowSmeltingRecipes extends Window implements IListBoxItemClickLi
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnNew)
         {
             GuiBase.openWindow(new WindowEditOrCreateSmeltingRecipe(pack));
@@ -65,7 +62,7 @@ public class WindowSmeltingRecipes extends Window implements IListBoxItemClickLi
             btnEdit.setEnabled(false);
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

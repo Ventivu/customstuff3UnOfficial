@@ -1,6 +1,5 @@
 package cubex2.cs3.common;
 
-import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;

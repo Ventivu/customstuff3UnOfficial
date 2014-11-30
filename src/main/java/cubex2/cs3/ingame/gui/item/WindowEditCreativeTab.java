@@ -8,16 +8,13 @@ import cubex2.cs3.ingame.gui.control.DropBox;
 import cubex2.cs3.ingame.gui.control.IStringProvider;
 import net.minecraft.creativetab.CreativeTabs;
 
-public class WindowEditCreativeTab extends Window implements IStringProvider<CreativeTabs>
+public class WindowEditCreativeTab extends WindowEditItemAttribute implements IStringProvider<CreativeTabs>
 {
-    private WrappedItem wrappedItem;
-
     private DropBox<CreativeTabs> dbTabs;
 
     public WindowEditCreativeTab(WrappedItem item)
     {
-        super("creativeTab", EDIT | CANCEL, 150, 55);
-        wrappedItem = item;
+        super(item, "creativeTab", EDIT | CANCEL, 150, 55);
     }
 
     @Override
@@ -31,21 +28,9 @@ public class WindowEditCreativeTab extends Window implements IStringProvider<Cre
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void applyChanges()
     {
-        if (button != 0)
-            return;
-
-        if (c == btnEdit)
-        {
-            wrappedItem.container.creativeTab = dbTabs.getSelectedValue();
-            wrappedItem.getPack().save();
-
-            GuiBase.openPrevWindow();
-        } else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+        wrappedItem.container.creativeTab = dbTabs.getSelectedValue();
     }
 
     @Override

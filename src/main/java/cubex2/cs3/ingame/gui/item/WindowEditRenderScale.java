@@ -10,10 +10,8 @@ import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.TextBoxValidators;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditRenderScale extends Window implements IPlayerDisplayPlayerModifier
+public class WindowEditRenderScale extends WindowEditItemAttribute implements IPlayerDisplayPlayerModifier
 {
-    private WrappedItem wrappedItem;
-
     private PlayerDisplay display;
     private TextBox tbScale;
 
@@ -22,8 +20,7 @@ public class WindowEditRenderScale extends Window implements IPlayerDisplayPlaye
 
     public WindowEditRenderScale(WrappedItem item)
     {
-        super("renderScale", EDIT | CANCEL, 150, 120);
-        wrappedItem = item;
+        super(item, "renderScale", EDIT | CANCEL, 150, 120);
         oldScale = item.container.renderScale;
         newScale = item.container.renderScale + 0.5f;
     }
@@ -33,11 +30,11 @@ public class WindowEditRenderScale extends Window implements IPlayerDisplayPlaye
     {
         super.init();
 
-        display = playerDisplay().at(7,7).size(50,80).add();
+        display = playerDisplay().at(7, 7).size(50, 80).add();
         display.setPlayerModifier(this);
         display.setEquippedStack(new ItemStack(wrappedItem.item));
 
-        tbScale = textBox().rightTo(display).width(150 - 14- 50).add();
+        tbScale = textBox().rightTo(display).width(150 - 14 - 50).add();
         tbScale.setText(String.valueOf(newScale));
         tbScale.setValidityProvider(TextBoxValidators.FLOAT);
     }
@@ -54,22 +51,9 @@ public class WindowEditRenderScale extends Window implements IPlayerDisplayPlaye
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void applyChanges()
     {
-        if (button != 0)
-            return;
-
-        if (c == btnEdit)
-        {
-            wrappedItem.container.renderScale = newScale;
-            wrappedItem.getPack().save();
-
-            GuiBase.openPrevWindow();
-        }
-        else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+        wrappedItem.container.renderScale = newScale;
     }
 
     @Override

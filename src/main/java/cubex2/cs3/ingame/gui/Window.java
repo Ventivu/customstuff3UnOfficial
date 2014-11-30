@@ -122,18 +122,33 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button == 0)
+        handleDefaultButtonClick(c);
+    }
+
+    /**
+     * Handles mouse-click on edit, back and cancel buttons, if c is one of those.
+     *
+     * @param c The clicked control.
+     */
+    protected void handleDefaultButtonClick(Control c)
+    {
+        if (c == btnBack)
         {
-            if (c == btnBack)
-            {
-                GuiBase.openPrevWindow();
-            } else if (c == btnCancel)
-            {
-                GuiBase.openPrevWindow();
-            }
+            GuiBase.openPrevWindow();
+        } else if (c == btnCancel)
+        {
+            GuiBase.openPrevWindow();
+        } else if (c == btnEdit)
+        {
+            handleEditButtonClicked();
         }
+    }
+
+    protected void handleEditButtonClicked()
+    {
+
     }
 
     @Override

@@ -32,19 +32,13 @@ public class WindowEditFloat extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void handleEditButtonClicked()
     {
-        if (c == btnEdit)
-        {
-            container.setAttriubte(fieldName, Float.parseFloat(textBox.getText()));
-            applyChangedValue();
-            container.getPack().save();
+        container.setAttriubte(fieldName, Float.parseFloat(textBox.getText()));
+        applyChangedValue();
+        container.getPack().save();
 
-            GuiBase.openPrevWindow();
-        } else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+        GuiBase.openPrevWindow();
     }
 
     protected void applyChangedValue()

@@ -55,7 +55,7 @@ public class WindowItems extends Window implements IWindowClosedListener, IListB
             btnEdit.setEnabled(false);
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

@@ -1,18 +1,14 @@
 package cubex2.cs3.ingame.gui.item;
 
 import cubex2.cs3.common.WrappedItem;
-import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.CheckBox;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.IPlayerDisplayPlayerModifier;
 import cubex2.cs3.ingame.gui.control.PlayerDisplay;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditFull3D extends Window implements IPlayerDisplayPlayerModifier
+public class WindowEditFull3D extends WindowEditItemAttribute implements IPlayerDisplayPlayerModifier
 {
-    private WrappedItem wrappedItem;
-
     private PlayerDisplay display;
     private CheckBox checkBox;
 
@@ -21,8 +17,7 @@ public class WindowEditFull3D extends Window implements IPlayerDisplayPlayerModi
 
     public WindowEditFull3D(WrappedItem item)
     {
-        super("full3d", EDIT | CANCEL, 150, 120);
-        wrappedItem = item;
+        super(item, "full3d", 150, 120);
         oldFull3D = item.container.full3d;
         newFull3D = item.container.full3d;
     }
@@ -32,7 +27,7 @@ public class WindowEditFull3D extends Window implements IPlayerDisplayPlayerModi
     {
         super.init();
 
-        display = playerDisplay().at(7,7).size(50, 80).add();
+        display = playerDisplay().at(7, 7).size(50, 80).add();
         display.setPlayerModifier(this);
         display.setEquippedStack(new ItemStack(wrappedItem.item));
         checkBox = checkBox().rightTo(display).add();
@@ -42,26 +37,21 @@ public class WindowEditFull3D extends Window implements IPlayerDisplayPlayerModi
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == checkBox)
         {
             newFull3D = checkBox.getIsChecked();
-        }
-        else if (c == btnEdit)
+        } else
         {
-            wrappedItem.container.full3d = newFull3D;
-            wrappedItem.getPack().save();
+            handleDefaultButtonClick(c);
+        }
+    }
 
-            GuiBase.openPrevWindow();
-        }
-        else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+    @Override
+    protected void applyChanges()
+    {
+        wrappedItem.container.full3d = newFull3D;
     }
 
     @Override

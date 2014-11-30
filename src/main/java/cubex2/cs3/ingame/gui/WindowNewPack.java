@@ -44,9 +44,9 @@ public class WindowNewPack extends Window implements IValidityProvider
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (c == btnCreate && button == 0)
+        if (c == btnCreate)
         {
             IngameContentPackLoader.instance().createContentPack(tbName.getText().trim(), tbId.getText().trim());
             parentListBox.updateElements(IngameContentPackLoader.instance().getContentPacks());
@@ -54,7 +54,7 @@ public class WindowNewPack extends Window implements IValidityProvider
         }
         else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

@@ -98,6 +98,8 @@ public abstract class ControlContainer extends Control
                 {
                     c.mouseDown(mouseX, mouseY, button);
                     controlClicked(c, mouseX, mouseY, button);
+                    if (button == 0)
+                        controlClicked(c, mouseX, mouseY);
                 }
 
                 boolean isLocked = GuiBase.inputLockedControl != null;
@@ -107,8 +109,28 @@ public abstract class ControlContainer extends Control
         }
     }
 
+    /**
+     * This is called when a control has been clicked
+     *
+     * @param c      The clicked control.
+     * @param mouseX The x-coord of the mouse
+     * @param mouseY The y-coord of the mouse
+     * @param button The mouse button (0=left, 1=right)
+     */
     protected void controlClicked(Control c, int mouseX, int mouseY, int button)
     {
+    }
+
+    /**
+     * This is called when a control has been left-clicked
+     *
+     * @param c      The clicked control.
+     * @param mouseX The x-coord of the mouse
+     * @param mouseY The y-coord of the mouse
+     */
+    protected void controlClicked(Control c, int mouseX, int mouseY)
+    {
+
     }
 
     @Override

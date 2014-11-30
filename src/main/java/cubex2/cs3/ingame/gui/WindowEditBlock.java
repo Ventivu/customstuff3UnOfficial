@@ -41,12 +41,6 @@ public class WindowEditBlock extends Window implements IListBoxItemClickListener
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
-    {
-        super.controlClicked(c, mouseX, mouseY, button);
-    }
-
-    @Override
     public void itemClicked(AttributeData item, ListBox<AttributeData> listBox, int button)
     {
         try

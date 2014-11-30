@@ -8,17 +8,14 @@ import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.TextField;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditInformation extends Window
+public class WindowEditInformation extends WindowEditItemAttribute
 {
-    private WrappedItem wrappedItem;
-
     private TextField textField;
     private ItemDisplay display;
 
     public WindowEditInformation(WrappedItem item)
     {
-        super("information", EDIT | BACK, 150, 170);
-        wrappedItem = item;
+        super(item, "information", EDIT | BACK, 150, 170);
     }
 
     @Override
@@ -35,19 +32,9 @@ public class WindowEditInformation extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void applyChanges()
     {
-        if (c == btnEdit)
-        {
-            wrappedItem.container.information = getNewInfo();
-            wrappedItem.getPack().save();
-
-            GuiBase.openPrevWindow();
-        }
-        else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+        wrappedItem.container.information = getNewInfo();
     }
 
     private String getNewInfo()

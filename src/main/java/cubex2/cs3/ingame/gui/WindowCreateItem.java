@@ -40,11 +40,8 @@ public class WindowCreateItem extends Window implements IValidityProvider
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnCreate)
         {
             WrappedItem item = new WrappedItem(tbName.getText().trim(), EnumItemType.get(dbType.getSelectedValue()), pack);
@@ -54,7 +51,7 @@ public class WindowCreateItem extends Window implements IValidityProvider
         }
         else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

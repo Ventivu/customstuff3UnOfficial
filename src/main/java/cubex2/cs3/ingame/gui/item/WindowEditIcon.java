@@ -15,10 +15,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 
-public class WindowEditIcon extends Window
+public class WindowEditIcon extends WindowEditItemAttribute
 {
-    private WrappedItem wrappedItem;
-
     private Label lblIcon;
     private InfoButton infoButton;
     private TextBox textBox;
@@ -26,8 +24,7 @@ public class WindowEditIcon extends Window
 
     public WindowEditIcon(WrappedItem item)
     {
-        super("icon", EDIT | CANCEL, 150, 100);
-        wrappedItem = item;
+        super(item, "icon", 150, 100);
     }
 
     @Override
@@ -49,30 +46,18 @@ public class WindowEditIcon extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void applyChanges()
     {
-        if (button != 0)
-            return;
+        String text = textBox.getText().trim();
 
-        if (c == btnEdit)
-        {
-            String text = textBox.getText().trim();
+        String modId = text.contains(":") ? text.split(":")[0] : wrappedItem.getPack().id.toLowerCase();
+        String textureName = text.contains(":") && text.indexOf(':') != text.length() - 1 ? text.split(":")[1] : text;
 
-            String modId = text.contains(":") ? text.split(":")[0] : wrappedItem.getPack().id.toLowerCase();
-            String textureName = text.contains(":") && text.indexOf(':') != text.length() - 1 ? text.split(":")[1] : text;
+        wrappedItem.container.icon.iconString = modId + ":" + textureName;
 
-            wrappedItem.container.icon.iconString = modId + ":" + textureName;
-            wrappedItem.getPack().save();
+        wrappedItem.item.setTextureName(modId + ":" + textureName);
 
-            wrappedItem.item.setTextureName(modId + ":" + textureName);
-
-            mc.refreshResources();
-
-            GuiBase.openPrevWindow();
-        } else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+        mc.refreshResources();
     }
 
     @Override

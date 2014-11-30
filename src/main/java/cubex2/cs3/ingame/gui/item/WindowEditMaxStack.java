@@ -9,10 +9,8 @@ import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
-public class WindowEditMaxStack extends Window
+public class WindowEditMaxStack extends WindowEditItemAttribute
 {
-    private WrappedItem wrappedItem;
-
     private ItemDisplay itemDisplay;
     private ButtonUpDown btnUp;
     private ButtonUpDown btnDown;
@@ -21,8 +19,7 @@ public class WindowEditMaxStack extends Window
 
     public WindowEditMaxStack(WrappedItem item)
     {
-        super("maxStack", EDIT | CANCEL, 150, 100);
-        wrappedItem = item;
+        super(item, "maxStack", EDIT | CANCEL, 150, 100);
         newMaxStack = wrappedItem.container.maxStack;
     }
 
@@ -50,28 +47,24 @@ public class WindowEditMaxStack extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnUp || c == btnDown)
         {
             int numChange = (GuiBase.isShiftKeyDown() ? 5 : 1) * (c == btnUp ? 1 : -1);
             newMaxStack = MathHelper.clamp_int(newMaxStack + numChange, 1, 64);
             maxStackChanged();
         }
-        else if (c == btnEdit)
-        {
-            wrappedItem.container.maxStack = newMaxStack;
-            wrappedItem.item.setMaxStackSize(newMaxStack);
-            wrappedItem.getPack().save();
-
-            GuiBase.openPrevWindow();
-        }
         else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
+    }
+
+    @Override
+    protected void applyChanges()
+    {
+        wrappedItem.container.maxStack = newMaxStack;
+        wrappedItem.item.setMaxStackSize(newMaxStack);
     }
 }

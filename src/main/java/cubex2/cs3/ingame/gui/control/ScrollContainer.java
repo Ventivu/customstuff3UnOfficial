@@ -68,6 +68,8 @@ public class ScrollContainer extends ControlContainer
                 {
                     c.mouseDown(mouseX, mouseY, button);
                     controlClicked(c, mouseX, mouseY, button);
+                    if (button == 0)
+                        controlClicked(c, mouseX, mouseY);
                 }
             }
         }

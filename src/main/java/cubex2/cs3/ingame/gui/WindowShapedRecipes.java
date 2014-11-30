@@ -39,11 +39,8 @@ public class WindowShapedRecipes extends Window implements IWindowClosedListener
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (c == btnNew)
         {
             GuiBase.openWindow(new WindowEditOrCreateShapedRecipe(pack));
@@ -58,7 +55,7 @@ public class WindowShapedRecipes extends Window implements IWindowClosedListener
             btnEdit.setEnabled(false);
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

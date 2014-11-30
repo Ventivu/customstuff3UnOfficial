@@ -32,18 +32,14 @@ public class WindowContentPacks extends Window implements IListBoxItemClickListe
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button == 0)
+        if (c == btnNew)
         {
-            if (c == btnNew)
-            {
-                GuiBase.openWindow(new WindowNewPack(lbPacks));
-            }
-            else
-            {
-                super.controlClicked(c, mouseX, mouseY, button);
-            }
+            GuiBase.openWindow(new WindowNewPack(lbPacks));
+        } else
+        {
+            handleDefaultButtonClick(c);
         }
     }
 

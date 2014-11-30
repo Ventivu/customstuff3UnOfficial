@@ -1,17 +1,13 @@
 package cubex2.cs3.ingame.gui.block;
 
 import cubex2.cs3.common.WrappedBlock;
-import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.TextBoxValidators;
 import cubex2.cs3.util.BlockDrop;
 
-public class WindowEditDropData extends Window
+public class WindowEditDropData extends WindowEditBlockAttribute
 {
-    private WrappedBlock wrappedBlock;
     private BlockDrop.DropData drop;
 
     private TextBox tbMin;
@@ -19,8 +15,7 @@ public class WindowEditDropData extends Window
 
     public WindowEditDropData(WrappedBlock block, BlockDrop.DropData drop)
     {
-        super("Edit drop", EDIT | CANCEL, 150, 95);
-        wrappedBlock = block;
+        super(block, "Edit drop", 150, 95);
         this.drop = drop;
     }
 
@@ -43,22 +38,8 @@ public class WindowEditDropData extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void applyChanges()
     {
-        if (button != 0)
-            return;
-
-        if (c == btnEdit)
-        {
-            drop.setAmount(Integer.parseInt(tbMin.getText()), Integer.parseInt(tbMax.getText()));
-            wrappedBlock.container.getPack().save();
-
-            GuiBase.openPrevWindow();
-        } else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
-        }
+        drop.setAmount(Integer.parseInt(tbMin.getText()), Integer.parseInt(tbMax.getText()));
     }
-
-
 }

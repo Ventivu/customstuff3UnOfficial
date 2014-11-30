@@ -1,8 +1,6 @@
 package cubex2.cs3.ingame.gui.block;
 
 import cubex2.cs3.common.WrappedBlock;
-import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.ingame.gui.control.builder.LabelBuilder;
 import cubex2.cs3.util.SimulatedWorld;
@@ -11,10 +9,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public class WindowEditTextures extends Window
+public class WindowEditTextures extends WindowEditBlockAttribute
 {
     private static final String[] directions = new String[]{"bottom", "top", "north", "south", "east", "east"};
-    private WrappedBlock wrappedBlock;
 
     private Label[] labels;
     private TextBox[] textBoxes;
@@ -30,8 +27,7 @@ public class WindowEditTextures extends Window
 
     public WindowEditTextures(WrappedBlock block)
     {
-        super("textures", EDIT | CANCEL, 150 + 153, 200);
-        wrappedBlock = block;
+        super(block, "textures", 150 + 153, 200);
 
         world = new SimulatedWorld(-1, -1, -2, 2, 0, 1);
         world.setBlock(wrappedBlock.block, 0, 0, -1);
@@ -76,7 +72,7 @@ public class WindowEditTextures extends Window
 
         cbTransparent = checkBox().below(textBoxes[4], 9).add();
         cbTransparent.setIsChecked(wrappedBlock.container.transparent);
-        Label lbl =label("Transparent").rightTo(cbTransparent).add();
+        Label lbl = label("Transparent").rightTo(cbTransparent).add();
 
         cbSemiTransparent = checkBox().below(cbTransparent, 7).add();
         cbSemiTransparent.setIsChecked(wrappedBlock.container.semiTransparent);
@@ -86,7 +82,7 @@ public class WindowEditTextures extends Window
         cbTileTransparent.setIsChecked(wrappedBlock.container.tileTransparent);
         label("Tile Transparent").rightTo(cbTileTransparent).add();
 
-        blockDisplay = worldDisplay(world).rightTo(lbl, 30).size(75,75).add();
+        blockDisplay = worldDisplay(world).rightTo(lbl, 30).size(75, 75).add();
         blockDisplay.rotate = false;
         blockDisplay.camY = 2.0f;
         blockDisplay.camX = 0.5f;
@@ -96,42 +92,35 @@ public class WindowEditTextures extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0)
-            return;
-
         if (cbTileTransparent.getIsChecked() && !cbTransparent.getIsChecked())
         {
             cbTransparent.setIsChecked(true);
         }
 
-        if (c == btnEdit)
+        handleDefaultButtonClick(c);
+    }
+
+    @Override
+    protected void applyChanges()
+    {
+        for (int i = 0; i < textBoxes.length; i++)
         {
-            for (int i = 0; i < textBoxes.length; i++)
-            {
-                String text = textBoxes[i].getText().trim();
+            String text = textBoxes[i].getText().trim();
 
-                String modId = text.contains(":") ? text.split(":")[0] : wrappedBlock.getPack().id.toLowerCase();
-                String textureName = text.contains(":") && text.indexOf(':') != text.length() - 1 ? text.split(":")[1] : text;
+            String modId = text.contains(":") ? text.split(":")[0] : wrappedBlock.getPack().id.toLowerCase();
+            String textureName = text.contains(":") && text.indexOf(':') != text.length() - 1 ? text.split(":")[1] : text;
 
-                if (textureName.length() > 0)
-                    wrappedBlock.container.getTexture(i).iconString = modId + ":" + textureName;
-            }
-
-            wrappedBlock.container.transparent = cbTransparent.getIsChecked();
-            wrappedBlock.container.semiTransparent = cbSemiTransparent.getIsChecked();
-            wrappedBlock.container.tileTransparent = cbTileTransparent.getIsChecked();
-
-            wrappedBlock.getPack().save();
-
-            mc.refreshResources();
-
-            GuiBase.openPrevWindow();
-        } else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
+            if (textureName.length() > 0)
+                wrappedBlock.container.getTexture(i).iconString = modId + ":" + textureName;
         }
+
+        wrappedBlock.container.transparent = cbTransparent.getIsChecked();
+        wrappedBlock.container.semiTransparent = cbSemiTransparent.getIsChecked();
+        wrappedBlock.container.tileTransparent = cbTileTransparent.getIsChecked();
+
+        mc.refreshResources();
     }
 
     @Override

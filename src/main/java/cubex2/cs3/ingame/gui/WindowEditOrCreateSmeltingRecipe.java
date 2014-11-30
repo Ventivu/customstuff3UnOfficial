@@ -81,7 +81,7 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
             GuiBase.openPrevWindow();
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
     }
 

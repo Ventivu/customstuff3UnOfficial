@@ -3,24 +3,20 @@ package cubex2.cs3.ingame.gui.item;
 import cubex2.cs3.common.WrappedItem;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.IWindowClosedListener;
-import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.WindowSelectItem;
 import cubex2.cs3.ingame.gui.control.CheckBox;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditContainerItem extends Window implements IWindowClosedListener<WindowSelectItem>
+public class WindowEditContainerItem extends WindowEditItemAttribute implements IWindowClosedListener<WindowSelectItem>
 {
-    private WrappedItem wrappedItem;
-
     private ItemDisplay itemDisplay;
     private CheckBox checkBox;
 
     public WindowEditContainerItem(WrappedItem item)
     {
-        super("containerItem", EDIT | CANCEL, 150, 100);
-        wrappedItem = item;
+        super(item, "containerItem", 150, 100);
     }
 
     @Override
@@ -30,41 +26,32 @@ public class WindowEditContainerItem extends Window implements IWindowClosedList
 
         itemDisplay = itemDisplay().y(8).centerHor().add();
         itemDisplay.setDrawSlotBackground();
+        itemDisplay.setClearOnRightClick();
         itemDisplay.setItemStack(wrappedItem.container.containerItem);
 
         checkBox = checkBox().below(itemDisplay, 5).x(7).add();
         checkBox.setIsChecked(wrappedItem.container.leaveContainerItem);
 
         label("Remain in crafting grid").rightTo(checkBox).add();
-
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0 && c != itemDisplay)
-            return;
-
-        if (c == btnEdit)
+        if (c == itemDisplay)
         {
-            wrappedItem.container.containerItem = itemDisplay.getItemStack();
-            wrappedItem.container.leaveContainerItem = checkBox.getIsChecked();
-            wrappedItem.getPack().save();
-
-            GuiBase.openPrevWindow();
-        } else if (c == itemDisplay)
-        {
-            if (button == 0)
-            {
-                GuiBase.openWindow(new WindowSelectItem(false));
-            } else if (button == 1)
-            {
-                itemDisplay.setItemStack(null);
-            }
+            GuiBase.openWindow(new WindowSelectItem(false));
         } else
         {
-            super.controlClicked(c, mouseX, mouseY, button);
+            handleDefaultButtonClick(c);
         }
+    }
+
+    @Override
+    protected void applyChanges()
+    {
+        wrappedItem.container.containerItem = itemDisplay.getItemStack();
+        wrappedItem.container.leaveContainerItem = checkBox.getIsChecked();
     }
 
     @Override

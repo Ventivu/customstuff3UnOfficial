@@ -3,22 +3,18 @@ package cubex2.cs3.ingame.gui.item;
 import cubex2.cs3.common.WrappedItem;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.IWindowClosedListener;
-import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.WindowSelectItem;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditAnvilMaterial extends Window implements IWindowClosedListener<WindowSelectItem>
+public class WindowEditAnvilMaterial extends WindowEditItemAttribute implements IWindowClosedListener<WindowSelectItem>
 {
-    private WrappedItem wrappedItem;
-
     private ItemDisplay itemDisplay;
 
     public WindowEditAnvilMaterial(WrappedItem item)
     {
-        super("anvilMaterial", EDIT | CANCEL, 150, 100);
-        wrappedItem = item;
+        super(item, "anvilMaterial", 150, 100);
     }
 
     @Override
@@ -34,16 +30,7 @@ public class WindowEditAnvilMaterial extends Window implements IWindowClosedList
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY, int button)
     {
-        if (button != 0 && c != itemDisplay)
-            return;
-
-        if (c == btnEdit)
-        {
-            wrappedItem.container.anvilMaterial = itemDisplay.getItemStack();
-            wrappedItem.getPack().save();
-
-            GuiBase.openPrevWindow();
-        } else if (c == itemDisplay)
+        if (c == itemDisplay)
         {
             if (button == 0)
             {
@@ -52,10 +39,13 @@ public class WindowEditAnvilMaterial extends Window implements IWindowClosedList
             {
                 itemDisplay.setItemStack(null);
             }
-        } else
-        {
-            super.controlClicked(c, mouseX, mouseY, button);
         }
+    }
+
+    @Override
+    protected void applyChanges()
+    {
+        wrappedItem.container.anvilMaterial = itemDisplay.getItemStack();
     }
 
     @Override
