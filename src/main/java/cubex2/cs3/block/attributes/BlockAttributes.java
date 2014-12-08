@@ -103,7 +103,7 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Block is beacon base")
     public boolean isBeaconBase = false;
 
-    @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Fire burns infinitely on top")
+    @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Fire keeps burning in top")
     public boolean isFireSource = false;
 
     @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Fire damage on contact")
