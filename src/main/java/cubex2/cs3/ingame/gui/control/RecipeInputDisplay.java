@@ -23,6 +23,7 @@ public class RecipeInputDisplay extends Control
     private List<ItemStack> renderStacks;
 
     private boolean drawSlotBackground = false;
+    private boolean clearOnRightClick = false;
     private boolean showItemData = true;
     private int tickCounter = 1;
     private int currentIndex = 0;
@@ -43,6 +44,11 @@ public class RecipeInputDisplay extends Control
     {
         drawSlotBackground = true;
         return this;
+    }
+
+    public void setClearOnRightClick()
+    {
+        clearOnRightClick = true;
     }
 
     public RecipeInput getRecipeInput()
@@ -101,6 +107,15 @@ public class RecipeInputDisplay extends Control
         if (currentRenderStack != null && currentRenderStack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
         {
             currentRenderStack.setItemDamage(0);
+        }
+    }
+
+    @Override
+    public void mouseDown(int mouseX, int mouseY, int button)
+    {
+        if (button == 1 && clearOnRightClick)
+        {
+            setRecipeInput(null);
         }
     }
 

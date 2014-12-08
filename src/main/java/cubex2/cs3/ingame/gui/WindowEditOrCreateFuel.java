@@ -2,7 +2,10 @@ package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.Fuel;
 import cubex2.cs3.ingame.IngameContentPack;
-import cubex2.cs3.ingame.gui.control.*;
+import cubex2.cs3.ingame.gui.control.Control;
+import cubex2.cs3.ingame.gui.control.ItemDisplay;
+import cubex2.cs3.ingame.gui.control.Label;
+import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.TextBoxValidators;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
@@ -35,7 +38,7 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
     {
         super.init();
 
-        lblItem = label("Item:").at(7,7).add();
+        lblItem = label("Item:").at(7, 7).add();
         itemDisplay = itemDisplay().below(lblItem).add();
         lblDuration = label("Duration:").below(itemDisplay, 5).add();
         tbDuration = textBox().below(lblDuration).fillWidth(7).height(20).add();

@@ -51,6 +51,7 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
         }
 
         resultDisplay = new ItemDisplay(121, 10 + 18, this).setDrawSlotBackground();
+        resultDisplay.setClearOnRightClick();
         addControl(resultDisplay);
 
         btnIncrAmount = new ButtonUpDown(true, 138, 10 + 17, this);
@@ -65,6 +66,7 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
             {
 
                 inputDisplays[i].setRecipeInput(editingRecipe.input[i]);
+                inputDisplays[i].setClearOnRightClick();
             }
 
             resultDisplay.setItemStack(editingRecipe.result);
@@ -77,21 +79,11 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (button != 0 && !(c instanceof RecipeInputDisplay) && c != resultDisplay)
-            return;
-
         if (c == resultDisplay)
         {
-            if (button == 0)
-            {
-                GuiBase.openWindow(new WindowSelectItem(false), "result");
-            }
-            else if (button == 1)
-            {
-                resultDisplay.setItemStack(null);
-            }
+            GuiBase.openWindow(new WindowSelectItem(false), "result");
         } else if (c == btnCreate)
         {
             ItemStack result = resultDisplay.getItemStack();
@@ -129,14 +121,7 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
 
             if (index != -1)
             {
-                if (button == 0)
-                {
-                    GuiBase.openWindow(new WindowSelectRecipeInput(pack), "" + index);
-                }
-                else if (button == 1)
-                {
-                    inputDisplays[index].setRecipeInput(null);
-                }
+                GuiBase.openWindow(new WindowSelectRecipeInput(pack), "" + index);
             } else
             {
                 handleDefaultButtonClick(c);
