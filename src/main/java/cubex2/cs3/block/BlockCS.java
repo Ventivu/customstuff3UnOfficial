@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -185,6 +186,37 @@ public class BlockCS extends Block
     public float getExplosionResistance(Entity entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ)
     {
         return wrappedBlock.getExplosionResistance(entity, world, x, y, z, explosionX, explosionY, explosionZ);
+    }
+
+    @Override
+    public boolean isBurning(IBlockAccess world, int x, int y, int z)
+    {
+        return wrappedBlock.isBurning(world, x, y, z);
+    }
+
+    @Override
+    public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ)
+    {
+        return wrappedBlock.isBeaconBase(worldObj, x, y, z, beaconX, beaconY, beaconZ);
+    }
+
+    @Override
+    public boolean isFireSource(World world, int x, int y, int z, ForgeDirection side)
+    {
+        return wrappedBlock.isFireSource(world, x, y, z, side);
+    }
+
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+    {
+        return wrappedBlock.getPickBlock(target, world,x,y,z);
+    }
+
+    @Override
+    public int getMobilityFlag()
+    {
+        int mobility = wrappedBlock.getMobilityFlag();
+        return mobility >= 0 ? mobility : super.getMobilityFlag();
     }
 
     @Override

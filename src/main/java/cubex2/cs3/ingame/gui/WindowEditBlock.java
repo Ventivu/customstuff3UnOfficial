@@ -3,6 +3,7 @@ package cubex2.cs3.ingame.gui;
 import com.google.common.collect.Lists;
 import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.common.attribute.AttributeData;
+import cubex2.cs3.ingame.gui.common.WindowEditBoolean;
 import cubex2.cs3.ingame.gui.common.WindowEditFloat;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
@@ -55,6 +56,9 @@ public class WindowEditBlock extends Window implements IListBoxItemClickListener
             } else if (windowClass == WindowEditFloat.class)
             {
                 GuiBase.openWindow(new WindowEditFloat(item.field.getName(), wrappedBlock.container));
+            } else if (windowClass == WindowEditBoolean.class)
+            {
+                GuiBase.openWindow(new WindowEditBoolean(item, wrappedBlock.container));
             }
             else
             {

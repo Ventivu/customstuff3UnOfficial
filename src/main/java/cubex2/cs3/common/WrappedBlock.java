@@ -20,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -413,5 +414,30 @@ public class WrappedBlock extends BaseContent
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
     {
         return container.drop.getDrops(fortune, random);
+    }
+
+    public int getMobilityFlag()
+    {
+        return container.blocksPiston ? 2 : -1;
+    }
+
+    public boolean isBurning(IBlockAccess world, int x, int y, int z)
+    {
+        return container.isBurning;
+    }
+
+    public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ)
+    {
+        return container.isBeaconBase;
+    }
+
+    public boolean isFireSource(World world, int x, int y, int z, ForgeDirection side)
+    {
+        return container.isFireSource;
+    }
+
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+    {
+        return container.pick;
     }
 }

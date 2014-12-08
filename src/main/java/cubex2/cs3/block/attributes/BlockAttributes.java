@@ -5,6 +5,7 @@ import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.block.*;
+import cubex2.cs3.ingame.gui.common.WindowEditBoolean;
 import cubex2.cs3.ingame.gui.common.WindowEditFloat;
 import cubex2.cs3.ingame.gui.common.WindowEditInteger;
 import cubex2.cs3.ingame.gui.common.WindowEditScript;
@@ -95,6 +96,18 @@ public class BlockAttributes extends AttributeContainer
 
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public IconWrapper textureWest = new IconWrapper("");
+
+    @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Block blocks piston")
+    public boolean blocksPiston = false;
+
+    @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Block is beacon base")
+    public boolean isBeaconBase = false;
+
+    @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Fire burns infinitely on top")
+    public boolean isFireSource = false;
+
+    @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Fire damage on contact")
+    public boolean isBurning = false;
 
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public boolean transparent = false;
