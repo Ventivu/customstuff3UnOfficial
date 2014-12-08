@@ -1076,7 +1076,8 @@ public class ScriptableWorld
      */
     public String getBlockName(int x, int y, int z)
     {
-        return GeneralHelper.getBlockName(world.getBlock(x, y, z));
+        String name = GeneralHelper.getBlockName(world.getBlock(x,y,z));
+        return name != null ? name : "minecraft:air";
     }
 
     /**
