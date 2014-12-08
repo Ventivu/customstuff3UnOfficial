@@ -1,5 +1,6 @@
 package cubex2.cs3.common.scripting;
 
+import com.google.common.collect.Lists;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.inventory.Inventory;
 import cubex2.cs3.util.GeneralHelper;
@@ -25,6 +26,7 @@ import net.minecraftforge.common.IShearable;
 import net.minecraftforge.fluids.BlockFluidBase;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class ScriptableWorld
@@ -1076,7 +1078,7 @@ public class ScriptableWorld
      */
     public String getBlockName(int x, int y, int z)
     {
-        String name = GeneralHelper.getBlockName(world.getBlock(x,y,z));
+        String name = GeneralHelper.getBlockName(world.getBlock(x, y, z));
         return name != null ? name : "minecraft:air";
     }
 
@@ -1424,6 +1426,76 @@ public class ScriptableWorld
     }
 
     /**
+     * Gets all entities in the given radius.
+     *
+     * @param pos      The position
+     * @param radius   The radius of the lookup cube
+     * @param entities The entities to search. Allowed values are 'hostile', 'animal', 'mob', 'player', 'item', 'all', any entityID and any
+     *                 entity name. You can give multiple values by dividing them with a ','
+     * @return The entities.
+     */
+    public ScriptableEntity[] enumEntities(ScriptablePosition pos, float radius, String entities)
+    {
+        return enumEntities((int) pos.x, (int) pos.y, (int) pos.z, radius, entities);
+    }
+
+    /**
+     * Gets all entities in the given radius.
+     *
+     * @param x        The x-coordinate
+     * @param y        The y-coordinate
+     * @param z        The z-coordinate
+     * @param radius   The radius of the lookup cube
+     * @param entities The entities to search. Allowed values are 'hostile', 'animal', 'mob', 'player', 'item', 'all', any entityID and any
+     *                 entity name. You can give multiple values by dividing them with a ','
+     * @return The entities.
+     */
+    public ScriptableEntity[] enumEntities(int x, int y, int z, float radius, String entities)
+    {
+        List<ScriptableEntity> ret = Lists.newArrayList();
+        for (String entity : entities.split(","))
+        {
+            Class<? extends Entity> mobClass = null;
+            if (entity.equals("hostile"))
+            {
+                mobClass = EntityMob.class;
+            } else if (entity.equals("animal"))
+            {
+                mobClass = EntityAnimal.class;
+            } else if (entity.equals("mob"))
+            {
+                mobClass = EntityLiving.class;
+            } else if (entity.equals("player"))
+            {
+                mobClass = EntityPlayer.class;
+            } else if (entity.equals("item"))
+            {
+                mobClass = EntityItem.class;
+            } else if (entity.equals("all"))
+            {
+                mobClass = null;
+            } else
+            {
+                if (entity.matches("[0-9]+"))
+                {
+                    mobClass = (Class<? extends Entity>) EntityList.stringToClassMapping.get(EntityList.getStringFromID(Integer.parseInt(entity)));
+                } else
+                {
+                    mobClass = (Class<? extends Entity>) EntityList.stringToClassMapping.get(entity);
+                }
+            }
+            AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(x + 0.5 - radius, y + 0.5 - radius, z + 0.5 - radius, x + 0.5 + radius, y + 0.5 + radius, z + 0.5 + radius);
+            List<Entity> list = mobClass == null ? world.getEntitiesWithinAABBExcludingEntity((Entity) null, axis) : world.getEntitiesWithinAABB(mobClass, axis);
+            for (Entity e : list)
+            {
+                ret.add(new ScriptableEntity(e));
+            }
+        }
+
+        return ret.toArray(new ScriptableEntity[ret.size()]);
+    }
+
+    /**
      * Gets the light level of the block at the given position.
      *
      * @param position The block's position
@@ -1512,8 +1584,8 @@ public class ScriptableWorld
         Block block = world.getBlock(x, y, z);
         if (block == null)
             return "unknown";
-        //else if (block instanceof ICSBlock)
-        //    return ((ICSBlock) block).getAttributes().type.name;
+            //else if (block instanceof ICSBlock)
+            //    return ((ICSBlock) block).getAttributes().type.name;
         else if (block instanceof BlockButton)
             return "button";
         else if (block instanceof BlockCarpet)
