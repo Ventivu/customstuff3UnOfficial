@@ -3,6 +3,8 @@ package cubex2.cs3.ingame.gui.control;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
 import cubex2.cs3.ingame.gui.GuiBase;
+import cubex2.cs3.ingame.gui.ISelectItemCallback;
+import cubex2.cs3.ingame.gui.WindowSelectItem;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.GuiHelper;
 import net.minecraft.client.gui.FontRenderer;
@@ -15,7 +17,7 @@ import org.lwjgl.opengl.GL12;
 
 import java.util.List;
 
-public class ItemDisplay extends ValidityControl<ItemDisplay>
+public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelectItemCallback
 {
     private ItemStack originStack;
     private ItemStack currentRenderStack;
@@ -27,11 +29,21 @@ public class ItemDisplay extends ValidityControl<ItemDisplay>
     private int tickCounter = 1;
     private int currentIndex = 0;
 
+    private boolean usesSelectItemDialog = false;
+    private boolean dialogWildCards = false;
+
     private IToolTipModifier toolTipModifier;
 
     public ItemDisplay(int x, int y, Control parent)
     {
         super(x, y, 16, 16, parent);
+    }
+
+    public ItemDisplay useSelectItemDialog(boolean wildCardStacks)
+    {
+        usesSelectItemDialog = true;
+        dialogWildCards = wildCardStacks;
+        return this;
     }
 
     public ItemDisplay setDrawSlotBackground()
@@ -138,6 +150,11 @@ public class ItemDisplay extends ValidityControl<ItemDisplay>
         if (button == 1 && clearOnRightClick)
         {
             setItemStack(null);
+        } else if (button == 0 && usesSelectItemDialog)
+        {
+            WindowSelectItem dialog = new WindowSelectItem(dialogWildCards);
+            dialog.setCallback(this);
+            GuiBase.openWindow(dialog);
         }
     }
 
@@ -221,5 +238,11 @@ public class ItemDisplay extends ValidityControl<ItemDisplay>
             FontRenderer font = currentRenderStack.getItem().getFontRenderer(currentRenderStack);
             GuiHelper.drawHoveringText(list, mouseX, mouseY, font == null ? mc.fontRenderer : font);
         }
+    }
+
+    @Override
+    public void itemSelected(ItemStack stack)
+    {
+        setItemStack(stack);
     }
 }

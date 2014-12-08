@@ -48,6 +48,9 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditDrops.class)
     public BlockDrop drop = null;
 
+    @Attribute(windowClass = WindowEditPick.class)
+    public ItemStack pick = null;
+
     @Attribute(windowClass = WindowEditExpDrop.class, customName = "expDrop")
     public int expDropMin = 0;
 
@@ -179,6 +182,10 @@ public class BlockAttributes extends AttributeContainer
         if (drop == null)
         {
             drop = new BlockDrop(block, 0);
+        }
+        if (pick == null)
+        {
+            pick = new ItemStack(block);
         }
     }
 }

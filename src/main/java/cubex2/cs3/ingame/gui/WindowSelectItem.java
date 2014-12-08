@@ -13,6 +13,8 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
     private ItemStack selectedStack = null;
     private boolean wildCardStacks = true;
 
+    private ISelectItemCallback callback;
+
     public WindowSelectItem()
     {
         super("Select Item", SELECT | CANCEL, 197, 201);
@@ -22,6 +24,11 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
     {
         super("Select Item", SELECT | CANCEL, 197, 201);
         this.wildCardStacks = wildCardStacks;
+    }
+
+    public void setCallback(ISelectItemCallback callback)
+    {
+        this.callback = callback;
     }
 
     public ItemStack getSelectedStack()
@@ -52,12 +59,14 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         if (c == btnCancel)
         {
             selectedStack = null;
-        }
-        else if (c == btnSelect)
+        } else if (c == btnSelect)
         {
+            if (callback != null)
+            {
+                callback.itemSelected(selectedStack);
+            }
             GuiBase.openPrevWindow();
-        }
-        else
+        } else
         {
             handleDefaultButtonClick(c);
         }
