@@ -23,12 +23,6 @@ public class WindowEditRenderScale extends WindowEditItemAttribute implements IP
         super(item, "renderScale", EDIT | CANCEL, 150, 120);
         oldScale = item.container.renderScale;
         newScale = item.container.renderScale + 0.5f;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         display = playerDisplay().at(7, 7).size(50, 80).add();
         display.setPlayerModifier(this);

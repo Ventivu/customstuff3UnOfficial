@@ -20,9 +20,9 @@ public class HorizontalSlider extends Control
     private int prevScrollOffset = -1;
     private int mx = -1;
 
-    public HorizontalSlider(int maxValue, int x, int y, int width, int height, Control parent)
+    public HorizontalSlider(int maxValue, int width, int height, Anchor anchor, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, parent);
         scrollThumbRect = new Rectangle(getX(), getY(), SCROLL_THUMNB_WIDTH, getHeight());
         this.maxValue = maxValue;
     }
@@ -38,16 +38,16 @@ public class HorizontalSlider extends Control
     }
 
     @Override
-    public void updateRect()
+    public void onParentResized()
     {
-        super.updateRect();
+        super.onParentResized();
 
         scrollThumbRect = new Rectangle(getX(), getY(), SCROLL_THUMNB_WIDTH, getHeight());
         scrollThumbRect.setX(getX() + scrollOffset);
     }
 
     @Override
-    public void update()
+    public void onUpdate()
     {
         int wheel = GuiBase.dWheel;
         if (wheel != 0 && mouseOverControl)
@@ -104,7 +104,7 @@ public class HorizontalSlider extends Control
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
-        mouseOverControl = rect.contains(mouseX, mouseY);
+        mouseOverControl = bounds.contains(mouseX, mouseY);
 
         if (mouseDown)
         {
@@ -124,8 +124,7 @@ public class HorizontalSlider extends Control
             if (scrollThumbRect.contains(mouseX, mouseY) || mouseDown)
             {
                 GuiHelper.drawOutlinedRect(scrollThumbRect, Color.WHITE, Color.DARK_GREY);
-            }
-            else
+            } else
             {
                 GuiHelper.drawRect(scrollThumbRect, Color.DARK_GREY);
             }

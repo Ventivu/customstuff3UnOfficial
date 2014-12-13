@@ -24,6 +24,8 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
     {
         super("New Fuel", CREATE | CANCEL, 180, 100);
         this.pack = pack;
+
+        initControls();
     }
 
     public WindowEditOrCreateFuel(Fuel fuel, IngameContentPack pack)
@@ -31,13 +33,12 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
         super("Edit Fuel", EDIT | CANCEL, 180, 100);
         this.pack = pack;
         editingFuel = fuel;
+
+        initControls();
     }
 
-    @Override
-    public void init()
+    private void initControls()
     {
-        super.init();
-
         lblItem = label("Item:").at(7, 7).add();
         itemDisplay = itemDisplay().below(lblItem).add();
         lblDuration = label("Duration:").below(itemDisplay, 5).add();

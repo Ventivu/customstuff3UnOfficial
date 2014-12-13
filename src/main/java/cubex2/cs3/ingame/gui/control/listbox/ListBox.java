@@ -23,12 +23,13 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
     private final int columns;
     private final int listBoxItemMeta;
     private VerticalSlider slider;
+    private int sliderWidth;
 
     private IListBoxItemClickListener itemClickListener;
 
-    public ListBox(ListBoxDescription desc, ControlContainer parent)
+    public ListBox(ListBoxDescription desc, Anchor anchor, int offsetX, int offsetY, ControlContainer parent)
     {
-        super(calculateVisibleHeight(desc), desc.x, desc.y, calculateWidth(desc), calculateHeight(desc.elements, desc.elementHeight, desc.columns), parent);
+        super(calculateVisibleHeight(desc), calculateWidth(desc), calculateHeight(desc.elements, desc.elementHeight, desc.columns), anchor, offsetX, offsetY, parent);
         elements = Lists.newArrayList(desc.elements);
         canSelect = desc.canSelect;
         multiSelect = desc.multiSelect;
@@ -43,12 +44,7 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
 
         createListBoxItems();
 
-        slider = new VerticalSlider(getHeight() - getVisibleRect().getHeight(), desc.x + getWidth() + 3, desc.y, desc.sliderWidth, getVisibleRect().getHeight(), parent);
-        slider.setValueListener(this);
-        slider.setWheelScrollEverywhere(true);
-        slider.setWheelScrollStep(elementHeight + VERTICAL_GAP);
-        slider.setListBoxRendering(true);
-        parent.addControl(slider);
+        sliderWidth = desc.sliderWidth;
 
         if (rootControl instanceof IListBoxItemClickListener)
         {
@@ -56,13 +52,21 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
         }
     }
 
+    public void createSlider(ControlContainer c)
+    {
+        slider = c.verticalSlider(getHeight() - getVisibleRect().getHeight()).size(sliderWidth, getVisibleRect().getHeight()).rightTo(this, 3).add();
+        slider.setValueListener(this);
+        slider.setWheelScrollEverywhere(true);
+        slider.setWheelScrollStep(elementHeight + VERTICAL_GAP);
+        slider.setListBoxRendering(true);
+    }
+
     private static int calculateVisibleHeight(ListBoxDescription desc)
     {
         if (desc.rows == -1)
         {
             return desc.height;
-        }
-        else
+        } else
         {
             return desc.rows * (desc.elementHeight + VERTICAL_GAP) - VERTICAL_GAP;
         }
@@ -73,8 +77,7 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
         if (desc.elementWidth == -1)
         {
             return desc.width - 3 - desc.sliderWidth;
-        }
-        else
+        } else
         {
             return desc.columns * (desc.elementWidth + HORIZONTAL_GAP) - HORIZONTAL_GAP;
         }
@@ -87,9 +90,11 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
     }
 
     @Override
-    public void updateRect()
+    public void onParentResized()
     {
-        super.updateRect();
+        slider.offsetY = currentScroll;
+
+        super.onParentResized();
 
         slider.setMaxValue(getHeight() - getVisibleRect().getHeight());
     }
@@ -151,7 +156,7 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
         if (height < getHeight())
             setCurrentScroll(Math.max(height - getVisibleRect().getHeight(), 0));
         createListBoxItems();
-        updateRect();
+        onParentResized();
     }
 
     private void createListBoxItems()
@@ -162,7 +167,12 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
             int elementX = (elementWidth + HORIZONTAL_GAP) * (i % columns);
             int elementY = i / columns * (elementHeight + VERTICAL_GAP);
 
-            addControl(ListBoxItemProvider.createListBoxItem(elements.get(i), i, listBoxItemMeta, elementX, elementY, elementWidth, elementHeight, this));
+            Anchor anchor = new Anchor(elementX, -1, elementY, -1);
+            anchor.controlLeft = this;
+            anchor.controlTop = this;
+            anchor.sameSideLeft = true;
+            anchor.sameSideTop = true;
+            addControl(ListBoxItemProvider.createListBoxItem(elements.get(i), i, listBoxItemMeta, elementWidth, elementHeight, anchor, 0, 0, this));
         }
     }
 
@@ -187,8 +197,7 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
                     }
                     selectedIndices.add(lbItem.index);
                     lbItem.setSelected(true);
-                }
-                else if (button == 1 && selectedIndices.contains(lbItem.index))
+                } else if (button == 1 && selectedIndices.contains(lbItem.index))
                 {
                     selectedIndices.remove((Integer) lbItem.index);
                     lbItem.setSelected(false);

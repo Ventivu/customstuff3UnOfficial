@@ -13,6 +13,6 @@ public class PlayerDisplayBuilder extends ControlBuilder<PlayerDisplay>
     @Override
     protected PlayerDisplay newInstance()
     {
-        return new PlayerDisplay(posX, posY, width, height, container);
+        return new PlayerDisplay(width, height, anchor, offsetX, offsetY, container);
     }
 }

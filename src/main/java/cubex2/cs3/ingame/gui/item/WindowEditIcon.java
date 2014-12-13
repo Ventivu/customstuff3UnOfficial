@@ -25,12 +25,6 @@ public class WindowEditIcon extends WindowEditItemAttribute
     public WindowEditIcon(WrappedItem item)
     {
         super(item, "icon", 150, 100);
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         lblIcon = label("Icon name:").at(7, 7).add();
         infoButton = infoButton(Strings.INFO_TEXURE_FILE).rightTo(lblIcon).add();

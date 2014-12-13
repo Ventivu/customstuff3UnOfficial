@@ -4,9 +4,9 @@ public class Tab extends ControlContainer
 {
     public final String title;
 
-    public Tab(String title, int x, int y, int width, int height, Control parent)
+    public Tab(String title, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
         this.title = title;
     }
 }

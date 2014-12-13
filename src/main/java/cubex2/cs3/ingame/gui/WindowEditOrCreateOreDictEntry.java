@@ -25,6 +25,8 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
     {
         super("New Ore Dictionary Entry", CREATE | CANCEL, 182, 201);
         this.pack = pack;
+
+        initControls();
     }
 
     public WindowEditOrCreateOreDictEntry(OreDictionaryEntry entry, IngameContentPack pack)
@@ -32,13 +34,12 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
         super("Edit Ore Dictionary Entry", EDIT | CANCEL, 182, 201);
         this.pack = pack;
         editingEntry = entry;
+
+        initControls();
     }
 
-    @Override
-    public void init()
+    private void initControls()
     {
-        super.init();
-
         lblItem = label("Item:").at(7,7).add();
         itemDisplay = itemDisplay().below(lblItem).add();
         lblOreClass = label("Ore Class:").below(itemDisplay,5).add();
@@ -60,9 +61,7 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
         itemDisplays = new ItemDisplay[9];
         for (int i = 0; i < itemDisplays.length; i++)
         {
-            itemDisplays[i] = new ItemDisplay(7 + i * 19, 91, this);
-            itemDisplays[i].setDrawSlotBackground();
-            addControl(itemDisplays[i]);
+            itemDisplays[i] = itemDisplay().left(7 + i * 19).top(91).add().setDrawSlotBackground();
         }
         updateItemDisplays();
     }

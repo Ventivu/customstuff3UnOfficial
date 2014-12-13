@@ -27,7 +27,7 @@ public class KeyBindingHandler
         if (event.phase == TickEvent.Phase.END && event.side == Side.CLIENT && openGuiKey.isPressed() && FMLClientHandler.instance().getClient().inGameHasFocus)
         {
             Keyboard.enableRepeatEvents(true);
-            FMLClientHandler.instance().showGuiScreen(GuiBase.instance);
+            FMLClientHandler.instance().showGuiScreen(GuiBase.INSTANCE);
         }
     }
 }

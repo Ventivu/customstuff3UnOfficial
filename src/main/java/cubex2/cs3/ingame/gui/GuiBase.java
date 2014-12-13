@@ -8,15 +8,23 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.entity.RenderItem;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.Rectangle;
 
 import java.util.List;
 import java.util.Stack;
 
 public class GuiBase extends GuiScreen
 {
-    public static int dWheel = 0;
-    public static final GuiBase instance = new GuiBase();
+    static
+    {
+        new GuiBase();
+    }
+
+    public static GuiBase INSTANCE;
+
     public static final RenderItem itemRenderer = new RenderItem();
+    public static int dWheel = 0;
+
     public final Stack<Window> windowHistory = new Stack<Window>();
     private Window window;
 
@@ -26,14 +34,18 @@ public class GuiBase extends GuiScreen
 
     private GuiBase()
     {
+        INSTANCE = this;
+
+        Control.ROOT_CONTROL_DUMMY.onParentResized();
+
         window = new WindowMain();
-        window.init();
     }
 
     public static void closeGui()
     {
-        instance.mc.displayGuiScreen((GuiScreen) null);
-        instance.mc.setIngameFocus();
+        INSTANCE.mc.displayGuiScreen((GuiScreen) null);
+        INSTANCE.mc.setIngameFocus();
+        Keyboard.enableRepeatEvents(false);
     }
 
     public static void openWindow(Window window)
@@ -44,19 +56,18 @@ public class GuiBase extends GuiScreen
     public static void openWindow(Window window, String tag)
     {
         window.tag = tag;
-        instance.windowHistory.push(instance.window);
-        instance.window = window;
-        instance.window.init();
-        instance.window.updateRect();
+        INSTANCE.windowHistory.push(INSTANCE.window);
+        INSTANCE.window = window;
+        INSTANCE.window.onParentResized();
     }
 
     public static void openPrevWindow()
     {
-        Window currentWindow = instance.window;
-        instance.window = instance.windowHistory.pop();
-        instance.window.updateRect();
-        if (instance.window instanceof IWindowClosedListener)
-            ((IWindowClosedListener) instance.window).windowClosed(currentWindow);
+        Window currentWindow = INSTANCE.window;
+        INSTANCE.window = INSTANCE.windowHistory.pop();
+        INSTANCE.window.onParentResized();
+        if (INSTANCE.window instanceof IWindowClosedListener)
+            ((IWindowClosedListener) INSTANCE.window).windowClosed(currentWindow);
     }
 
     public static void lockInput(Control c)
@@ -78,7 +89,9 @@ public class GuiBase extends GuiScreen
     @Override
     public void initGui()
     {
-        window.updateRect();
+        Control.ROOT_CONTROL_DUMMY.onParentResized();
+
+        window.onParentResized();
     }
 
     @Override
@@ -91,13 +104,13 @@ public class GuiBase extends GuiScreen
     public void updateScreen()
     {
         dWheel = Mouse.getDWheel();
-        window.update();
+        window.onUpdate();
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button)
     {
-        boolean intoWindow = window.getRect().contains(mouseX, mouseY);
+        boolean intoWindow = window.getBounds().contains(mouseX, mouseY);
         if (devMode)
         {
             if (button == 0)
@@ -148,24 +161,22 @@ public class GuiBase extends GuiScreen
             {
                 if (i == Keyboard.KEY_DOWN)
                 {
-                    activeDevControl.y += 1;
-                    activeDevControl.updateRect();
-                }
-                else if (i == Keyboard.KEY_UP)
+                    activeDevControl.offsetY += 1;
+                    activeDevControl.onParentResized();
+                } else if (i == Keyboard.KEY_UP)
                 {
-                    activeDevControl.y -= 1;
-                    activeDevControl.updateRect();
+                    activeDevControl.offsetY -= 1;
+                    activeDevControl.onParentResized();
                 }
 
                 if (i == Keyboard.KEY_LEFT)
                 {
-                    activeDevControl.x -= 1;
-                    activeDevControl.updateRect();
-                }
-                else if (i == Keyboard.KEY_RIGHT)
+                    activeDevControl.offsetX -= 1;
+                    activeDevControl.onParentResized();
+                } else if (i == Keyboard.KEY_RIGHT)
                 {
-                    activeDevControl.x += 1;
-                    activeDevControl.updateRect();
+                    activeDevControl.offsetX += 1;
+                    activeDevControl.onParentResized();
                 }
 
                 if (i == Keyboard.KEY_PRIOR)
@@ -200,7 +211,7 @@ public class GuiBase extends GuiScreen
         {
             List<String> list = Lists.newArrayList();
             list.add(c.getClass().getSimpleName());
-            list.add(String.format("X: %d (%d) Y: %d (%d)", c.getX(), c.getRelX(), c.getY(), c.getRelY()));
+            list.add(String.format("X: %d Y: %d", c.getX(), c.getY()));
             list.add("W: " + c.getWidth() + " H: " + c.getHeight());
             GuiHelper.drawHoveringText(list, mouseX, mouseY, mc.fontRenderer);
         }
@@ -212,6 +223,11 @@ public class GuiBase extends GuiScreen
                     activeDevControl.getX() + activeDevControl.getWidth() + 1, activeDevControl.getY() + activeDevControl.getHeight() + 1,
                     Color.RED);
         }
+    }
+
+    public Rectangle getBounds()
+    {
+        return new Rectangle(0, 0, width, height);
     }
 
     @Override

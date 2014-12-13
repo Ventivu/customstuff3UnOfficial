@@ -17,9 +17,9 @@ public class DropBox<T> extends Control
 
     private IStringProvider<T> stringProvider;
 
-    public DropBox(T[] values, int x, int y, int width, int height, Control parent)
+    public DropBox(T[] values, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
         this.values = values;
     }
 
@@ -39,7 +39,7 @@ public class DropBox<T> extends Control
     }
 
     @Override
-    public void update()
+    public void onUpdate()
     {
         int wheel = GuiBase.dWheel;
         if (wheel != 0 && isExpanded && values.length > maxShowedValues)
@@ -51,12 +51,12 @@ public class DropBox<T> extends Control
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
-        int borderColor = getRect().contains(mouseX,mouseY) && !isExpanded ? Color.WHITE : Color.DARK_GREY;
-        GuiHelper.drawOutlinedRect(getRect(), borderColor, Color.LIGHT_GREY);
+        int borderColor = getBounds().contains(mouseX, mouseY) && !isExpanded ? Color.WHITE : Color.DARK_GREY;
+        GuiHelper.drawOutlinedRect(getBounds(), borderColor, Color.LIGHT_GREY);
 
         if (selectedValue != null)
         {
-            mc.fontRenderer.drawString(getTextToDraw(selectedValue), rect.getX() + 3, rect.getY() + 3, Color.BLACK);
+            mc.fontRenderer.drawString(getTextToDraw(selectedValue), bounds.getX() + 3, bounds.getY() + 3, Color.BLACK);
         }
     }
 
@@ -70,8 +70,8 @@ public class DropBox<T> extends Control
                 int index = i + offset;
 
                 int rx = getX() + 10;
-                int ry = getY() + (i + 1) * height;
-                Rectangle rect = new Rectangle(rx, ry, width, height);
+                int ry = getY() + (i + 1) * getHeight();
+                Rectangle rect = new Rectangle(rx, ry, getWidth(), getHeight());
 
                 int borderColor = rect.contains(mouseX, mouseY) ? Color.WHITE : Color.DARK_GREY;
                 GuiHelper.drawOutlinedRect(rect, borderColor, Color.LIGHT_GREY);
@@ -95,8 +95,7 @@ public class DropBox<T> extends Control
             if (isExpanded)
             {
                 GuiBase.lockInput(this);
-            }
-            else
+            } else
             {
                 GuiBase.releaseInput();
             }
@@ -108,10 +107,10 @@ public class DropBox<T> extends Control
     {
         if (isExpanded && !intoControl)
         {
-            Rectangle expandedRect = new Rectangle(getX() + 10, getY() + height, width, height * values.length);
+            Rectangle expandedRect = new Rectangle(getX() + 10, getY() + getHeight(), getWidth(), getHeight() * values.length);
             if (expandedRect.contains(mouseX, mouseY))
             {
-                int index = (mouseY - expandedRect.getY()) / height + offset;
+                int index = (mouseY - expandedRect.getY()) / getHeight() + offset;
                 selectedValue = values[index];
             }
             isExpanded = false;

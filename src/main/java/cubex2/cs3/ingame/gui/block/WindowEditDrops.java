@@ -19,12 +19,6 @@ public class WindowEditDrops extends WindowEditBlockAttribute implements IWindow
     public WindowEditDrops(WrappedBlock block)
     {
         super(block, "drops", NEW | EDIT | DELETE | BACK, 263, 160);
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<BlockDrop.DropData> desc = new ListBoxDescription<BlockDrop.DropData>(7, 7);
         desc.width = 249;
@@ -33,8 +27,7 @@ public class WindowEditDrops extends WindowEditBlockAttribute implements IWindow
         desc.elementHeight = 22;
         desc.elements = wrappedBlock.container.drop.getDrops();
         desc.canSelect = true;
-        listBox = new ListBox<BlockDrop.DropData>(desc, this);
-        addControl(listBox);
+        listBox = listBox(desc).left(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

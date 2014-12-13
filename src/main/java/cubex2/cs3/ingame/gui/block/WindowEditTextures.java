@@ -42,12 +42,6 @@ public class WindowEditTextures extends WindowEditBlockAttribute
                 world.setBlock(Blocks.stone, i, -1, j);
             }
         }
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         labels = new Label[6];
         textBoxes = new TextBox[6];

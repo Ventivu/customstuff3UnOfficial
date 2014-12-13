@@ -50,7 +50,7 @@ public class GuiHelper
     {
         if (!list.isEmpty())
         {
-            GuiBase gui = GuiBase.instance;
+            GuiBase gui = GuiBase.INSTANCE;
 
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);
             RenderHelper.disableStandardItemLighting();
@@ -130,7 +130,7 @@ public class GuiHelper
 
     public static void drawToolTip(String[] text, int x, int y, FontRenderer font)
     {
-        GuiBase gui = GuiBase.instance;
+        GuiBase gui = GuiBase.INSTANCE;
 
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();

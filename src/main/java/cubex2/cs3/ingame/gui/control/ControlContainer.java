@@ -3,7 +3,10 @@ package cubex2.cs3.ingame.gui.control;
 import com.google.common.collect.Lists;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.control.builder.*;
+import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
+import cubex2.cs3.util.RecipeInput;
 import cubex2.cs3.util.SimulatedWorld;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Collections;
@@ -13,9 +16,9 @@ public abstract class ControlContainer extends Control
 {
     protected List<Control> controls = Lists.newArrayList();
 
-    public ControlContainer(int x, int y, int width, int height, Control parent)
+    public ControlContainer(int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
     }
 
     public void addControl(Control c)
@@ -54,14 +57,14 @@ public abstract class ControlContainer extends Control
     }
 
     @Override
-    public void updateRect()
+    public void onParentResized()
     {
-        super.updateRect();
+        super.onParentResized();
 
         for (int i = 0; i < controls.size(); i++)
         {
             adjustSize(controls.get(i));
-            controls.get(i).updateRect();
+            controls.get(i).onParentResized();
         }
     }
 
@@ -71,11 +74,11 @@ public abstract class ControlContainer extends Control
     }
 
     @Override
-    public void update()
+    public void onUpdate()
     {
         for (int i = 0; i < controls.size(); i++)
         {
-            controls.get(i).update();
+            controls.get(i).onUpdate();
         }
     }
 
@@ -87,12 +90,12 @@ public abstract class ControlContainer extends Control
         for (int i = 0; i < controls.size(); i++)
         {
             Control c = controls.get(i);
-            if (c.isEnabled && c.isVisible)
+            if (c.isEnabled() && c.isVisible())
             {
                 if (!c.canHandleInput())
                     continue;
 
-                boolean clickedControl = c.rect.contains(mouseX, mouseY);
+                boolean clickedControl = c.bounds.contains(mouseX, mouseY);
                 c.mouseClicked(mouseX, mouseY, button, clickedControl);
                 if (clickedControl)
                 {
@@ -141,7 +144,7 @@ public abstract class ControlContainer extends Control
         for (int i = 0; i < controls.size(); i++)
         {
             Control c = controls.get(i);
-            if (c.isEnabled && c.isVisible)
+            if (c.isEnabled() && c.isVisible())
             {
                 if (!c.canHandleInput())
                     continue;
@@ -161,7 +164,7 @@ public abstract class ControlContainer extends Control
         for (int i = 0; i < controls.size(); i++)
         {
             Control c_ = controls.get(i);
-            if (c_.isEnabled && c_.isVisible)
+            if (c_.isEnabled() && c_.isVisible())
             {
                 if (!c_.canHandleInput())
                     continue;
@@ -177,7 +180,7 @@ public abstract class ControlContainer extends Control
         for (int i = 0; i < controls.size(); i++)
         {
             Control c = controls.get(i);
-            if (c.isVisible)
+            if (c.isVisible())
             {
                 c.draw(mouseX, mouseY, renderTick);
             }
@@ -190,7 +193,7 @@ public abstract class ControlContainer extends Control
         for (int i = 0; i < controls.size(); i++)
         {
             Control c = controls.get(i);
-            if (c.isVisible)
+            if (c.isVisible())
             {
                 c.drawForeground(mouseX, mouseY);
             }
@@ -220,7 +223,12 @@ public abstract class ControlContainer extends Control
 
     public ItemDisplayBuilder itemDisplay()
     {
-        return new ItemDisplayBuilder(this);
+        return new ItemDisplayBuilder(null, this);
+    }
+
+    public ItemDisplayBuilder itemDisplay(ItemStack stack)
+    {
+        return new ItemDisplayBuilder(stack, this);
     }
 
     public InfoButtonBuilder infoButton(String text)
@@ -231,6 +239,16 @@ public abstract class ControlContainer extends Control
     public ButtonUpDownBuilder buttonUpDown(boolean up)
     {
         return new ButtonUpDownBuilder(up, this);
+    }
+
+    public ButtonUpDownBuilder buttonUp()
+    {
+        return buttonUpDown(true);
+    }
+
+    public ButtonUpDownBuilder buttonDown()
+    {
+        return buttonUpDown(false);
     }
 
     public PlayerDisplayBuilder playerDisplay()
@@ -256,5 +274,30 @@ public abstract class ControlContainer extends Control
     public WorldDisplayBuilder worldDisplay(SimulatedWorld world)
     {
         return new WorldDisplayBuilder(world, this);
+    }
+
+    public RecipeInputDisplayBuilder recipeInputDisplay()
+    {
+        return new RecipeInputDisplayBuilder(null, this);
+    }
+
+    public RecipeInputDisplayBuilder recipeInputDisplay(RecipeInput input)
+    {
+        return new RecipeInputDisplayBuilder(input, this);
+    }
+
+    public TabControlBuilder tabControl(int tabWidth, int tabHeight)
+    {
+        return new TabControlBuilder(tabWidth, tabHeight, this);
+    }
+
+    public VerticalSliderBuilder verticalSlider(int maxValue)
+    {
+        return new VerticalSliderBuilder(maxValue, this);
+    }
+
+    public <T> ListBoxBuilder<T> listBox(ListBoxDescription<T> desc)
+    {
+        return new ListBoxBuilder<T>(desc, this);
     }
 }

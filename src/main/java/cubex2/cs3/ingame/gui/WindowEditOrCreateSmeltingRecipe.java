@@ -22,6 +22,8 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
     {
         super("New Smelting Recipe", CREATE | CANCEL, 180, 100);
         this.pack = pack;
+
+        initControls();
     }
 
     public WindowEditOrCreateSmeltingRecipe(SmeltingRecipe recipe, IngameContentPack pack)
@@ -29,13 +31,12 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
         super("Edit Smelting Recipe", EDIT | CANCEL, 180, 100);
         this.pack = pack;
         editingRecipe = recipe;
+
+        initControls();
     }
 
-    @Override
-    public void init()
+    private void initControls()
     {
-        super.init();
-
         inputDisplay = itemDisplay().at(55, 25).add();
         inputDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_SMELTING_INPUT);
         inputDisplay.setDrawSlotBackground();

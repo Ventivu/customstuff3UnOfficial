@@ -13,6 +13,6 @@ public class TextFieldBuilder extends ControlBuilder<TextField>
     @Override
     protected TextField newInstance()
     {
-        return new TextField(posX, posY, width, height, container);
+        return new TextField(width, height, anchor, offsetX, offsetY, container);
     }
 }

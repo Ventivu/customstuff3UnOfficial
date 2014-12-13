@@ -10,14 +10,8 @@ public class WindowEditPick extends WindowEditBlockAttribute
     public WindowEditPick(WrappedBlock block)
     {
         super(block, "pick", 150, 100);
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        itemDisplay = itemDisplay().y(31).centerHor().add();
+        itemDisplay = itemDisplay().top(31).centerHor().add();
         itemDisplay.setItemStack(wrappedBlock.container.pick.copy());
         itemDisplay.setDrawSlotBackground();
         itemDisplay.useSelectItemDialog(false);

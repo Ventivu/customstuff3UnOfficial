@@ -3,7 +3,6 @@ package cubex2.cs3.ingame.gui.common;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.TextField;
 import cubex2.cs3.lib.Color;
@@ -21,7 +20,7 @@ public class WindowEditScript extends Window
 
     public WindowEditScript(String scriptName, AttributeContainer container)
     {
-        super(null, EDIT | CANCEL, Math.min(GuiBase.instance.width, 504), Math.min(GuiBase.instance.height, 504));
+        super(null, EDIT | CANCEL, Math.min(GuiBase.INSTANCE.width, 504), Math.min(GuiBase.INSTANCE.height, 504));
         this.scriptName = scriptName;
         this.container = container;
         scriptWrapper = container.getAttribute(scriptName);
@@ -29,38 +28,22 @@ public class WindowEditScript extends Window
         {
             scriptWrapper = new ScriptWrapper("");
         }
-    }
 
-    @Override
-    public void updateRect()
-    {
-        width = Math.min(GuiBase.instance.width, 504);
-        height = Math.min(GuiBase.instance.height, 504);
-
-        super.updateRect();
-    }
-
-    @Override
-    protected void adjustSize(Control c)
-    {
-        if (c == textField)
-        {
-            textField.width = getWidth() - 14;
-            textField.height = getHeight() - 34;
-        }
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
-
-        textField = textField().y(7).fillWidth(7).height(getHeight() - 34).add();
+        textField = textField().top(7).bottom(34).fillWidth(7).add();
         textField.setText(scriptWrapper.getSource());
 
         lblError = label("Script has syntax errors!").rightTo(btnEdit).add();
         lblError.setColor(Color.RED);
         lblError.setVisible(false);
+    }
+
+    @Override
+    public void onParentResized()
+    {
+        width = Math.min(GuiBase.INSTANCE.width, 504);
+        height = Math.min(GuiBase.INSTANCE.height, 504);
+
+        super.onParentResized();
     }
 
     @Override

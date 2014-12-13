@@ -10,9 +10,14 @@ public class ButtonUpDown extends Control
     protected boolean hover;
     private boolean isUp = false;
 
-    public ButtonUpDown(boolean isUp, int x, int y, Control parent)
+    public ButtonUpDown(boolean isUp, Control parent)
     {
-        super(x, y, 9, 9, parent);
+        this(isUp, null, 0, 0, parent);
+    }
+
+    public ButtonUpDown(boolean isUp, Anchor anchor, int offsetX, int offsetY, Control parent)
+    {
+        super(9, 9, anchor, offsetX, offsetY, parent);
         this.isUp = isUp;
     }
 
@@ -29,7 +34,7 @@ public class ButtonUpDown extends Control
     {
         byte b0 = 1;
 
-        if (!isEnabled)
+        if (!isEnabled())
         {
             b0 = 0;
         } else if (hover)
@@ -49,7 +54,7 @@ public class ButtonUpDown extends Control
 
         int k = getHoverState(hover);
         int u = isUp ? 200 : 209;
-        drawTexturedModalRect(rect.getX(), rect.getY(), u, 18 + k * 9, 9, 9);
+        drawTexturedModalRect(bounds.getX(), bounds.getY(), u, 18 + k * 9, 9, 9);
     }
 }
 

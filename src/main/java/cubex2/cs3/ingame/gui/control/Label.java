@@ -1,5 +1,6 @@
 package cubex2.cs3.ingame.gui.control;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cubex2.cs3.lib.Color;
 
 public class Label extends Control
@@ -9,14 +10,14 @@ public class Label extends Control
     protected boolean centered;
     private String[] lines;
 
-    public Label(String text, int x, int y, Control parent)
+    public Label(String text, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        this(text, Color.BLACK, x, y, parent);
+        this(text, Color.BLACK, anchor, offsetX, offsetY, parent);
     }
 
-    public Label(String text, int color, int x, int y, Control parent)
+    public Label(String text, int color, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, 0, 9, parent);
+        super(FMLClientHandler.instance().getClient().fontRenderer.getStringWidth(text), 9, anchor, offsetX, offsetY, parent);
         setText(text);
         this.color = color;
     }
@@ -48,11 +49,11 @@ public class Label extends Control
                 width = w;
         }
 
-        rect.setWidth(width);
-        rect.setHeight(lines.length * 9 + (lines.length - 1) * 4);
+        bounds.setWidth(width);
+        bounds.setHeight(lines.length * 9 + (lines.length - 1) * 4);
 
-        this.width = rect.getWidth();
-        this.height = rect.getHeight();
+        this.width = width;
+        this.height = lines.length * 9 + (lines.length - 1) * 4;
     }
 
     @Override
@@ -60,14 +61,13 @@ public class Label extends Control
     {
         for (int i = 0; i < lines.length; i++)
         {
-            int y = rect.getY() + i * 13;
+            int y = bounds.getY() + i * 13;
             if (centered)
             {
-                mc.fontRenderer.drawString(lines[i], rect.getX() + (rect.getWidth() - mc.fontRenderer.getStringWidth(text)) / 2, y, color);
-            }
-            else
+                mc.fontRenderer.drawString(lines[i], bounds.getX() + (bounds.getWidth() - mc.fontRenderer.getStringWidth(text)) / 2, y, color);
+            } else
             {
-                mc.fontRenderer.drawString(lines[i], rect.getX(), y, color);
+                mc.fontRenderer.drawString(lines[i], bounds.getX(), y, color);
             }
         }
     }

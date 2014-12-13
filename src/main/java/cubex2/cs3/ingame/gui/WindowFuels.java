@@ -17,12 +17,6 @@ public class WindowFuels extends Window implements IListBoxItemClickListener<Fue
     {
         super("Fuels", BACK | NEW | EDIT | DELETE, 263, 201);
         this.pack = pack;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<Fuel> desc = new ListBoxDescription<Fuel>(7, 7);
         desc.width = 249;
@@ -30,8 +24,7 @@ public class WindowFuels extends Window implements IListBoxItemClickListener<Fue
         desc.elementHeight = 22;
         desc.elements = pack.getContentRegistry(Fuel.class).getContentList();
         desc.canSelect = true;
-        listBox = new ListBox<Fuel>(desc, this);
-        addControl(listBox);
+        listBox = listBox(desc).left(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

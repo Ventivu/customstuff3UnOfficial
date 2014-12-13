@@ -1,9 +1,6 @@
 package cubex2.cs3.ingame.gui.block;
 
 import cubex2.cs3.common.WrappedBlock;
-import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.TextField;
 import net.minecraft.item.ItemStack;
@@ -16,14 +13,8 @@ public class WindowEditInformation extends WindowEditBlockAttribute
     public WindowEditInformation(WrappedBlock block)
     {
         super(block, "information", EDIT | BACK, 150, 170);
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        textField = textField().y(7).fillWidth(7).height(100).add();
+        textField = textField().top(7).fillWidth(7).height(100).add();
         textField.disableSyntaxHighlighting();
         textField.setText(wrappedBlock.container.information);
         display = itemDisplay().below(textField).add();

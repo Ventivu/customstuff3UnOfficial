@@ -203,22 +203,35 @@
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
+  <component name="ScalaCompilerConfiguration">
+    <option name="warnings" value="true" />
+    <option name="deprecationWarnings" value="false" />
+    <option name="uncheckedWarnings" value="false" />
+    <option name="optimiseBytecode" value="false" />
+    <option name="explainTypeErrors" value="false" />
+    <option name="continuations" value="false" />
+    <option name="debuggingInfoLevel" value="Vars" />
+    <parameters />
+    <plugins />
+  </component>
   <component name="SvnBranchConfigurationManager">
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
   <component name="libraryTable">
-    <library name="scala-compiler-2.10.2">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-compiler/2.10.2/64c8b1380cc53d6850823d6e4e7ae984aa44ef9c/scala-compiler-2.10.2.jar!/" />
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.10.2/6ba65d12cd09d441083262d6f73d2257fec7c663/scala-library-2.10.2.jar!/" />
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-reflect/2.10.2/444ff8e89a81697997ed8a98a4642ba283130249/scala-reflect-2.10.2.jar!/" />
-      </CLASSES>
+    <library name="scala-sdk" type="Scala">
+      <properties>
+        <compiler-classpath>
+          <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-compiler/2.10.2/64c8b1380cc53d6850823d6e4e7ae984aa44ef9c/scala-compiler-2.10.2.jar" />
+          <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.10.2/6ba65d12cd09d441083262d6f73d2257fec7c663/scala-library-2.10.2.jar" />
+          <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-reflect/2.10.2/444ff8e89a81697997ed8a98a4642ba283130249/scala-reflect-2.10.2.jar" />
+        </compiler-classpath>
+      </properties>
+      <CLASSES />
       <JAVADOC />
       <SOURCES />
     </library>
   </component>
 </project>
-

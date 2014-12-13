@@ -22,12 +22,6 @@ public class WindowNewPack extends Window implements IValidityProvider
     {
         super("New Content Pack", CREATE | CANCEL, 180, 201);
         parentListBox = listBox;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         lblName = label("Name:").at(7,7).add();
         tbName = textBox().below(lblName).fillWidth(7).height(17).add();

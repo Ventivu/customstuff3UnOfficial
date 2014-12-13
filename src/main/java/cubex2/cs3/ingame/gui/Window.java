@@ -37,73 +37,64 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
 
     public Window(int width, int height)
     {
-        super(0, 0, width, height, null);
-        this.usedControls = 0;
+        this(null, 0, width, height);
     }
 
     public Window(int usedControls, int width, int height)
     {
-        super(0, 0, width, height, null);
-        this.usedControls = usedControls;
+        this(null, usedControls, width, height);
     }
 
     public Window(String title, int width, int height)
     {
-        super(0, 0, width, height, null);
-        this.title = title;
-        this.usedControls = 0;
+        this(title, 0, width, height);
     }
 
     public Window(String title, int usedControls, int width, int height)
     {
-        super(0, 0, width, height, null);
+        super(width, height, null, 0, 0, null);
         this.usedControls = usedControls;
         this.title = title;
+
+        init();
     }
 
-    public void init()
+    private void init()
     {
         controls.clear();
         validityControls.clear();
 
         if ((usedControls & BACK) == BACK)
         {
-            btnBack = new Button("Back", -7, -7, 60, this);
-            addControl(btnBack);
+            btnBack = button("Back").right(7).bottom(7).add();
         }
         if ((usedControls & CANCEL) == CANCEL)
         {
-            btnCancel = new Button("Cancel", -7, -7, 60, this);
-            addControl(btnCancel);
+            btnCancel = button("Cancel").right(7).bottom(7).add();
         }
         if ((usedControls & SELECT) == SELECT)
         {
-            btnSelect = new Button("Select", 7, -7, 60, this);
-            addControl(btnSelect);
+            btnSelect = button("Select").left(7).bottom(7).add();
         }
         int xOffset = 0;
         if ((usedControls & NEW) == NEW)
         {
-            btnNew = new Button("New", 7, -7, 60, this);
-            addControl(btnNew);
+            btnNew = button("New").left(7 + xOffset).bottom(7).add();
             xOffset += 63;
         }
         if ((usedControls & CREATE) == CREATE)
         {
-            btnCreate = new Button("Create", 7 + xOffset, -7, 60, this);
-            addControl(btnCreate);
+            btnCreate = button("Create").left(7 + xOffset).bottom(7).add();
             xOffset += 63;
         }
         if ((usedControls & EDIT) == EDIT)
         {
-            btnEdit = new Button("Edit", 7 + xOffset, -7, 60, this);
-            addControl(btnEdit);
+            btnEdit = button("Edit").left(7 + xOffset).bottom(7).add();
             xOffset += 63;
         }
         if ((usedControls & DELETE) == DELETE)
         {
-            btnDelete = new Button("Delete", 7 + xOffset, -7, 60, this);
-            addControl(btnDelete);
+            btnDelete = button("Delete").left(7 + xOffset).bottom(7).add();
             xOffset += 63;
         }
     }
@@ -184,27 +175,27 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
 
         mc.renderEngine.bindTexture(Textures.BG);
 
-        int heightChange = rect.getHeight() % 2 != 0 ? 1 : 0;
-        int widthChange = rect.getWidth() % 2 != 0 ? 1 : 0;
+        int heightChange = bounds.getHeight() % 2 != 0 ? 1 : 0;
+        int widthChange = bounds.getWidth() % 2 != 0 ? 1 : 0;
 
         // Top Left
-        drawTexturedModalRect(rect.getX(), rect.getY(), 0, 0, rect.getWidth() / 2 + widthChange, rect.getHeight() / 2 + heightChange);
+        drawTexturedModalRect(bounds.getX(), bounds.getY(), 0, 0, bounds.getWidth() / 2 + widthChange, bounds.getHeight() / 2 + heightChange);
         // Top Right
-        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2 + widthChange, rect.getY(), 256 - rect.getWidth() / 2, 0, rect.getWidth() / 2, rect.getHeight() / 2 + heightChange);
+        drawTexturedModalRect(bounds.getX() + bounds.getWidth() / 2 + widthChange, bounds.getY(), 256 - bounds.getWidth() / 2, 0, bounds.getWidth() / 2, bounds.getHeight() / 2 + heightChange);
         // Bottom Left
-        drawTexturedModalRect(rect.getX(), rect.getY() + rect.getHeight() / 2 + heightChange, 0, 256 - rect.getHeight() / 2, rect.getWidth() / 2 + widthChange, rect.getHeight() / 2);
+        drawTexturedModalRect(bounds.getX(), bounds.getY() + bounds.getHeight() / 2 + heightChange, 0, 256 - bounds.getHeight() / 2, bounds.getWidth() / 2 + widthChange, bounds.getHeight() / 2);
         // Bottom Right
-        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2 + widthChange, rect.getY() + rect.getHeight() / 2 + heightChange, 256 - rect.getWidth() / 2, 256 - rect.getHeight() / 2, rect.getWidth() / 2, rect.getHeight() / 2);
+        drawTexturedModalRect(bounds.getX() + bounds.getWidth() / 2 + widthChange, bounds.getY() + bounds.getHeight() / 2 + heightChange, 256 - bounds.getWidth() / 2, 256 - bounds.getHeight() / 2, bounds.getWidth() / 2, bounds.getHeight() / 2);
 
         if (title != null)
         {
             mc.renderEngine.bindTexture(Textures.CONTROLS2);
             int width = mc.fontRenderer.getStringWidth(title) + 14;
 
-            drawTexturedModalRect(rect.getX() + (rect.getWidth() - width) / 2, rect.getY() - 15, 156, 0, width / 2, 18);
-            drawTexturedModalRect(rect.getX() + (rect.getWidth() - width) / 2 + width / 2, rect.getY() - 15, 256 - width / 2, 0, width / 2, 18);
+            drawTexturedModalRect(bounds.getX() + (bounds.getWidth() - width) / 2, bounds.getY() - 15, 156, 0, width / 2, 18);
+            drawTexturedModalRect(bounds.getX() + (bounds.getWidth() - width) / 2 + width / 2, bounds.getY() - 15, 256 - width / 2, 0, width / 2, 18);
 
-            mc.fontRenderer.drawString(title, rect.getX() + (rect.getWidth() - mc.fontRenderer.getStringWidth(title)) / 2, rect.getY() - 10, Color.BLACK);
+            mc.fontRenderer.drawString(title, bounds.getX() + (bounds.getWidth() - mc.fontRenderer.getStringWidth(title)) / 2, bounds.getY() - 10, Color.BLACK);
         }
 
         super.draw(mouseX, mouseY, renderTick);

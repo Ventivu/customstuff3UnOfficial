@@ -21,6 +21,6 @@ public class PictureBoxBuilder extends ControlBuilder<PictureBox>
     @Override
     protected PictureBox newInstance()
     {
-        return new PictureBox(texture, u, v, posX, posY, width, height, container);
+        return new PictureBox(texture, u, v, width, height, anchor, offsetX, offsetY, container);
     }
 }

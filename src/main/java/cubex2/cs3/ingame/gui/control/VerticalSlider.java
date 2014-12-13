@@ -25,9 +25,9 @@ public class VerticalSlider extends Control
 
     private IVerticalSliderValueListener listener;
 
-    public VerticalSlider(int maxValue, int x, int y, int width, int height, Control parent)
+    public VerticalSlider(int maxValue, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
         scrollThumbRect = new Rectangle(getX(), getY(), getWidth(), SCROLL_THUMNB_HEIGHT);
         this.maxValue = maxValue;
 
@@ -78,16 +78,16 @@ public class VerticalSlider extends Control
     }
 
     @Override
-    public void updateRect()
+    public void onParentResized()
     {
-        super.updateRect();
+        super.onParentResized();
 
         scrollThumbRect = new Rectangle(getX(), getY(), getWidth(), SCROLL_THUMNB_HEIGHT);
         scrollThumbRect.setY(getY() + scrollOffset);
     }
 
     @Override
-    public void update()
+    public void onUpdate()
     {
         int wheel = GuiBase.dWheel;
         if (wheel != 0 && (mouseOverControl || wheelScrollEverywhere) && maxValue > 0)
@@ -149,7 +149,7 @@ public class VerticalSlider extends Control
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
-        mouseOverControl = rect.contains(mouseX, mouseY);
+        mouseOverControl = bounds.contains(mouseX, mouseY);
 
         if (mouseDown)
         {
@@ -159,7 +159,7 @@ public class VerticalSlider extends Control
 
         if (listBoxRendering)
         {
-            GuiHelper.drawOutlinedRect(getRect(), Color.DARK_GREY, Color.LIGHT_GREY);
+            GuiHelper.drawOutlinedRect(getBounds(), Color.DARK_GREY, Color.LIGHT_GREY);
         }
         else
         {

@@ -21,20 +21,13 @@ public class WindowEditPack extends Window implements IListBoxItemClickListener<
     {
         super(pack.getName(), BACK, 180, 201);
         this.pack = pack;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<String> desc = new ListBoxDescription<String>(7, 7);
         desc.width = 166;
         desc.rows = 12;
         desc.elements = listBoxElements;
         desc.canSelect = false;
-        listBox = new ListBox<String>(desc, this);
-        addControl(listBox);
+        listBox = listBox(desc).left(7).top(7).add();
     }
 
     @Override

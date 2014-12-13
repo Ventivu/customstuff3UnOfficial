@@ -21,7 +21,7 @@ public class CheckBoxBuilder extends ControlBuilder<CheckBox>
     @Override
     protected CheckBox newInstance()
     {
-        CheckBox cb =  new CheckBox(posX, posY, container);
+        CheckBox cb =  new CheckBox(anchor, offsetX, offsetY, container);
         cb.setIsChecked(isChecked);
         return cb;
     }

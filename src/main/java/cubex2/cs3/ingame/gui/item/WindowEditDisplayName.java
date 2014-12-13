@@ -19,12 +19,6 @@ public class WindowEditDisplayName extends WindowEditItemAttribute implements IV
     public WindowEditDisplayName(WrappedItem item)
     {
         super(item, "displayName", EDIT | CANCEL, 150, 60);
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         textBox = textBox().at(7, 7).height(16).fillWidth(7).add();
         textBox.setText(wrappedItem.container.displayName);

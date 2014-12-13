@@ -7,15 +7,15 @@ public class ScrollContainer extends ControlContainer
 {
     private Rectangle visibleRect;
 
-    private int currentScroll = 0;
+    protected int currentScroll = 0;
     private int visibleHeight;
     private int originY;
 
-    public ScrollContainer(int visibleHeight, int x, int y, int width, int height, Control parent)
+    public ScrollContainer(int visibleHeight, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
 
-        originY = y;
+        originY = getY();
         this.visibleHeight = visibleHeight;
         visibleRect = new Rectangle(getX(), getY(), getWidth(), visibleHeight);
     }
@@ -26,29 +26,30 @@ public class ScrollContainer extends ControlContainer
     }
 
     @Override
-    public void updateRect()
+    public void onParentResized()
     {
-        int absX = x;
-        int absY = y;
+        /*int absX = getX();
+        int absY = getY();
 
-        absX += parent.rect.getX();
-        absY += parent.rect.getY();
+        absX += parent.bounds.getX();
+        absY += parent.bounds.getY();
 
-        rect.setBounds(absX, absY, width, height);
+        bounds.setBounds(absX, absY, getWidth(), getHeight());*/
+
+        super.onParentResized();
 
         visibleRect = new Rectangle(getX(), getY() + currentScroll, getWidth(), visibleHeight);
 
-
         for (int i = 0; i < controls.size(); i++)
         {
-            controls.get(i).updateRect();
+            controls.get(i).onParentResized();
         }
     }
 
     @Override
-    public void update()
+    public void onUpdate()
     {
-        super.update();
+        super.onUpdate();
     }
 
     @Override
@@ -57,12 +58,12 @@ public class ScrollContainer extends ControlContainer
         for (int i = 0; i < controls.size(); i++)
         {
             Control c = controls.get(i);
-            if (c.isEnabled && c.isVisible &&
+            if (c.isEnabled() && c.isVisible() &&
                     c.getY() >= visibleRect.getY() - c.getHeight() &&
                     c.getY() <= visibleRect.getY() + visibleRect.getHeight() &&
                     mouseY >= visibleRect.getY() && mouseY <= visibleRect.getY() + visibleRect.getHeight())
             {
-                boolean clickedControl = c.rect.contains(mouseX, mouseY);
+                boolean clickedControl = c.bounds.contains(mouseX, mouseY);
                 c.mouseClicked(mouseX, mouseY, button, clickedControl);
                 if (clickedControl)
                 {
@@ -81,7 +82,7 @@ public class ScrollContainer extends ControlContainer
         for (int i = 0; i < controls.size(); i++)
         {
             Control c = controls.get(i);
-            if (c.isEnabled && c.isVisible &&
+            if (c.isEnabled() && c.isVisible() &&
                     c.getY() >= visibleRect.getY() - c.getHeight() &&
                     c.getY() <= visibleRect.getY() + visibleRect.getHeight() &&
                     mouseY >= visibleRect.getY() && mouseY <= visibleRect.getY() + visibleRect.getHeight())
@@ -99,8 +100,8 @@ public class ScrollContainer extends ControlContainer
 
     private void updateScroll()
     {
-        y = (originY - currentScroll);
-        updateRect();
+        offsetY = -currentScroll;
+        onParentResized();
     }
 
     @Override
@@ -111,7 +112,7 @@ public class ScrollContainer extends ControlContainer
         for (int i = 0; i < controls.size(); i++)
         {
             Control c = controls.get(i);
-            if (c.isVisible && c.getY() >= visibleRect.getY() - c.getHeight() && c.getY() <= visibleRect.getY() + visibleRect.getHeight())
+            if (c.isVisible() && c.getY() >= visibleRect.getY() - c.getHeight() && c.getY() <= visibleRect.getY() + visibleRect.getHeight())
             {
                 c.draw(mouseX, mouseY, renderTick);
             }

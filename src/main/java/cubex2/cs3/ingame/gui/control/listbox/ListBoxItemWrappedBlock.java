@@ -1,28 +1,23 @@
 package cubex2.cs3.ingame.gui.control.listbox;
 
 import cubex2.cs3.common.WrappedBlock;
+import cubex2.cs3.ingame.gui.control.Anchor;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
-import cubex2.cs3.ingame.gui.control.Label;
 import net.minecraft.item.ItemStack;
 
 public class ListBoxItemWrappedBlock extends ListBoxItem<WrappedBlock>
 {
-    private ItemDisplay display;
-    private Label lblName;
-
-    public ListBoxItemWrappedBlock(WrappedBlock value, int idx, int x, int y, int width, int height, Control parent)
+    public ListBoxItemWrappedBlock(WrappedBlock value, int idx, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(value, idx, x, y, width, height, parent);
+        super(value, idx, width, height, anchor, offsetX, offsetY, parent);
 
-        display = new ItemDisplay(3, (getHeight() - 18) / 2 + 1, this);
+        ItemDisplay display = itemDisplay().left(3).centerVert().add();
         if (value.block != null)
         {
             display.setItemStack(new ItemStack(value.block));
         }
-        addControl(display);
 
-        lblName = new Label(value.getName() + " (" + value.getType().name + ")", 23, (getHeight() - 9) / 2 + 1, this);
-        addControl(lblName);
+        label(value.getName() + " (" + value.getType().name + ")").left(display, 3).centerVert().add();
     }
 }

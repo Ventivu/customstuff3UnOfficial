@@ -35,9 +35,9 @@ public class WorldDisplay extends Control
 
     private SimulatedWorld world;
 
-    public WorldDisplay(SimulatedWorld world, int x, int y, int width, int height, Control parent)
+    public WorldDisplay(SimulatedWorld world, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
         setWorld(world);
     }
 
@@ -53,7 +53,7 @@ public class WorldDisplay extends Control
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
-        GuiHelper.drawRect(getRect(), Color.BLACK);
+        GuiHelper.drawRect(getBounds(), Color.BLACK);
 
         GL11.glPushMatrix();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -88,7 +88,7 @@ public class WorldDisplay extends Control
     }
 
     @Override
-    public void update()
+    public void onUpdate()
     {
         if (rotate)
         {

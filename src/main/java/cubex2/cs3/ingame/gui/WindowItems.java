@@ -17,12 +17,6 @@ public class WindowItems extends Window implements IWindowClosedListener, IListB
     {
         super("Items", NEW | EDIT | DELETE | BACK, 263, 160);
         this.pack = pack;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<WrappedItem> desc = new ListBoxDescription<WrappedItem>(7, 7);
         desc.width = 249;
@@ -31,15 +25,14 @@ public class WindowItems extends Window implements IWindowClosedListener, IListB
         desc.elementHeight = 22;
         desc.elements = pack.getContentRegistry(WrappedItem.class).getContentList();
         desc.canSelect = true;
-        listBox = new ListBox<WrappedItem>(desc, this);
-        addControl(listBox);
+        listBox = listBox(desc).left(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY, int button)
+    protected void controlClicked(Control c, int mouseX, int mouseY)
     {
         if (c == btnNew)
         {

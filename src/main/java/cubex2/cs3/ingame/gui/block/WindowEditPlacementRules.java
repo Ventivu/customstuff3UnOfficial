@@ -12,12 +12,6 @@ public class WindowEditPlacementRules extends WindowEditBlockAttribute
     public WindowEditPlacementRules(WrappedBlock block)
     {
         super(block, "placement", 150, 100);
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         cbPlaceOnFloor = checkBox().checked(wrappedBlock.container.canPlaceOnFloor).at(7, 7).add();
         label("Can place on floor").rightTo(cbPlaceOnFloor).add();

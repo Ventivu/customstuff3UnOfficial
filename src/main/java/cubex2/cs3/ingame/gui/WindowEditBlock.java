@@ -5,12 +5,11 @@ import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.common.attribute.AttributeData;
 import cubex2.cs3.ingame.gui.common.WindowEditBoolean;
 import cubex2.cs3.ingame.gui.common.WindowEditFloat;
-import cubex2.cs3.ingame.gui.control.Control;
+import cubex2.cs3.ingame.gui.common.WindowEditInteger;
+import cubex2.cs3.ingame.gui.common.WindowEditScript;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
-import cubex2.cs3.ingame.gui.common.WindowEditInteger;
-import cubex2.cs3.ingame.gui.common.WindowEditScript;
 
 public class WindowEditBlock extends Window implements IListBoxItemClickListener<AttributeData>
 {
@@ -22,12 +21,6 @@ public class WindowEditBlock extends Window implements IListBoxItemClickListener
     {
         super(wrappedBlock.getName(), BACK, 263, 160);
         this.wrappedBlock = wrappedBlock;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<AttributeData> desc = new ListBoxDescription<AttributeData>(7, 7);
         desc.width = 249;
@@ -37,8 +30,7 @@ public class WindowEditBlock extends Window implements IListBoxItemClickListener
         desc.elements = Lists.newArrayList(wrappedBlock.container.getAttributeDatas());
         desc.canSelect = false;
         desc.sorted = true;
-        listBox = new ListBox<AttributeData>(desc, this);
-        addControl(listBox);
+        listBox = listBox(desc).left(7).top(7).add();
     }
 
     @Override
@@ -59,8 +51,7 @@ public class WindowEditBlock extends Window implements IListBoxItemClickListener
             } else if (windowClass == WindowEditBoolean.class)
             {
                 GuiBase.openWindow(new WindowEditBoolean(item, wrappedBlock.container));
-            }
-            else
+            } else
             {
                 GuiBase.openWindow(windowClass.getConstructor(WrappedBlock.class).newInstance(wrappedBlock));
             }

@@ -22,14 +22,8 @@ public class WindowEditBoolean extends Window
         this.fieldName = attributeData.field.getName();
 
         text = attributeData.attribute.additionalInfo();
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        checkBox = checkBox().centerVert(-16).x(7).add();
+        checkBox = checkBox().centerVert(-16).left(7).add();
         checkBox.setIsChecked((Boolean)container.getAttribute(fieldName));
 
         if (text != null && !text.isEmpty())

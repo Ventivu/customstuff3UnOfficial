@@ -17,12 +17,6 @@ public class WindowShapedRecipes extends Window implements IWindowClosedListener
     {
         super("Shaped Recipes", NEW | EDIT | DELETE | BACK, 263, 165);
         this.pack = pack;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<ShapedRecipe> desc = new ListBoxDescription<ShapedRecipe>(7, 7);
         desc.width = 249;
@@ -31,8 +25,7 @@ public class WindowShapedRecipes extends Window implements IWindowClosedListener
         desc.elementHeight = 60;
         desc.elements = pack.getContentRegistry(ShapedRecipe.class).getContentList();
         desc.canSelect = true;
-        listBox = new ListBox<ShapedRecipe>(desc, this);
-        addControl(listBox);
+        listBox = listBox(desc).left(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

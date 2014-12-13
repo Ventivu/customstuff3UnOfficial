@@ -34,9 +34,9 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
 
     private IToolTipModifier toolTipModifier;
 
-    public ItemDisplay(int x, int y, Control parent)
+    public ItemDisplay(Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, 16, 16, parent);
+        super(16, 16, anchor, offsetX,offsetY, parent);
     }
 
     public ItemDisplay useSelectItemDialog(boolean wildCardStacks)
@@ -159,7 +159,7 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
     }
 
     @Override
-    public void update()
+    public void onUpdate()
     {
         if (renderStacks != null && tickCounter++ % 20 == 0)
         {
@@ -175,7 +175,7 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
         {
             GL11.glColor3f(1f, 1f, 1f);
             mc.renderEngine.bindTexture(Textures.CONTROLS);
-            drawTexturedModalRect(rect.getX() - 1, rect.getY() - 1, 200, 0, 18, 18);
+            drawTexturedModalRect(bounds.getX() - 1, bounds.getY() - 1, 200, 0, 18, 18);
         }
 
         if (currentRenderStack == null)
@@ -189,8 +189,8 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
         GL11.glEnable(GL11.GL_LIGHTING);
 
         GuiBase.itemRenderer.zLevel = 100.0F;
-        GuiBase.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, currentRenderStack, rect.getX(), rect.getY());
-        GuiBase.itemRenderer.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, currentRenderStack, rect.getX(), rect.getY());
+        GuiBase.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, currentRenderStack, bounds.getX(), bounds.getY());
+        GuiBase.itemRenderer.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, currentRenderStack, bounds.getX(), bounds.getY());
         GuiBase.itemRenderer.zLevel = 0.0F;
 
         GL11.glDisable(GL11.GL_LIGHTING);

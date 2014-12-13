@@ -17,12 +17,6 @@ public class WindowBlocks extends Window implements IWindowClosedListener, IList
     {
         super("Blocks", NEW | EDIT | DELETE | BACK, 263, 160);
         this.pack = pack;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<WrappedBlock> desc = new ListBoxDescription<WrappedBlock>(7, 7);
         desc.width = 249;
@@ -31,8 +25,7 @@ public class WindowBlocks extends Window implements IWindowClosedListener, IList
         desc.elementHeight = 22;
         desc.elements = pack.getContentRegistry(WrappedBlock.class).getContentList();
         desc.canSelect = true;
-        listBox = new ListBox<WrappedBlock>(desc, this);
-        addControl(listBox);
+        listBox = listBox(desc).left(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

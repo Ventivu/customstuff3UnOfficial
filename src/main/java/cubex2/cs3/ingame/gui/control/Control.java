@@ -2,58 +2,126 @@ package cubex2.cs3.ingame.gui.control;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cubex2.cs3.ingame.gui.GuiBase;
+import cubex2.cs3.ingame.gui.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.util.Rectangle;
 
 public abstract class Control
 {
+    // This is the parent control of Windows, so they must not be handled differently
+    // Only used for getting bounds. This is NOT a actual control container
+    public static final Control ROOT_CONTROL_DUMMY = new Control(0, 0, null)
+    {
+        @Override
+        protected boolean isRootDummy()
+        {
+            return true;
+        }
+
+        @Override
+        public void onParentResized()
+        {
+            bounds = GuiBase.INSTANCE.getBounds();
+        }
+
+        @Override
+        protected void setBounds()
+        {
+            bounds = GuiBase.INSTANCE.getBounds();
+        }
+    };
+
+    public Anchor anchor;
+    /**
+     * If this is not NONE, anchor will be ignored.
+     */
+    public Dock dock = Dock.NONE;
+    public Padding padding = new Padding();
+    /**
+     * The offset is added to the final position.
+     */
+    public int offsetX = 0;
+    public int offsetY = 0;
+
+    public final Minecraft mc;
+
+    // TODO give this a better name
     protected Control rootControl;
     protected Control parent;
-    protected Rectangle rect;
-    protected boolean isEnabled = true;
-    protected boolean isVisible = true;
-    protected Minecraft mc;
+
+    protected Rectangle bounds;
+    protected int width;
+    protected int height;
+
     protected float zLevel = 0F;
+
+    // TODO is this needed?
     protected final boolean useIntersectRect;
 
-    public int x;
-    public int y;
-    public int width;
-    public int height;
-    private final ScrollContainer scrollContainer;
+    // TODO is this needed?
+    protected final ScrollContainer scrollContainer;
+
+    private boolean isEnabled = true;
+    private boolean isVisible = true;
+
+    public Control(int width, int height, Control parent)
+    {
+        this(width, height, null, parent);
+    }
+
+    public Control(int width, int height, Anchor anchor, Control parent)
+    {
+        this(width, height, anchor, 0, 0, parent);
+    }
 
     /**
-     * @param x      The x-position relative to the parent. Or absolute if the parent is null.
-     * @param y      The y-position relative to the parent. Or absolute if the parent is null.
      * @param width  The control's width
      * @param height The control's height
-     * @param parent The parent control. Can be null.
+     * @param anchor The control's anchor definition
+     * @param parent The parent control.
      */
-    public Control(int x, int y, int width, int height, Control parent)
+    public Control(int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
         this.parent = parent;
-        mc = FMLClientHandler.instance().getClient();
-        this.x = x;
-        this.y = y;
         this.width = width;
         this.height = height;
-        if (parent != null)
-        {
-            if (x < 0)
-            {
-                x += parent.rect.getWidth() - width;
-            }
-            if (y < 0)
-            {
-                y += parent.rect.getHeight() - height;
-            }
-            x += parent.rect.getX();
-            y += parent.rect.getY();
-        }
-        rect = new Rectangle(x, y, width, height);
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
 
-        useIntersectRect = parent != null ? parent.useIntersectRect || parent instanceof ScrollContainer : false;
+        mc = FMLClientHandler.instance().getClient();
+
+        if (this instanceof Window)
+        {
+            // A window has no parent -> itself is the root control
+            rootControl = this;
+            if (this.parent == null)
+            {
+                this.parent = ROOT_CONTROL_DUMMY;
+            }
+            dock = Dock.CENTER;
+        } else if (parent != null)
+        {
+            rootControl = parent.rootControl;
+        } else if (!this.isRootDummy())
+        {
+            throw new IllegalStateException("Control has no root control.");
+        }
+
+        // Set default anchor to top-left of parent control
+        if (anchor == null)
+        {
+            anchor = new Anchor(0, -1, 0, -1);
+            anchor.controlLeft = parent;
+            anchor.sameSideLeft = true;
+            anchor.controlTop = parent;
+            anchor.sameSideTop = true;
+            anchor.controlRight = parent;
+            anchor.controlBottom = parent;
+        }
+        this.anchor = anchor;
+
+        useIntersectRect = parent != null && (parent.useIntersectRect || parent instanceof ScrollContainer);
         if (this instanceof ScrollContainer)
             scrollContainer = (ScrollContainer) this;
         else if (useIntersectRect)
@@ -61,11 +129,7 @@ public abstract class Control
         else
             scrollContainer = null;
 
-        rootControl = this;
-        while (rootControl.parent != null)
-        {
-            rootControl = rootControl.parent;
-        }
+        setBounds();
     }
 
     public boolean isMouseOverControl(int mouseX, int mouseY)
@@ -75,35 +139,98 @@ public abstract class Control
             if (mouseY >= scrollContainer.getVisibleRect().getY() &&
                     mouseY <= scrollContainer.getVisibleRect().getY() + scrollContainer.getVisibleRect().getHeight())
             {
-                return rect.contains(mouseX, mouseY);
+                return bounds.contains(mouseX, mouseY);
             }
             return false;
         }
-        return rect.contains(mouseX, mouseY);
+        return bounds.contains(mouseX, mouseY);
     }
 
-    public void updateRect()
+    protected void setBounds()
     {
-        int absX = x;
-        int absY = y;
-        if (parent != null)
+        Rectangle parentRect = parent.bounds;
+        Padding padding = parent.padding;
+
+        if (dock == Dock.TOP)
         {
-            if (absX < 0)
-            {
-                absX += parent.rect.getWidth() - width;
-            }
-            if (absY < 0)
-            {
-                absY += parent.rect.getHeight() - height;
-            }
-            absX += parent.rect.getX();
-            absY += parent.rect.getY();
-        } else // Windows
+            bounds = new Rectangle(parentRect.getX() + padding.left, parentRect.getY() + padding.top, parentRect.getWidth() - padding.left - padding.right, height);
+        } else if (dock == Dock.BOTTOM)
         {
-            absX = (GuiBase.instance.width - width) / 2;
-            absY = (GuiBase.instance.height - height) / 2;
+            bounds = new Rectangle(parentRect.getX() + padding.left, parentRect.getY() + parentRect.getHeight() - padding.bottom - height, parentRect.getWidth() - padding.left - padding.right, height);
+        } else if (dock == Dock.LEFT)
+        {
+            bounds = new Rectangle(parentRect.getX() + padding.left, parentRect.getY() + padding.top, width, parentRect.getHeight() - padding.top - padding.bottom);
+        } else if (dock == Dock.RIGHT)
+        {
+            bounds = new Rectangle(parentRect.getX() + parentRect.getWidth() - padding.right - width, parentRect.getY() + padding.top, width, parentRect.getHeight() - padding.top - padding.bottom);
+        } else if (dock == Dock.FILL)
+        {
+            bounds = new Rectangle(parentRect.getX() + padding.left, parentRect.getY() + padding.top, parentRect.getWidth() - padding.left - padding.right, parentRect.getHeight() - padding.top - padding.bottom);
+        } else if (dock == Dock.CENTER)
+        {
+            bounds = new Rectangle(parentRect.getX() + (parentRect.getWidth() - width) / 2, parentRect.getY() + (parentRect.getHeight() - height) / 2, width, height);
+        } else // use anchor
+        {
+            int posX = 0;
+            int posY = 0;
+            int width = this.width;
+            int height = this.height;
+
+            if (anchor.isLeft() && anchor.isRight())
+            {
+                if (width > 0) // center control
+                {
+                    posX = anchor.getAnchorLeft() + (anchor.getAnchorRight() - anchor.getAnchorLeft() - width) / 2;
+                } else
+                {
+                    posX = anchor.getAnchorLeft() + anchor.distanceLeft;
+                    width = anchor.getAnchorRight() - anchor.distanceRight - posX;
+                }
+            } else if (anchor.isLeft())
+            {
+                posX = anchor.getAnchorLeft() + anchor.distanceLeft;
+            } else if (anchor.isRight())
+            {
+                posX = anchor.getAnchorRight() - anchor.distanceRight - width;
+            }
+
+            if (anchor.isTop() && anchor.isBottom())
+            {
+                if (height > 0)
+                {
+                    posY = anchor.getAnchorTop() + (anchor.getAnchorBottom() - anchor.getAnchorTop() - height) / 2;
+                } else
+                {
+                    posY = anchor.getAnchorTop() + anchor.distanceTop;
+                    height = anchor.getAnchorBottom() - anchor.distanceBottom - posY;
+                }
+            } else if (anchor.isTop())
+            {
+                posY = anchor.getAnchorTop() + anchor.distanceTop;
+            } else if (anchor.isBottom())
+            {
+                posY = anchor.getAnchorBottom() - anchor.distanceBottom - height;
+            }
+
+            bounds = new Rectangle(posX, posY, width, height);
         }
-        rect.setBounds(absX, absY, width, height);
+
+        if (bounds.getX() == 0)
+        {
+            int ds = 0;
+        }
+
+        // apply offset
+        bounds.setX(bounds.getX() + offsetX);
+        bounds.setY(bounds.getY() + offsetY);
+    }
+
+    /**
+     * This is called when the parent control or the game window has been resized.
+     */
+    public void onParentResized()
+    {
+        setBounds();
     }
 
     public final boolean canHandleInput()
@@ -121,49 +248,29 @@ public abstract class Control
      *
      * @return The rectangle in absolute positions.
      */
-    public Rectangle getRect()
+    public Rectangle getBounds()
     {
-        return rect;
+        return bounds;
     }
 
     public int getX()
     {
-        return rect.getX();
+        return bounds.getX();
     }
 
     public int getY()
     {
-        return rect.getY();
+        return bounds.getY();
     }
 
     public int getWidth()
     {
-        return rect.getWidth();
+        return bounds.getWidth();
     }
 
     public int getHeight()
     {
-        return rect.getHeight();
-    }
-
-    /**
-     * Gets the controls x-position relative to its parent.
-     *
-     * @return
-     */
-    public int getRelX()
-    {
-        return x;
-    }
-
-    /**
-     * Gets the controls y-position relative to its parent.
-     *
-     * @return
-     */
-    public int getRelY()
-    {
-        return y;
+        return bounds.getHeight();
     }
 
     public void setEnabled(boolean value)
@@ -189,7 +296,7 @@ public abstract class Control
     /**
      * This is called every tick (0.05 seconds)
      */
-    public void update()
+    public void onUpdate()
     {
     }
 
@@ -239,8 +346,8 @@ public abstract class Control
     }
 
     /**
-     * @param mouseX The absolute mouse x-position.
-     * @param mouseY The absolute mouse y-position.
+     * @param mouseX     The absolute mouse x-position.
+     * @param mouseY     The absolute mouse y-position.
      * @param renderTick
      */
     public void draw(int mouseX, int mouseY, float renderTick)
@@ -280,4 +387,10 @@ public abstract class Control
     {
         mc.fontRenderer.drawStringWithShadow(text, x - mc.fontRenderer.getStringWidth(text) / 2, y, color);
     }
+
+    protected boolean isRootDummy()
+    {
+        return false;
+    }
+
 }

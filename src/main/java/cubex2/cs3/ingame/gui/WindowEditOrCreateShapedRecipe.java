@@ -25,6 +25,8 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
     {
         super("New Shaped Recipe", CREATE | CANCEL, 180, 150);
         this.pack = pack;
+
+        initControls();
     }
 
     public WindowEditOrCreateShapedRecipe(ShapedRecipe recipe, IngameContentPack pack)
@@ -32,33 +34,27 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
         super("Edit Shaped Recipe", EDIT | CANCEL, 180, 150);
         this.pack = pack;
         editingRecipe = recipe;
+
+        initControls();
     }
 
-    @Override
-    public void init()
+    private void initControls()
     {
-        super.init();
-
         inputDisplays = new RecipeInputDisplay[9];
         for (int i = 0; i < 9; i++)
         {
             int row = i / 3;
             int col = i % 3;
 
-            inputDisplays[i] = new RecipeInputDisplay(33 + col * 18, 10 + row * 18, this).setDrawSlotBackground();
+            inputDisplays[i] = recipeInputDisplay().left(33+col*18).top(10+row*18).add().setDrawSlotBackground();
             inputDisplays[i].setClearOnRightClick();
-            addControl(inputDisplays[i]);
         }
 
-        resultDisplay = new ItemDisplay(121, 10 + 18, this).setDrawSlotBackground();
+        resultDisplay = itemDisplay().left(121).top(28).add().setDrawSlotBackground();
         resultDisplay.setClearOnRightClick();
-        addControl(resultDisplay);
 
-        btnIncrAmount = new ButtonUpDown(true, 138, 10 + 17, this);
-        addControl(btnIncrAmount);
-
-        btnDecrAmount = new ButtonUpDown(false, 138, 10 + 17 + 9, this);
-        addControl(btnDecrAmount);
+        btnIncrAmount = buttonUp().left(138).top(27).add();
+        btnDecrAmount = buttonDown().left(138).top(36).add();
 
         if (editingRecipe != null)
         {
@@ -73,14 +69,11 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
             resultDisplay.setItemStack(editingRecipe.result);
         }
 
-        pbArrow = new PictureBox(Textures.CONTROLS, 218, 18, 93, 10 + 18, 22, 15, this);
-        addControl(pbArrow);
+        pbArrow = pictureBox(Textures.CONTROLS, 218, 18).left(93).top(28).size(22, 15).add();
 
-        lblWidth = new Label("Width: 3", 7, 74, this);
-        addControl(lblWidth);
+        lblWidth = label("Width: 3").left(7).top(74).add();
 
-        lblHeight = new Label("Height: 3", 7, 84, this);
-        addControl(lblHeight);
+        lblHeight = label("Height: 3").left(7).top(84).add();
 
         updateWidthAndHeight();
         updateButtons();

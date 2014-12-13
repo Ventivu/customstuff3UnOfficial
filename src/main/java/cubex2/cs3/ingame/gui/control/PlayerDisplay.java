@@ -10,9 +10,9 @@ public class PlayerDisplay extends Control
     private ItemStack equippedStack;
     private IPlayerDisplayPlayerModifier playerModifier;
 
-    public PlayerDisplay(int x, int y, int width, int height, Control parent)
+    public PlayerDisplay(int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
     }
 
     public void setPlayerModifier(IPlayerDisplayPlayerModifier value)
@@ -28,10 +28,10 @@ public class PlayerDisplay extends Control
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
-        GuiHelper.drawRect(getRect(), Color.BLACK);
+        GuiHelper.drawRect(getBounds(), Color.BLACK);
 
-        int x = getX() + width / 2;
-        int y = getY() + height / 2 + 30;
+        int x = getX() + getWidth() / 2;
+        int y = getY() + getHeight() / 2 + 30;
 
         ItemStack curStack = mc.thePlayer.getCurrentEquippedItem();
 

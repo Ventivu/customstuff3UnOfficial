@@ -1,9 +1,6 @@
 package cubex2.cs3.ingame.gui.block;
 
 import cubex2.cs3.common.WrappedBlock;
-import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.DropBox;
 import cubex2.cs3.ingame.gui.control.IStringProvider;
 import cubex2.cs3.lib.Materials;
@@ -16,14 +13,8 @@ public class WindowEditMaterial extends WindowEditBlockAttribute implements IStr
     public WindowEditMaterial(WrappedBlock block)
     {
         super(block, "creativeTab", 170, 100);
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        dbTabs = dropBox(Materials.getAllMaterials()).y(7).fillWidth(7).add();
+        dbTabs = dropBox(Materials.getAllMaterials()).top(7).fillWidth(7).add();
         dbTabs.setStringProvider(this);
         dbTabs.setSelectedValue(wrappedBlock.container.material);
 

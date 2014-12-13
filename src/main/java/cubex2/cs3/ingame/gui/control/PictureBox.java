@@ -9,9 +9,9 @@ public class PictureBox extends Control
     private int u;
     private int v;
 
-    public PictureBox(ResourceLocation texture, int u, int v, int x, int y, int width, int height, Control parent)
+    public PictureBox(ResourceLocation texture, int u, int v, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
         this.texture = texture;
         this.u = u;
         this.v = v;
@@ -35,7 +35,7 @@ public class PictureBox extends Control
         mc.renderEngine.bindTexture(texture);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.drawTexturedModalRect(rect.getX(), rect.getY(), u, v, rect.getWidth(), rect.getHeight());
+        this.drawTexturedModalRect(bounds.getX(), bounds.getY(), u, v, bounds.getWidth(), bounds.getHeight());
         GL11.glDisable(GL11.GL_ALPHA_TEST);
     }
 }

@@ -4,7 +4,6 @@ import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.common.attribute.AttributeData;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.TextBoxValidators;
 
@@ -30,6 +29,7 @@ public class WindowEditInteger extends Window
             minValue = Integer.parseInt(info.split("-")[0]);
             maxValue = Integer.parseInt(info.split("-")[1]);
         }
+        initControls();
     }
 
     public WindowEditInteger(String fieldName, int min, int max, AttributeContainer container)
@@ -39,14 +39,13 @@ public class WindowEditInteger extends Window
         this.fieldName = fieldName;
         minValue = min;
         maxValue = max;
+
+        initControls();
     }
 
-    @Override
-    public void init()
+    private void initControls()
     {
-        super.init();
-
-        textBox = textBox().y(7).fillWidth(7).add();
+        textBox = textBox().top(7).fillWidth(7).add();
         textBox.setValidityProvider(new TextBoxValidators.IntegerValidator(minValue, maxValue));
         textBox.setText(String.valueOf(container.getAttribute(fieldName)));
     }

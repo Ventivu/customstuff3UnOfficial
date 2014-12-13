@@ -17,12 +17,6 @@ public class WindowShapelessRecipes extends Window implements IWindowClosedListe
     {
         super("Shapeless Recipes", NEW | EDIT | DELETE | BACK, 263, 165);
         this.pack = pack;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<ShapelessRecipe> desc = new ListBoxDescription<ShapelessRecipe>(7, 7);
         desc.width = 249;
@@ -31,8 +25,7 @@ public class WindowShapelessRecipes extends Window implements IWindowClosedListe
         desc.elementHeight = 60;
         desc.elements = pack.getContentRegistry(ShapelessRecipe.class).getContentList();
         desc.canSelect = true;
-        listBox = new ListBox<ShapelessRecipe>(desc, this);
-        addControl(listBox);
+        listBox = listBox(desc).left(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

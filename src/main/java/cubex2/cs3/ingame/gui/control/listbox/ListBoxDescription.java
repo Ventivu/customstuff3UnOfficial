@@ -10,12 +10,9 @@ public class ListBoxDescription<E>
 
     public ListBoxDescription(int x, int y)
     {
-        this.x = x;
-        this.y = y;
+
     }
 
-    public int x = 7;
-    public int y = 20;
     public int width = -1;
     public int height = -1;
     public int columns = 1;

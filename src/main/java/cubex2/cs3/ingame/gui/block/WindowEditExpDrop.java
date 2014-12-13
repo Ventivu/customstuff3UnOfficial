@@ -16,12 +16,6 @@ public class WindowEditExpDrop extends WindowEditBlockAttribute
     public WindowEditExpDrop(WrappedBlock block)
     {
         super(block, "expDrop", 150, 95);
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         Label lblMin = label("Min").at(7, 7).add();
 

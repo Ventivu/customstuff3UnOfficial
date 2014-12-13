@@ -11,15 +11,9 @@ public class WindowMain extends Window
     public WindowMain()
     {
         super("Custom Stuff", 114, 200);
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        btnClose = button("Close").y(-7).fillWidth(7).add();
-        btnContentPacks = button("Content Packs").y(7).fillWidth(7).add();
+        btnClose = button("Close").bottom(7).fillWidth(7).add();
+        btnContentPacks = button("Content Packs").top(7).fillWidth(7).add();
     }
 
     @Override

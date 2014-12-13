@@ -19,9 +19,9 @@ public class TabControl extends Control
     private int scroll = 0;
     private int maxScroll;
 
-    public TabControl(int tabWidth, int tabHeight, int width, int height, Control parent)
+    public TabControl(int tabWidth, int tabHeight, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(0, 0, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
         this.tabWidth = tabWidth;
         this.tabHeight = tabHeight;
         maxPossibleTabs = height / tabHeight;
@@ -30,7 +30,12 @@ public class TabControl extends Control
 
     public Tab addTab(String title)
     {
-        Tab tab = new Tab(title, 0, 0, getWidth(), getHeight(), this);
+        Anchor anchor = new Anchor(0, 0, 0, 0);
+        anchor.controlLeft = this;
+        anchor.controlRight = this;
+        anchor.controlTop = this;
+        anchor.controlBottom = this;
+        Tab tab = new Tab(title, -1, -1, anchor, 0, 0, this);
         tabs.add(tab);
         if (activeTab == null)
             activeTab = tab;
@@ -39,13 +44,13 @@ public class TabControl extends Control
     }
 
     @Override
-    public void updateRect()
+    public void onParentResized()
     {
-        super.updateRect();
+        super.onParentResized();
 
         for (int i = 0; i < tabs.size(); i++)
         {
-            tabs.get(i).updateRect();
+            tabs.get(i).onParentResized();
         }
     }
 
@@ -59,16 +64,13 @@ public class TabControl extends Control
             {
                 activeTab = tabs.get(clickedTab);
             }
-        }
-        else if (mouseX >= getX() - tabWidth / 2 - 4 && mouseX < getX() - tabWidth / 2 + 15 && mouseY >= getY() - 10 && mouseY < getY() - 10 + 10 && scroll > 0)
+        } else if (mouseX >= getX() - tabWidth / 2 - 4 && mouseX < getX() - tabWidth / 2 + 15 && mouseY >= getY() - 10 && mouseY < getY() - 10 + 10 && scroll > 0)
         {
             scroll--;
-        }
-        else if (mouseX >= getX() - tabWidth / 2 - 4 && mouseX < getX() - tabWidth / 2 + 15 && mouseY >= getY() + getHeight() && mouseY < getY() + getHeight() + 10 && scroll < maxScroll)
+        } else if (mouseX >= getX() - tabWidth / 2 - 4 && mouseX < getX() - tabWidth / 2 + 15 && mouseY >= getY() + getHeight() && mouseY < getY() + getHeight() + 10 && scroll < maxScroll)
         {
             scroll++;
-        }
-        else if (activeTab != null)
+        } else if (activeTab != null)
         {
             activeTab.mouseClicked(mouseX, mouseY, button, intoControl);
         }
@@ -103,11 +105,11 @@ public class TabControl extends Control
     }
 
     @Override
-    public void update()
+    public void onUpdate()
     {
         if (activeTab != null)
         {
-            activeTab.update();
+            activeTab.onUpdate();
         }
     }
 

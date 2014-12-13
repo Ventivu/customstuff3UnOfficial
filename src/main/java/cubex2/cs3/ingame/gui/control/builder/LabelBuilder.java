@@ -29,7 +29,7 @@ public class LabelBuilder extends ControlBuilder<Label>
         ControlBuilder<Label> cb = super.rightTo(c);
         if (c instanceof CheckBox)
         {
-            posY += 1;
+            anchor.distanceTop += 1;
         }
         return cb;
     }
@@ -37,6 +37,6 @@ public class LabelBuilder extends ControlBuilder<Label>
     @Override
     protected Label newInstance()
     {
-        return new Label(text, posX, posY, container);
+        return new Label(text, anchor, offsetX, offsetY, container);
     }
 }

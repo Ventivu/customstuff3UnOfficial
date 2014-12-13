@@ -20,12 +20,6 @@ public class WindowCreateItem extends Window implements IValidityProvider
     {
         super("New Item", CREATE | CANCEL, 180, 201);
         this.pack = pack;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         lblName = label("Name:").at(7, 7).add();
         tbName = textBox().below(lblName).size(166, 17).add();

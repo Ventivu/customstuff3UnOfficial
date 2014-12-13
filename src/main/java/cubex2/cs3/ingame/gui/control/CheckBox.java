@@ -9,9 +9,14 @@ public class CheckBox extends Control
 {
     protected boolean isChecked = false;
 
-    public CheckBox(int x, int y, Control parent)
+    public CheckBox(Control parent)
     {
-        super(x, y, 9, 9, parent);
+        super(9, 9, parent);
+    }
+
+    public CheckBox(Anchor anchor, int offsetX, int offsetY, Control parent)
+    {
+        super(9, 9, anchor, offsetX, offsetY, parent);
     }
 
     public boolean getIsChecked()
@@ -40,10 +45,10 @@ public class CheckBox extends Control
         mc.renderEngine.bindTexture(Textures.CONTROLS);
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        boolean hover = rect.contains(mouseX, mouseY);
+        boolean hover = bounds.contains(mouseX, mouseY);
 
         int u = isChecked ? 200 : 209;
-        int v = !isEnabled ? 45 : hover ? 63 : 54;
-        this.drawTexturedModalRect(rect.getX(), rect.getY(), u, v, 9, 9);
+        int v = !isEnabled() ? 45 : hover ? 63 : 54;
+        this.drawTexturedModalRect(bounds.getX(), bounds.getY(), u, v, 9, 9);
     }
 }

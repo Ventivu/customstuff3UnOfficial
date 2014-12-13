@@ -14,12 +14,6 @@ public class WindowContentPacks extends Window implements IListBoxItemClickListe
     public WindowContentPacks()
     {
         super("Content Packs", NEW | BACK, 180, 201);
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<IngameContentPack> desc = new ListBoxDescription<IngameContentPack>(7, 7);
         desc.width = 166;
@@ -27,8 +21,7 @@ public class WindowContentPacks extends Window implements IListBoxItemClickListe
         desc.elements = IngameContentPackLoader.instance().getContentPacks();
         desc.sorted = true;
         desc.canSelect = false;
-        lbPacks = new ListBox<IngameContentPack>(desc, this);
-        addControl(lbPacks);
+        lbPacks = listBox(desc).left(7).top(7).add();
     }
 
     @Override

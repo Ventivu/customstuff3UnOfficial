@@ -26,6 +26,8 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
     {
         super("New Shapeless Recipe", CREATE | CANCEL, 180, 150);
         this.pack = pack;
+
+        initControls();
     }
 
     public WindowEditOrCreateShapelessRecipe(ShapelessRecipe recipe, IngameContentPack pack)
@@ -33,32 +35,27 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
         super("Edit Shapeless Recipe", EDIT | CANCEL, 180, 150);
         this.pack = pack;
         editingRecipe = recipe;
+
+        initControls();
     }
 
-    @Override
-    public void init()
+    private void initControls()
     {
-        super.init();
-
         inputDisplays = new RecipeInputDisplay[9];
         for (int i = 0; i < 9; i++)
         {
             int row = i / 3;
             int col = i % 3;
 
-            inputDisplays[i] = new RecipeInputDisplay(33 + col * 18, 10 + row * 18, this).setDrawSlotBackground();
-            addControl(inputDisplays[i]);
+            inputDisplays[i] = recipeInputDisplay().left(33 + col * 18).top(10 + row * 18).add().setDrawSlotBackground();
+            inputDisplays[i].setClearOnRightClick();
         }
 
-        resultDisplay = new ItemDisplay(121, 10 + 18, this).setDrawSlotBackground();
+        resultDisplay = itemDisplay().left(121).top(28).add().setDrawSlotBackground();
         resultDisplay.setClearOnRightClick();
-        addControl(resultDisplay);
 
-        btnIncrAmount = new ButtonUpDown(true, 138, 10 + 17, this);
-        addControl(btnIncrAmount);
-
-        btnDecrAmount = new ButtonUpDown(false, 138, 10 + 17 + 9, this);
-        addControl(btnDecrAmount);
+        btnIncrAmount = buttonUp().left(138).top(27).add();
+        btnDecrAmount = buttonDown().left(138).top(36).add();
 
         if (editingRecipe != null)
         {
@@ -66,14 +63,12 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
             {
 
                 inputDisplays[i].setRecipeInput(editingRecipe.input[i]);
-                inputDisplays[i].setClearOnRightClick();
             }
 
             resultDisplay.setItemStack(editingRecipe.result);
         }
 
-        pbArrow = new PictureBox(Textures.CONTROLS, 218, 18, 93, 10 + 18, 22, 15, this);
-        addControl(pbArrow);
+        pbArrow = pictureBox(Textures.CONTROLS, 218, 18).left(93).top(28).size(22, 15).add();
 
         updateButtons();
     }

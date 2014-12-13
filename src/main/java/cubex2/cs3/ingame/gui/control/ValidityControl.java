@@ -7,9 +7,9 @@ public abstract class ValidityControl<T extends Control> extends Control impleme
     protected Predicate<T> validatorFunc = null;
     protected IValueChangedListener valueChangedListener = null;
 
-    public ValidityControl(int x, int y, int width, int height, Control parent)
+    public ValidityControl(int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
     }
 
     public void setValidatorFunc(Predicate<T> func)

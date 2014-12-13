@@ -15,14 +15,8 @@ public class WindowEditCreativeTab extends WindowEditBlockAttribute implements I
     public WindowEditCreativeTab(WrappedBlock block)
     {
         super(block, "creativeTab", 150, 55);
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        dbTabs = dropBox(CreativeTabs.creativeTabArray).y(7).fillWidth(7).add();
+        dbTabs = dropBox(CreativeTabs.creativeTabArray).top(7).fillWidth(7).add();
         dbTabs.setStringProvider(this);
         dbTabs.setSelectedValue(wrappedBlock.container.creativeTab);
     }

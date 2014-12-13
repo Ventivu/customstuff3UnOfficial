@@ -21,14 +21,8 @@ public class WindowEditMaxStack extends WindowEditItemAttribute
     {
         super(item, "maxStack", EDIT | CANCEL, 150, 100);
         newMaxStack = wrappedItem.container.maxStack;
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        itemDisplay = itemDisplay().y(31).centerHor(-5).add();
+        itemDisplay = itemDisplay().top(31).centerHor(-5).add();
         itemDisplay.setItemStack(new ItemStack(wrappedItem.item, newMaxStack, 0));
         itemDisplay.setDrawSlotBackground();
 

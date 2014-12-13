@@ -1,6 +1,6 @@
 package cubex2.cs3.ingame;
 
-import cubex2.cs3.basic.ContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.registry.ContentRegistry;
 import cubex2.cs3.util.IOHelper;
 import cubex2.cs3.util.IPurposeStringProvider;
@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagList;
 
 import java.io.File;
 
-public class IngameContentPack extends ContentPack implements IPurposeStringProvider, Comparable<IngameContentPack>
+public class IngameContentPack extends BaseContentPack implements IPurposeStringProvider, Comparable<IngameContentPack>
 {
     private boolean initialized = false;
 

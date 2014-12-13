@@ -7,9 +7,9 @@ public class InfoButton extends PictureBox
 {
     private String text;
 
-    public InfoButton(String text, int x, int y, Control parent)
+    public InfoButton(String text, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(Textures.CONTROLS, 209, 72, x, y, 9, 9, parent);
+        super(Textures.CONTROLS, 209, 72, 9, 9, anchor, offsetX, offsetY, parent);
         this.text = text;
     }
 

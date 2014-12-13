@@ -17,12 +17,6 @@ public class WindowSmeltingRecipes extends Window implements IListBoxItemClickLi
     {
         super("Smelting Recipes", BACK | NEW | EDIT | DELETE, 263, 201);
         this.pack = pack;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<SmeltingRecipe> desc = new ListBoxDescription<SmeltingRecipe>(7, 7);
         desc.width = 249;
@@ -31,8 +25,7 @@ public class WindowSmeltingRecipes extends Window implements IListBoxItemClickLi
         desc.elementHeight = 22;
         desc.elements = pack.getContentRegistry(SmeltingRecipe.class).getContentList();
         desc.canSelect = true;
-        listBox = new ListBox<SmeltingRecipe>(desc, this);
-        addControl(listBox);
+        listBox = listBox(desc).left(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

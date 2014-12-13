@@ -17,12 +17,6 @@ public class WindowEditDropData extends WindowEditBlockAttribute
     {
         super(block, "Edit drop", 150, 95);
         this.drop = drop;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         Label lblMin = label("Min").at(7, 7).add();
 

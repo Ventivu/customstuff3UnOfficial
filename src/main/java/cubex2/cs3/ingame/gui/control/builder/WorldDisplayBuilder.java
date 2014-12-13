@@ -17,6 +17,6 @@ public class WorldDisplayBuilder extends ControlBuilder<WorldDisplay>
     @Override
     protected WorldDisplay newInstance()
     {
-        return new WorldDisplay(world, posX, posY, width, height, container);
+        return new WorldDisplay(world, width, height, anchor, offsetX, offsetY, container);
     }
 }

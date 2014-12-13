@@ -21,10 +21,10 @@ public class ButtonUpDownBuilder extends ControlBuilder<ButtonUpDown>
         ControlBuilder<ButtonUpDown> cb = super.rightTo(c);
         if (c instanceof ItemDisplay)
         {
-            posY -= 1;
-            posX -= 2;
+            offsetY = -1;
+            offsetX = -2;
             if (!up)
-                posY += 9;
+                offsetY += 9;
         }
         return cb;
     }
@@ -32,6 +32,6 @@ public class ButtonUpDownBuilder extends ControlBuilder<ButtonUpDown>
     @Override
     protected ButtonUpDown newInstance()
     {
-        return new ButtonUpDown(up, posX, posY, container);
+        return new ButtonUpDown(up, anchor, offsetX, offsetY, container);
     }
 }

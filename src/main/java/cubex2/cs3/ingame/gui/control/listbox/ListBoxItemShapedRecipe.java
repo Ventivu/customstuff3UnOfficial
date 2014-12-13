@@ -1,30 +1,23 @@
 package cubex2.cs3.ingame.gui.control.listbox;
 
 import cubex2.cs3.common.ShapedRecipe;
-import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.ItemDisplay;
-import cubex2.cs3.ingame.gui.control.PictureBox;
-import cubex2.cs3.ingame.gui.control.RecipeInputDisplay;
+import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Textures;
 
 public class ListBoxItemShapedRecipe extends ListBoxItem<ShapedRecipe>
 {
-    private RecipeInputDisplay[] inputDisplays;
-    private ItemDisplay resultDisplay;
-    private PictureBox pbArrow;
 
-    public ListBoxItemShapedRecipe(ShapedRecipe value, int idx, int x, int y, int width, int height, Control parent)
+    public ListBoxItemShapedRecipe(ShapedRecipe value, int idx, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(value, idx, x, y, width, height, parent);
+        super(value, idx, width, height, anchor, offsetX, offsetY, parent);
 
-        inputDisplays = new RecipeInputDisplay[9];
+        RecipeInputDisplay[] inputDisplays = new RecipeInputDisplay[9];
         for (int i = 0; i < 9; i++)
         {
             int row = i / 3;
             int col = i % 3;
 
-            inputDisplays[i] = new RecipeInputDisplay(4 + col * 18, 4 + row * 18, this).setDrawSlotBackground();
-            addControl(inputDisplays[i]);
+            inputDisplays[i] = recipeInputDisplay().left(4 + col * 18).top(4 + row * 18).add().setDrawSlotBackground();
         }
 
         for (int i = 0; i < value.input.length; i++)
@@ -35,12 +28,9 @@ public class ListBoxItemShapedRecipe extends ListBoxItem<ShapedRecipe>
             inputDisplays[col + row * 3].setRecipeInput(value.input[i]);
         }
 
-        resultDisplay = new ItemDisplay(92, 4 + 18, this).setDrawSlotBackground();
-        resultDisplay.setItemStack(value.result);
-        addControl(resultDisplay);
+        itemDisplay(value.result).left(92).top(22).add().setDrawSlotBackground();
 
-        pbArrow = new PictureBox(Textures.CONTROLS, 218, 18, 63, 4 + 18, 22, 15, this);
-        addControl(pbArrow);
+        pictureBox(Textures.CONTROLS, 218, 18).left(63).top(22).size(22, 15).add();
     }
 }
 

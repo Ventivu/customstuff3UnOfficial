@@ -19,14 +19,8 @@ public class WindowEditFloat extends Window
         super(fieldName, EDIT | CANCEL, 150, 55);
         this.container = container;
         this.fieldName = fieldName;
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        textBox = textBox().y(7).fillWidth(7).add();
+        textBox = textBox().top(7).fillWidth(7).add();
         textBox.setValidityProvider(TextBoxValidators.FLOAT);
         textBox.setText(String.valueOf(container.getAttribute(fieldName)));
     }

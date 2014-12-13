@@ -14,24 +14,30 @@ public class Button extends Control
     /**
      * Uses 60 for width and 16 for height.
      */
-    public Button(String text, int x, int y, Control parent)
+    public Button(String text, Control parent)
     {
-        this(text, x, y, 60, 16, parent);
+        this(text, 60, 16, parent);
     }
 
     /**
      * Uses 16 for height.
      */
-    public Button(String text, int x, int y, int width, Control parent)
+    public Button(String text, int width, Control parent)
     {
-        this(text, x, y, width, 16, parent);
+        this(text, width, 16, parent);
     }
 
-    public Button(String text, int x, int y, int width, int height, Control parent)
+    public Button(String text, int width, int height, Control parent)
     {
-        super(x, y, width, height, parent);
+        this(text, width, height, null, 0, 0, parent);
+    }
+
+    public Button(String text, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
+    {
+        super(width, height, anchor, offsetX, offsetY, parent);
         this.text = text;
     }
+
 
     @Override
     public void mouseDown(int mouseX, int mouseY, int button)
@@ -46,11 +52,10 @@ public class Button extends Control
     {
         byte b0 = 1;
 
-        if (!isEnabled)
+        if (!isEnabled())
         {
             b0 = 0;
-        }
-        else if (hover)
+        } else if (hover)
         {
             b0 = 2;
         }
@@ -66,16 +71,16 @@ public class Button extends Control
         hover = isMouseOverControl(mouseX, mouseY);
 
         int k = getHoverState(hover);
-        int heightChange = rect.getHeight() % 2 != 0 ? 1 : 0;
-        int widthChange = rect.getWidth() % 2 != 0 ? 1 : 0;
+        int heightChange = bounds.getHeight() % 2 != 0 ? 1 : 0;
+        int widthChange = bounds.getWidth() % 2 != 0 ? 1 : 0;
         // Top Left
-        drawTexturedModalRect(rect.getX(), rect.getY(), 0, k * 70, rect.getWidth() / 2 + widthChange, rect.getHeight() / 2 + heightChange);
+        drawTexturedModalRect(bounds.getX(), bounds.getY(), 0, k * 70, bounds.getWidth() / 2 + widthChange, bounds.getHeight() / 2 + heightChange);
         // Top Right
-        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2 + widthChange, rect.getY(), 200 - rect.getWidth() / 2, k * 70, rect.getWidth() / 2, rect.getHeight() / 2 + heightChange);
+        drawTexturedModalRect(bounds.getX() + bounds.getWidth() / 2 + widthChange, bounds.getY(), 200 - bounds.getWidth() / 2, k * 70, bounds.getWidth() / 2, bounds.getHeight() / 2 + heightChange);
         // Bottom Left
-        drawTexturedModalRect(rect.getX(), rect.getY() + rect.getHeight() / 2 + heightChange, 0, 70 - rect.getHeight() / 2 + k * 70, rect.getWidth() / 2 + widthChange, rect.getHeight() / 2);
+        drawTexturedModalRect(bounds.getX(), bounds.getY() + bounds.getHeight() / 2 + heightChange, 0, 70 - bounds.getHeight() / 2 + k * 70, bounds.getWidth() / 2 + widthChange, bounds.getHeight() / 2);
         // Bottom Right
-        drawTexturedModalRect(rect.getX() + rect.getWidth() / 2 + widthChange, rect.getY() + rect.getHeight() / 2 + heightChange, 200 - rect.getWidth() / 2, 70 - rect.getHeight() / 2 + k * 70, rect.getWidth() / 2, rect.getHeight() / 2);
+        drawTexturedModalRect(bounds.getX() + bounds.getWidth() / 2 + widthChange, bounds.getY() + bounds.getHeight() / 2 + heightChange, 200 - bounds.getWidth() / 2, 70 - bounds.getHeight() / 2 + k * 70, bounds.getWidth() / 2, bounds.getHeight() / 2);
 
         drawContent(mouseX, mouseY);
     }
@@ -84,15 +89,14 @@ public class Button extends Control
     {
         int l = 0xe0e0e0;
 
-        if (!isEnabled)
+        if (!isEnabled())
         {
             l = -0x5f5f60;
-        }
-        else if (hover)
+        } else if (hover)
         {
             l = 0xffffa0;
         }
 
-        drawCenteredString(text, rect.getX() + rect.getWidth() / 2, rect.getY() + (rect.getHeight() - 8) / 2, l);
+        drawCenteredString(text, bounds.getX() + bounds.getWidth() / 2, bounds.getY() + (bounds.getHeight() - 8) / 2, l);
     }
 }

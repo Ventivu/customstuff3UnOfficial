@@ -17,6 +17,6 @@ public class DropBoxBuilder<T> extends ControlBuilder<DropBox<T>>
     @Override
     protected DropBox<T> newInstance()
     {
-        return new DropBox<T>(values, posX, posY, width, height, container);
+        return new DropBox<T>(values, width, height, anchor, offsetX, offsetY, container);
     }
 }

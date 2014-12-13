@@ -9,7 +9,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cubex2.cs3.asm.ICSMod;
-import cubex2.cs3.basic.ContentPackLoader;
 import cubex2.cs3.ingame.IngameContentPackLoader;
 import cubex2.cs3.lib.Directories;
 import cubex2.cs3.lib.ModInfo;
@@ -32,9 +31,6 @@ public class CustomStuff3
         logger = FMLLog.getLogger();
 
         Directories.init(event.getModConfigurationDirectory().getParentFile());
-
-        ContentPackLoader.instance().searchPacks();
-        ContentPackLoader.instance().preparePacks();
     }
 
     @EventHandler
@@ -42,8 +38,6 @@ public class CustomStuff3
     {
         proxy.registerKeyBindings();
         proxy.registerEventHandlers();
-
-        ContentPackLoader.instance().initPacks();
     }
 
     @EventHandler
@@ -56,9 +50,6 @@ public class CustomStuff3
         if (pack.isIngamePack())
         {
             IngameContentPackLoader.instance().onPreInitPack(pack);
-        } else
-        {
-            ContentPackLoader.instance().loadPack(pack);
         }
     }
 
@@ -67,9 +58,6 @@ public class CustomStuff3
         if (pack.isIngamePack())
         {
             IngameContentPackLoader.instance().onInitPack(pack);
-        } else
-        {
-
         }
     }
 
@@ -78,9 +66,6 @@ public class CustomStuff3
         if (pack.isIngamePack())
         {
             IngameContentPackLoader.instance().onPostInitPack(pack);
-        } else
-        {
-
         }
     }
 }

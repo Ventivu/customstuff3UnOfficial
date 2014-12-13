@@ -43,9 +43,9 @@ public class TextField extends Control
     private int selectionEndX = -1;
     private int selectionEndY = -1;
 
-    public TextField(int x, int y, int width, int height, Control parent)
+    public TextField(int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
         fontRenderer = mc.fontRenderer;
         linesToDisplay = getHeight() / 10;
         colsToDisplay = getWidth() / 6;
@@ -688,7 +688,7 @@ public class TextField extends Control
     }
 
     @Override
-    public void update()
+    public void onUpdate()
     {
         counter++;
         if (GuiBase.dWheel != 0)
@@ -701,7 +701,7 @@ public class TextField extends Control
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
-        GuiHelper.drawRect(rect, Color.BLACK);
+        GuiHelper.drawRect(bounds, Color.BLACK);
 
         int oneDimCursor = getOneDimPosition(cursorX, cursorY);
         int oneDimSelection = getOneDimPosition(selectionEndX, selectionEndY);

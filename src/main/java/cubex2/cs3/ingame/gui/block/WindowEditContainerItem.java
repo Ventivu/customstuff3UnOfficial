@@ -17,19 +17,13 @@ public class WindowEditContainerItem extends WindowEditBlockAttribute implements
     public WindowEditContainerItem(WrappedBlock block)
     {
         super(block, "containerItem", 150, 100);
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        itemDisplay = itemDisplay().y(8).centerHor().add();
+        itemDisplay = itemDisplay().top(8).centerHor().add();
         itemDisplay.setDrawSlotBackground();
         itemDisplay.setClearOnRightClick();
         itemDisplay.setItemStack(wrappedBlock.container.containerItem);
 
-        checkBox = checkBox().below(itemDisplay, 5).x(7).add();
+        checkBox = checkBox().below(itemDisplay, 5).left(7).add();
         checkBox.setIsChecked(wrappedBlock.container.leaveContainerItem);
 
         label("Remain in crafting grid").rightTo(checkBox).add();

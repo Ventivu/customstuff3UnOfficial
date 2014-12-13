@@ -21,7 +21,7 @@ public class InfoButtonBuilder extends ControlBuilder<InfoButton>
         ControlBuilder<InfoButton> builder = super.rightTo(c, gap);
         if (c instanceof Label)
         {
-            posY -= 1;
+            offsetY = -1;
         }
         return builder;
     }
@@ -29,6 +29,6 @@ public class InfoButtonBuilder extends ControlBuilder<InfoButton>
     @Override
     protected InfoButton newInstance()
     {
-        return new InfoButton(text, posX, posY, container);
+        return new InfoButton(text, anchor, offsetX, offsetY, container);
     }
 }

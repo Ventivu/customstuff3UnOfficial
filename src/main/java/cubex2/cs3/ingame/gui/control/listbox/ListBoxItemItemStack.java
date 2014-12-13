@@ -1,19 +1,16 @@
 package cubex2.cs3.ingame.gui.control.listbox;
 
+import cubex2.cs3.ingame.gui.control.Anchor;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import net.minecraft.item.ItemStack;
 
 public class ListBoxItemItemStack extends ListBoxItem<ItemStack>
 {
-    private ItemDisplay display;
-
-    public ListBoxItemItemStack(ItemStack value, int idx, int x, int y, int width, int height, Control parent)
+    public ListBoxItemItemStack(ItemStack value, int idx,int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(value, idx, x, y, width, height, parent);
+        super(value, idx, width, height, anchor, offsetX, offsetY, parent);
 
-        display = new ItemDisplay(3, (getHeight() - 18) / 2 + 1, this);
-        display.setItemStack(value);
-        addControl(display);
+        itemDisplay(value).left(3).centerVert().add();
     }
 }

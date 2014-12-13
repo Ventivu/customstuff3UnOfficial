@@ -16,12 +16,6 @@ public class WindowEditDisplayName extends WindowEditBlockAttribute implements I
     public WindowEditDisplayName(WrappedBlock block)
     {
         super(block, "displayName", 150, 60);
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         textBox = textBox().at(7, 7).height(16).fillWidth(7).add();
         textBox.setText(wrappedBlock.container.displayName);

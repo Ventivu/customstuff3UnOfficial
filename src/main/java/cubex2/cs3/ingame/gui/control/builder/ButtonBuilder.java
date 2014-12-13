@@ -18,6 +18,6 @@ public class ButtonBuilder extends ControlBuilder<Button>
     @Override
     protected Button newInstance()
     {
-        return new Button(text, posX, posY, width, height, container);
+        return new Button(text, width, height, anchor, offsetX, offsetY, container);
     }
 }

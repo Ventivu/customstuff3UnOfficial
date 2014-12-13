@@ -20,18 +20,12 @@ public class WindowEditStepSound extends WindowEditBlockAttribute implements ISt
     public WindowEditStepSound(WrappedBlock block)
     {
         super(block, "stepSound", 200, 100);
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        dbSounds = dropBox(StepSounds.getAllSounds()).y(7).fillWidth(7).add();
+        dbSounds = dropBox(StepSounds.getAllSounds()).top(7).fillWidth(7).add();
         dbSounds.setStringProvider(this);
         dbSounds.setSelectedValue(wrappedBlock.container.stepSound);
 
-        btnPlayPlace = button("Play Place").y(7).below(dbSounds).width(60).add();
+        btnPlayPlace = button("Play Place").top(7).below(dbSounds).width(60).add();
         btnPlayPlace.playSound = false;
 
         btnPlayBreak = button("Play Break").rightTo(btnPlayPlace).width(60).add();

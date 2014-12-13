@@ -16,12 +16,6 @@ public class WindowOreDictionaryEntries extends Window implements IListBoxItemCl
     {
         super("Ore Dictionary Entries", NEW | DELETE | BACK, 263, 201);
         this.pack = pack;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         ListBoxDescription<OreDictionaryEntry> desc = new ListBoxDescription<OreDictionaryEntry>(7, 7);
         desc.width = 249;
@@ -29,8 +23,7 @@ public class WindowOreDictionaryEntries extends Window implements IListBoxItemCl
         desc.elementHeight = 22;
         desc.elements = pack.getContentRegistry(OreDictionaryEntry.class).getContentList();
         desc.canSelect = true;
-        listBox = new ListBox<OreDictionaryEntry>(desc, this);
-        addControl(listBox);
+        listBox = listBox(desc).left(7).top(7).add();
 
         btnDelete.setEnabled(false);
     }

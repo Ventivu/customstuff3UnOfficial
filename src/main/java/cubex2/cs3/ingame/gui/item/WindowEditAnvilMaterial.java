@@ -15,14 +15,8 @@ public class WindowEditAnvilMaterial extends WindowEditItemAttribute implements 
     public WindowEditAnvilMaterial(WrappedItem item)
     {
         super(item, "anvilMaterial", 150, 100);
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        itemDisplay = itemDisplay().y(31).centerHor().add();
+        itemDisplay = itemDisplay().top(31).centerHor().add();
         itemDisplay.setDrawSlotBackground();
         itemDisplay.setItemStack(wrappedItem.container.anvilMaterial);
     }

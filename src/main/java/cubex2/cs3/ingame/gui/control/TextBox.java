@@ -18,12 +18,12 @@ public class TextBox extends Control implements IValidityControl
 
     private int maxLength = Integer.MAX_VALUE;
 
-    public TextBox(int x, int y, int width, int height, Control parent)
+    public TextBox(int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, width, height, parent);
-        textField = new GuiTextField(mc.fontRenderer, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        super(width, height, anchor, offsetX, offsetY, parent);
+        textField = new GuiTextField(mc.fontRenderer, bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
         textField.setMaxStringLength(maxLength);
-        validityRect = new Rectangle(rect.getX() + rect.getWidth() - 12, rect.getY() + (rect.getHeight() - 9) / 2, 9, 9);
+        validityRect = new Rectangle(bounds.getX() + bounds.getWidth() - 12, bounds.getY() + (bounds.getHeight() - 9) / 2, 9, 9);
     }
 
     public String getText()
@@ -62,15 +62,15 @@ public class TextBox extends Control implements IValidityControl
     }
 
     @Override
-    public void updateRect()
+    public void onParentResized()
     {
-        super.updateRect();
+        super.onParentResized();
 
         String text = getText();
-        textField = new GuiTextField(mc.fontRenderer, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        textField = new GuiTextField(mc.fontRenderer, bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
         textField.setMaxStringLength(maxLength);
         setText(text);
-        validityRect = new Rectangle(rect.getX() + rect.getWidth() - 12, rect.getY() + (rect.getHeight() - 9) / 2, 9, 9);
+        validityRect = new Rectangle(bounds.getX() + bounds.getWidth() - 12, bounds.getY() + (bounds.getHeight() - 9) / 2, 9, 9);
     }
 
     @Override

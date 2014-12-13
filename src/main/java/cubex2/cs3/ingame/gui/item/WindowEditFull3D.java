@@ -20,12 +20,6 @@ public class WindowEditFull3D extends WindowEditItemAttribute implements IPlayer
         super(item, "full3d", 150, 120);
         oldFull3D = item.container.full3d;
         newFull3D = item.container.full3d;
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
 
         display = playerDisplay().at(7, 7).size(50, 80).add();
         display.setPlayerModifier(this);

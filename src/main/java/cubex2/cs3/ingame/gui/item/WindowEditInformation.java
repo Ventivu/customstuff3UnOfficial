@@ -16,14 +16,8 @@ public class WindowEditInformation extends WindowEditItemAttribute
     public WindowEditInformation(WrappedItem item)
     {
         super(item, "information", EDIT | BACK, 150, 170);
-    }
 
-    @Override
-    public void init()
-    {
-        super.init();
-
-        textField = textField().y(7).fillWidth(7).height(100).add();
+        textField = textField().top(7).fillWidth(7).height(100).add();
         textField.disableSyntaxHighlighting();
         textField.setText(wrappedItem.container.information);
         display = itemDisplay().below(textField).add();

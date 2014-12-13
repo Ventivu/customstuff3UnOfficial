@@ -14,6 +14,6 @@ public class TextBoxBuilder extends ControlBuilder<TextBox>
     @Override
     protected TextBox newInstance()
     {
-        return new TextBox(posX, posY, width, height, container);
+        return new TextBox(width, height, anchor, offsetX, offsetY, container);
     }
 }

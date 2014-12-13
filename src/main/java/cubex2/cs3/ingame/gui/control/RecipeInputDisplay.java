@@ -30,9 +30,9 @@ public class RecipeInputDisplay extends Control
 
     private IRecipeInputToolTipModifier toolTipModifier;
 
-    public RecipeInputDisplay(int x, int y, Control parent)
+    public RecipeInputDisplay(Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(x, y, 16, 16, parent);
+        super(16, 16, anchor, offsetX, offsetY, parent);
 
         if (rootControl instanceof IRecipeInputToolTipModifier)
         {
@@ -88,8 +88,7 @@ public class RecipeInputDisplay extends Control
                     {
                         renderStacks.add(new ItemStack(stack.getItem(), 1, (int) (stack.getMaxDamage() * 0.25 * i)));
                     }
-                }
-                else
+                } else
                 {
                     renderStacks.add(stack);
                 }
@@ -120,7 +119,7 @@ public class RecipeInputDisplay extends Control
     }
 
     @Override
-    public void update()
+    public void onUpdate()
     {
         if (renderStacks != null && tickCounter++ % 20 == 0)
         {
@@ -136,7 +135,7 @@ public class RecipeInputDisplay extends Control
         {
             GL11.glColor3f(1f, 1f, 1f);
             mc.renderEngine.bindTexture(Textures.CONTROLS);
-            drawTexturedModalRect(rect.getX() - 1, rect.getY() - 1, 200, 0, 18, 18);
+            drawTexturedModalRect(bounds.getX() - 1, bounds.getY() - 1, 200, 0, 18, 18);
         }
 
         if (currentRenderStack == null)
@@ -149,8 +148,8 @@ public class RecipeInputDisplay extends Control
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
         GL11.glEnable(GL11.GL_LIGHTING);
         GuiBase.itemRenderer.zLevel = 100.0F;
-        GuiBase.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, currentRenderStack, rect.getX(), rect.getY());
-        GuiBase.itemRenderer.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, currentRenderStack, rect.getX(), rect.getY());
+        GuiBase.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, currentRenderStack, bounds.getX(), bounds.getY());
+        GuiBase.itemRenderer.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, currentRenderStack, bounds.getX(), bounds.getY());
         GuiBase.itemRenderer.zLevel = 0.0F;
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
@@ -188,8 +187,7 @@ public class RecipeInputDisplay extends Control
                 if (recipeInput.isOreClass())
                 {
                     list.add(EnumChatFormatting.GRAY + "Ore class: " + recipeInput.getInput());
-                }
-                else
+                } else
                 {
                     ItemStack stack = (ItemStack) recipeInput.getInput();
                     list.add(EnumChatFormatting.GRAY + "Name: " + GameData.itemRegistry.getNameForObject(stack.getItem()));
