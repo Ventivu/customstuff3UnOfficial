@@ -68,6 +68,10 @@ public class WrappedBlock extends BaseContent
         block.setStepSound(container.stepSound);
         block.slipperiness = container.slipperiness;
 
+        if (container.toolClass != null)
+        {
+            block.setHarvestLevel(container.toolClass, container.harvestLevel);
+        }
 
         Map<String, Properties> modLangData = ReflectionHelper.getPrivateValue(LanguageRegistry.class, LanguageRegistry.instance(), "modLanguageData");
         Properties p = modLangData.get("en_US");

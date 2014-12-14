@@ -52,6 +52,12 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditPick.class)
     public ItemStack pick = null;
 
+    @Attribute(windowClass = WindowEditHarvesting.class, customName = "harvesting")
+    public String toolClass = null;
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public int harvestLevel = 0;
+
     @Attribute(windowClass = WindowEditExpDrop.class, customName = "expDrop")
     public int expDropMin = 0;
 
