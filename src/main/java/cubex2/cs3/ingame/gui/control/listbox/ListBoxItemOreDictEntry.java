@@ -17,7 +17,7 @@ public class ListBoxItemOreDictEntry extends ListBoxItem<OreDictionaryEntry>
 
         ItemDisplay itemDisplay = itemDisplay(value.stack).left(3).centerVert().add();
 
-        lblOreClass = label("Ore Class: " + value.oreClass).left(itemDisplay, 3).centerVert().add();
+        lblOreClass = label("Ore Class: " + value.oreClass).left(itemDisplay, 3).centerVert(1).add();
     }
 
     @Override

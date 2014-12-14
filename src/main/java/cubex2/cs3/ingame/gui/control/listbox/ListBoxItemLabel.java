@@ -17,7 +17,7 @@ public class ListBoxItemLabel<T> extends ListBoxItem<T>
 
         String text = value instanceof IPurposeStringProvider ? ((IPurposeStringProvider) value).getStringForPurpose(StringProviderPurpose.LIST_BOX_ITEM_LABEl)
                 : value.toString();
-        label = label(text).left(3).centerVert().add();
+        label = label(text).left(3).centerVert(1).add();
     }
 
     @Override

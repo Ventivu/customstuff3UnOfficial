@@ -18,6 +18,6 @@ public class ListBoxItemWrappedBlock extends ListBoxItem<WrappedBlock>
             display.setItemStack(new ItemStack(value.block));
         }
 
-        label(value.getName() + " (" + value.getType().name + ")").left(display, 3).centerVert().add();
+        label(value.getName() + " (" + value.getType().name + ")").left(display, 3).centerVert(1).add();
     }
 }
