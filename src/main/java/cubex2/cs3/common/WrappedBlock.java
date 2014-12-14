@@ -328,6 +328,21 @@ public class WrappedBlock extends BaseContent
         return false;
     }
 
+    public boolean isWood(IBlockAccess world, int x, int y, int z)
+    {
+        return container.isWood;
+    }
+
+    public boolean canSustainLeaves(IBlockAccess world, int x, int y, int z)
+    {
+        return container.isWood;
+    }
+
+    public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int metadata)
+    {
+        return container.canSilkHarvest;
+    }
+
     public int tickRate(World world)
     {
         return container.tickrate;
@@ -417,7 +432,7 @@ public class WrappedBlock extends BaseContent
 
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
     {
-        return container.drop.getDrops(fortune, random);
+        return container.drop.getDrops(fortune + container.fortuneModifier, random);
     }
 
     public int getMobilityFlag()

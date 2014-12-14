@@ -49,6 +49,9 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditDrops.class)
     public BlockDrop drop = null;
 
+    @Attribute(windowClass = WindowEditInteger.class, additionalInfo = "0-1000000")
+    public int fortuneModifier = 0;
+
     @Attribute(windowClass = WindowEditPick.class)
     public ItemStack pick = null;
 
@@ -57,6 +60,9 @@ public class BlockAttributes extends AttributeContainer
 
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public int harvestLevel = 0;
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public boolean canSilkHarvest = false;
 
     @Attribute(windowClass = WindowEditExpDrop.class, customName = "expDrop")
     public int expDropMin = 0;
@@ -114,6 +120,12 @@ public class BlockAttributes extends AttributeContainer
 
     @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Fire damage on contact")
     public boolean isBurning = false;
+
+    @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Prevents leaf decaying")
+    public boolean isWood = false;
+
+    @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Is collidable")
+    public boolean hasCollision = true;
 
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public boolean transparent = false;

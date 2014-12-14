@@ -1,6 +1,7 @@
 package cubex2.cs3.ingame.gui.block;
 
 import cubex2.cs3.common.WrappedBlock;
+import cubex2.cs3.ingame.gui.control.CheckBox;
 import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.Strings;
@@ -10,10 +11,11 @@ public class WindowEditHarvesting extends WindowEditBlockAttribute
 {
     private TextBox tbToolClass;
     private TextBox tbHarvestLevel;
+    private CheckBox cbSilkHarvest;
 
     public WindowEditHarvesting(WrappedBlock block)
     {
-        super(block, "harvesting", 150, 100);
+        super(block, "harvesting", 150, 120);
 
         Label lblToolClass = label("Tool class:").at(7, 7).add();
         infoButton(Strings.INFO_TOOL_CLASS).rightTo(lblToolClass).add();
@@ -28,6 +30,9 @@ public class WindowEditHarvesting extends WindowEditBlockAttribute
         tbHarvestLevel = textBox().top(lblHarvestLevel, 2).fillWidth(7).add();
         tbHarvestLevel.setValidityProvider(TextBoxValidators.POSITIVE_INTEGER);
         tbHarvestLevel.setText(String.valueOf(block.container.harvestLevel));
+
+        cbSilkHarvest = checkBox(block.container.canSilkHarvest).top(tbHarvestLevel,6).left(7).add();
+        label("Allow silk harvest.").rightTo(cbSilkHarvest).add();
     }
 
     @Override
@@ -36,6 +41,7 @@ public class WindowEditHarvesting extends WindowEditBlockAttribute
         String toolClass = tbToolClass.getText().length() != 0 ? tbToolClass.getText() : null;
         wrappedBlock.container.toolClass = toolClass;
         wrappedBlock.container.harvestLevel = toolClass != null ? Integer.parseInt(tbHarvestLevel.getText()) : 0;
+        wrappedBlock.container.canSilkHarvest = cbSilkHarvest.getIsChecked();
 
         wrappedBlock.block.setHarvestLevel(wrappedBlock.container.toolClass, wrappedBlock.container.harvestLevel);
     }

@@ -92,13 +92,14 @@ public class BlockDrop
     {
     }
 
-    public ArrayList<ItemStack> getDrops(int fortune, Random random)
+    public ArrayList<ItemStack> getDrops(int fortuneAmount, Random random)
     {
         ArrayList<ItemStack> ret = Lists.newArrayList();
 
         for (DropData drop : drops)
         {
-            int amount = drop.getAmount(random);
+            int amount = drop.getAmount(random) + fortuneAmount;
+
 
             for (int i = 0; i < amount; i++)
             {
