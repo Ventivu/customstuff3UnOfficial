@@ -5,7 +5,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -347,7 +347,17 @@ public class ScriptableEntity
      */
     public boolean isLiving()
     {
-        return entity instanceof EntityLiving;
+        return entity instanceof EntityLivingBase;
+    }
+
+    /**
+     * Gets this entity as a living.
+     *
+     * @return
+     */
+    public ScriptableEntityLiving asLiving()
+    {
+        return new ScriptableEntityLiving((EntityLivingBase) entity);
     }
 
     /**
@@ -361,6 +371,16 @@ public class ScriptableEntity
     }
 
     /**
+     * Gets this entity as a player
+     *
+     * @return
+     */
+    public ScriptableEntityPlayer asPlayer()
+    {
+        return new ScriptableEntityPlayer((EntityPlayer) entity);
+    }
+
+    /**
      * Checks if the entity is an item
      *
      * @return true if the entity is an item
@@ -368,5 +388,15 @@ public class ScriptableEntity
     public boolean isItem()
     {
         return entity instanceof EntityItem;
+    }
+
+    /**
+     * Gets this entity as an entityItem
+     *
+     * @return
+     */
+    public ScriptableEntityItem asItem()
+    {
+        return new ScriptableEntityItem((EntityItem) entity);
     }
 }
