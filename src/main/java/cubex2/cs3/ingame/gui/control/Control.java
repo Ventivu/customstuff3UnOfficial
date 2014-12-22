@@ -30,6 +30,12 @@ public abstract class Control
         {
             bounds = GuiBase.INSTANCE.getBounds();
         }
+
+        @Override
+        public boolean isMouseOverControl(int mouseX, int mouseY)
+        {
+            return true;
+        }
     };
 
     public Anchor anchor;
@@ -55,12 +61,6 @@ public abstract class Control
     protected int height;
 
     protected float zLevel = 0F;
-
-    // TODO is this needed?
-    protected final boolean useIntersectRect;
-
-    // TODO is this needed?
-    protected final ScrollContainer scrollContainer;
 
     private boolean isEnabled = true;
     private boolean isVisible = true;
@@ -121,29 +121,12 @@ public abstract class Control
         }
         this.anchor = anchor;
 
-        useIntersectRect = parent != null && (parent.useIntersectRect || parent instanceof ScrollContainer);
-        if (this instanceof ScrollContainer)
-            scrollContainer = (ScrollContainer) this;
-        else if (useIntersectRect)
-            scrollContainer = parent.scrollContainer;
-        else
-            scrollContainer = null;
-
         setBounds();
     }
 
     public boolean isMouseOverControl(int mouseX, int mouseY)
     {
-        if (useIntersectRect)
-        {
-            if (mouseY >= scrollContainer.getVisibleRect().getY() &&
-                    mouseY <= scrollContainer.getVisibleRect().getY() + scrollContainer.getVisibleRect().getHeight())
-            {
-                return bounds.contains(mouseX, mouseY);
-            }
-            return false;
-        }
-        return bounds.contains(mouseX, mouseY);
+        return parent.isMouseOverControl(mouseX, mouseY) && bounds.contains(mouseX, mouseY);
     }
 
     protected void setBounds()

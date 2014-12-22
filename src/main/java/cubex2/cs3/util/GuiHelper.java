@@ -46,6 +46,26 @@ public class GuiHelper
         Gui.drawRect(rect.getX(), rect.getY(), rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight(), color);
     }
 
+    public static void drawRectSliced(Rectangle rect, int u, int v, int texWidth, int texHeight)
+    {
+        int heightChange = rect.getHeight() % 2 != 0 ? 1 : 0;
+        int widthChange = rect.getWidth() % 2 != 0 ? 1 : 0;
+
+        int x = rect.getX();
+        int y = rect.getY();
+        int cH = rect.getWidth() / 2;
+        int cV = rect.getHeight() / 2;
+
+        // Top Left
+        GuiBase.INSTANCE.drawTexturedModalRect(x, y, u, v, cH + widthChange, cV + heightChange);
+        // Top Right
+        GuiBase.INSTANCE.drawTexturedModalRect(x + cH + widthChange, y, u + texWidth - cH, v, cH, cV + heightChange);
+        // Bottom Left
+        GuiBase.INSTANCE.drawTexturedModalRect(x, y + cV + heightChange, u, v + texHeight - cV, cH + widthChange, cV);
+        // Bottom Right
+        GuiBase.INSTANCE.drawTexturedModalRect(x + cH + widthChange, y + cV + heightChange, u + texWidth - cH, v + texHeight - cV, cH, cV);
+    }
+
     public static void drawHoveringText(List<String> list, int x, int y, FontRenderer font)
     {
         if (!list.isEmpty())

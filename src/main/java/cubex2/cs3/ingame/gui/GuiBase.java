@@ -110,7 +110,7 @@ public class GuiBase extends GuiScreen
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button)
     {
-        boolean intoWindow = window.getBounds().contains(mouseX, mouseY);
+        boolean intoWindow = window.isMouseOverControl(mouseX, mouseY);
         if (devMode)
         {
             if (button == 0)

@@ -1,6 +1,7 @@
 package cubex2.cs3.ingame.gui.control;
 
 import cubex2.cs3.lib.Textures;
+import cubex2.cs3.util.GuiHelper;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -71,16 +72,8 @@ public class Button extends Control
         hover = isMouseOverControl(mouseX, mouseY);
 
         int k = getHoverState(hover);
-        int heightChange = bounds.getHeight() % 2 != 0 ? 1 : 0;
-        int widthChange = bounds.getWidth() % 2 != 0 ? 1 : 0;
-        // Top Left
-        drawTexturedModalRect(bounds.getX(), bounds.getY(), 0, k * 70, bounds.getWidth() / 2 + widthChange, bounds.getHeight() / 2 + heightChange);
-        // Top Right
-        drawTexturedModalRect(bounds.getX() + bounds.getWidth() / 2 + widthChange, bounds.getY(), 200 - bounds.getWidth() / 2, k * 70, bounds.getWidth() / 2, bounds.getHeight() / 2 + heightChange);
-        // Bottom Left
-        drawTexturedModalRect(bounds.getX(), bounds.getY() + bounds.getHeight() / 2 + heightChange, 0, 70 - bounds.getHeight() / 2 + k * 70, bounds.getWidth() / 2 + widthChange, bounds.getHeight() / 2);
-        // Bottom Right
-        drawTexturedModalRect(bounds.getX() + bounds.getWidth() / 2 + widthChange, bounds.getY() + bounds.getHeight() / 2 + heightChange, 200 - bounds.getWidth() / 2, 70 - bounds.getHeight() / 2 + k * 70, bounds.getWidth() / 2, bounds.getHeight() / 2);
+
+        GuiHelper.drawRectSliced(bounds, 0, k * 70, 200, 70);
 
         drawContent(mouseX, mouseY);
     }

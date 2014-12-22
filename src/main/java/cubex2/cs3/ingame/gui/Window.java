@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.lib.Textures;
+import cubex2.cs3.util.GuiHelper;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -151,9 +152,9 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
     protected void updateValidation()
     {
         boolean allValidValues = true;
-        for (int i = 0; i < validityControls.size(); i++)
+        for (IValidityControl c : validityControls)
         {
-            if (!validityControls.get(i).hasValidValue())
+            if (!c.hasValidValue())
             {
                 allValidValues = false;
                 break;
@@ -175,17 +176,7 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
 
         mc.renderEngine.bindTexture(Textures.BG);
 
-        int heightChange = bounds.getHeight() % 2 != 0 ? 1 : 0;
-        int widthChange = bounds.getWidth() % 2 != 0 ? 1 : 0;
-
-        // Top Left
-        drawTexturedModalRect(bounds.getX(), bounds.getY(), 0, 0, bounds.getWidth() / 2 + widthChange, bounds.getHeight() / 2 + heightChange);
-        // Top Right
-        drawTexturedModalRect(bounds.getX() + bounds.getWidth() / 2 + widthChange, bounds.getY(), 256 - bounds.getWidth() / 2, 0, bounds.getWidth() / 2, bounds.getHeight() / 2 + heightChange);
-        // Bottom Left
-        drawTexturedModalRect(bounds.getX(), bounds.getY() + bounds.getHeight() / 2 + heightChange, 0, 256 - bounds.getHeight() / 2, bounds.getWidth() / 2 + widthChange, bounds.getHeight() / 2);
-        // Bottom Right
-        drawTexturedModalRect(bounds.getX() + bounds.getWidth() / 2 + widthChange, bounds.getY() + bounds.getHeight() / 2 + heightChange, 256 - bounds.getWidth() / 2, 256 - bounds.getHeight() / 2, bounds.getWidth() / 2, bounds.getHeight() / 2);
+        GuiHelper.drawRectSliced(bounds, 0, 0, 256, 256);
 
         if (title != null)
         {

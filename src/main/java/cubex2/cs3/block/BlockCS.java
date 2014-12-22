@@ -1,5 +1,6 @@
 package cubex2.cs3.block;
 
+import cubex2.cs3.block.attributes.BlockAttributes;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedBlock;
 import net.minecraft.block.Block;
@@ -19,16 +20,18 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BlockCS extends Block
+public class BlockCS extends Block implements IBlockCS
 {
     protected BaseContentPack pack;
-    private WrappedBlock wrappedBlock;
+    protected WrappedBlock wrappedBlock;
+    protected BlockAttributes container;
 
     public BlockCS(WrappedBlock block)
     {
         super(block.container.material);
         pack = block.getPack();
         wrappedBlock = block;
+        container = wrappedBlock.container;
     }
 
     @Override
@@ -260,5 +263,11 @@ public class BlockCS extends Block
     public void registerBlockIcons(IIconRegister iconRegister)
     {
         wrappedBlock.registerBlockIcons(iconRegister);
+    }
+
+    @Override
+    public WrappedBlock getWrappedBlock()
+    {
+        return wrappedBlock;
     }
 }

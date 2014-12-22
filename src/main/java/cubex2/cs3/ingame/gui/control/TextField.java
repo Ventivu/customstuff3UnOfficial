@@ -1,5 +1,6 @@
 package cubex2.cs3.ingame.gui.control;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.lib.Color;
@@ -58,14 +59,7 @@ public class TextField extends Control
 
     public String getText()
     {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < lines.size(); i++)
-        {
-            sb.append(lines.get(i));
-            if (i < lines.size() - 1)
-                sb.append('\n');
-        }
-        return sb.toString();
+        return Joiner.on('\n').join(lines);
     }
 
     public void setText(String text)
@@ -172,13 +166,11 @@ public class TextField extends Control
                                 break;
                         }
                         break;
-                    }
-                    else if (c == ',' || c == ';')
+                    } else if (c == ',' || c == ';')
                     {
                         colors.get(i).add(KEYWORD_COLOR);
                         continue;
-                    }
-                    else if (Character.isDigit(c) &&
+                    } else if (Character.isDigit(c) &&
                             (j == 0 || !Character.isJavaIdentifierPart(lines.get(i).charAt(j - 1))))
                     {
                         while (true)
@@ -195,8 +187,7 @@ public class TextField extends Control
                         j--;
 
                         continue;
-                    }
-                    else
+                    } else
                     {
                         int length = keyWordLength(i, j);
                         if (length != 0)
@@ -217,26 +208,26 @@ public class TextField extends Control
         }
     }
 
-    private static final String[] RESERVED_WORDS = new String[] { "break", "case", "catch", "continue",
+    private static final String[] RESERVED_WORDS = new String[]{"break", "case", "catch", "continue",
             "debugger", "default", "delete", "do", "else", "finally", "for", "function", "if", "in",
             "instanceof", "new", "return", "switch", "this", "throw", "try", "typeof", "var", "void",
-            "while", "with", "true", "false" };
+            "while", "with", "true", "false"};
 
     private int keyWordLength(int line, int pos)
     {
         int length = lines.get(line).length();
-        for (int i = 0; i < RESERVED_WORDS.length; i++)
+        for (String reservedWord : RESERVED_WORDS)
         {
-            if (pos + RESERVED_WORDS[i].length() <= length) // Enoguh space for word
+            if (pos + reservedWord.length() <= length) // Enoguh space for word
             {
-                String wordInLine = lines.get(line).substring(pos, pos + RESERVED_WORDS[i].length());
-                if (wordInLine.equals(RESERVED_WORDS[i])) // matches word
+                String wordInLine = lines.get(line).substring(pos, pos + reservedWord.length());
+                if (wordInLine.equals(reservedWord)) // matches word
                 {
                     if (pos == 0 || !Character.isJavaIdentifierPart(lines.get(line).charAt(pos - 1))) // Check previous char
                     {
-                        if (pos + RESERVED_WORDS[i].length() == length || !Character.isJavaIdentifierPart(lines.get(line).charAt(pos + RESERVED_WORDS[i].length()))) // Check next char
+                        if (pos + reservedWord.length() == length || !Character.isJavaIdentifierPart(lines.get(line).charAt(pos + reservedWord.length()))) // Check next char
                         {
-                            return RESERVED_WORDS[i].length();
+                            return reservedWord.length();
                         }
                     }
                 }
@@ -311,8 +302,7 @@ public class TextField extends Control
             lines.add(cursorY, beforeNewLine);
             cursorY++;
             cursorX = 0;
-        }
-        else
+        } else
         {
             s = filterAllowedCharacters(s);
 
@@ -356,8 +346,7 @@ public class TextField extends Control
         {
             while (y > 0 && lines.get(--y).length() == 0) ;
             x = lines.get(y).length();
-        }
-        else
+        } else
         {
             while (x > 0 && lines.get(y).charAt(x - 1) == ' ')
             {
@@ -401,8 +390,7 @@ public class TextField extends Control
         if (x == -1)
         {
             x = lineLength;
-        }
-        else
+        } else
         {
             while (x < lineLength && lines.get(y).charAt(x) == 32)
             {
@@ -434,8 +422,7 @@ public class TextField extends Control
             int relX = mouseX - getX() - 2;
             int relY = mouseY - getY() - 2;
             setCursorPosition(relX / 6 + horizonzalScroll, relY / 9 + verticalScroll);
-        }
-        else if (canLoseFocus)
+        } else if (canLoseFocus)
         {
             isFocused = false;
         }
@@ -455,8 +442,7 @@ public class TextField extends Control
                     {
                         Point p = getLeftWordPosition();
                         setCursorPosition(p.getX(), p.getY());
-                    }
-                    else
+                    } else
                     {
                         newX = cursorX - 1;
                         newY = cursorY;
@@ -479,8 +465,7 @@ public class TextField extends Control
                     {
                         Point p = getRightWordPosition();
                         setCursorPosition(p.getX(), p.getY());
-                    }
-                    else
+                    } else
                     {
                         newX = cursorX + 1;
                         newY = cursorY;
@@ -553,8 +538,7 @@ public class TextField extends Control
                             lines.set(cursorY - 1, newLine);
                             setCursorPosition(Integer.MAX_VALUE, cursorY - 1);
                             textChanged();
-                        }
-                        else if (cursorX > 0)
+                        } else if (cursorX > 0)
                         {
                             String currentLine = lines.get(cursorY);
                             lines.set(cursorY, currentLine.substring(0, cursorX - 1) + currentLine.substring(cursorX));
@@ -581,8 +565,7 @@ public class TextField extends Control
 
                         deleteSelection();
                         setCursorPosition(selStartX, selStarY);
-                    }
-                    else
+                    } else
                     {
                         if (cursorX == lines.get(cursorY).length() && cursorY != lines.size() - 1)
                         {
@@ -591,8 +574,7 @@ public class TextField extends Control
                             lines.set(cursorY, newLine);
                             setCursorPosition(cursorX, cursorY);
                             textChanged();
-                        }
-                        else if (cursorX < lines.get(cursorY).length())
+                        } else if (cursorX < lines.get(cursorY).length())
                         {
                             String currentLine = lines.get(cursorY);
                             lines.set(cursorY, currentLine.substring(0, cursorX) + currentLine.substring(cursorX + 1));
@@ -612,8 +594,7 @@ public class TextField extends Control
                         cursorY = 0;
                         selectionEndY = lines.size() - 1;
                         selectionEndX = lines.get(selectionEndY).length();
-                    }
-                    else if (key == Keyboard.KEY_V && GuiScreen.isCtrlKeyDown())
+                    } else if (key == Keyboard.KEY_V && GuiScreen.isCtrlKeyDown())
                     {
                         String text = GuiScreen.getClipboardString();
                         String[] split = text.split("\n");
@@ -623,12 +604,10 @@ public class TextField extends Control
                             if (i < split.length - 1)
                                 writeText("\n");
                         }
-                    }
-                    else if (key == Keyboard.KEY_C && GuiScreen.isCtrlKeyDown())
+                    } else if (key == Keyboard.KEY_C && GuiScreen.isCtrlKeyDown())
                     {
                         GuiScreen.setClipboardString(getSelectedText());
-                    }
-                    else if (c == 167 || ChatAllowedCharacters.isAllowedCharacter(c))
+                    } else if (c == 167 || ChatAllowedCharacters.isAllowedCharacter(c))
                     {
                         writeText(String.valueOf(c));
                     }
@@ -676,8 +655,7 @@ public class TextField extends Control
         {
             selectionEndX = -1;
             selectionEndY = -1;
-        }
-        else
+        } else
         {
             if (selectionEndX == -1)
             {
@@ -693,7 +671,7 @@ public class TextField extends Control
         counter++;
         if (GuiBase.dWheel != 0)
         {
-            int maxVertScroll =  Math.max(0, lines.size() - linesToDisplay);
+            int maxVertScroll = Math.max(0, lines.size() - linesToDisplay);
             verticalScroll = MathHelper.clamp_int(verticalScroll - GuiBase.dWheel / 120, 0, maxVertScroll);
         }
     }
@@ -741,8 +719,7 @@ public class TextField extends Control
                 int x1 = getX() + 2 + (cursorX - horizonzalScroll) * 6;
                 int y1 = getY() + 1 + (cursorY - verticalScroll) * 9;
                 GuiHelper.drawRect(x1, y1, x1 + 1, y1 + 10, Color.WHITE);
-            }
-            else
+            } else
             {
                 int x1 = getX() + 2 + (cursorX - horizonzalScroll) * 6;
                 int y1 = getY() + 2 + (cursorY - verticalScroll) * 9 + 8;

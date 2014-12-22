@@ -36,6 +36,7 @@ public class CustomStuff3
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+        proxy.initRendering();
         proxy.registerKeyBindings();
         proxy.registerEventHandlers();
     }

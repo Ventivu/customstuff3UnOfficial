@@ -61,24 +61,18 @@ public abstract class ControlContainer extends Control
     {
         super.onParentResized();
 
-        for (int i = 0; i < controls.size(); i++)
+        for (Control control : controls)
         {
-            adjustSize(controls.get(i));
-            controls.get(i).onParentResized();
+            control.onParentResized();
         }
-    }
-
-    protected void adjustSize(Control c)
-    {
-
     }
 
     @Override
     public void onUpdate()
     {
-        for (int i = 0; i < controls.size(); i++)
+        for (Control control : controls)
         {
-            controls.get(i).onUpdate();
+            control.onUpdate();
         }
     }
 
@@ -87,15 +81,14 @@ public abstract class ControlContainer extends Control
     {
         boolean wasLocked = GuiBase.inputLockedControl != null;
 
-        for (int i = 0; i < controls.size(); i++)
+        for (Control c : controls)
         {
-            Control c = controls.get(i);
             if (c.isEnabled() && c.isVisible())
             {
                 if (!c.canHandleInput())
                     continue;
 
-                boolean clickedControl = c.bounds.contains(mouseX, mouseY);
+                boolean clickedControl = c.isMouseOverControl(mouseX, mouseY);// c.bounds.contains(mouseX, mouseY);
                 c.mouseClicked(mouseX, mouseY, button, clickedControl);
                 if (clickedControl)
                 {
@@ -141,9 +134,8 @@ public abstract class ControlContainer extends Control
     {
         boolean wasLocked = GuiBase.inputLockedControl != null;
 
-        for (int i = 0; i < controls.size(); i++)
+        for (Control c : controls)
         {
-            Control c = controls.get(i);
             if (c.isEnabled() && c.isVisible())
             {
                 if (!c.canHandleInput())
@@ -161,9 +153,8 @@ public abstract class ControlContainer extends Control
     @Override
     public void keyTyped(char c, int key)
     {
-        for (int i = 0; i < controls.size(); i++)
+        for (Control c_ : controls)
         {
-            Control c_ = controls.get(i);
             if (c_.isEnabled() && c_.isVisible())
             {
                 if (!c_.canHandleInput())
@@ -177,9 +168,8 @@ public abstract class ControlContainer extends Control
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
-        for (int i = 0; i < controls.size(); i++)
+        for (Control c : controls)
         {
-            Control c = controls.get(i);
             if (c.isVisible())
             {
                 c.draw(mouseX, mouseY, renderTick);
@@ -190,9 +180,8 @@ public abstract class ControlContainer extends Control
     @Override
     public void drawForeground(int mouseX, int mouseY)
     {
-        for (int i = 0; i < controls.size(); i++)
+        for (Control c : controls)
         {
-            Control c = controls.get(i);
             if (c.isVisible())
             {
                 c.drawForeground(mouseX, mouseY);

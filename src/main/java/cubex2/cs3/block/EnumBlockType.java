@@ -2,10 +2,10 @@ package cubex2.cs3.block;
 
 import com.google.common.collect.Maps;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cubex2.cs3.block.attributes.BlockAttributes;
+import cubex2.cs3.block.attributes.*;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedBlock;
-import cubex2.cs3.item.ItemCSBlock;
+import cubex2.cs3.item.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -14,19 +14,43 @@ import java.util.Map;
 
 public enum EnumBlockType
 {
-    NORMAL("normal", BlockCS.class, BlockAttributes.class);
+    BUTTON("button", BlockCSButton.class, ButtonAttributes.class),
+    CARPET("carpet", BlockCSCarpet.class, CarpetAttributes.class),
+    // CHEST("chest", BlockCSChest.class, BlockChestAttributes.class),
+    CROSS_TEXTURE("crossTexture", BlockCSCrossTexture.class, CrossTextureAttributes.class),
+    CROSS_TEXTURE_POST("crossTexturePost", BlockCSCrossTexturePost.class, PostAttributes.class, ItemCSBlockFacing.class),
+    DOOR("door", BlockCSDoor.class, DoorAttributes.class, ItemCSDoor.class),
+    FACING("facing", BlockCSFacing.class, FacingAttributes.class, ItemCSBlockFacing.class),
+    FENCE("fence", BlockCSFence.class, FenceAttributes.class),
+    FENCE_GATE("fenceGate", BlockCSFenceGate.class, FenceGateAttributes.class),
+    FLAT("flat", BlockCSFlat.class, FlatAttributes.class),
+    FLUID("fluid", BlockCSFluid.class, FluidAttributes.class, ItemCSFluid.class),
+    // FURNACE("furnace", BlockCSFurnace.class, BlockFurnaceAttributes.class, ItemCSBlockFacing.class),
+    // GRAVITY("gravity", BlockCSGravity.class, BlockGravityAttributes.class),
+    LADDER("ladder", BlockCSLadder.class, LadderAttributes.class),
+    NORMAL("normal", BlockCSNormal.class, BlockAttributes.class),
+    PANE("pane", BlockCSPane.class, PaneAttributes.class),
+    POST("post", BlockCSPost.class, PostAttributes.class, ItemCSBlockFacing.class),
+    PRESSURE_PLATE("pressurePlate", BlockCSPressurePlate.class, PressurePlateAttributes.class),
+    SLAB("slab", BlockCSStep.class, StepAttributes.class, ItemCSStep.class),
+    // SLOPE("slope", BlockSlope.class, BlockSlopeAttributes.class, ItemCSBlockFacing.class),
+    STAIRS("stairs", BlockCSStairs.class, BlockAttributes.class),
+    TORCH("torch", BlockCSTorch.class, TorchAttributes.class),
+    TRAP_DOOR("trapDoor", BlockCSTrapDoor.class, TrapDoorAttributes.class),
+    WALL("wall", BlockCSWall.class, WallAttributes.class),
+    WHEAT("wheat", BlockCSWheat.class, WheatAttributes.class);
 
     public final String name;
-    public final Class<? extends BlockCS> blockClass;
+    public final Class<? extends Block> blockClass;
     public final Class<? extends BlockAttributes> attributesClass;
     public final Class<? extends Item> itemClass;
 
-    private EnumBlockType(String name, Class<? extends BlockCS> blockClass, Class<? extends BlockAttributes> attributeClass)
+    private EnumBlockType(String name, Class<? extends Block> blockClass, Class<? extends BlockAttributes> attributeClass)
     {
         this(name, blockClass, attributeClass, ItemCSBlock.class);
     }
 
-    private EnumBlockType(String name, Class<? extends BlockCS> blockClass, Class<? extends BlockAttributes> attributesClass, Class<? extends Item> itemClass)
+    private EnumBlockType(String name, Class<? extends Block> blockClass, Class<? extends BlockAttributes> attributesClass, Class<? extends Item> itemClass)
     {
         this.name = name;
         this.blockClass = blockClass;

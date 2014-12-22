@@ -28,6 +28,10 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditCreativeTab.class)
     public CreativeTabs creativeTab = CreativeTabs.tabAllSearch;
 
+    // TODO add to creative tab window
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    public boolean addToCreative = true;
+
     @Attribute(windowClass = WindowEditMaxStack.class)
     public int maxStack = 64;
 

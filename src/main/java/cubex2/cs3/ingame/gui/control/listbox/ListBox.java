@@ -25,9 +25,9 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
     private VerticalSlider slider;
     private int sliderWidth;
 
-    private IListBoxItemClickListener itemClickListener;
+    private IListBoxItemClickListener<T> itemClickListener;
 
-    public ListBox(ListBoxDescription desc, Anchor anchor, int offsetX, int offsetY, ControlContainer parent)
+    public ListBox(ListBoxDescription<T> desc, Anchor anchor, int offsetX, int offsetY, ControlContainer parent)
     {
         super(calculateVisibleHeight(desc), calculateWidth(desc), calculateHeight(desc.elements, desc.elementHeight, desc.columns), anchor, offsetX, offsetY, parent);
         elements = Lists.newArrayList(desc.elements);
@@ -137,22 +137,22 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
     public void removeSelection()
     {
         selectedIndices.clear();
-        for (int i = 0; i < controls.size(); i++)
+        for (Control control : controls)
         {
-            ((ListBoxItem) controls.get(i)).setSelected(false);
+            ((ListBoxItem) control).setSelected(false);
         }
     }
 
-    public void updateElements(List<T> elements)
+    public void updateElements(List<T> newElements)
     {
-        this.elements.clear();
-        this.elements.addAll(elements);
+        elements.clear();
+        elements.addAll(newElements);
 
         if (isSorted)
-            Collections.sort((List<Comparable>) this.elements);
+            Collections.sort((List<Comparable>) elements);
 
         selectedIndices.clear();
-        height = calculateHeight(this.elements, elementHeight, columns);
+        height = calculateHeight(elements, elementHeight, columns);
         if (height < getHeight())
             setCurrentScroll(Math.max(height - getVisibleRect().getHeight(), 0));
         createListBoxItems();
@@ -181,7 +181,7 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
     {
         if (c instanceof ListBoxItem)
         {
-            ListBoxItem lbItem = (ListBoxItem) c;
+            ListBoxItem<T> lbItem = (ListBoxItem<T>) c;
 
             if (canSelect)
             {
@@ -190,9 +190,9 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
                     if (!multiSelect)
                     {
                         selectedIndices.clear();
-                        for (int i = 0; i < controls.size(); i++)
+                        for (Control control : controls)
                         {
-                            ((ListBoxItem) controls.get(i)).setSelected(false);
+                            ((ListBoxItem) control).setSelected(false);
                         }
                     }
                     selectedIndices.add(lbItem.index);
