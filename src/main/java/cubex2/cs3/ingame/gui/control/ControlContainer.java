@@ -255,6 +255,16 @@ public abstract class ControlContainer extends Control
         return new CheckBoxBuilder(this).checked(checked);
     }
 
+    public CheckBoxBuilder checkBox(String text)
+    {
+        return new CheckBoxBuilder(text, this);
+    }
+
+    public CheckBoxBuilder checkBox(String text, boolean checked)
+    {
+        return new CheckBoxBuilder(text, this).checked(checked);
+    }
+
     public TextFieldBuilder textField()
     {
         return new TextFieldBuilder(this);

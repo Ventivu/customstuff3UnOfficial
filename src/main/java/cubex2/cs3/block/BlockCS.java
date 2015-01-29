@@ -201,7 +201,7 @@ public class BlockCS extends Block implements IBlockCS
     @Override
     public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side)
     {
-        return wrappedBlock.canPlaceBlockOnSide(world, x, y, z, side);
+        return canPlaceBlockAt(world, x, y, z) && wrappedBlock.canPlaceBlockOnSide(world, x, y, z, side);
     }
 
     @Override

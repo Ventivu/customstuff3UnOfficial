@@ -23,7 +23,7 @@ public class WindowEditStepSound extends WindowEditBlockAttribute implements ISt
 
         dbSounds = dropBox(StepSounds.getAllSounds()).top(7).fillWidth(7).add();
         dbSounds.setStringProvider(this);
-        dbSounds.setSelectedValue(wrappedBlock.container.stepSound);
+        dbSounds.setSelectedValue(container.stepSound);
 
         btnPlayPlace = button("Play Place").top(7).below(dbSounds).width(60).add();
         btnPlayPlace.playSound = false;
@@ -56,7 +56,7 @@ public class WindowEditStepSound extends WindowEditBlockAttribute implements ISt
     @Override
     protected void applyChanges()
     {
-        wrappedBlock.container.stepSound = dbSounds.getSelectedValue();
+        container.stepSound = dbSounds.getSelectedValue();
         wrappedBlock.block.stepSound = dbSounds.getSelectedValue();
     }
 

@@ -178,7 +178,7 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
             drawTexturedModalRect(bounds.getX() - 1, bounds.getY() - 1, 200, 0, 18, 18);
         }
 
-        if (currentRenderStack == null)
+        if (currentRenderStack == null || currentRenderStack.getItem() == null)
             return;
 
         GL11.glPushMatrix();
@@ -206,7 +206,7 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
     @Override
     public void drawForeground(int mouseX, int mouseY)
     {
-        if (currentRenderStack == null)
+        if (currentRenderStack == null || currentRenderStack.getItem() == null)
             return;
 
         if (isMouseOverControl(mouseX, mouseY))

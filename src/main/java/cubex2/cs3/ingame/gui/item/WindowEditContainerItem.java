@@ -23,10 +23,8 @@ public class WindowEditContainerItem extends WindowEditItemAttribute implements 
         itemDisplay.setClearOnRightClick();
         itemDisplay.setItemStack(wrappedItem.container.containerItem);
 
-        checkBox = checkBox().below(itemDisplay, 5).left(7).add();
+        checkBox = checkBox("Remain in crafting grid").below(itemDisplay, 5).left(7).add();
         checkBox.setIsChecked(wrappedItem.container.leaveContainerItem);
-
-        label("Remain in crafting grid").rightTo(checkBox).add();
     }
 
     @Override

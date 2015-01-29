@@ -55,7 +55,7 @@ public class BlockCSTorch extends BlockCS
     @Override
     public IIcon getIcon(int side, int meta)
     {
-        return wrappedBlock.getIcon(side, 0);
+        return wrappedBlock.getIcon(0, 0);
     }
 
     private boolean canPlaceTorchOn(World world, int x, int y, int z)

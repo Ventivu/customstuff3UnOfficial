@@ -1,6 +1,7 @@
 package cubex2.cs3.block.attributes;
 
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.ingame.gui.block.WindowEditTexturesStep;
 import net.minecraft.block.Block;
 
 public class StepAttributes extends BlockAttributes
@@ -13,5 +14,6 @@ public class StepAttributes extends BlockAttributes
     {
         super(pack);
         opacity = 0;
+        textureWindow = WindowEditTexturesStep.class;
     }
 }

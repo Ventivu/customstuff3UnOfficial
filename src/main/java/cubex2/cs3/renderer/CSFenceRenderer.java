@@ -86,21 +86,21 @@ public class CSFenceRenderer implements ISimpleBlockRenderingHandler
         {
             BlockCSFence fence = (BlockCSFence) block;
             boolean var5 = true;
-            float var6 = 0.375F;
-            float var7 = 0.625F;
-            renderer.setRenderBounds(var6, 0.0D, var6, var7, 1.0D, var7);
+            float f = 0.375F;
+            float f1 = 0.625F;
+            renderer.setRenderBounds(f, 0.0D, f, f1, 1.0D, f1);
             renderer.renderStandardBlock(fence, x, y, z);
-            boolean var8 = false;
-            boolean var9 = false;
+            boolean flag1 = false;
+            boolean flag2 = false;
 
             if (fence.canConnectFenceTo(renderer.blockAccess, x - 1, y, z) || fence.canConnectFenceTo(renderer.blockAccess, x + 1, y, z))
             {
-                var8 = true;
+                flag1 = true;
             }
 
             if (fence.canConnectFenceTo(renderer.blockAccess, x, y, z - 1) || fence.canConnectFenceTo(renderer.blockAccess, x, y, z + 1))
             {
-                var9 = true;
+                flag2 = true;
             }
 
             boolean connectXN = fence.canConnectFenceTo(renderer.blockAccess, x - 1, y, z);
@@ -108,30 +108,30 @@ public class CSFenceRenderer implements ISimpleBlockRenderingHandler
             boolean connectZN = fence.canConnectFenceTo(renderer.blockAccess, x, y, z - 1);
             boolean connectZP = fence.canConnectFenceTo(renderer.blockAccess, x, y, z + 1);
 
-            if (!var8 && !var9)
+            if (!flag1 && !flag2)
             {
-                var8 = true;
+                flag1 = true;
             }
 
-            var6 = 0.4375F;
-            var7 = 0.5625F;
+            f = 0.4375F;
+            f1 = 0.5625F;
             float var14 = 0.75F;
             float var15 = 0.9375F;
-            float var16 = connectXN ? 0.0F : var6;
-            float var17 = connectXP ? 1.0F : var7;
-            float var18 = connectZN ? 0.0F : var6;
-            float var19 = connectZP ? 1.0F : var7;
+            float var16 = connectXN ? 0.0F : f;
+            float var17 = connectXP ? 1.0F : f1;
+            float var18 = connectZN ? 0.0F : f;
+            float var19 = connectZP ? 1.0F : f1;
 
-            if (var8)
+            if (flag1)
             {
-                renderer.setRenderBounds(var16, var14, var6, var17, var15, var7);
+                renderer.setRenderBounds(var16, var14, f, var17, var15, f1);
                 renderer.renderStandardBlock(fence, x, y, z);
                 var5 = true;
             }
 
-            if (var9)
+            if (flag2)
             {
-                renderer.setRenderBounds(var6, var14, var18, var7, var15, var19);
+                renderer.setRenderBounds(f, var14, var18, f1, var15, var19);
                 renderer.renderStandardBlock(fence, x, y, z);
                 var5 = true;
             }
@@ -139,16 +139,16 @@ public class CSFenceRenderer implements ISimpleBlockRenderingHandler
             var14 = 0.375F;
             var15 = 0.5625F;
 
-            if (var8)
+            if (flag1)
             {
-                renderer.setRenderBounds(var16, var14, var6, var17, var15, var7);
+                renderer.setRenderBounds(var16, var14, f, var17, var15, f1);
                 renderer.renderStandardBlock(fence, x, y, z);
                 var5 = true;
             }
 
-            if (var9)
+            if (flag2)
             {
-                renderer.setRenderBounds(var6, var14, var18, var7, var15, var19);
+                renderer.setRenderBounds(f, var14, var18, f1, var15, var19);
                 renderer.renderStandardBlock(fence, x, y, z);
                 var5 = true;
             }

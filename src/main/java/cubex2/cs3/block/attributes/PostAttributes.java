@@ -1,6 +1,7 @@
 package cubex2.cs3.block.attributes;
 
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.ingame.gui.block.WindowEditTexturesPost;
 
 public class PostAttributes extends FacingAttributes
 {
@@ -13,5 +14,6 @@ public class PostAttributes extends FacingAttributes
         faceBySide = true;
         canFaceTop = true;
         canFaceBottom = true;
+        textureWindow = WindowEditTexturesPost.class;
     }
 }

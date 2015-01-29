@@ -3,7 +3,6 @@ package cubex2.cs3.ingame.gui.common;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.TextBoxValidators;
 
@@ -28,7 +27,7 @@ public class WindowEditFloat extends Window
     @Override
     protected void handleEditButtonClicked()
     {
-        container.setAttriubte(fieldName, Float.parseFloat(textBox.getText()));
+        container.setAttribute(fieldName, Float.parseFloat(textBox.getText()));
         applyChangedValue();
         container.getPack().save();
 

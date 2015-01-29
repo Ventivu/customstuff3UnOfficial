@@ -24,10 +24,7 @@ public class WindowEditFull3D extends WindowEditItemAttribute implements IPlayer
         display = playerDisplay().at(7, 7).size(50, 80).add();
         display.setPlayerModifier(this);
         display.setEquippedStack(new ItemStack(wrappedItem.item));
-        checkBox = checkBox().rightTo(display).add();
-        checkBox.setIsChecked(newFull3D);
-
-        label("Draw full 3D").rightTo(checkBox).add();
+        checkBox = checkBox("Draw full 3D", newFull3D).rightTo(display).add();
     }
 
     @Override

@@ -35,7 +35,7 @@ public class WindowEditBoolean extends Window
     @Override
     protected void handleEditButtonClicked()
     {
-        container.setAttriubte(fieldName, checkBox.getIsChecked());
+        container.setAttribute(fieldName, checkBox.getIsChecked());
         applyChangedValue();
         container.getPack().save();
 

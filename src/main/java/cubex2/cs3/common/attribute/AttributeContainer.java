@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.Window;
 import net.minecraft.nbt.NBTTagCompound;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -52,7 +53,6 @@ public class AttributeContainer
     {
         Field[] fields = getAttributeFields(ALL_ATTRIBUTES);
 
-
         for (Field field : fields)
         {
             try
@@ -72,10 +72,13 @@ public class AttributeContainer
 
     }
 
-    private Field[] getAttributeFields(Predicate<Field> predicate)
+    public Field[] getAttributeFields(Predicate<Field>... predicates)
     {
         Iterator<Field> fields = Iterators.forArray(getClass().getFields());
-        fields = Iterators.filter(fields, predicate);
+        for (Predicate<Field> pred : predicates)
+        {
+            fields = Iterators.filter(fields, pred);
+        }
         return Iterators.toArray(fields, Field.class);
     }
 
@@ -110,48 +113,20 @@ public class AttributeContainer
     }
 
     /**
-     * Gets the names of the attribute fields that have 'hasOwnWindow' set to true.
-     *
-     * @return The names of the fields.
-     */
-    public String[] getAttributeFieldNames()
-    {
-        Field[] fields = getAttributeFields(ATTRIBUTE_WITH_OWN_WINDOW);
-        String[] names = new String[fields.length];
-        for (int i = 0; i < names.length; i++)
-        {
-            names[i] = getCustomName(fields[i]).length() > 0 ? getCustomName(fields[i]) : fields[i].getName();
-        }
-        return names;
-    }
-
-    /**
      * Gets the data of the attributes that have 'hasOwnWindow' set to true.
      *
+     * @param type The type of the block/item/...
      * @return The names of the fields.
      */
-    public AttributeData[] getAttributeDatas()
+    public AttributeData[] getAttributeDatas(String type)
     {
-        Field[] fields = getAttributeFields(ATTRIBUTE_WITH_OWN_WINDOW);
+        Field[] fields = getAttributeFields(ATTRIBUTE_WITH_OWN_WINDOW, new PredicateCheckExclude(type));
         AttributeData[] datas = new AttributeData[fields.length];
         for (int i = 0; i < datas.length; i++)
         {
             datas[i] = new AttributeData(fields[i].getAnnotation(Attribute.class), fields[i]);
         }
         return datas;
-    }
-
-    public Class<? extends Window> getWindowClass(String attributeName)
-    {
-        try
-        {
-            return getClass().getField(attributeName).getAnnotation(Attribute.class).windowClass();
-        } catch (NoSuchFieldException e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     public <T> T getAttribute(String attributeName)
@@ -167,7 +142,7 @@ public class AttributeContainer
         return null;
     }
 
-    public <T> void setAttriubte(String attributeName, T value)
+    public <T> void setAttribute(String attributeName, T value)
     {
         try
         {
@@ -176,16 +151,6 @@ public class AttributeContainer
         {
             e.printStackTrace();
         }
-    }
-
-    private static String getCustomName(Field field)
-    {
-        if (field.isAnnotationPresent(Attribute.class))
-        {
-            return field.getAnnotation(Attribute.class).customName();
-        }
-
-        return "";
     }
 
     private static final Predicate<Field> ALL_ATTRIBUTES = new Predicate<Field>()
@@ -205,4 +170,28 @@ public class AttributeContainer
             return input.isAnnotationPresent(Attribute.class) && input.getAnnotation(Attribute.class).hasOwnWindow();
         }
     };
+
+    public Class<? extends Window> getWindowClass(AttributeData item)
+    {
+        return item.attribute.windowClass();
+    }
+
+    private static class PredicateCheckExclude implements Predicate<Field>
+    {
+        private String type;
+
+        public PredicateCheckExclude(String type)
+        {
+            this.type = type;
+        }
+
+        @Override
+        public boolean apply(Field input)
+        {
+            if (!input.isAnnotationPresent(Attribute.class)) return false;
+            Attribute attr = input.getAnnotation(Attribute.class);
+            if (attr.exclude().length() == 0) return true;
+            return !ArrayUtils.contains(attr.exclude().split(","), type);
+        }
+    }
 }

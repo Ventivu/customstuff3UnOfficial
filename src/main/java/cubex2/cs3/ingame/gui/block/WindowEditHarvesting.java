@@ -31,18 +31,17 @@ public class WindowEditHarvesting extends WindowEditBlockAttribute
         tbHarvestLevel.setValidityProvider(TextBoxValidators.POSITIVE_INTEGER);
         tbHarvestLevel.setText(String.valueOf(block.container.harvestLevel));
 
-        cbSilkHarvest = checkBox(block.container.canSilkHarvest).top(tbHarvestLevel,6).left(7).add();
-        label("Allow silk harvest.").rightTo(cbSilkHarvest).add();
+        cbSilkHarvest = checkBox("Allow silk harvest.",block.container.canSilkHarvest).top(tbHarvestLevel,6).left(7).add();
     }
 
     @Override
     protected void applyChanges()
     {
         String toolClass = tbToolClass.getText().length() != 0 ? tbToolClass.getText() : null;
-        wrappedBlock.container.toolClass = toolClass;
-        wrappedBlock.container.harvestLevel = toolClass != null ? Integer.parseInt(tbHarvestLevel.getText()) : 0;
-        wrappedBlock.container.canSilkHarvest = cbSilkHarvest.getIsChecked();
+        container.toolClass = toolClass;
+        container.harvestLevel = toolClass != null ? Integer.parseInt(tbHarvestLevel.getText()) : 0;
+        container.canSilkHarvest = cbSilkHarvest.getIsChecked();
 
-        wrappedBlock.block.setHarvestLevel(wrappedBlock.container.toolClass, wrappedBlock.container.harvestLevel);
+        wrappedBlock.block.setHarvestLevel(container.toolClass, container.harvestLevel);
     }
 }

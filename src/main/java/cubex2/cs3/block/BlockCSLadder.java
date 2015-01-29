@@ -44,6 +44,7 @@ public class BlockCSLadder extends BlockCS
         }
     }
 
+
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock)
     {
@@ -148,6 +149,12 @@ public class BlockCSLadder extends BlockCS
     {
         return world.isSideSolid(x - 1, y, z, EAST) || world.isSideSolid(x + 1, y, z, WEST) || world.isSideSolid(x, y, z - 1, SOUTH) || world.isSideSolid(x, y, z + 1, NORTH);
     }
+
+    /*@Override
+    public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side)
+    {
+        return canPlaceBlockAt(world, x, y, z);
+    }*/
 
     @Override
     public boolean isLadder(IBlockAccess world, int x, int y, int z, EntityLivingBase entity)

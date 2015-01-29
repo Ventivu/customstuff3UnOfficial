@@ -8,6 +8,7 @@ import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.IValidityProvider;
 import cubex2.cs3.ingame.gui.control.TextBox;
+import cubex2.cs3.util.ClientHelper;
 
 import java.util.Map;
 import java.util.Properties;
@@ -34,7 +35,7 @@ public class WindowEditDisplayName extends WindowEditItemAttribute implements IV
         Properties p = modLangData.get("en_US");
         p.put("item." + wrappedItem.getName() + ".name", wrappedItem.container.displayName);
 
-        mc.refreshResources();
+        ClientHelper.refreshResources(mc);
     }
 
     @Override

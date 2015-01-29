@@ -21,12 +21,11 @@ public class ItemCSDoor extends Item
 {
     private WrappedBlock wrappedBlock;
     private DoorAttributes container;
-    private BlockCSDoor block;
 
-    public ItemCSDoor(Block block, WrappedBlock wrappedBlock)
+
+    public ItemCSDoor(WrappedBlock wrappedBlock)
     {
         super();
-        this.block = (BlockCSDoor) block;
         this.wrappedBlock = wrappedBlock;
         container = (DoorAttributes) wrappedBlock.container;
         setMaxStackSize(wrappedBlock.container.maxStack);
@@ -55,13 +54,13 @@ public class ItemCSDoor extends Item
 
             if (player.canPlayerEdit(x, y, z, side, stack) && player.canPlayerEdit(x, y + 1, z, side, stack))
             {
-                if (!block.canPlaceBlockAt(world, x, y, z))
+                if (!wrappedBlock.block.canPlaceBlockAt(world, x, y, z))
                 {
                     return false;
                 } else
                 {
                     int var9 = MathHelper.floor_double((player.rotationYaw + 180.0F) * 4.0F / 360.0F - 0.5D) & 3;
-                    placeDoorBlock(world, x, y, z, var9, block);
+                    placeDoorBlock(world, x, y, z, var9, wrappedBlock.block);
                     --stack.stackSize;
                     return true;
                 }
@@ -125,26 +124,26 @@ public class ItemCSDoor extends Item
     @Override
     public CreativeTabs getCreativeTab()
     {
-        return block.getCreativeTabToDisplayOn();
+        return wrappedBlock.block.getCreativeTabToDisplayOn();
     }
 
     @SuppressWarnings("rawtypes")
     @Override
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list)
     {
-        block.getSubBlocks(item, creativeTabs, list);
+        wrappedBlock.block.getSubBlocks(item, creativeTabs, list);
     }
 
     @Override
     public String getUnlocalizedName(ItemStack itemstack)
     {
-        return block.getUnlocalizedName() + itemstack.getItemDamage();
+        return wrappedBlock.block.getUnlocalizedName();
     }
 
     @Override
     public String getUnlocalizedName()
     {
-        return block.getUnlocalizedName();
+        return wrappedBlock.block.getUnlocalizedName();
     }
 
     @Override

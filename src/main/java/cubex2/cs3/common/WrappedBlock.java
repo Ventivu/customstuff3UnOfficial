@@ -1,5 +1,6 @@
 package cubex2.cs3.common;
 
+import com.google.common.base.Predicate;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -7,7 +8,9 @@ import cubex2.cs3.api.scripting.ITriggerData;
 import cubex2.cs3.api.scripting.TriggerType;
 import cubex2.cs3.block.EnumBlockType;
 import cubex2.cs3.block.attributes.BlockAttributes;
+import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.scripting.TriggerData;
+import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.JavaScriptHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -25,9 +28,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
-public class WrappedBlock extends BaseContent
+public class WrappedBlock extends BaseContent implements Comparable<WrappedBlock>
 {
     public Block block;
     public Item blockItem;
@@ -393,9 +397,24 @@ public class WrappedBlock extends BaseContent
 
     public void registerBlockIcons(IIconRegister iconRegister)
     {
-        for (int i = 0; i < 6; i++)
+        Field[] fields = container.getAttributeFields(new Predicate<Field>()
         {
-            container.getTexture(i).setIcon(iconRegister);
+            @Override
+            public boolean apply(Field input)
+            {
+                return input.getType() == IconWrapper.class && input.isAnnotationPresent(Attribute.class);
+            }
+        });
+
+        try
+        {
+            for (Field f : fields)
+            {
+                ((IconWrapper) f.get(container)).setIcon(iconRegister);
+            }
+        } catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -458,5 +477,11 @@ public class WrappedBlock extends BaseContent
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
         return container.pick;
+    }
+
+    @Override
+    public int compareTo(WrappedBlock o)
+    {
+        return name.compareTo(o.name);
     }
 }

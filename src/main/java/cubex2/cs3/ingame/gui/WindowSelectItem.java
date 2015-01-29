@@ -52,6 +52,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         if (c == btnCancel)
         {
             selectedStack = null;
+            GuiBase.openPrevWindow();
         } else if (c == btnSelect)
         {
             if (callback != null)

@@ -9,6 +9,7 @@ import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.lib.Strings;
+import cubex2.cs3.util.ClientHelper;
 import cubex2.cs3.util.GuiHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -51,7 +52,7 @@ public class WindowEditIcon extends WindowEditItemAttribute
 
         wrappedItem.item.setTextureName(modId + ":" + textureName);
 
-        mc.refreshResources();
+        ClientHelper.refreshResources(mc);
     }
 
     @Override

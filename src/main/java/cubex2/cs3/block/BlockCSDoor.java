@@ -28,8 +28,8 @@ public class BlockCSDoor extends BlockCS
 {
     private DoorAttributes container;
 
-    private IIcon flippedYN;
-    private IIcon flippedYP;
+    private IIcon flippedBottomFront;
+    private IIcon flippedTopFront;
 
     public BlockCSDoor(WrappedBlock block)
     {
@@ -45,56 +45,72 @@ public class BlockCSDoor extends BlockCS
     @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {
-        if (side != 1 && side != 0)
+        if (side == 0)
+            return container.textureBottom.icon;
+        if (side == 1)
+            return container.textureTop.icon;
+
+        int i1 = getFullMetadata(world, x, y, z);
+        int j1 = i1 & 3;
+        boolean isOpen = (i1 & 4) != 0;
+        boolean flipped = false;
+        boolean isTopPart = (i1 & 8) != 0;
+
+        if (isOpen)
         {
-            int i1 = getFullMetadata(world, x, y, z);
-            int j1 = i1 & 3;
-            boolean flag = (i1 & 4) != 0;
-            boolean flag1 = false;
-            boolean flag2 = (i1 & 8) != 0;
-
-            if (flag)
+            if ((j1 == 0 || j1 == 2) && (side == 4 || side == 5))
             {
-                if (j1 == 0 && side == 2)
-                {
-                    flag1 = !flag1;
-                } else if (j1 == 1 && side == 5)
-                {
-                    flag1 = !flag1;
-                } else if (j1 == 2 && side == 3)
-                {
-                    flag1 = !flag1;
-                } else if (j1 == 3 && side == 4)
-                {
-                    flag1 = !flag1;
-                }
-            } else
-            {
-                if (j1 == 0 && side == 5)
-                {
-                    flag1 = !flag1;
-                } else if (j1 == 1 && side == 3)
-                {
-                    flag1 = !flag1;
-                } else if (j1 == 2 && side == 4)
-                {
-                    flag1 = !flag1;
-                } else if (j1 == 3 && side == 2)
-                {
-                    flag1 = !flag1;
-                }
-
-                if ((i1 & 16) != 0)
-                {
-                    flag1 = !flag1;
-                }
+                return isTopPart ? container.textureSouth.icon : container.textureWest.icon;
             }
-
-            return flag2 ? (flag1 ? flippedYP : container.textureTop.icon) : (flag1 ? flippedYN : container.textureBottom.icon);
+            if ((j1 == 1 || j1 == 3) && (side == 2 || side == 3))
+            {
+                return isTopPart ? container.textureSouth.icon : container.textureWest.icon;
+            }
+            if (j1 == 0 && side == 2)
+            {
+                flipped = true;
+            } else if (j1 == 1 && side == 5)
+            {
+                flipped = true;
+            } else if (j1 == 2 && side == 3)
+            {
+                flipped = true;
+            } else if (j1 == 3 && side == 4)
+            {
+                flipped = true;
+            }
         } else
         {
-            return container.textureBottom.icon;
+            if ((j1 == 0 || j1 == 2) && (side == 2 || side == 3))
+            {
+                return isTopPart ? container.textureSouth.icon : container.textureWest.icon;
+            }
+            if ((j1 == 1 || j1 == 3) && (side == 4 || side == 5))
+            {
+                return isTopPart ? container.textureSouth.icon : container.textureWest.icon;
+            }
+            if (j1 == 0 && side == 5)
+            {
+                flipped = true;
+            } else if (j1 == 1 && side == 3)
+            {
+                flipped = true;
+            } else if (j1 == 2 && side == 4)
+            {
+                flipped = true;
+            } else if (j1 == 3 && side == 2)
+            {
+                flipped = true;
+            }
+
+            if ((i1 & 16) != 0)
+            {
+                flipped = !flipped;
+            }
         }
+
+        return isTopPart ? (flipped ? flippedTopFront : container.textureNorth.icon) : (flipped ? flippedBottomFront : container.textureEast.icon);
+
 
     }
 
@@ -371,8 +387,8 @@ public class BlockCSDoor extends BlockCS
     {
         super.registerBlockIcons(iconRegister);
 
-        flippedYP = new IconFlipped(container.textureTop.icon, true, false);
-        flippedYN = new IconFlipped(container.textureBottom.icon, true, false);
+        flippedTopFront = new IconFlipped(container.getTexture("top front").icon, true, false);
+        flippedBottomFront = new IconFlipped(container.getTexture("bottom front").icon, true, false);
     }
 
     @Override

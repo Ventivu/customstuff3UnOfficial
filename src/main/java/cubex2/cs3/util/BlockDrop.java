@@ -75,8 +75,13 @@ public class BlockDrop
 
     public BlockDrop(Block block, int dv)
     {
+        this(Item.getItemFromBlock(block), dv);
+    }
+
+    public BlockDrop(Item item, int dv)
+    {
         DropData data = new DropData();
-        data.item = Item.getItemFromBlock(block);
+        data.item = item;
         data.dv = dv;
         data.minCount = 1;
         data.maxCount = 1;

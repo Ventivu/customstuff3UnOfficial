@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.ingame.gui.control.IValidityProvider;
 import cubex2.cs3.ingame.gui.control.TextBox;
+import cubex2.cs3.util.ClientHelper;
 
 import java.util.Map;
 import java.util.Properties;
@@ -18,20 +19,20 @@ public class WindowEditDisplayName extends WindowEditBlockAttribute implements I
         super(block, "displayName", 150, 60);
 
         textBox = textBox().at(7, 7).height(16).fillWidth(7).add();
-        textBox.setText(wrappedBlock.container.displayName);
+        textBox.setText(container.displayName);
         textBox.setValidityProvider(this);
     }
 
     @Override
     protected void applyChanges()
     {
-        wrappedBlock.container.displayName = textBox.getText().trim();
+        container.displayName = textBox.getText().trim();
 
         Map<String, Properties> modLangData = ReflectionHelper.getPrivateValue(LanguageRegistry.class, LanguageRegistry.instance(), "modLanguageData");
         Properties p = modLangData.get("en_US");
-        p.put("tile." + wrappedBlock.getName() + ".name", wrappedBlock.container.displayName);
+        p.put("tile." + wrappedBlock.getName() + ".name", container.displayName);
 
-        mc.refreshResources();
+        ClientHelper.refreshResources(mc);
     }
 
     @Override

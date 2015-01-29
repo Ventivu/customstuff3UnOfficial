@@ -16,7 +16,7 @@ public class WindowEditMaterial extends WindowEditBlockAttribute implements IStr
 
         dbTabs = dropBox(Materials.getAllMaterials()).top(7).fillWidth(7).add();
         dbTabs.setStringProvider(this);
-        dbTabs.setSelectedValue(wrappedBlock.container.material);
+        dbTabs.setSelectedValue(container.material);
 
         label("You need to restart Minecraft\nfor the change to happen.").below(dbTabs, 10).add();
     }
@@ -24,7 +24,7 @@ public class WindowEditMaterial extends WindowEditBlockAttribute implements IStr
     @Override
     protected void applyChanges()
     {
-        wrappedBlock.container.material = dbTabs.getSelectedValue();
+        container.material = dbTabs.getSelectedValue();
     }
 
     @Override

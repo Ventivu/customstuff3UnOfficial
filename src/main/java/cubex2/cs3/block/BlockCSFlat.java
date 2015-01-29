@@ -6,6 +6,7 @@ import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.lib.RenderIds;
 import net.minecraft.block.Block;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -19,6 +20,12 @@ public class BlockCSFlat extends BlockCSFacing
     {
         super(block);
         setTickRandomly(true);
+    }
+
+    @Override
+    public IIcon getIcon(int side, int meta)
+    {
+        return wrappedBlock.getIcon(0, meta);
     }
 
     @Override

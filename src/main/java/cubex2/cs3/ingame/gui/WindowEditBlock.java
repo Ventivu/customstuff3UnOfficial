@@ -27,7 +27,7 @@ public class WindowEditBlock extends Window implements IListBoxItemClickListener
         desc.rows = 5;
         desc.columns = 1;
         desc.elementHeight = 22;
-        desc.elements = Lists.newArrayList(wrappedBlock.container.getAttributeDatas());
+        desc.elements = Lists.newArrayList(wrappedBlock.container.getAttributeDatas(wrappedBlock.getType().name));
         desc.canSelect = false;
         desc.sorted = true;
         listBox = listBox(desc).left(7).top(7).add();
@@ -38,7 +38,7 @@ public class WindowEditBlock extends Window implements IListBoxItemClickListener
     {
         try
         {
-            Class<? extends Window> windowClass = item.attribute.windowClass();
+            Class<? extends Window> windowClass = wrappedBlock.container.getWindowClass(item);
             if (windowClass == WindowEditScript.class)
             {
                 GuiBase.openWindow(new WindowEditScript(item.field.getName(), wrappedBlock.container));

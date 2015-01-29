@@ -13,21 +13,18 @@ public class WindowEditPlacementRules extends WindowEditBlockAttribute
     {
         super(block, "placement", 150, 100);
 
-        cbPlaceOnFloor = checkBox().checked(wrappedBlock.container.canPlaceOnFloor).at(7, 7).add();
-        label("Can place on floor").rightTo(cbPlaceOnFloor).add();
+        cbPlaceOnFloor = checkBox("Can place on floor").checked(container.canPlaceOnFloor).at(7, 7).add();
 
-        cbPlaceOnCeiling = checkBox().checked(wrappedBlock.container.canPlaceOnCeiling).below(cbPlaceOnFloor, 7).add();
-        label("Can place on ceiling").rightTo(cbPlaceOnCeiling).add();
+        cbPlaceOnCeiling = checkBox("Can place on ceiling").checked(container.canPlaceOnCeiling).below(cbPlaceOnFloor, 7).add();
 
-        cbPlaceOnWall = checkBox().checked(wrappedBlock.container.canPlaceOnWall).below(cbPlaceOnCeiling, 7).add();
-        label("Can place on wall").rightTo(cbPlaceOnWall).add();
+        cbPlaceOnWall = checkBox("Can place on wall").checked(container.canPlaceOnWall).below(cbPlaceOnCeiling, 7).add();
     }
 
     @Override
     protected void applyChanges()
     {
-        wrappedBlock.container.canPlaceOnFloor = cbPlaceOnFloor.getIsChecked();
-        wrappedBlock.container.canPlaceOnCeiling = cbPlaceOnCeiling.getIsChecked();
-        wrappedBlock.container.canPlaceOnWall = cbPlaceOnWall.getIsChecked();
+        container.canPlaceOnFloor = cbPlaceOnFloor.getIsChecked();
+        container.canPlaceOnCeiling = cbPlaceOnCeiling.getIsChecked();
+        container.canPlaceOnWall = cbPlaceOnWall.getIsChecked();
     }
 }

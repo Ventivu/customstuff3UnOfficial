@@ -60,7 +60,7 @@ public class WindowEditScript extends Window
 
         if (!hasErrors)
         {
-            container.setAttriubte(scriptName, scriptWrapper);
+            container.setAttribute(scriptName, scriptWrapper);
             container.getPack().save();
 
             GuiBase.openPrevWindow();

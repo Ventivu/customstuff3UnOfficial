@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
-public class WrappedItem extends BaseContent
+public class WrappedItem extends BaseContent implements Comparable<WrappedItem>
 {
     public Item item;
     public ItemAttributes container;
@@ -363,5 +363,11 @@ public class WrappedItem extends BaseContent
     public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack)
     {
         return !container.leaveContainerItem;
+    }
+
+    @Override
+    public int compareTo(WrappedItem o)
+    {
+        return name.compareTo(o.name);
     }
 }

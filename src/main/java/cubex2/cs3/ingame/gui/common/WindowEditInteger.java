@@ -53,7 +53,7 @@ public class WindowEditInteger extends Window
     @Override
     protected void handleEditButtonClicked()
     {
-        container.setAttriubte(fieldName, Integer.parseInt(textBox.getText()));
+        container.setAttribute(fieldName, Integer.parseInt(textBox.getText()));
         applyChangedValue();
         container.getPack().save();
 

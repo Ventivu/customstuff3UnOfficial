@@ -18,7 +18,7 @@ public enum EnumBlockType
     CARPET("carpet", BlockCSCarpet.class, CarpetAttributes.class),
     // CHEST("chest", BlockCSChest.class, BlockChestAttributes.class),
     CROSS_TEXTURE("crossTexture", BlockCSCrossTexture.class, CrossTextureAttributes.class),
-    CROSS_TEXTURE_POST("crossTexturePost", BlockCSCrossTexturePost.class, PostAttributes.class, ItemCSBlockFacing.class),
+    CROSS_TEXTURE_POST("crossTexturePost", BlockCSCrossTexturePost.class, CrossTexturePostAttributes.class, ItemCSBlockFacing.class),
     DOOR("door", BlockCSDoor.class, DoorAttributes.class, ItemCSDoor.class),
     FACING("facing", BlockCSFacing.class, FacingAttributes.class, ItemCSBlockFacing.class),
     FENCE("fence", BlockCSFence.class, FenceAttributes.class),
@@ -34,7 +34,7 @@ public enum EnumBlockType
     PRESSURE_PLATE("pressurePlate", BlockCSPressurePlate.class, PressurePlateAttributes.class),
     SLAB("slab", BlockCSStep.class, StepAttributes.class, ItemCSStep.class),
     // SLOPE("slope", BlockSlope.class, BlockSlopeAttributes.class, ItemCSBlockFacing.class),
-    STAIRS("stairs", BlockCSStairs.class, BlockAttributes.class),
+    STAIRS("stairs", BlockCSStairs.class, StairAttributes.class),
     TORCH("torch", BlockCSTorch.class, TorchAttributes.class),
     TRAP_DOOR("trapDoor", BlockCSTrapDoor.class, TrapDoorAttributes.class),
     WALL("wall", BlockCSWall.class, WallAttributes.class),
@@ -75,7 +75,7 @@ public enum EnumBlockType
                 GameRegistry.registerBlock(block, clazz, wrappedBlock.getName(), wrappedBlock);
             } else
             {
-                GameRegistry.registerBlock(block, wrappedBlock.getName());
+                GameRegistry.registerBlock(block, null, wrappedBlock.getName());
                 Item item = itemClass.getConstructor(WrappedBlock.class).newInstance(wrappedBlock);
                 GameRegistry.registerItem(item, wrappedBlock.getName());
             }

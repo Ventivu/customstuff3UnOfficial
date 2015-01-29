@@ -25,7 +25,7 @@ public class WindowEditItem extends Window implements IListBoxItemClickListener<
         desc.rows = 5;
         desc.columns = 1;
         desc.elementHeight = 22;
-        desc.elements = Lists.newArrayList(wrappedItem.container.getAttributeDatas());
+        desc.elements = Lists.newArrayList(wrappedItem.container.getAttributeDatas(wrappedItem.getType().name));
         desc.canSelect = false;
         desc.sorted = true;
         listBox = listBox(desc).left(7).top(7).add();

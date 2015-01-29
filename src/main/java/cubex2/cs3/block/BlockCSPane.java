@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -34,6 +35,12 @@ public class BlockCSPane extends BlockCS
     public int getRenderType()
     {
         return RenderIds.paneRenderId;
+    }
+
+    @Override
+    public IIcon getIcon(int side, int meta)
+    {
+        return super.getIcon(0, meta);
     }
 
     @Override

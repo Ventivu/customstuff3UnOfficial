@@ -19,9 +19,7 @@ public class WindowEditHasEffect extends WindowEditItemAttribute
         super(item, "hasEffect", 150, 100);
         oldHasEffect = newHasEffect = wrappedItem.container.hasEffect;
 
-        checkBox = checkBox().at(7, 7).add();
-        checkBox.setIsChecked(newHasEffect);
-        label("Has effect").rightTo(checkBox).add();
+        checkBox = checkBox("Has effect", newHasEffect).at(7, 7).add();
 
         itemDisplay = itemDisplay(new ItemStack(wrappedItem.item)).below(checkBox).add().setDrawSlotBackground();
     }

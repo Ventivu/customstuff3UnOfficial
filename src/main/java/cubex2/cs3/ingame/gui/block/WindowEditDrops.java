@@ -25,7 +25,7 @@ public class WindowEditDrops extends WindowEditBlockAttribute implements IWindow
         desc.rows = 5;
         desc.columns = 1;
         desc.elementHeight = 22;
-        desc.elements = wrappedBlock.container.drop.getDrops();
+        desc.elements = container.drop.getDrops();
         desc.canSelect = true;
         listBox = listBox(desc).left(7).top(7).add();
 
@@ -42,8 +42,8 @@ public class WindowEditDrops extends WindowEditBlockAttribute implements IWindow
         } else if (c == btnDelete)
         {
             BlockDrop.DropData drop = listBox.getSelectedItem();
-            wrappedBlock.container.drop.getDrops().remove(drop);
-            listBox.updateElements(wrappedBlock.container.drop.getDrops());
+            container.drop.getDrops().remove(drop);
+            listBox.updateElements(container.drop.getDrops());
             btnDelete.setEnabled(false);
             btnEdit.setEnabled(false);
 
@@ -83,14 +83,14 @@ public class WindowEditDrops extends WindowEditBlockAttribute implements IWindow
             if (stack != null)
             {
                 BlockDrop.DropData drop = new BlockDrop.DropData(stack.getItem(), stack.getItemDamage(), 1, 1);
-                wrappedBlock.container.drop.getDrops().add(drop);
-                listBox.updateElements(wrappedBlock.container.drop.getDrops());
+                container.drop.getDrops().add(drop);
+                listBox.updateElements(container.drop.getDrops());
                 wrappedBlock.getPack().save();
             }
         }
         else if (window instanceof WindowEditDropData)
         {
-            listBox.updateElements(wrappedBlock.container.drop.getDrops());
+            listBox.updateElements(container.drop.getDrops());
         }
     }
 }

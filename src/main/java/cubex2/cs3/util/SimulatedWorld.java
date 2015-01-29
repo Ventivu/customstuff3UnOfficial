@@ -10,6 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class SimulatedWorld implements IBlockAccess
 {
     private Block[] blocks;
+    private int[] meta;
     public final int minX, minY, minZ;
     public final int maxX, maxY, maxZ;
     private final int xSize, ySize, zSize;
@@ -28,6 +29,7 @@ public class SimulatedWorld implements IBlockAccess
         zSize = maxZ - minZ + 1;
 
         blocks = new Block[xSize * ySize * zSize];
+        meta = new int[xSize * ySize * zSize];
     }
 
     @Override
@@ -71,7 +73,26 @@ public class SimulatedWorld implements IBlockAccess
     @Override
     public int getBlockMetadata(int x, int y, int z)
     {
-        return 0;
+        if (x < minX || y < minY || z < minZ || x > maxX || y > maxY || z > maxZ)
+            return 0;
+
+        x += Math.abs(Math.min(0, minX));
+        y += Math.abs(Math.min(0, minY));
+        z += Math.abs(Math.min(0, minZ));
+
+        return meta[x + y * xSize + z * ySize * xSize];
+    }
+
+    public void setMetadata(int metadata, int x, int y, int z)
+    {
+        if (x < minX || y < minY || y < minZ || x > maxX || y > maxY || z > maxZ)
+            return;
+
+        x += Math.abs(Math.min(0, minX));
+        y += Math.abs(Math.min(0, minY));
+        z += Math.abs(Math.min(0, minZ));
+
+        meta[x + y * xSize + z * ySize * xSize] = metadata;
     }
 
     @Override

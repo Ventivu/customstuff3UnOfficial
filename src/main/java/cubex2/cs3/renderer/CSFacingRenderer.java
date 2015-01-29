@@ -17,7 +17,7 @@ public class CSFacingRenderer implements ISimpleBlockRenderingHandler
     {
         if (modelID == getRenderId())
         {
-            metadata = metadata == 0 ? 1 : 9;
+            metadata = metadata == 0 ? 3 : 11;
             Tessellator tessellator = Tessellator.instance;
 
             block.setBlockBoundsForItemRender();

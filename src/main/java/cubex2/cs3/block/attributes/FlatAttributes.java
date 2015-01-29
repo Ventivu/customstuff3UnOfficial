@@ -1,6 +1,7 @@
 package cubex2.cs3.block.attributes;
 
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.ingame.gui.block.WindowEditTexturesFlat;
 
 public class FlatAttributes extends FacingAttributes
 {
@@ -8,6 +9,7 @@ public class FlatAttributes extends FacingAttributes
     {
         super(pack);
         opacity = 0;
-        //faceBySide = true;
+        faceBySide = true;
+        textureWindow = WindowEditTexturesFlat.class;
     }
 }

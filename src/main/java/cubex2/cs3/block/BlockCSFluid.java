@@ -169,6 +169,7 @@ public class BlockCSFluid extends BlockFluidClassic implements IBlockCS
     public void registerBlockIcons(IIconRegister iconRegister)
     {
         wrappedBlock.registerBlockIcons(iconRegister);
+
         stack.getFluid().setStillIcon(container.textureStill.icon);
         stack.getFluid().setFlowingIcon(container.textureFlowing.icon);
     }

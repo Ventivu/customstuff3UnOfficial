@@ -25,6 +25,7 @@ public class WindowBlocks extends Window implements IWindowClosedListener, IList
         desc.elementHeight = 22;
         desc.elements = pack.getContentRegistry(WrappedBlock.class).getContentList();
         desc.canSelect = true;
+        desc.sorted = true;
         listBox = listBox(desc).left(7).top(7).add();
 
         btnEdit.setEnabled(false);

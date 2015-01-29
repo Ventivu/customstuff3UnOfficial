@@ -3,6 +3,7 @@ package cubex2.cs3.block.attributes;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
+import cubex2.cs3.common.attribute.AttributeData;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.block.*;
 import cubex2.cs3.ingame.gui.common.WindowEditBoolean;
@@ -50,7 +51,7 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditInteger.class)
     public int tickrate = 10;
 
-    @Attribute(windowClass = WindowEditDrops.class)
+    @Attribute(windowClass = WindowEditDrops.class, exclude = "fluid")
     public BlockDrop drop = null;
 
     @Attribute(windowClass = WindowEditInteger.class, additionalInfo = "0-1000000")
@@ -95,7 +96,7 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditStepSound.class)
     public Block.SoundType stepSound = Block.soundTypeStone;
 
-    @Attribute(windowClass = WindowEditTextures.class, customName = "textures")
+    @Attribute(windowClass = WindowEditTextures.class, customName = "textures", exclude = "fluid")
     public IconWrapper textureBottom = new IconWrapper("");
 
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
@@ -138,7 +139,7 @@ public class BlockAttributes extends AttributeContainer
     public boolean semiTransparent = false;
 
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
-    public boolean tileTransparent = true;
+    public boolean tileTransparent = false;
 
     @Attribute(windowClass = WindowEditPlacementRules.class, customName = "placement")
     public boolean canPlaceOnFloor = true;
@@ -188,6 +189,8 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditScript.class)
     public ScriptWrapper onRedstoneSignal = null;
 
+    protected Class<? extends Window> textureWindow = WindowEditTextures.class;
+
     public BlockAttributes(BaseContentPack pack)
     {
         super(pack);
@@ -212,6 +215,23 @@ public class BlockAttributes extends AttributeContainer
         }
     }
 
+    public IconWrapper getTexture(String name)
+    {
+        if (name.equals("bottom"))
+            return textureBottom;
+        if (name.equals("top"))
+            return textureTop;
+        if (name.equals("north"))
+            return textureNorth;
+        if (name.equals("south"))
+            return textureSouth;
+        if (name.equals("east"))
+            return textureEast;
+        if (name.equals("west"))
+            return textureWest;
+        return null;
+    }
+
     public void postCreateBlock(Block block)
     {
         if (drop == null)
@@ -222,5 +242,13 @@ public class BlockAttributes extends AttributeContainer
         {
             pick = new ItemStack(block);
         }
+    }
+
+    @Override
+    public Class<? extends Window> getWindowClass(AttributeData item)
+    {
+        if (item.field.getName().equals("textureBottom"))
+            return textureWindow;
+        return super.getWindowClass(item);
     }
 }

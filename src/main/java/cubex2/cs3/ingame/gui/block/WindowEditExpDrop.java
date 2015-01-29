@@ -21,19 +21,19 @@ public class WindowEditExpDrop extends WindowEditBlockAttribute
 
         tbMin = textBox().below(lblMin).fillWidth(7).add();
         tbMin.setValidityProvider(TextBoxValidators.POSITIVE_INTEGER);
-        tbMin.setText(String.valueOf(wrappedBlock.container.expDropMin));
+        tbMin.setText(String.valueOf(container.expDropMin));
 
         Label lblMax = label("Max").below(tbMin).add();
 
         tbMax = textBox().below(lblMax).fillWidth(7).add();
         tbMax.setValidityProvider(new TextBoxValidators.MinMaxValidator(tbMin));
-        tbMax.setText(String.valueOf(wrappedBlock.container.expDropMax));
+        tbMax.setText(String.valueOf(container.expDropMax));
     }
 
     @Override
     protected void applyChanges()
     {
-        wrappedBlock.container.expDropMin = Integer.parseInt(tbMin.getText());
-        wrappedBlock.container.expDropMax = Integer.parseInt(tbMax.getText());
+        container.expDropMin = Integer.parseInt(tbMin.getText());
+        container.expDropMax = Integer.parseInt(tbMax.getText());
     }
 }

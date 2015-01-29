@@ -39,13 +39,17 @@ public class Button extends Control
         this.text = text;
     }
 
+    public void setText(String value)
+    {
+        text = value;
+    }
 
     @Override
     public void mouseDown(int mouseX, int mouseY, int button)
     {
         if (button == 0 && playSound)
         {
-            mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+           mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
         }
     }
 

@@ -2,6 +2,8 @@ package cubex2.cs3.block.attributes;
 
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.attribute.Attribute;
+import cubex2.cs3.ingame.gui.Window;
+import cubex2.cs3.ingame.gui.block.WindowEditTexturesFluid;
 import cubex2.cs3.ingame.gui.common.WindowEditBoolean;
 import cubex2.cs3.ingame.gui.common.WindowEditInteger;
 import cubex2.cs3.util.IconWrapper;
@@ -24,7 +26,10 @@ public class FluidAttributes extends BlockAttributes
     @Attribute(windowClass = WindowEditInteger.class)
     public int flowLength = 8;
 
+    @Attribute(windowClass = WindowEditTexturesFluid.class, customName = "textures")
     public IconWrapper textureStill = new IconWrapper("");
+
+    @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public IconWrapper textureFlowing = new IconWrapper("");
 
     public FluidAttributes(BaseContentPack pack)
@@ -32,5 +37,15 @@ public class FluidAttributes extends BlockAttributes
         super(pack);
         opacity = 3;
         material = Material.water;
+    }
+
+    @Override
+    public IconWrapper getTexture(String name)
+    {
+        if (name.equals("still"))
+            return textureStill;
+        if (name.equals("flowing"))
+            return textureFlowing;
+        return super.getTexture(name);
     }
 }
