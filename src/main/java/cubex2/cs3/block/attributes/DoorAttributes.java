@@ -2,6 +2,7 @@ package cubex2.cs3.block.attributes;
 
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.attribute.Attribute;
+import cubex2.cs3.ingame.gui.block.WindowEditDoorIcon;
 import cubex2.cs3.ingame.gui.block.WindowEditTexturesDoor;
 import cubex2.cs3.ingame.gui.common.WindowEditBoolean;
 import cubex2.cs3.util.BlockDrop;
@@ -17,7 +18,7 @@ public class DoorAttributes extends BlockAttributes
     @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Only redstone can open door")
     public boolean redstoneOnly = false;
 
-    // TODO window
+    @Attribute(windowClass = WindowEditDoorIcon.class, customName = "icon")
     public IconWrapper iconFile = new IconWrapper("");
 
     public DoorAttributes(BaseContentPack pack)
@@ -39,6 +40,8 @@ public class DoorAttributes extends BlockAttributes
             return textureEast;
         if (name.equals("bottom sides"))
             return textureWest;
+        if (name.equals("doorIcon"))
+            return iconFile;
         return super.getTexture(name);
     }
 

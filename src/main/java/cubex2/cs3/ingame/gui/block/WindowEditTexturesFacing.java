@@ -1,7 +1,9 @@
 package cubex2.cs3.ingame.gui.block;
 
+import cubex2.cs3.block.attributes.FacingAttributes;
 import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.ingame.gui.control.Button;
+import cubex2.cs3.ingame.gui.control.CheckBox;
 import cubex2.cs3.ingame.gui.control.Control;
 
 public class WindowEditTexturesFacing extends WindowEditTexturesBase
@@ -11,10 +13,19 @@ public class WindowEditTexturesFacing extends WindowEditTexturesBase
     private Button btnRotate;
     private int rotation = 3;
 
+    private CheckBox cbRotateSideTextures;
+    private FacingAttributes attributes;
+    private boolean prevRotateSideTextures;
+
     public WindowEditTexturesFacing(WrappedBlock block, boolean transparent, boolean semiTransparent, boolean tileTransparent)
     {
         super(block, textures, transparent, semiTransparent, tileTransparent);
         setBlocks();
+
+        attributes = (FacingAttributes) block.container;
+
+        cbRotateSideTextures = checkBox("Rotate side textures").below(lastCheckBox, 7).add();
+        cbRotateSideTextures.setIsChecked(attributes.rotateSideTextures);
 
         btnRotate = button("Rotate").width(40).bottom(blockDisplay, 0, true).right(blockDisplay, 3).add();
 
@@ -24,6 +35,14 @@ public class WindowEditTexturesFacing extends WindowEditTexturesBase
         blockDisplay.camX = 1.5f;
         blockDisplay.camY = 1.5f;
         blockDisplay.camZ = 1.5f;
+    }
+
+    @Override
+    protected void applyChanges()
+    {
+        attributes.rotateSideTextures = cbRotateSideTextures.getIsChecked();
+
+        super.applyChanges();
     }
 
     public WindowEditTexturesFacing(WrappedBlock block)
@@ -50,5 +69,18 @@ public class WindowEditTexturesFacing extends WindowEditTexturesBase
         {
             super.controlClicked(c, mouseX, mouseY);
         }
+    }
+
+    @Override
+    protected void preDraw()
+    {
+        prevRotateSideTextures = attributes.rotateSideTextures;
+        attributes.rotateSideTextures = cbRotateSideTextures.getIsChecked();
+    }
+
+    @Override
+    protected void postDraw()
+    {
+        attributes.rotateSideTextures = prevRotateSideTextures;
     }
 }

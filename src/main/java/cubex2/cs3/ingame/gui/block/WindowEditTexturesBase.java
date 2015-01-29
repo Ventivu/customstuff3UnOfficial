@@ -23,6 +23,7 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
     private CheckBox cbTransparent;
     private CheckBox cbSemiTransparent;
     private CheckBox cbTileTransparent;
+    protected CheckBox lastCheckBox;
 
     protected WorldDisplay blockDisplay;
 
@@ -72,6 +73,7 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
 
             below = cbTransparent;
             belowDist = 7;
+            lastCheckBox = cbTransparent;
         }
 
         if (semiTransparent)
@@ -81,12 +83,14 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
 
             below = cbSemiTransparent;
             belowDist = 7;
+            lastCheckBox = cbSemiTransparent;
         }
 
         if (tileTransparent)
         {
             cbTileTransparent = checkBox("Tile Transparent").below(below, belowDist).add();
             cbTileTransparent.setIsChecked(container.tileTransparent);
+            lastCheckBox = cbTileTransparent;
         }
 
         blockDisplay = worldDisplay(world).right(7).bottom(btnCancel, 3).size(75, 75).add();
@@ -174,7 +178,9 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
             container.transparent = cbTransparent.getIsChecked();
         if (cbSemiTransparent != null)
             container.semiTransparent = cbSemiTransparent.getIsChecked();
+        preDraw();
         super.draw(mouseX, mouseY, renderTick);
+        postDraw();
         container.tileTransparent = prevTile;
         container.transparent = prevTrans;
         container.semiTransparent = prevSemi;
@@ -203,6 +209,16 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
 
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
+    }
+
+    protected void preDraw()
+    {
+
+    }
+
+    protected void postDraw()
+    {
+
     }
 
 
