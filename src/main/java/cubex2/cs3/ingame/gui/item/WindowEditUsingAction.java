@@ -18,13 +18,13 @@ public class WindowEditUsingAction extends WindowEditItemAttribute implements IS
 
         dbActions = dropBox(EnumAction.values()).top(7).fillWidth(7).add();
         dbActions.setStringProvider(this);
-        dbActions.setSelectedValue(wrappedItem.container.usingAction);
+        dbActions.setSelectedValue(container.usingAction);
     }
 
     @Override
     protected void applyChanges()
     {
-        wrappedItem.container.usingAction = dbActions.getSelectedValue();
+        container.usingAction = dbActions.getSelectedValue();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class WindowEditInformation extends WindowEditItemAttribute
 
         textField = textField().top(7).fillWidth(7).height(100).add();
         textField.disableSyntaxHighlighting();
-        textField.setText(wrappedItem.container.information);
+        textField.setText(container.information);
         display = itemDisplay().below(textField).add();
         display.setItemStack(new ItemStack(wrappedItem.item));
         display.setDrawSlotBackground();
@@ -28,7 +28,7 @@ public class WindowEditInformation extends WindowEditItemAttribute
     @Override
     protected void applyChanges()
     {
-        wrappedItem.container.information = getNewInfo();
+        container.information = getNewInfo();
     }
 
     private String getNewInfo()
@@ -42,9 +42,9 @@ public class WindowEditInformation extends WindowEditItemAttribute
     @Override
     public void drawForeground(int mouseX, int mouseY)
     {
-        String currentInfo = wrappedItem.container.information;
-        wrappedItem.container.information = getNewInfo();
+        String currentInfo = container.information;
+        container.information = getNewInfo();
         super.drawForeground(mouseX, mouseY);
-        wrappedItem.container.information = currentInfo;
+        container.information = currentInfo;
     }
 }

@@ -21,10 +21,10 @@ public class WindowEditContainerItem extends WindowEditItemAttribute implements 
         itemDisplay = itemDisplay().top(8).centerHor().add();
         itemDisplay.setDrawSlotBackground();
         itemDisplay.setClearOnRightClick();
-        itemDisplay.setItemStack(wrappedItem.container.containerItem);
+        itemDisplay.setItemStack(container.containerItem);
 
         checkBox = checkBox("Remain in crafting grid").below(itemDisplay, 5).left(7).add();
-        checkBox.setIsChecked(wrappedItem.container.leaveContainerItem);
+        checkBox.setIsChecked(container.leaveContainerItem);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class WindowEditContainerItem extends WindowEditItemAttribute implements 
     @Override
     protected void applyChanges()
     {
-        wrappedItem.container.containerItem = itemDisplay.getItemStack();
-        wrappedItem.container.leaveContainerItem = checkBox.getIsChecked();
+        container.containerItem = itemDisplay.getItemStack();
+        container.leaveContainerItem = checkBox.getIsChecked();
     }
 
     @Override

@@ -2,6 +2,7 @@ package cubex2.cs3.ingame.gui.control;
 
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.util.GuiHelper;
+import cubex2.cs3.util.MathUtil;
 import cubex2.cs3.util.SimulatedWorld;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.glu.Project;
@@ -22,6 +24,7 @@ public class WorldDisplay extends Control
     private float rotation = 0.0f;
 
     public boolean rotate = true;
+    public boolean canMoveAround = false;
 
     public float camX = 0.0f;
     public float camY = 5.0f;
@@ -41,6 +44,20 @@ public class WorldDisplay extends Control
         setWorld(world);
     }
 
+    public void setCam(float x, float y, float z)
+    {
+        camX = x;
+        camY = y;
+        camZ = z;
+    }
+
+    public void setLook(float x, float y, float z)
+    {
+        lookX = x;
+        lookY = y;
+        lookZ = z;
+    }
+
     public void setWorld(SimulatedWorld world)
     {
         this.world = world;
@@ -48,6 +65,54 @@ public class WorldDisplay extends Control
         renderer.setRenderFromInside(false);
         renderer.setRenderAllFaces(false);
         renderer.flipTexture = false;
+    }
+
+    @Override
+    public void keyTyped(char c, int key)
+    {
+        if (!canMoveAround) return;
+
+        float[] up = new float[]{0, 1, 0};
+        float[] forward = new float[]{lookX - camX, lookY - camY, lookZ - camZ};
+        MathUtil.normalize(forward);
+
+        float[] side = new float[3];
+        MathUtil.cross(forward, up, side);
+        MathUtil.normalize(side);
+
+        if (key == Keyboard.KEY_UP || key == Keyboard.KEY_DOWN)
+        {
+            MathUtil.scale(forward, 0.1f);
+            int dir = key == Keyboard.KEY_UP ? 1 : -1;
+            lookX += forward[0] * dir;
+            lookY += forward[1] * dir;
+            lookZ += forward[2] * dir;
+            camX += forward[0] * dir;
+            camY += forward[1] * dir;
+            camZ += forward[2] * dir;
+        } else if (key == Keyboard.KEY_RIGHT || key == Keyboard.KEY_LEFT)
+        {
+            MathUtil.scale(side, 0.1f);
+            int dir = key == Keyboard.KEY_RIGHT ? 1 : -1;
+            lookX += side[0] * dir;
+            lookY += side[1] * dir;
+            lookZ += side[2] * dir;
+            camX += side[0] * dir;
+            camY += side[1] * dir;
+            camZ += side[2] * dir;
+        } else if (key == Keyboard.KEY_D || key == Keyboard.KEY_A)
+        {
+            MathUtil.rotateY(forward, key == Keyboard.KEY_A ? 2.0f : -2.0f);
+            lookX = camX + forward[0];
+            lookY = camY + forward[1];
+            lookZ = camZ + forward[2];
+        } else if (key == Keyboard.KEY_W || key == Keyboard.KEY_S)
+        {
+            MathUtil.rotateLine(forward, key == Keyboard.KEY_S ? -2.0f : 2.0f, side[0], side[1], side[2]);
+            lookX = camX + forward[0];
+            lookY = camY + forward[1];
+            lookZ = camZ + forward[2];
+        }
     }
 
     @Override
@@ -134,48 +199,5 @@ public class WorldDisplay extends Control
             Tessellator.instance.draw();
 
         }
-    }
-
-    private void preRenderBlocks(int pass)
-    {
-
-    }
-
-    private void renderDefaultBlock(Block block, int meta, int x, int y, int z)
-    {
-        Tessellator tessellator = Tessellator.instance;
-
-        block.setBlockBoundsForItemRender();
-        renderer.setRenderBoundsFromBlock(block);
-
-        tessellator.startDrawingQuads();
-        tessellator.setNormal(0.0F, -1.0F, 0.0F);
-        renderer.renderFaceYNeg(block, x, y, z, renderer.getBlockIconFromSideAndMetadata(block, 0, meta));
-        tessellator.draw();
-
-        tessellator.startDrawingQuads();
-        tessellator.setNormal(0.0F, 1.0F, 0.0F);
-        renderer.renderFaceYPos(block, x, y, z, renderer.getBlockIconFromSideAndMetadata(block, 1, meta));
-        tessellator.draw();
-
-        tessellator.startDrawingQuads();
-        tessellator.setNormal(0.0F, 0.0F, -1.0F);
-        renderer.renderFaceZNeg(block, x, y, z, renderer.getBlockIconFromSideAndMetadata(block, 2, meta));
-        tessellator.draw();
-
-        tessellator.startDrawingQuads();
-        tessellator.setNormal(0.0F, 0.0F, 1.0F);
-        renderer.renderFaceZPos(block, x, y, z, renderer.getBlockIconFromSideAndMetadata(block, 3, meta));
-        tessellator.draw();
-
-        tessellator.startDrawingQuads();
-        tessellator.setNormal(-1.0F, 0.0F, 0.0F);
-        renderer.renderFaceXNeg(block, x, y, z, renderer.getBlockIconFromSideAndMetadata(block, 4, meta));
-        tessellator.draw();
-
-        tessellator.startDrawingQuads();
-        tessellator.setNormal(1.0F, 0.0F, 0.0F);
-        renderer.renderFaceXPos(block, x, y, z, renderer.getBlockIconFromSideAndMetadata(block, 5, meta));
-        tessellator.draw();
     }
 }

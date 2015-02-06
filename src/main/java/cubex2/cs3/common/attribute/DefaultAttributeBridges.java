@@ -45,5 +45,6 @@ public abstract class DefaultAttributeBridges
         register(Material.class, MaterialBridge.class);
         register(Block.SoundType.class, StepSoundBridge.class);
         register(BlockDrop.class, BlockDropBridge.class);
+        register(String[].class, StringArrayBridge.class);
     }
 }

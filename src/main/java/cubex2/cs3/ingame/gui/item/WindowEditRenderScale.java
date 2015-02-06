@@ -21,8 +21,8 @@ public class WindowEditRenderScale extends WindowEditItemAttribute implements IP
     public WindowEditRenderScale(WrappedItem item)
     {
         super(item, "renderScale", EDIT | CANCEL, 150, 120);
-        oldScale = item.container.renderScale;
-        newScale = item.container.renderScale + 0.5f;
+        oldScale = container.renderScale;
+        newScale = container.renderScale + 0.5f;
 
         display = playerDisplay().at(7, 7).size(50, 80).add();
         display.setPlayerModifier(this);
@@ -47,18 +47,18 @@ public class WindowEditRenderScale extends WindowEditItemAttribute implements IP
     @Override
     protected void applyChanges()
     {
-        wrappedItem.container.renderScale = newScale;
+        container.renderScale = newScale;
     }
 
     @Override
     public void preRender(PlayerDisplay display)
     {
-        wrappedItem.container.renderScale = newScale;
+        container.renderScale = newScale;
     }
 
     @Override
     public void postRender(PlayerDisplay display)
     {
-        wrappedItem.container.renderScale = oldScale;
+        container.renderScale = oldScale;
     }
 }

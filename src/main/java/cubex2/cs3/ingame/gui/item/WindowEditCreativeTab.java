@@ -18,13 +18,13 @@ public class WindowEditCreativeTab extends WindowEditItemAttribute implements IS
 
         dbTabs = dropBox(CreativeTabs.creativeTabArray).top(7).fillWidth(7).add();
         dbTabs.setStringProvider(this);
-        dbTabs.setSelectedValue(wrappedItem.container.creativeTab);
+        dbTabs.setSelectedValue(container.creativeTab);
     }
 
     @Override
     protected void applyChanges()
     {
-        wrappedItem.container.creativeTab = dbTabs.getSelectedValue();
+        container.creativeTab = dbTabs.getSelectedValue();
     }
 
     @Override

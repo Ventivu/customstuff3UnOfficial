@@ -2,11 +2,11 @@ package cubex2.cs3.ingame.gui.block;
 
 import cubex2.cs3.common.WrappedBlock;
 
-public class WindowEditTexturesPane extends WindowEditTextureSingle
+public class WindowEditTexturesPane extends WindowEditTexturesBase
 {
     public WindowEditTexturesPane(WrappedBlock block)
     {
-        super("bottom", block);
+        super(block, new String[]{"bottom"});
 
         worldDisplay.camZ = 0.75f;
 

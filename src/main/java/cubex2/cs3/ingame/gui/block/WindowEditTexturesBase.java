@@ -25,17 +25,26 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
     private CheckBox cbTileTransparent;
     protected CheckBox lastCheckBox;
 
-    protected WorldDisplay blockDisplay;
-
+    protected WorldDisplay worldDisplay;
     protected SimulatedWorld world;
+
+    public WindowEditTexturesBase(WrappedBlock block, String[] textures)
+    {
+        this(block, textures, false, true, false, true);
+    }
 
     public WindowEditTexturesBase(WrappedBlock block, String[] textures, boolean transparent, boolean semiTransparent, boolean tileTransparent)
     {
-        super(block, "textures", 150 + 153, 200);
+        this(block, textures, transparent, semiTransparent, tileTransparent, false);
+    }
+
+    public WindowEditTexturesBase(WrappedBlock block, String[] textures, boolean transparent, boolean semiTransparent, boolean tileTransparent, boolean singleCol)
+    {
+        super(block, "textures", (singleCol ? 0 : 150) + 153, 200);
         this.textures = textures;
 
         world = new SimulatedWorld(-1, -1, -2, 2, 0, 1);
-        fillWorld(world);
+        world.setBlock(wrappedBlock.block, 0, 0, 0);
         for (int i = -1; i < 3; i++)
         {
             for (int j = -2; j < 2; j++)
@@ -52,8 +61,8 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
         {
             LabelBuilder lb = label(textures[i]);
             if (i == 0) lb = (LabelBuilder) lb.at(7, 7);
-            else if (i == 1) lb = (LabelBuilder) lb.at(7 + 153, 7);
-            else lb = (LabelBuilder) lb.below(textBoxes[i - 2]);
+            else if (!singleCol && i == 1) lb = (LabelBuilder) lb.at(7 + 153, 7);
+            else lb = (LabelBuilder) lb.below(textBoxes[i - (singleCol ? 1 : 2)]);
             labels[i] = lb.add();
 
             textBoxes[i] = textBox().below(labels[i]).height(13).width(150 - 14 - 18).add();
@@ -63,7 +72,7 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
             textBoxes[i].setText(textureString);
         }
 
-        Control below = textBoxes[4];
+        Control below = singleCol ? textBoxes[textBoxes.length - 1] : textBoxes[4];
         int belowDist = 9;
 
         if (transparent)
@@ -93,21 +102,23 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
             lastCheckBox = cbTileTransparent;
         }
 
-        blockDisplay = worldDisplay(world).right(7).bottom(btnCancel, 3).size(75, 75).add();
-        blockDisplay.rotate = false;
-        blockDisplay.camY = 2.0f;
-        blockDisplay.camX = 0.5f;
-        blockDisplay.lookX = 1.0f;
+        if (singleCol)
+            worldDisplay = worldDisplay(world).fillWidth(7).bottom(btnCancel, 3).height(153 - 14 - 50).add();
+        else
+            worldDisplay = worldDisplay(world).right(7).bottom(btnCancel, 3).size(75, 75).add();
+        worldDisplay.rotate = false;
+        if (singleCol)
+        {
+            worldDisplay.setCam(-0.25f, 1.5f, 0.5f);
+            worldDisplay.setLook(0.5f, 0.5f, 0.5f);
+        } else
+        {
+            worldDisplay.camY = 2.0f;
+            worldDisplay.camX = 0.5f;
+            worldDisplay.lookX = 1.0f;
+        }
 
         updatePreviewLocations();
-    }
-
-    protected void fillWorld(SimulatedWorld world)
-    {
-        world.setBlock(wrappedBlock.block, 0, 0, -1);
-        world.setBlock(wrappedBlock.block, 1, 0, -1);
-        world.setBlock(wrappedBlock.block, 0, 0, 0);
-        world.setBlock(wrappedBlock.block, 1, 0, 0);
     }
 
     @Override

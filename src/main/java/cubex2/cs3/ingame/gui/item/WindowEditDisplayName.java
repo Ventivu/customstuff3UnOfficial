@@ -22,18 +22,18 @@ public class WindowEditDisplayName extends WindowEditItemAttribute implements IV
         super(item, "displayName", EDIT | CANCEL, 150, 60);
 
         textBox = textBox().at(7, 7).height(16).fillWidth(7).add();
-        textBox.setText(wrappedItem.container.displayName);
+        textBox.setText(container.displayName);
         textBox.setValidityProvider(this);
     }
 
     @Override
     protected void applyChanges()
     {
-        wrappedItem.container.displayName = textBox.getText().trim();
+        container.displayName = textBox.getText().trim();
 
         Map<String, Properties> modLangData = ReflectionHelper.getPrivateValue(LanguageRegistry.class, LanguageRegistry.instance(), "modLanguageData");
         Properties p = modLangData.get("en_US");
-        p.put("item." + wrappedItem.getName() + ".name", wrappedItem.container.displayName);
+        p.put("item." + wrappedItem.getName() + ".name", container.displayName);
 
         ClientHelper.refreshResources(mc);
     }

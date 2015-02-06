@@ -52,6 +52,11 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
         }
     }
 
+    public VerticalSlider getSlider()
+    {
+        return slider;
+    }
+
     public void createSlider(ControlContainer c)
     {
         slider = c.verticalSlider(getHeight() - getVisibleRect().getHeight()).size(sliderWidth, getVisibleRect().getHeight()).rightTo(this, 3).add();

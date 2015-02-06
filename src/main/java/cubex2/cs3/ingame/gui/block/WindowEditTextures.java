@@ -9,5 +9,9 @@ public class WindowEditTextures extends WindowEditTexturesBase
     public WindowEditTextures(WrappedBlock block)
     {
         super(block, textures, true, true, true);
+
+        world.setBlock(wrappedBlock.block, 0, 0, -1);
+        world.setBlock(wrappedBlock.block, 1, 0, -1);
+        world.setBlock(wrappedBlock.block, 1, 0, 0);
     }
 }

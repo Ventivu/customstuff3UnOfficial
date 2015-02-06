@@ -13,19 +13,12 @@ public class WindowEditTexturesStairs extends WindowEditTexturesBase
     {
         super(block, DEFAULT_TEXTURES, false, true, false);
 
-        btnRotate = button("Rotate").width(40).bottom(blockDisplay, 0, true).right(blockDisplay, 3).add();
+        btnRotate = button("Rotate").width(40).bottom(worldDisplay, 0, true).right(worldDisplay, 3).add();
 
-        world.setBlock(null, 0, 0, -1);
-        world.setBlock(null, 1, 0, -1);
-        world.setBlock(null, 1, 0, 0);
         world.setMetadata(rotation, 0, 0, 0);
 
-        blockDisplay.lookX = 0.5f;
-        blockDisplay.lookY = 0.5f;
-        blockDisplay.lookZ = 0.5f;
-        blockDisplay.camX = 1.5f;
-        blockDisplay.camY = 1.5f;
-        blockDisplay.camZ = 1.5f;
+        worldDisplay.setCam(1.5f, 1.5f, 1.5f);
+        worldDisplay.setLook(0.5f, 0.5f, 0.5f);
     }
 
     @Override

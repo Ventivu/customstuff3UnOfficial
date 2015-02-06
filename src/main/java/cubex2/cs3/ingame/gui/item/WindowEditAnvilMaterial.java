@@ -18,7 +18,7 @@ public class WindowEditAnvilMaterial extends WindowEditItemAttribute implements 
 
         itemDisplay = itemDisplay().top(31).centerHor().add();
         itemDisplay.setDrawSlotBackground();
-        itemDisplay.setItemStack(wrappedItem.container.anvilMaterial);
+        itemDisplay.setItemStack(container.anvilMaterial);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class WindowEditAnvilMaterial extends WindowEditItemAttribute implements 
     @Override
     protected void applyChanges()
     {
-        wrappedItem.container.anvilMaterial = itemDisplay.getItemStack();
+        container.anvilMaterial = itemDisplay.getItemStack();
     }
 
     @Override

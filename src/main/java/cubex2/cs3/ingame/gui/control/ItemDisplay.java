@@ -3,7 +3,7 @@ package cubex2.cs3.ingame.gui.control;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
 import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.ISelectItemCallback;
+import cubex2.cs3.ingame.gui.ISelectElementCallback;
 import cubex2.cs3.ingame.gui.WindowSelectItem;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.GuiHelper;
@@ -17,7 +17,7 @@ import org.lwjgl.opengl.GL12;
 
 import java.util.List;
 
-public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelectItemCallback
+public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelectElementCallback<ItemStack>
 {
     private ItemStack originStack;
     private ItemStack currentRenderStack;

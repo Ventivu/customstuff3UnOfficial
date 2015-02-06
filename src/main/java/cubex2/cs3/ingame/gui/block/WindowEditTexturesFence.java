@@ -4,12 +4,13 @@ import cubex2.cs3.common.WrappedBlock;
 
 public class WindowEditTexturesFence extends WindowEditTexturesBase
 {
-    private static final String[] textures = new String[]{"bottom", "top", "north", "south", "east", "west"};
-
     public WindowEditTexturesFence(WrappedBlock block)
     {
-        super(block, textures, false, true, false);
+        super(block, DEFAULT_TEXTURES, false, true, false);
 
         world.setBlock(null, 0, 0, 0);
+        world.setBlock(wrappedBlock.block, 0, 0, -1);
+        world.setBlock(wrappedBlock.block, 1, 0, -1);
+        world.setBlock(wrappedBlock.block, 1, 0, 0);
     }
 }

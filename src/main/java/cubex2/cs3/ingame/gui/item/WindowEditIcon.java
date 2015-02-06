@@ -32,7 +32,7 @@ public class WindowEditIcon extends WindowEditItemAttribute
         textBox = textBox().below(lblIcon).height(16).fillWidth(7).add();
         textBox.setMaxLength(256);
 
-        String iconString = wrappedItem.container.icon.iconString;
+        String iconString = container.icon.iconString;
         if (iconString.contains(":") && iconString.split(":")[0].equals(wrappedItem.getPack().id.toLowerCase()))
             iconString = iconString.split(":")[1];
         textBox.setText(iconString);
@@ -48,7 +48,7 @@ public class WindowEditIcon extends WindowEditItemAttribute
         String modId = text.contains(":") ? text.split(":")[0] : wrappedItem.getPack().id.toLowerCase();
         String textureName = text.contains(":") && text.indexOf(':') != text.length() - 1 ? text.split(":")[1] : text;
 
-        wrappedItem.container.icon.iconString = modId + ":" + textureName;
+        container.icon.iconString = modId + ":" + textureName;
 
         wrappedItem.item.setTextureName(modId + ":" + textureName);
 

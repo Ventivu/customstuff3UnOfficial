@@ -42,18 +42,18 @@ public class WindowEditFull3D extends WindowEditItemAttribute implements IPlayer
     @Override
     protected void applyChanges()
     {
-        wrappedItem.container.full3d = newFull3D;
+        container.full3d = newFull3D;
     }
 
     @Override
     public void preRender(PlayerDisplay display)
     {
-        wrappedItem.container.full3d = newFull3D;
+        container.full3d = newFull3D;
     }
 
     @Override
     public void postRender(PlayerDisplay display)
     {
-        wrappedItem.container.full3d = oldFull3D;
+        container.full3d = oldFull3D;
     }
 }

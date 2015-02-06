@@ -20,21 +20,17 @@ public class WindowEditTexturesFacing extends WindowEditTexturesBase
     public WindowEditTexturesFacing(WrappedBlock block, boolean transparent, boolean semiTransparent, boolean tileTransparent)
     {
         super(block, textures, transparent, semiTransparent, tileTransparent);
-        setBlocks();
+        world.setMetadata(3, 0, 0, 0);
 
         attributes = (FacingAttributes) block.container;
 
         cbRotateSideTextures = checkBox("Rotate side textures").below(lastCheckBox, 7).add();
         cbRotateSideTextures.setIsChecked(attributes.rotateSideTextures);
 
-        btnRotate = button("Rotate").width(40).bottom(blockDisplay, 0, true).right(blockDisplay, 3).add();
+        btnRotate = button("Rotate").width(40).bottom(worldDisplay, 0, true).right(worldDisplay, 3).add();
 
-        blockDisplay.lookX = 0.5f;
-        blockDisplay.lookY = 0.5f;
-        blockDisplay.lookZ = 0.5f;
-        blockDisplay.camX = 1.5f;
-        blockDisplay.camY = 1.5f;
-        blockDisplay.camZ = 1.5f;
+        worldDisplay.setCam(1.5f, 1.5f, 1.5f);
+        worldDisplay.setLook(0.5f, 0.5f, 0.5f);
     }
 
     @Override
@@ -43,19 +39,6 @@ public class WindowEditTexturesFacing extends WindowEditTexturesBase
         attributes.rotateSideTextures = cbRotateSideTextures.getIsChecked();
 
         super.applyChanges();
-    }
-
-    public WindowEditTexturesFacing(WrappedBlock block)
-    {
-        this(block, true, true, true);
-    }
-
-    private void setBlocks()
-    {
-        world.setBlock(null, 0, 0, -1);
-        world.setBlock(null, 1, 0, -1);
-        world.setBlock(null, 1, 0, 0);
-        world.setMetadata(3, 0, 0, 0);
     }
 
     @Override

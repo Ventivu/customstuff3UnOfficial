@@ -20,7 +20,7 @@ public class WindowEditMaxStack extends WindowEditItemAttribute
     public WindowEditMaxStack(WrappedItem item)
     {
         super(item, "maxStack", EDIT | CANCEL, 150, 100);
-        newMaxStack = wrappedItem.container.maxStack;
+        newMaxStack = container.maxStack;
 
         itemDisplay = itemDisplay().top(31).centerHor(-5).add();
         itemDisplay.setItemStack(new ItemStack(wrappedItem.item, newMaxStack, 0));
@@ -58,7 +58,7 @@ public class WindowEditMaxStack extends WindowEditItemAttribute
     @Override
     protected void applyChanges()
     {
-        wrappedItem.container.maxStack = newMaxStack;
+        container.maxStack = newMaxStack;
         wrappedItem.item.setMaxStackSize(newMaxStack);
     }
 }

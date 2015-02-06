@@ -13,7 +13,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
     private ItemStack selectedStack = null;
     private boolean wildCardStacks = true;
 
-    private ISelectItemCallback callback;
+    private ISelectElementCallback<ItemStack> callback;
 
     public WindowSelectItem()
     {
@@ -36,7 +36,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         btnSelect.setEnabled(false);
     }
 
-    public void setCallback(ISelectItemCallback callback)
+    public void setCallback(ISelectElementCallback<ItemStack> callback)
     {
         this.callback = callback;
     }

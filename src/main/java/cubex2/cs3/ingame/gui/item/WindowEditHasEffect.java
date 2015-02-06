@@ -17,7 +17,7 @@ public class WindowEditHasEffect extends WindowEditItemAttribute
     public WindowEditHasEffect(WrappedItem item)
     {
         super(item, "hasEffect", 150, 100);
-        oldHasEffect = newHasEffect = wrappedItem.container.hasEffect;
+        oldHasEffect = newHasEffect = container.hasEffect;
 
         checkBox = checkBox("Has effect", newHasEffect).at(7, 7).add();
 
@@ -39,14 +39,14 @@ public class WindowEditHasEffect extends WindowEditItemAttribute
     @Override
     protected void applyChanges()
     {
-        wrappedItem.container.hasEffect = newHasEffect;
+        container.hasEffect = newHasEffect;
     }
 
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
-        wrappedItem.container.hasEffect = newHasEffect;
+        container.hasEffect = newHasEffect;
         super.draw(mouseX, mouseY, renderTick);
-        wrappedItem.container.hasEffect = oldHasEffect;
+        container.hasEffect = oldHasEffect;
     }
 }
