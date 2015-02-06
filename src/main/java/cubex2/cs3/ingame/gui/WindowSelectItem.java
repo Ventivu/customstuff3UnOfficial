@@ -1,17 +1,23 @@
 package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.ingame.gui.control.Control;
+import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 import cubex2.cs3.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 public class WindowSelectItem extends Window implements IListBoxItemClickListener<ItemStack>
 {
     private ListBox<ItemStack> lbItems;
     private ItemStack selectedStack = null;
     private boolean wildCardStacks = true;
+
+    private TextBox tbSearch;
 
     private ISelectElementCallback<ItemStack> callback;
 
@@ -22,7 +28,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
 
     public WindowSelectItem(boolean wildCardStacks)
     {
-        super("Select Item", SELECT | CANCEL, 197, 201);
+        super("Select Item", SELECT | CANCEL, 197, 211);
         this.wildCardStacks = wildCardStacks;
 
         ListBoxDescription<ItemStack> desc = new ListBoxDescription<ItemStack>(7, 7);
@@ -34,6 +40,8 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         lbItems = listBox(desc).left(7).top(7).add();
 
         btnSelect.setEnabled(false);
+
+        tbSearch = textBox().top(lbItems.getSlider(), 3).fillWidth(7).add();
     }
 
     public void setCallback(ISelectElementCallback<ItemStack> callback)
@@ -44,6 +52,24 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
     public ItemStack getSelectedStack()
     {
         return selectedStack;
+    }
+
+    @Override
+    public void keyTyped(char c, int key)
+    {
+        String prev = tbSearch.getText();
+        super.keyTyped(c, key);
+        String now = tbSearch.getText();
+        if (!prev.equals(now))
+        {
+            List<ItemStack> stacks = ItemStackHelper.getAllItemStacks(wildCardStacks);
+            for (int i = 0; i < stacks.size(); i++)
+            {
+                if (!StringUtils.containsIgnoreCase(stacks.get(i).getDisplayName(), now))
+                    stacks.remove(i--);
+            }
+            lbItems.updateElements(stacks);
+        }
     }
 
     @Override

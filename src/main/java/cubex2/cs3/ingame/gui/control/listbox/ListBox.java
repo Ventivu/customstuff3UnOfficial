@@ -164,6 +164,8 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
             setCurrentScroll(Math.max(height - getVisibleRect().getHeight(), 0));
         createListBoxItems();
         onParentResized();
+
+        slider.updateScroll();
     }
 
     private void createListBoxItems()
