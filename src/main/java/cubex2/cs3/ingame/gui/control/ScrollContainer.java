@@ -39,9 +39,12 @@ public class ScrollContainer extends ControlContainer
 
     public void setCurrentScroll(int value)
     {
-        currentScroll = value;
-        offsetY = -currentScroll;
-        onParentResized();
+        if (currentScroll != value)
+        {
+            currentScroll = value;
+            offsetY = -currentScroll;
+            onParentResized();
+        }
     }
 
     @Override

@@ -11,10 +11,10 @@ public class StepAttributes extends BlockAttributes
 {
     // TODO create window
 
-    @Attribute(windowClass = WindowEditDoubleSlabBlock.class, hasOwnWindow = false)
+    //@Attribute(windowClass = WindowEditDoubleSlabBlock.class, hasOwnWindow = false)
     public Block doubleSlabBlock;
 
-    @Attribute(windowClass = Window.class, hasOwnWindow = false)
+    //@Attribute(windowClass = Window.class, hasOwnWindow = false)
     public int doubleSlabMeta;
 
     public StepAttributes(BaseContentPack pack)

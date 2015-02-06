@@ -1,7 +1,9 @@
 package cubex2.cs3.ingame.gui.control.listbox;
 
 import com.google.common.collect.Lists;
+import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.control.*;
+import cubex2.cs3.util.ScissorHelper;
 
 import java.util.Collections;
 import java.util.List;
@@ -213,6 +215,89 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
             if (itemClickListener != null)
             {
                 itemClickListener.itemClicked(lbItem.value, this, button);
+            }
+        }
+    }
+
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int button, boolean intoControl)
+    {
+        boolean wasLocked = GuiBase.inputLockedControl != null;
+
+        int firstVisible = currentScroll / (elementHeight + VERTICAL_GAP) * columns;
+        int numVisible = getVisibleRect().getHeight() / elementHeight * columns + columns;
+
+        for (int i = firstVisible; i < firstVisible + numVisible && i < controls.size(); i++)
+        {
+            Control c = controls.get(i);
+            if (c.isEnabled() && c.isVisible())
+            {
+                if (!c.canHandleInput())
+                    continue;
+
+                boolean clickedControl = c.isMouseOverControl(mouseX, mouseY);// c.bounds.contains(mouseX, mouseY);
+                c.mouseClicked(mouseX, mouseY, button, clickedControl);
+                if (clickedControl)
+                {
+                    c.mouseDown(mouseX, mouseY, button);
+                    controlClicked(c, mouseX, mouseY, button);
+                    if (button == 0)
+                        controlClicked(c, mouseX, mouseY);
+                }
+
+                boolean isLocked = GuiBase.inputLockedControl != null;
+                if (wasLocked && !isLocked) // control released input
+                    break; // make sure this click isn't received by other controls
+            }
+        }
+    }
+
+    @Override
+    public void onUpdate()
+    {
+        int firstVisible = currentScroll / (elementHeight + VERTICAL_GAP) * columns;
+        int numVisible = getVisibleRect().getHeight() / elementHeight * columns + columns;
+
+        for (int i = firstVisible; i < firstVisible + numVisible && i < controls.size(); i++)
+        {
+            Control c = controls.get(i);
+            c.onUpdate();
+        }
+    }
+
+    @Override
+    public void draw(int mouseX, int mouseY, float renderTick)
+    {
+        //super.draw(mouseX, mouseY, renderTick);
+        ScissorHelper.startScissor(mc, getVisibleRect().getX(), getVisibleRect().getY(), getVisibleRect().getWidth(), getVisibleRect().getHeight());
+
+        int firstVisible = currentScroll / (elementHeight + VERTICAL_GAP) * columns;
+        int numVisible = getVisibleRect().getHeight() / elementHeight * columns + columns;
+
+        for (int i = firstVisible; i < firstVisible + numVisible && i < controls.size(); i++)
+        {
+            Control c = controls.get(i);
+            if (c.isVisible())
+            {
+                c.draw(mouseX, mouseY, renderTick);
+            }
+        }
+
+        ScissorHelper.endScissor();
+    }
+
+    @Override
+    public void drawForeground(int mouseX, int mouseY)
+    {
+        int firstVisible = currentScroll / (elementHeight + VERTICAL_GAP) * columns;
+        int numVisible = getVisibleRect().getHeight() / elementHeight * columns + columns;
+
+        for (int i = firstVisible; i < firstVisible + numVisible && i < controls.size(); i++)
+        {
+            Control c = controls.get(i);
+            if (c.isVisible())
+            {
+                c.drawForeground(mouseX, mouseY);
             }
         }
     }
