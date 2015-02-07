@@ -4,7 +4,9 @@ import com.google.common.collect.Lists;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.lib.Textures;
+import cubex2.cs3.util.GuiHelper;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.client.event.RenderHandEvent;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -24,7 +26,7 @@ public class TabControl extends Control
         super(width, height, anchor, offsetX, offsetY, parent);
         this.tabWidth = tabWidth;
         this.tabHeight = tabHeight;
-        maxPossibleTabs = height / tabHeight;
+        maxPossibleTabs = bounds.getHeight() / tabHeight;
         maxScroll = tabs.size() - maxPossibleTabs;
     }
 
@@ -35,6 +37,10 @@ public class TabControl extends Control
         anchor.controlRight = this;
         anchor.controlTop = this;
         anchor.controlBottom = this;
+        anchor.sameSideLeft = true;
+        anchor.sameSideRight = true;
+        anchor.sameSideTop = true;
+        anchor.sameSideBottom = true;
         Tab tab = new Tab(title, -1, -1, anchor, 0, 0, this);
         tabs.add(tab);
         if (activeTab == null)
@@ -153,6 +159,7 @@ public class TabControl extends Control
             int y = getY() + i * tabHeight;
             int u = 0;
             int v = (tab == activeTab ? 0 : 90) + (i == 0 ? 0 : i == maxPossibleTabs - 1 ? 60 : 30);
+
             // Top Left
             drawTexturedModalRect(x, y, u, v, tabWidth / 2, tabHeight / 2);
             // Top Right

@@ -220,18 +220,4 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
-  <component name="libraryTable">
-    <library name="scala-sdk" type="Scala">
-      <properties>
-        <compiler-classpath>
-          <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-compiler/2.10.2/64c8b1380cc53d6850823d6e4e7ae984aa44ef9c/scala-compiler-2.10.2.jar" />
-          <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.10.2/6ba65d12cd09d441083262d6f73d2257fec7c663/scala-library-2.10.2.jar" />
-          <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-reflect/2.10.2/444ff8e89a81697997ed8a98a4642ba283130249/scala-reflect-2.10.2.jar" />
-        </compiler-classpath>
-      </properties>
-      <CLASSES />
-      <JAVADOC />
-      <SOURCES />
-    </library>
-  </component>
 </project>

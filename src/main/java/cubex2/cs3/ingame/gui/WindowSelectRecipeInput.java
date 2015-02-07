@@ -63,6 +63,7 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         if (c == btnCancel)
         {
             selectedInput = null;
+            GuiBase.openPrevWindow();
         } else if (c == btnSelect)
         {
             GuiBase.openPrevWindow();
