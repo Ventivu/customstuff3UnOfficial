@@ -40,9 +40,9 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         desc.rows = 7;
         desc.elements = ItemStackHelper.getAllItemStacks();
         desc.listBoxItemMeta = 1;
-        lbItems = itemTab.listBox(desc).left(7).top(7).add();
+        lbItems = itemTab.listBox(desc).left(7).top(7).right(7).add();
 
-        tbSearchItems = itemTab.textBox().top(lbItems.getSlider(), 3).fillWidth(7).add();
+        tbSearchItems = itemTab.textBox().top(lbItems, 3).fillWidth(7).add();
 
         ListBoxDescription<OreDictionaryClass> desc1 = new ListBoxDescription<OreDictionaryClass>(7, 7);
         desc1.elementWidth = 22;
@@ -51,9 +51,9 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         desc1.rows = 7;
         desc1.elements = OreDictionaryClass.getAllClasses();
         desc1.sorted = true;
-        lbOreDictClasses = oreTab.listBox(desc1).left(7).top(7).add();
+        lbOreDictClasses = oreTab.listBox(desc1).left(7).top(7).right(7).add();
 
-        tbSearchOreClasses = oreTab.textBox().top(lbOreDictClasses.getSlider(), 3).fillWidth(7).add();
+        tbSearchOreClasses = oreTab.textBox().top(lbOreDictClasses, 3).fillWidth(7).add();
 
         btnSelect.setEnabled(false);
     }

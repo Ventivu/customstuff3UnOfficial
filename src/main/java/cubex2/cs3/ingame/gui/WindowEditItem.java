@@ -21,14 +21,13 @@ public class WindowEditItem extends Window implements IListBoxItemClickListener<
         this.wrappedItem = wrappedItem;
 
         ListBoxDescription<AttributeData> desc = new ListBoxDescription<AttributeData>(7, 7);
-        desc.width = 249;
         desc.rows = 5;
         desc.columns = 1;
         desc.elementHeight = 22;
         desc.elements = Lists.newArrayList(wrappedItem.container.getAttributeDatas(wrappedItem.getType().name));
         desc.canSelect = false;
         desc.sorted = true;
-        listBox = listBox(desc).left(7).top(7).add();
+        listBox = listBox(desc).left(7).top(7).width(249).add();
     }
 
     @Override

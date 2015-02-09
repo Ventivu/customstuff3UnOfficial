@@ -39,7 +39,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
 
         btnSelect.setEnabled(false);
 
-        tbSearch = textBox().top(lbItems.getSlider(), 3).fillWidth(7).add();
+        tbSearch = textBox().top(lbItems, 3).fillWidth(7).add();
     }
 
     public void setCallback(ISelectElementCallback<ItemStack> callback)

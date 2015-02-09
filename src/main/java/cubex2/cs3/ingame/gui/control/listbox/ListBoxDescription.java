@@ -13,8 +13,6 @@ public class ListBoxDescription<E>
 
     }
 
-    public int width = -1;
-    public int height = -1;
     public int columns = 1;
     public int rows = -1;
     public int elementWidth = -1;

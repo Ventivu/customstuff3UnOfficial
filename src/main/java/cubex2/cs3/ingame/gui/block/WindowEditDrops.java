@@ -21,13 +21,12 @@ public class WindowEditDrops extends WindowEditBlockAttribute implements IWindow
         super(block, "drops", NEW | EDIT | DELETE | BACK, 263, 160);
 
         ListBoxDescription<BlockDrop.DropData> desc = new ListBoxDescription<BlockDrop.DropData>(7, 7);
-        desc.width = 249;
         desc.rows = 5;
         desc.columns = 1;
         desc.elementHeight = 22;
         desc.elements = container.drop.getDrops();
         desc.canSelect = true;
-        listBox = listBox(desc).left(7).top(7).add();
+        listBox = listBox(desc).left(7).top(7).width(249).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

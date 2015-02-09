@@ -15,16 +15,12 @@ public class ListBoxBuilder<T> extends ControlBuilder<ListBox<T>>
     }
 
     @Override
-    public ListBox<T> add()
-    {
-        ListBox<T> res = super.add();
-        res.createSlider(container);
-        return res;
-    }
-
-    @Override
     protected ListBox<T> newInstance()
     {
-        return new ListBox<T>(desc, anchor, offsetX, offsetY, container);
+        if (height <= 0 && desc.rows != -1)
+        {
+            height = desc.rows * (desc.elementHeight + ListBox.VERTICAL_GAP) - ListBox.VERTICAL_GAP;
+        }
+        return new ListBox<T>(desc, width, height, anchor, offsetX, offsetY, container);
     }
 }

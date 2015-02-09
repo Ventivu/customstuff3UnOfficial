@@ -18,12 +18,11 @@ public class WindowOreDictionaryEntries extends Window implements IListBoxItemCl
         this.pack = pack;
 
         ListBoxDescription<OreDictionaryEntry> desc = new ListBoxDescription<OreDictionaryEntry>(7, 7);
-        desc.width = 249;
         desc.rows = 7;
         desc.elementHeight = 22;
         desc.elements = pack.getContentRegistry(OreDictionaryEntry.class).getContentList();
         desc.canSelect = true;
-        listBox = listBox(desc).left(7).top(7).add();
+        listBox = listBox(desc).left(7).top(7).width(249).add();
 
         btnDelete.setEnabled(false);
     }

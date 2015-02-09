@@ -23,11 +23,10 @@ public class WindowEditPack extends Window implements IListBoxItemClickListener<
         this.pack = pack;
 
         ListBoxDescription<String> desc = new ListBoxDescription<String>(7, 7);
-        desc.width = 166;
         desc.rows = 12;
         desc.elements = listBoxElements;
         desc.canSelect = false;
-        listBox = listBox(desc).left(7).top(7).add();
+        listBox = listBox(desc).left(7).right(7).top(7).width(166).add();
     }
 
     @Override

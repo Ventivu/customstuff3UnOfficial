@@ -5,15 +5,16 @@ import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.control.builder.*;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 import cubex2.cs3.util.RecipeInput;
+import cubex2.cs3.util.ScissorHelper;
 import cubex2.cs3.util.SimulatedWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.Collections;
 import java.util.List;
 
-public abstract class ControlContainer extends Control
+public class ControlContainer extends Control
 {
+    public boolean enableScissor = false;
     protected List<Control> controls = Lists.newArrayList();
 
     public ControlContainer(int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
@@ -28,7 +29,7 @@ public abstract class ControlContainer extends Control
 
     public List<Control> getControls()
     {
-        return Collections.unmodifiableList(controls);
+        return controls;
     }
 
     public Control getControlAt(int x, int y)
@@ -70,9 +71,12 @@ public abstract class ControlContainer extends Control
     @Override
     public void onUpdate()
     {
-        for (Control control : controls)
+        int first = firstControl();
+        int num = numControls();
+        for (int i = first; i < first + num && i < controls.size(); i++)
         {
-            control.onUpdate();
+            Control c = controls.get(i);
+            c.onUpdate();
         }
     }
 
@@ -81,8 +85,11 @@ public abstract class ControlContainer extends Control
     {
         boolean wasLocked = GuiBase.inputLockedControl != null;
 
-        for (Control c : controls)
+        int first = firstControl();
+        int num = numControls();
+        for (int i = first; i < first + num && i < controls.size(); i++)
         {
+            Control c = controls.get(i);
             if (c.isEnabled() && c.isVisible())
             {
                 if (!c.canHandleInput())
@@ -115,6 +122,7 @@ public abstract class ControlContainer extends Control
      */
     protected void controlClicked(Control c, int mouseX, int mouseY, int button)
     {
+
     }
 
     /**
@@ -134,8 +142,11 @@ public abstract class ControlContainer extends Control
     {
         boolean wasLocked = GuiBase.inputLockedControl != null;
 
-        for (Control c : controls)
+        int first = firstControl();
+        int num = numControls();
+        for (int i = first; i < first + num && i < controls.size(); i++)
         {
+            Control c = controls.get(i);
             if (c.isEnabled() && c.isVisible())
             {
                 if (!c.canHandleInput())
@@ -153,8 +164,11 @@ public abstract class ControlContainer extends Control
     @Override
     public void keyTyped(char c, int key)
     {
-        for (Control c_ : controls)
+        int first = firstControl();
+        int num = numControls();
+        for (int i = first; i < first + num && i < controls.size(); i++)
         {
+            Control c_ = controls.get(i);
             if (c_.isEnabled() && c_.isVisible())
             {
                 if (!c_.canHandleInput())
@@ -168,25 +182,47 @@ public abstract class ControlContainer extends Control
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
-        for (Control c : controls)
+        if (enableScissor)
+            ScissorHelper.startScissor(mc, bounds);
+
+        int first = firstControl();
+        int num = numControls();
+        for (int i = first; i < first + num && i < controls.size(); i++)
         {
+            Control c = controls.get(i);
             if (c.isVisible())
             {
                 c.draw(mouseX, mouseY, renderTick);
             }
         }
+
+        if (enableScissor)
+            ScissorHelper.endScissor();
     }
 
     @Override
     public void drawForeground(int mouseX, int mouseY)
     {
-        for (Control c : controls)
+        int first = firstControl();
+        int num = numControls();
+        for (int i = first; i < first + num && i < controls.size(); i++)
         {
+            Control c = controls.get(i);
             if (c.isVisible())
             {
                 c.drawForeground(mouseX, mouseY);
             }
         }
+    }
+
+    protected int firstControl()
+    {
+        return 0;
+    }
+
+    protected int numControls()
+    {
+        return controls.size();
     }
 
     /* Builders */
@@ -303,5 +339,10 @@ public abstract class ControlContainer extends Control
     public <T> ListBoxBuilder<T> listBox(ListBoxDescription<T> desc)
     {
         return new ListBoxBuilder<T>(desc, this);
+    }
+
+    public ContainerBuilder container()
+    {
+        return new ContainerBuilder(this);
     }
 }

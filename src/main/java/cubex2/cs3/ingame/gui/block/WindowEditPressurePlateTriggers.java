@@ -43,31 +43,29 @@ public class WindowEditPressurePlateTriggers extends WindowEditBlockAttribute im
         Label label = label("Included").at(7, 7).add();
 
         ListBoxDescription<String> desc = new ListBoxDescription<String>();
-        desc.width = 136;
         desc.elements = included;
         desc.columns = 1;
         desc.sorted = true;
         desc.elementHeight = 18;
         desc.rows = 4;
-        lbIncluded = listBox(desc).top(label, 7).left(7).add();
+        lbIncluded = listBox(desc).top(label, 7).left(7).width(136).add();
 
-        btnAddInclude = button("Add").left(7).top(lbIncluded.getSlider(), 3).add();
-        btnRemoveInclude = button("Remove").right(lbIncluded.getSlider(), 0, true).top(lbIncluded.getSlider(), 3).add();
+        btnAddInclude = button("Add").left(7).top(lbIncluded, 3).add();
+        btnRemoveInclude = button("Remove").right(lbIncluded, 0, true).top(lbIncluded, 3).add();
         btnRemoveInclude.setEnabled(false);
 
         label = label("Excluded").at(7 + 139, 7).add();
 
         desc = new ListBoxDescription<String>();
-        desc.width = 136;
         desc.elements = excluded;
         desc.columns = 1;
         desc.sorted = true;
         desc.elementHeight = 18;
         desc.rows = 4;
-        lbExcluded = listBox(desc).top(label, 7).left(lbIncluded.getSlider(), 7).add();
+        lbExcluded = listBox(desc).top(label, 7).left(lbIncluded, 7).width(136).add();
 
-        btnAddExclude = button("Add").left(lbExcluded, 0, true).top(lbExcluded.getSlider(), 3).add();
-        btnRemoveExclude = button("Remove").right(7).top(lbExcluded.getSlider(), 3).add();
+        btnAddExclude = button("Add").left(lbExcluded, 0, true).top(lbExcluded, 3).add();
+        btnRemoveExclude = button("Remove").right(7).top(lbExcluded, 3).add();
         btnRemoveExclude.setEnabled(false);
     }
 

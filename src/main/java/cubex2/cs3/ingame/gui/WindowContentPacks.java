@@ -16,12 +16,11 @@ public class WindowContentPacks extends Window implements IListBoxItemClickListe
         super("Content Packs", NEW | BACK, 180, 201);
 
         ListBoxDescription<IngameContentPack> desc = new ListBoxDescription<IngameContentPack>(7, 7);
-        desc.width = 166;
         desc.rows = 12;
         desc.elements = IngameContentPackLoader.instance().getContentPacks();
         desc.sorted = true;
         desc.canSelect = false;
-        lbPacks = listBox(desc).left(7).top(7).add();
+        lbPacks = listBox(desc).left(7).right(7).top(7).height(12 * 14 - 1).add();
     }
 
     @Override

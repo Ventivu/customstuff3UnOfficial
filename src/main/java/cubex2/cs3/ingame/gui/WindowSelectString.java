@@ -18,13 +18,12 @@ public class WindowSelectString extends Window implements IListBoxItemClickListe
         super(title, SELECT | CANCEL, 200, 150);
 
         ListBoxDescription<String> desc = new ListBoxDescription<String>(7, 7);
-        desc.width = 186;
         desc.elementHeight = 18;
         desc.columns = 1;
         desc.rows = 6;
         desc.elements = elements;
         desc.sorted = true;
-        listBox(desc).left(7).top(7).add();
+        listBox(desc).left(7).top(7).width(186).add();
 
         btnSelect.setEnabled(false);
     }

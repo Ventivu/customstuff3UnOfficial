@@ -19,13 +19,12 @@ public class WindowShapedRecipes extends Window implements IWindowClosedListener
         this.pack = pack;
 
         ListBoxDescription<ShapedRecipe> desc = new ListBoxDescription<ShapedRecipe>(7, 7);
-        desc.width = 249;
         desc.rows = 2;
         desc.columns = 2;
         desc.elementHeight = 60;
         desc.elements = pack.getContentRegistry(ShapedRecipe.class).getContentList();
         desc.canSelect = true;
-        listBox = listBox(desc).left(7).top(7).add();
+        listBox = listBox(desc).left(7).top(7).width(249).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);
