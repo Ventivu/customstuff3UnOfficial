@@ -4,12 +4,14 @@ import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.Tab;
 import cubex2.cs3.ingame.gui.control.TabControl;
+import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 import cubex2.cs3.util.ItemStackHelper;
 import cubex2.cs3.util.OreDictionaryClass;
 import cubex2.cs3.util.RecipeInput;
+import cubex2.cs3.util.Filter;
 import net.minecraft.item.ItemStack;
 
 public class WindowSelectRecipeInput extends Window implements IListBoxItemClickListener
@@ -17,16 +19,18 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
     private IngameContentPack pack;
     private ListBox<ItemStack> lbItems;
     private ListBox<OreDictionaryClass> lbOreDictClasses;
+    private TextBox tbSearchItems;
+    private TextBox tbSearchOreClasses;
     private TabControl tabControl;
     private Object selectedInput = null;
 
     public WindowSelectRecipeInput(IngameContentPack pack)
     {
-        super("Select", SELECT | CANCEL, 197, 201);
+        super("Select", SELECT | CANCEL, 197, 211);
         this.pack = pack;
 
         tabControl = tabControl(70, 20).fill().add();
-        Tab aliasTab = tabControl.addTab("Items");
+        Tab itemTab = tabControl.addTab("Items");
         Tab oreTab = tabControl.addTab("Ore Classes");
 
         ListBoxDescription<ItemStack> desc = new ListBoxDescription<ItemStack>(7, 7);
@@ -35,9 +39,10 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         desc.columns = 7;
         desc.rows = 7;
         desc.elements = ItemStackHelper.getAllItemStacks();
-        desc.sorted = false;
         desc.listBoxItemMeta = 1;
-        lbItems = aliasTab.listBox(desc).left(7).top(7).add();
+        lbItems = itemTab.listBox(desc).left(7).top(7).add();
+
+        tbSearchItems = itemTab.textBox().top(lbItems.getSlider(), 3).fillWidth(7).add();
 
         ListBoxDescription<OreDictionaryClass> desc1 = new ListBoxDescription<OreDictionaryClass>(7, 7);
         desc1.elementWidth = 22;
@@ -48,6 +53,8 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         desc1.sorted = true;
         lbOreDictClasses = oreTab.listBox(desc1).left(7).top(7).add();
 
+        tbSearchOreClasses = oreTab.textBox().top(lbOreDictClasses.getSlider(), 3).fillWidth(7).add();
+
         btnSelect.setEnabled(false);
     }
 
@@ -55,6 +62,25 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
     {
         if (selectedInput == null) return null;
         return selectedInput instanceof ItemStack ? new RecipeInput((ItemStack) selectedInput) : new RecipeInput(((OreDictionaryClass) selectedInput).oreClass);
+    }
+
+    @Override
+    public void keyTyped(char c, int key)
+    {
+        String prevItem = tbSearchItems.getText();
+        String prevOre = tbSearchOreClasses.getText();
+        super.keyTyped(c, key);
+        String nowItem = tbSearchItems.getText();
+        String nowOre = tbSearchOreClasses.getText();
+
+        if (!prevItem.equals(nowItem))
+        {
+            lbItems.updateElements(ItemStackHelper.getAllItemStacks(true), Filter.ITEM_STACK, nowItem);
+        }
+        if (!prevOre.equals(nowOre))
+        {
+            lbOreDictClasses.updateElements(OreDictionaryClass.getAllClasses(), Filter.ORE_CLASS, nowOre);
+        }
     }
 
     @Override

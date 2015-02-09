@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.util.ScissorHelper;
+import cubex2.cs3.util.Filter;
 
 import java.util.Collections;
 import java.util.List;
@@ -152,6 +153,19 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
 
     public void updateElements(List<T> newElements)
     {
+        updateElements(newElements, null, null);
+    }
+
+    public void updateElements(List<T> newElements, Filter<T> filter, String searchText)
+    {
+        if (filter != null)
+        {
+            for (int i = 0; i < newElements.size(); i++)
+            {
+                if (!filter.matches(newElements.get(i), searchText))
+                    newElements.remove(i--);
+            }
+        }
         elements.clear();
         elements.addAll(newElements);
 
@@ -309,4 +323,5 @@ public class ListBox<T> extends ScrollContainer implements IVerticalSliderValueL
     {
         setCurrentScroll(slider.getValue());
     }
+
 }

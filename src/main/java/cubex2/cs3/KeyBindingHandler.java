@@ -24,7 +24,7 @@ public class KeyBindingHandler
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
-        if (event.phase == TickEvent.Phase.END && event.side == Side.CLIENT && openGuiKey.isPressed() && FMLClientHandler.instance().getClient().inGameHasFocus)
+        if (event.phase == TickEvent.Phase.END && event.side == Side.CLIENT && openGuiKey.isPressed() && FMLClientHandler.instance().getClient().inGameHasFocus && FMLClientHandler.instance().getClient().isSingleplayer())
         {
             Keyboard.enableRepeatEvents(true);
             FMLClientHandler.instance().showGuiScreen(GuiBase.INSTANCE);

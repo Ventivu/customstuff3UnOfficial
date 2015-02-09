@@ -17,8 +17,7 @@ public class WindowEditInformation extends WindowEditBlockAttribute
         textField = textField().top(7).fillWidth(7).height(100).add();
         textField.disableSyntaxHighlighting();
         textField.setText(container.information);
-        display = itemDisplay().below(textField).add();
-        display.setItemStack(new ItemStack(wrappedBlock.block));
+        display = itemDisplay(new ItemStack(wrappedBlock.block)).below(textField).add();
         display.setDrawSlotBackground();
     }
 

@@ -5,11 +5,9 @@ import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
+import cubex2.cs3.util.Filter;
 import cubex2.cs3.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
 
 public class WindowSelectItem extends Window implements IListBoxItemClickListener<ItemStack>
 {
@@ -62,13 +60,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         String now = tbSearch.getText();
         if (!prev.equals(now))
         {
-            List<ItemStack> stacks = ItemStackHelper.getAllItemStacks(wildCardStacks);
-            for (int i = 0; i < stacks.size(); i++)
-            {
-                if (!StringUtils.containsIgnoreCase(stacks.get(i).getDisplayName(), now))
-                    stacks.remove(i--);
-            }
-            lbItems.updateElements(stacks);
+            lbItems.updateElements(ItemStackHelper.getAllItemStacks(true), Filter.ITEM_STACK, now);
         }
     }
 

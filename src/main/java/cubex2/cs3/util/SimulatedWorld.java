@@ -128,6 +128,9 @@ public class SimulatedWorld implements IBlockAccess
     @Override
     public boolean isSideSolid(int x, int y, int z, ForgeDirection side, boolean _default)
     {
-        return false;
+        if (x < minX || y < minY || y < minZ || x > maxX || y > maxY || z > maxZ)
+            return _default;
+
+        return getBlock(x, y, z).isSideSolid(this, x, y, z, side);
     }
 }
