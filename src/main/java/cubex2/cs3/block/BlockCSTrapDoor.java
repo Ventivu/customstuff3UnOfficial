@@ -189,7 +189,7 @@ public class BlockCSTrapDoor extends BlockCS
 
             boolean var9 = world.isBlockIndirectlyGettingPowered(x, y, z);
 
-            if (var9 || neighborBlock == Blocks.air && neighborBlock.canProvidePower() || neighborBlock == Blocks.air)
+            if (var9 || neighborBlock.canProvidePower())
             {
                 this.onPoweredBlockChange(world, x, y, z, var9);
             }
