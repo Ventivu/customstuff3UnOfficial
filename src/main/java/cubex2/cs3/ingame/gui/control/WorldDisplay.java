@@ -36,7 +36,7 @@ public class WorldDisplay extends Control
 
     public IBlockDisplayRenderer renderProvider;
 
-    private SimulatedWorld world;
+    protected SimulatedWorld world;
 
     public WorldDisplay(SimulatedWorld world, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
@@ -112,6 +112,11 @@ public class WorldDisplay extends Control
             lookX = camX + forward[0];
             lookY = camY + forward[1];
             lookZ = camZ + forward[2];
+        } else if (key == Keyboard.KEY_NEXT || key == Keyboard.KEY_PRIOR)
+        {
+            int dir = key == Keyboard.KEY_NEXT ? -1 : 1;
+            lookY += 0.1f * dir;
+            camY += 0.1f * dir;
         }
     }
 

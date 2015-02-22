@@ -220,4 +220,13 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
+  <component name="libraryTable">
+    <library name="abc4j_v0.5">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/abc4j_v0.5.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+  </component>
 </project>

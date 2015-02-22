@@ -2,6 +2,8 @@ package cubex2.cs3.util;
 
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -74,7 +76,7 @@ public class ItemStackHelper
             NBTTagList tagList = (NBTTagList) tag.getTag("ench");
             for (int i = 0; i < tagList.tagCount(); i++)
             {
-                NBTTagCompound tag1 =  tagList.getCompoundTagAt(i);
+                NBTTagCompound tag1 = tagList.getCompoundTagAt(i);
                 if (tag1.getShort("id") == id)
                 {
                     tagList.removeTag(i);
@@ -157,20 +159,61 @@ public class ItemStackHelper
                 {
                     itemStacks.add(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
                 }
-            }
-            else if (item.isDamageable())
+            } else if (item.isDamageable())
             {
                 itemStacks.add(new ItemStack(item, 1, 0));
                 if (wildCardStacks)
                 {
                     itemStacks.add(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
                 }
-            }
-            else
+            } else
             {
                 itemStacks.add(new ItemStack(item, 1, 0));
             }
             stacks.addAll(itemStacks);
+        }
+
+        return stacks;
+    }
+
+    public static List<ItemStack> getBlockStacks(boolean wildCardStacks)
+    {
+        List<ItemStack> stacks = Lists.newArrayList();
+
+        for (Object o : GameData.getBlockRegistry().getKeys())
+        {
+            Block block = (Block) GameData.getBlockRegistry().getObject(o);
+            Item item = Item.getItemFromBlock(block);
+            block.getSubBlocks(Item.getItemFromBlock(block), CreativeTabs.tabAllSearch, stacks);
+            if (item != null && wildCardStacks && item.getHasSubtypes())
+            {
+                stacks.add(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
+            }
+        }
+
+        for (int i = 0; i < stacks.size(); i++)
+        {
+            if (stacks.get(i).getItem() == null)
+            {
+                stacks.remove(i--);
+            }
+        }
+
+        return stacks;
+    }
+
+    public static List<ItemStack> getBlockOnlyStacks()
+    {
+        List<ItemStack> stacks = Lists.newArrayList();
+
+        for (Object o : GameData.getBlockRegistry().getKeys())
+        {
+            Block block = (Block) GameData.getBlockRegistry().getObject(o);
+            Item item = Item.getItemFromBlock(block);
+            if (item != null)
+            {
+                stacks.add(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
+            }
         }
 
         return stacks;
@@ -190,13 +233,11 @@ public class ItemStackHelper
                 if (item.getHasSubtypes())
                 {
                     stacks.addAll(ItemStackHelper.getSubTypes(item));
-                }
-                else
+                } else
                 {
                     stacks.add(new ItemStack(item, 1, 0));
                 }
-            }
-            else
+            } else
             {
                 stacks.add(stack.copy());
             }
@@ -232,8 +273,8 @@ public class ItemStackHelper
     public static void writeToNBTNamed(ItemStack stack, NBTTagCompound nbt)
     {
         nbt.setString("ItemName", Item.itemRegistry.getNameForObject(stack.getItem()));
-        nbt.setByte("Count", (byte)stack.stackSize);
-        nbt.setShort("Damage", (short)stack.getItemDamage());
+        nbt.setByte("Count", (byte) stack.stackSize);
+        nbt.setShort("Damage", (short) stack.getItemDamage());
 
         if (stack.stackTagCompound != null)
         {
@@ -253,7 +294,7 @@ public class ItemStackHelper
         if (!compound.hasKey("ItemName"))
             return null;
 
-        ItemStack stack = new ItemStack((Item)null);
+        ItemStack stack = new ItemStack((Item) null);
         stack.func_150996_a(GameData.getItemRegistry().getObject(compound.getString("ItemName")));
         if (stack.getItem() == null)
             return null;

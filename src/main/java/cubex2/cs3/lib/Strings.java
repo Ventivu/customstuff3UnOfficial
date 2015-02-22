@@ -33,7 +33,7 @@ public class Strings
             " \"assets/mymod/textures/items/myItem.png\"|" +
             "you have to enter|" +
             " \"mymod:myItem\"";
-    public static final String INFO_TOOL_CLASS = "The tool class that is effective|" +
+    public static final String INFO_TOOL_CLASS_BLOCK = "The tool class that is effective|" +
             " on this block. Notice that if|" +
             " the material is set to rock|" +
             " or iron, pickaxes are effective|" +
@@ -42,9 +42,27 @@ public class Strings
             " pickaxe|" +
             " axe|" +
             " shovel";
-    public static final String INFO_HARVEST_LEVEL = "The harvest level that is|" +
+    public static final String INFO_HARVEST_LEVEL_BLOCK = "The harvest level that is|" +
             "required for the tool to|" +
             "be effective on this block.|" +
+            " 0 = wood / gold|" +
+            " 1 = stone|" +
+            " 2 = iron|" +
+            " 3 = diamond";
+    public static final String INFO_TOOL_CLASS_ITEM = "The tool class specifies on what|" +
+            " blocks the item is efficient.|" +
+            "You can use multiple|" +
+            " tool classes by using ',' as|" +
+            " a separator.|" +
+            "Common tool classes are:|" +
+            " pickaxe|" +
+            " axe|" +
+            " shovel|" +
+            "Special classes are:|" +
+            " noHarvest - can't break any blocks|" +
+            " all - effective on everything";
+    public static final String INFO_HARVEST_LEVEL_ITEM = "The harvest level of the|" +
+            "specified tool class.|" +
             " 0 = wood / gold|" +
             " 1 = stone|" +
             " 2 = iron|" +

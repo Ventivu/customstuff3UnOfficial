@@ -5,6 +5,7 @@ import cubex2.cs3.common.attribute.bridges.*;
 import cubex2.cs3.util.BlockDrop;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
+import cubex2.cs3.util.ToolClass;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -46,5 +47,6 @@ public abstract class DefaultAttributeBridges
         register(Block.SoundType.class, StepSoundBridge.class);
         register(BlockDrop.class, BlockDropBridge.class);
         register(String[].class, StringArrayBridge.class);
+        register(ToolClass[].class, ToolClassArrayBridge.class);
     }
 }

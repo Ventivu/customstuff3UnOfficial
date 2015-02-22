@@ -9,37 +9,52 @@ import cubex2.cs3.util.Filter;
 import cubex2.cs3.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 
-public class WindowSelectItem extends Window implements IListBoxItemClickListener<ItemStack>
+import java.util.List;
+
+public class WindowSelectBlock extends Window implements IListBoxItemClickListener<ItemStack>
 {
     private ListBox<ItemStack> lbItems;
     private ItemStack selectedStack = null;
     private boolean wildCardStacks = true;
+    private boolean subBlocks = true;
 
     private TextBox tbSearch;
 
     private ISelectElementCallback<ItemStack> callback;
 
-    public WindowSelectItem()
+    public WindowSelectBlock()
     {
-        this(false);
+        this(false, false);
     }
 
-    public WindowSelectItem(boolean wildCardStacks)
+    public WindowSelectBlock(boolean wildCardStacks, boolean subBlocks)
     {
-        super("Select Item", SELECT | CANCEL, 197, 211);
+        super("Select Block", SELECT | CANCEL, 197, 211);
         this.wildCardStacks = wildCardStacks;
+        this.subBlocks = subBlocks;
 
         ListBoxDescription<ItemStack> desc = new ListBoxDescription<ItemStack>(7, 7);
         desc.elementWidth = 22;
         desc.elementHeight = 22;
         desc.columns = 7;
         desc.rows = 7;
-        desc.elements = ItemStackHelper.getAllItemStacks(wildCardStacks);
-        lbItems = listBox(desc).left(7).top(7).add();
+        desc.elements = getStacks();
+        lbItems = listBox(desc).left(7).top(7).right(7).add();
 
         btnSelect.setEnabled(false);
 
         tbSearch = textBox().top(lbItems, 3).fillWidth(7).add();
+    }
+
+    private List<ItemStack> getStacks()
+    {
+        if (subBlocks)
+        {
+            return ItemStackHelper.getBlockStacks(wildCardStacks);
+        } else
+        {
+            return ItemStackHelper.getBlockOnlyStacks();
+        }
     }
 
     public void setCallback(ISelectElementCallback<ItemStack> callback)
@@ -60,7 +75,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         String now = tbSearch.getText();
         if (!prev.equals(now))
         {
-            lbItems.updateElements(ItemStackHelper.getAllItemStacks(wildCardStacks), Filter.ITEM_STACK, now);
+            lbItems.updateElements(getStacks(), Filter.ITEM_STACK, now);
         }
     }
 

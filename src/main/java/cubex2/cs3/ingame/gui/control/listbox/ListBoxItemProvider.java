@@ -7,6 +7,7 @@ import cubex2.cs3.ingame.gui.control.Anchor;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.util.BlockDrop;
 import cubex2.cs3.util.OreDictionaryClass;
+import cubex2.cs3.util.ToolClass;
 import net.minecraft.item.ItemStack;
 
 public class ListBoxItemProvider
@@ -37,6 +38,8 @@ public class ListBoxItemProvider
             return new ListBoxItemAttributeData((AttributeData) value, idx, width, height, anchor, offsetX, offsetY, parent);
         if (value instanceof BlockDrop.DropData)
             return new ListBoxItemBlockDrop((BlockDrop.DropData) value, idx, width, height, anchor, offsetX, offsetY, parent);
+        if (value instanceof ToolClass)
+            return new ListBoxItemLabel<Object>(value, idx, width, height, anchor, offsetX, offsetY, parent);
         throw new RuntimeException("Not supported object for ListBox.");
     }
 }

@@ -18,20 +18,20 @@ public class WindowEditHarvesting extends WindowEditBlockAttribute
         super(block, "harvesting", 150, 120);
 
         Label lblToolClass = label("Tool class:").at(7, 7).add();
-        infoButton(Strings.INFO_TOOL_CLASS).rightTo(lblToolClass).add();
+        infoButton(Strings.INFO_TOOL_CLASS_BLOCK).rightTo(lblToolClass).add();
 
         tbToolClass = textBox().top(lblToolClass, 2).fillWidth(7).add();
-        if (block.container.toolClass != null)
-            tbToolClass.setText(block.container.toolClass);
+        if (container.toolClass != null)
+            tbToolClass.setText(container.toolClass);
 
         Label lblHarvestLevel = label("Harvest level:").below(tbToolClass).add();
-        infoButton(Strings.INFO_HARVEST_LEVEL).rightTo(lblHarvestLevel).add();
+        infoButton(Strings.INFO_HARVEST_LEVEL_BLOCK).rightTo(lblHarvestLevel).add();
 
         tbHarvestLevel = textBox().top(lblHarvestLevel, 2).fillWidth(7).add();
         tbHarvestLevel.setValidityProvider(TextBoxValidators.POSITIVE_INTEGER);
-        tbHarvestLevel.setText(String.valueOf(block.container.harvestLevel));
+        tbHarvestLevel.setText(String.valueOf(container.harvestLevel));
 
-        cbSilkHarvest = checkBox("Allow silk harvest.",block.container.canSilkHarvest).top(tbHarvestLevel,6).left(7).add();
+        cbSilkHarvest = checkBox("Allow silk harvest.", container.canSilkHarvest).top(tbHarvestLevel, 6).left(7).add();
     }
 
     @Override

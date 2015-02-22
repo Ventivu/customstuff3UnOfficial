@@ -7,6 +7,7 @@ import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 import cubex2.cs3.util.RecipeInput;
 import cubex2.cs3.util.ScissorHelper;
 import cubex2.cs3.util.SimulatedWorld;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -344,5 +345,15 @@ public class ControlContainer extends Control
     public ContainerBuilder container()
     {
         return new ContainerBuilder(this);
+    }
+
+    public BlockDisplayBuilder blockDisplay(Block block)
+    {
+        return blockDisplay(block, 0);
+    }
+
+    public BlockDisplayBuilder blockDisplay(Block block, int meta)
+    {
+        return new BlockDisplayBuilder(block, meta, this);
     }
 }

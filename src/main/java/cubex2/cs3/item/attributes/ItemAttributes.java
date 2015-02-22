@@ -4,12 +4,13 @@ import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.item.WindowEditUsingAction;
+import cubex2.cs3.ingame.gui.common.WindowEditFloat;
 import cubex2.cs3.ingame.gui.common.WindowEditInteger;
 import cubex2.cs3.ingame.gui.common.WindowEditScript;
 import cubex2.cs3.ingame.gui.item.*;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;
+import cubex2.cs3.util.ToolClass;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -36,6 +37,21 @@ public class ItemAttributes extends AttributeContainer
 
     @Attribute(windowClass = WindowEditInteger.class)
     public int maxDamage = 0;
+
+    @Attribute(windowClass = WindowEditToolClass.class)
+    public ToolClass[] toolClasses = new ToolClass[0];
+
+    /*// TODO create window
+    public ItemStack[] effectiveBlocks = new ItemStack[0];
+
+    // TODO create window
+    public Block[] harvestBlocks = new Block[0];*/
+
+    @Attribute(windowClass = WindowEditInteger.class)
+    public int enchantability = 0;
+
+    @Attribute(windowClass = WindowEditFloat.class)
+    public float efficiency = 1.0f;
 
     @Attribute(windowClass = WindowEditFull3D.class)
     public boolean full3d = false;

@@ -11,6 +11,7 @@ import cubex2.cs3.item.attributes.ItemAttributes;
 import cubex2.cs3.util.GeneralHelper;
 import cubex2.cs3.util.ItemStackHelper;
 import cubex2.cs3.util.JavaScriptHelper;
+import cubex2.cs3.util.ToolClass;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -24,6 +25,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 
 import java.util.*;
 
@@ -65,6 +67,12 @@ public class WrappedItem extends BaseContent implements Comparable<WrappedItem>
         {
             item.setTextureName(container.icon.iconString);
         }
+
+        for (ToolClass toolClass : container.toolClasses)
+        {
+            item.setHarvestLevel(toolClass.toolClass, toolClass.harvestLevel);
+        }
+
 
         Map<String, Properties> modLangData = ReflectionHelper.getPrivateValue(LanguageRegistry.class, LanguageRegistry.instance(), "modLanguageData");
         Properties p = modLangData.get("en_US");
@@ -308,9 +316,42 @@ public class WrappedItem extends BaseContent implements Comparable<WrappedItem>
         return stack;
     }
 
+    public float getDigSpeed(ItemStack stack, Block block, int meta)
+    {
+        if (container.toolClasses.length == 1 && container.toolClasses[0].toolClass.equals("noHarvest"))
+            return 0.0f;
+        if (ForgeHooks.isToolEffective(stack, block, meta))
+            return container.efficiency;
+        /* TODO
+        if (container.effectiveBlocks.length == 0)
+            return 1.0F;
+        for (ItemStack is : container.effectiveBlocks)
+            if (ItemStackHelper.itemStackEqual(is, new ItemStack(block, 1, meta)))
+                return container.efficiency;*/
+        return 1.0F;
+    }
+
+    public boolean canHarvestBlock(Block block)
+    {
+        /* TODO
+        for (Block block1 : container.harvestBlocks)
+        {
+            if (block1 == block)
+            {
+                return true;
+            }
+        }*/
+        return false;
+    }
+
     public int getMaxItemUseDuration(ItemStack stack)
     {
         return container.maxUsingDuration;
+    }
+
+    public int getItemEnchantability()
+    {
+        return container.enchantability;
     }
 
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced)

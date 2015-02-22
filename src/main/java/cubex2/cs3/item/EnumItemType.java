@@ -9,6 +9,7 @@ import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedItem;
 import cubex2.cs3.common.client.renderer.CSItemRenderer;
 import cubex2.cs3.item.attributes.ItemAttributes;
+import cubex2.cs3.item.attributes.SwordAttributes;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
@@ -16,13 +17,14 @@ import java.util.Map;
 
 public enum EnumItemType
 {
-    NORMAL("normal", ItemCS.class, ItemAttributes.class);
+    NORMAL("normal", ItemCS.class, ItemAttributes.class),
+    SWORD("sword", ItemCSSword.class, SwordAttributes.class);
 
     public final String name;
-    public final Class<? extends ItemCS> itemClass;
+    public final Class<? extends Item> itemClass;
     public final Class<? extends ItemAttributes> attributesClass;
 
-    private EnumItemType(String name, Class<? extends ItemCS> itemClass, Class<? extends ItemAttributes> attributesClass)
+    private EnumItemType(String name, Class<? extends Item> itemClass, Class<? extends ItemAttributes> attributesClass)
     {
         this.name = name;
         this.itemClass = itemClass;
