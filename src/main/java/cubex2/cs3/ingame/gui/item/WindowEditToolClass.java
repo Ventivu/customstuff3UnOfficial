@@ -28,6 +28,13 @@ public class WindowEditToolClass extends WindowEditItemAttribute implements IWin
         lbToolClasses = listBox(desc).left(7).right(7).top(7).width(186).add();
 
         toolClasses = Lists.newArrayList(item.container.toolClasses);
+
+        updateNewButton();
+    }
+
+    private void updateNewButton()
+    {
+        btnNew.setEnabled(toolClasses.size() != 1 || (!toolClasses.get(0).toolClass.equals("noHarvest") && !toolClasses.get(0).toolClass.equals("all")));
     }
 
     @Override
@@ -42,6 +49,7 @@ public class WindowEditToolClass extends WindowEditItemAttribute implements IWin
             toolClasses.remove(toolClass);
             lbToolClasses.updateElements(toolClasses);
             btnDelete.setEnabled(false);
+            updateNewButton();
         } else if (c == btnBack)
         {
             applyChanges();
@@ -79,6 +87,7 @@ public class WindowEditToolClass extends WindowEditItemAttribute implements IWin
         {
             toolClasses.add(window.getCreatedClass());
             lbToolClasses.updateElements(toolClasses);
+            updateNewButton();
         }
     }
 }
