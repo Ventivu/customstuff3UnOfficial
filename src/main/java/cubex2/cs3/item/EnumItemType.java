@@ -8,8 +8,7 @@ import cpw.mods.fml.relauncher.Side;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedItem;
 import cubex2.cs3.common.client.renderer.CSItemRenderer;
-import cubex2.cs3.item.attributes.ItemAttributes;
-import cubex2.cs3.item.attributes.SwordAttributes;
+import cubex2.cs3.item.attributes.*;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
@@ -18,7 +17,10 @@ import java.util.Map;
 public enum EnumItemType
 {
     NORMAL("normal", ItemCS.class, ItemAttributes.class),
-    SWORD("sword", ItemCSSword.class, SwordAttributes.class);
+    SWORD("sword", ItemCSSword.class, SwordAttributes.class),
+    AXE("axe", ItemCSAxe.class, AxeAttributes.class),
+    PICKAXE("pickaxe", ItemCSPickaxe.class, PickaxeAttributes.class),
+    SHOVEL("shovel", ItemCSShovel.class, ShovelAttributes.class);
 
     public final String name;
     public final Class<? extends Item> itemClass;
@@ -37,7 +39,7 @@ public enum EnumItemType
         {
             Item item = itemClass.getConstructor(WrappedItem.class).newInstance(wrappedItem);
             GameRegistry.registerItem(item, wrappedItem.getName());
-            System.err.println("Item ID: " +  GameData.getItemRegistry().getId(item));
+            System.err.println("Item ID: " + GameData.getItemRegistry().getId(item));
 
             if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
             {

@@ -13,5 +13,7 @@ public class SwordAttributes extends ItemAttributes
         full3d = true;
         usingAction = EnumAction.block;
         maxUsingDuration = 72000;
+        maxStack = 1;
+        maxDamage = 100;
     }
 }

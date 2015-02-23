@@ -18,7 +18,7 @@ buildscript {
 apply plugin: 'forge'
 
 
-version = "0.3.1"
+version = "0.4.0"
 group= "cubex2.cs3" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "CustomStuff3"
 

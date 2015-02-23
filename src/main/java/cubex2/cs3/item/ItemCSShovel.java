@@ -1,37 +1,28 @@
 package cubex2.cs3.item;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedItem;
-import cubex2.cs3.item.attributes.SwordAttributes;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 
 import java.util.List;
 
-public class ItemCSSword extends ItemSword
+public class ItemCSShovel extends ItemSpade
 {
-    private BaseContentPack pack;
     private WrappedItem wrappedItem;
-    private SwordAttributes attributes;
 
-    public ItemCSSword(WrappedItem item)
+    public ItemCSShovel(WrappedItem item)
     {
         super(ToolMaterial.STONE);
-        pack = item.getPack();
         wrappedItem = item;
-        attributes = (SwordAttributes) item.container;
     }
 
     @Override
@@ -76,7 +67,6 @@ public class ItemCSSword extends ItemSword
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        player.setItemInUse(stack, getMaxItemUseDuration(stack));
         return wrappedItem.onItemRightClick(stack, world, player);
     }
 
@@ -102,9 +92,9 @@ public class ItemCSSword extends ItemSword
     @Override
     public boolean onBlockDestroyed(ItemStack stack, World world, Block block, int x, int y, int z, EntityLivingBase living)
     {
-        if (block.getBlockHardness(world, x, y, z) != 0.0D)
+        if ((double) block.getBlockHardness(world, x, y, z) != 0.0D)
         {
-            stack.damageItem(2, living);
+            stack.damageItem(1, living);
         }
         return wrappedItem.onBlockDestroyed(stack, world, block, x, y, z, living);
     }
@@ -112,7 +102,7 @@ public class ItemCSSword extends ItemSword
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase living1, EntityLivingBase living2)
     {
-        stack.damageItem(1, living2);
+        stack.damageItem(2, living2);
         return wrappedItem.hitEntity(stack, living1, living2);
     }
 
@@ -167,19 +157,13 @@ public class ItemCSSword extends ItemSword
     @Override
     public float getDigSpeed(ItemStack stack, Block block, int meta)
     {
-        if (block == Blocks.web)
-            return 15.0F;
-        else
-        {
-            Material material = block.getMaterial();
-            return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.gourd ? wrappedItem.getDigSpeed(stack, block, meta) : 1.5F;
-        }
+        return wrappedItem.getDigSpeed(stack, block, meta);
     }
 
     @Override
     public boolean canHarvestBlock(Block block, ItemStack stack)
     {
-        return block == Blocks.web || wrappedItem.canHarvestBlock(block);
+        return super.func_150897_b(block) || wrappedItem.canHarvestBlock(block);
     }
 
     @Override
@@ -215,7 +199,7 @@ public class ItemCSSword extends ItemSword
     @Override
     public Multimap getAttributeModifiers(ItemStack stack)
     {
-        return wrappedItem.getAttributeModifiers(HashMultimap.create(), field_111210_e);
+        return wrappedItem.getAttributeModifiers(super.getAttributeModifiers(stack), field_111210_e);
     }
 
     @Override
