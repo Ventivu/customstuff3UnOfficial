@@ -26,7 +26,7 @@ public class WindowEditDrops extends WindowEditBlockAttribute implements IWindow
         desc.elementHeight = 22;
         desc.elements = container.drop.getDrops();
         desc.canSelect = true;
-        listBox = listBox(desc).left(7).top(7).width(249).add();
+        listBox = listBox(desc).fillWidth(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

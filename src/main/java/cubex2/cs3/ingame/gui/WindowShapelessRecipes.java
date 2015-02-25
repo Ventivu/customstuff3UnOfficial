@@ -24,7 +24,7 @@ public class WindowShapelessRecipes extends Window implements IWindowClosedListe
         desc.elementHeight = 60;
         desc.elements = pack.getContentRegistry(ShapelessRecipe.class).getContentList();
         desc.canSelect = true;
-        listBox = listBox(desc).left(7).top(7).width(249).add();
+        listBox = listBox(desc).fillWidth(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

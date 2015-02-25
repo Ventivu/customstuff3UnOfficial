@@ -23,7 +23,7 @@ public class WindowSelectString extends Window implements IListBoxItemClickListe
         desc.rows = 6;
         desc.elements = elements;
         desc.sorted = true;
-        listBox(desc).left(7).top(7).width(186).add();
+        listBox(desc).fillWidth(7).top(7).add();
 
         btnSelect.setEnabled(false);
     }
@@ -69,6 +69,4 @@ public class WindowSelectString extends Window implements IListBoxItemClickListe
         btnSelect.setEnabled(listBox.getSelectedIndex() != -1);
         selectedElement = listBox.getSelectedItem();
     }
-
-
 }

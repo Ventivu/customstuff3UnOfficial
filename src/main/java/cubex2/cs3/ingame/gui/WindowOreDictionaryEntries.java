@@ -22,7 +22,7 @@ public class WindowOreDictionaryEntries extends Window implements IListBoxItemCl
         desc.elementHeight = 22;
         desc.elements = pack.getContentRegistry(OreDictionaryEntry.class).getContentList();
         desc.canSelect = true;
-        listBox = listBox(desc).left(7).top(7).width(249).add();
+        listBox = listBox(desc).fillWidth(7).top(7).add();
 
         btnDelete.setEnabled(false);
     }

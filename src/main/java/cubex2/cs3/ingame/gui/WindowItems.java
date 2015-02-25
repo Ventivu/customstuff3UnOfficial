@@ -25,7 +25,7 @@ public class WindowItems extends Window implements IWindowClosedListener, IListB
         desc.elements = pack.getContentRegistry(WrappedItem.class).getContentList();
         desc.canSelect = true;
         desc.sorted = true;
-        listBox = listBox(desc).left(7).top(7).width(249).add();
+        listBox = listBox(desc).fillWidth(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

@@ -23,7 +23,7 @@ public class WindowFuels extends Window implements IListBoxItemClickListener<Fue
         desc.elementHeight = 22;
         desc.elements = pack.getContentRegistry(Fuel.class).getContentList();
         desc.canSelect = true;
-        listBox = listBox(desc).left(7).top(7).width(249).add();
+        listBox = listBox(desc).fillWidth(7).top(7).add();
 
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

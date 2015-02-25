@@ -28,7 +28,7 @@ public class WindowEditItem extends Window implements IListBoxItemClickListener<
         desc.elements = Lists.newArrayList(wrappedItem.container.getAttributeDatas(wrappedItem.getType().name));
         desc.canSelect = false;
         desc.sorted = true;
-        listBox = listBox(desc).left(7).top(7).width(249).add();
+        listBox = listBox(desc).fillWidth(7).top(7).add();
     }
 
     @Override

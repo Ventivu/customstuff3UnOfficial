@@ -25,7 +25,7 @@ public class WindowEditToolClass extends WindowEditItemAttribute implements IWin
         desc.rows = 6;
         desc.elements = Lists.newArrayList(item.container.toolClasses);
         desc.canSelect = true;
-        lbToolClasses = listBox(desc).left(7).right(7).top(7).width(186).add();
+        lbToolClasses = listBox(desc).fillWidth(7).top(7).add();
 
         toolClasses = Lists.newArrayList(item.container.toolClasses);
 

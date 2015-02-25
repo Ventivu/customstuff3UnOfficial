@@ -26,7 +26,7 @@ public class WindowEditPack extends Window implements IListBoxItemClickListener<
         desc.rows = 12;
         desc.elements = listBoxElements;
         desc.canSelect = false;
-        listBox = listBox(desc).left(7).right(7).top(7).width(166).add();
+        listBox = listBox(desc).fillWidth(7).top(7).add();
     }
 
     @Override

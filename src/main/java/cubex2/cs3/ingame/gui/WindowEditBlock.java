@@ -29,7 +29,7 @@ public class WindowEditBlock extends Window implements IListBoxItemClickListener
         desc.elements = Lists.newArrayList(wrappedBlock.container.getAttributeDatas(wrappedBlock.getType().name));
         desc.canSelect = false;
         desc.sorted = true;
-        listBox = listBox(desc).left(7).top(7).width(249).add();
+        listBox = listBox(desc).fillWidth(7).top(7).add();
     }
 
     @Override
