@@ -356,4 +356,9 @@ public class ControlContainer extends Control
     {
         return new BlockDisplayBuilder(block, meta, this);
     }
+
+    public NumericUpDownBuilder numericUpDown()
+    {
+        return new NumericUpDownBuilder(this);
+    }
 }

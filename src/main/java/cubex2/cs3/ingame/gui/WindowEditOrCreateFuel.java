@@ -2,10 +2,7 @@ package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.Fuel;
 import cubex2.cs3.ingame.IngameContentPack;
-import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.ItemDisplay;
-import cubex2.cs3.ingame.gui.control.Label;
-import cubex2.cs3.ingame.gui.control.TextBox;
+import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.TextBoxValidators;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
@@ -18,7 +15,7 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
     private Label lblItem;
     private Label lblDuration;
     private ItemDisplay itemDisplay;
-    private TextBox tbDuration;
+    private NumericUpDown nupDuration;
 
     public WindowEditOrCreateFuel(IngameContentPack pack)
     {
@@ -42,7 +39,7 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
         lblItem = label("Item:").at(7, 7).add();
         itemDisplay = itemDisplay().below(lblItem).add();
         lblDuration = label("Duration:").below(itemDisplay, 5).add();
-        tbDuration = textBox().below(lblDuration).fillWidth(7).height(20).add();
+        nupDuration = numericUpDown().below(lblDuration).fillWidth(7).add();
 
         itemDisplay.setDrawSlotBackground();
         itemDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
@@ -51,9 +48,8 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
 
         if (editingFuel != null)
         {
-            tbDuration.setText(String.valueOf(editingFuel.duration));
+            nupDuration.setValue(editingFuel.duration);
         }
-        tbDuration.setValidityProvider(TextBoxValidators.POSITIVE_INTEGER);
     }
 
     @Override
@@ -65,14 +61,14 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
         } else if (c == btnCreate)
         {
             ItemStack stack = itemDisplay.getItemStack();
-            int duration = Integer.valueOf(tbDuration.getText().trim());
+            int duration = nupDuration.getValue();
             Fuel fuel = new Fuel(stack, duration, pack);
             fuel.apply();
             GuiBase.openPrevWindow();
         } else if (c == btnEdit)
         {
             editingFuel.stack = itemDisplay.getItemStack();
-            editingFuel.duration = Integer.valueOf(tbDuration.getText().trim());
+            editingFuel.duration = nupDuration.getValue();
             editingFuel.edit();
             GuiBase.openPrevWindow();
         } else

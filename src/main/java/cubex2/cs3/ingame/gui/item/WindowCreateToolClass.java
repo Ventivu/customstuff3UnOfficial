@@ -2,10 +2,7 @@ package cubex2.cs3.ingame.gui.item;
 
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.IValidityProvider;
-import cubex2.cs3.ingame.gui.control.Label;
-import cubex2.cs3.ingame.gui.control.TextBox;
+import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Strings;
 import cubex2.cs3.lib.TextBoxValidators;
 import cubex2.cs3.util.ToolClass;
@@ -13,7 +10,7 @@ import cubex2.cs3.util.ToolClass;
 public class WindowCreateToolClass extends Window implements IValidityProvider
 {
     private TextBox tbToolClass;
-    private TextBox tbHarvestLevel;
+    private NumericUpDown nupHarvestLevel;
     private final boolean harvestAndAll;
 
     private ToolClass createdClass = null;
@@ -32,9 +29,8 @@ public class WindowCreateToolClass extends Window implements IValidityProvider
         Label lblHarvestLevel = label("Harvest level:").below(tbToolClass).add();
         infoButton(Strings.INFO_HARVEST_LEVEL_ITEM).rightTo(lblHarvestLevel).add();
 
-        tbHarvestLevel = textBox().top(lblHarvestLevel, 2).fillWidth(7).add();
-        tbHarvestLevel.setValidityProvider(TextBoxValidators.POSITIVE_INTEGER);
-        tbHarvestLevel.setText("0");
+        nupHarvestLevel = numericUpDown().top(lblHarvestLevel, 2).fillWidth(7).add();
+        nupHarvestLevel.setValue(0);
     }
 
     public ToolClass getCreatedClass()
@@ -50,7 +46,7 @@ public class WindowCreateToolClass extends Window implements IValidityProvider
             GuiBase.openPrevWindow();
         } else if (c == btnCreate)
         {
-            createdClass = new ToolClass(tbToolClass.getText(), Integer.parseInt(tbHarvestLevel.getText()));
+            createdClass = new ToolClass(tbToolClass.getText(), nupHarvestLevel.getValue());
             GuiBase.openPrevWindow();
         } else
         {

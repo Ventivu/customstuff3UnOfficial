@@ -15,6 +15,7 @@ public class TextBox extends Control implements IValidityControl
     private String validityMessage;
     private boolean isValid = true;
     private Rectangle validityRect;
+    private boolean numbersOnly = false;
 
     private int maxLength = Integer.MAX_VALUE;
 
@@ -33,8 +34,18 @@ public class TextBox extends Control implements IValidityControl
 
     public void setText(String value)
     {
+        if (numbersOnly)
+        {
+            value = value.replaceAll("[\\D]", "");
+        }
         textField.setText(value);
         valueChanged();
+    }
+
+    public void setNumbersOnly(boolean numbersOnly)
+    {
+        this.numbersOnly = numbersOnly;
+        setText(textField.getText());
     }
 
     @Override
@@ -61,6 +72,11 @@ public class TextBox extends Control implements IValidityControl
         textField.setMaxStringLength(value);
     }
 
+    public boolean isFocused()
+    {
+        return textField.isFocused();
+    }
+
     @Override
     public void onParentResized()
     {
@@ -81,6 +97,10 @@ public class TextBox extends Control implements IValidityControl
         if (getText().length() > maxLength)
         {
             setText(getText().substring(0, getText().length() - 1));
+        }
+        if (numbersOnly)
+        {
+            textField.setText(textField.getText().replaceAll("[\\D]", ""));
         }
 
         valueChanged();

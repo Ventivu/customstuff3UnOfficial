@@ -3,6 +3,7 @@ package cubex2.cs3.ingame.gui.block;
 import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.ingame.gui.control.CheckBox;
 import cubex2.cs3.ingame.gui.control.Label;
+import cubex2.cs3.ingame.gui.control.NumericUpDown;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.Strings;
 import cubex2.cs3.lib.TextBoxValidators;
@@ -10,7 +11,7 @@ import cubex2.cs3.lib.TextBoxValidators;
 public class WindowEditHarvesting extends WindowEditBlockAttribute
 {
     private TextBox tbToolClass;
-    private TextBox tbHarvestLevel;
+    private NumericUpDown nupHarvestLevel;
     private CheckBox cbSilkHarvest;
 
     public WindowEditHarvesting(WrappedBlock block)
@@ -27,11 +28,10 @@ public class WindowEditHarvesting extends WindowEditBlockAttribute
         Label lblHarvestLevel = label("Harvest level:").below(tbToolClass).add();
         infoButton(Strings.INFO_HARVEST_LEVEL_BLOCK).rightTo(lblHarvestLevel).add();
 
-        tbHarvestLevel = textBox().top(lblHarvestLevel, 2).fillWidth(7).add();
-        tbHarvestLevel.setValidityProvider(TextBoxValidators.POSITIVE_INTEGER);
-        tbHarvestLevel.setText(String.valueOf(container.harvestLevel));
+        nupHarvestLevel = numericUpDown().top(lblHarvestLevel,2).fillWidth(7).add();
+        nupHarvestLevel.setValue(container.harvestLevel);
 
-        cbSilkHarvest = checkBox("Allow silk harvest.", container.canSilkHarvest).top(tbHarvestLevel, 6).left(7).add();
+        cbSilkHarvest = checkBox("Allow silk harvest.", container.canSilkHarvest).top(nupHarvestLevel, 6).left(7).add();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class WindowEditHarvesting extends WindowEditBlockAttribute
     {
         String toolClass = tbToolClass.getText().length() != 0 ? tbToolClass.getText() : null;
         container.toolClass = toolClass;
-        container.harvestLevel = toolClass != null ? Integer.parseInt(tbHarvestLevel.getText()) : 0;
+        container.harvestLevel = toolClass != null ? nupHarvestLevel.getValue() : 0;
         container.canSilkHarvest = cbSilkHarvest.getIsChecked();
 
         wrappedBlock.block.setHarvestLevel(container.toolClass, container.harvestLevel);

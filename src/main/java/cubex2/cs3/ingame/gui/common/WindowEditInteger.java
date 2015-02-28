@@ -4,6 +4,7 @@ import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.common.attribute.AttributeData;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
+import cubex2.cs3.ingame.gui.control.NumericUpDown;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.TextBoxValidators;
 
@@ -12,7 +13,7 @@ public class WindowEditInteger extends Window
     protected AttributeContainer container;
     private String fieldName;
 
-    private TextBox textBox;
+    private NumericUpDown nup;
 
     private int minValue = 0;
     private int maxValue = Integer.MAX_VALUE;
@@ -45,15 +46,16 @@ public class WindowEditInteger extends Window
 
     private void initControls()
     {
-        textBox = textBox().top(7).fillWidth(7).add();
-        textBox.setValidityProvider(new TextBoxValidators.IntegerValidator(minValue, maxValue));
-        textBox.setText(String.valueOf(container.getAttribute(fieldName)));
+        nup = numericUpDown().top(7).fillWidth(7).add();
+        nup.setMinValue(minValue);
+        nup.setMaxValue(maxValue);
+        nup.setValue((Integer) container.getAttribute(fieldName));
     }
 
     @Override
     protected void handleEditButtonClicked()
     {
-        container.setAttribute(fieldName, Integer.parseInt(textBox.getText()));
+        container.setAttribute(fieldName, nup.getValue());
         applyChangedValue();
         container.getPack().save();
 

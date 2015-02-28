@@ -16,7 +16,7 @@ public class LabelBuilder extends ControlBuilder<Label>
     @Override
     public ControlBuilder<Label> below(Control c)
     {
-        if (c instanceof TextBox)
+        if (c instanceof TextBox || c instanceof NumericUpDown)
         {
             return below(c, 5);
         }
