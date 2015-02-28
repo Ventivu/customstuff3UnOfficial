@@ -47,7 +47,7 @@ public class NumericUpDown extends ControlContainer
 
     public int getValue()
     {
-        //updateControls();
+        updateControls();
         return Integer.parseInt(tb.getText());
     }
 
