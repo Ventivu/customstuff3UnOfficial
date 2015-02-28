@@ -105,13 +105,15 @@ public class ShapedRecipe extends BaseContent
         NBTTagList tagList = new NBTTagList();
         for (int i = 0; i < input.length; i++)
         {
-            NBTTagCompound compound1 = new NBTTagCompound();
-            compound1.setByte("Index", (byte) i);
             if (input[i] != null)
             {
+                NBTTagCompound compound1 = new NBTTagCompound();
+                compound1.setByte("Index", (byte) i);
+
                 input[i].writeToNBT(compound1);
+
+                tagList.appendTag(compound1);
             }
-            tagList.appendTag(compound1);
         }
         compound.setTag("Input", tagList);
 
@@ -131,7 +133,7 @@ public class ShapedRecipe extends BaseContent
             NBTTagCompound compound1 = tagList.getCompoundTagAt(i);
             int idx = compound1.getByte("Index");
             input[idx] = RecipeInput.loadFromNBT(compound1);
-            if (input[idx].getInput() == null)
+            if (input[idx] != null && input[idx].getInput() == null)
             {
                 return false;
             }
