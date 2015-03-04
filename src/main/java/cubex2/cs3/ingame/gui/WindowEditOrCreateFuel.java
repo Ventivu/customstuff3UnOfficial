@@ -2,8 +2,10 @@ package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.Fuel;
 import cubex2.cs3.ingame.IngameContentPack;
-import cubex2.cs3.ingame.gui.control.*;
-import cubex2.cs3.lib.TextBoxValidators;
+import cubex2.cs3.ingame.gui.control.Control;
+import cubex2.cs3.ingame.gui.control.ItemDisplay;
+import cubex2.cs3.ingame.gui.control.Label;
+import cubex2.cs3.ingame.gui.control.NumericUpDown;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
 
@@ -50,6 +52,9 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
         {
             nupDuration.setValue(editingFuel.duration);
         }
+
+        if (editingFuel == null)
+            btnCreate.setEnabled(false);
     }
 
     @Override
@@ -82,5 +87,7 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
     {
         if (window.getSelectedStack() != null)
             itemDisplay.setItemStack(window.getSelectedStack());
+
+        btnCreate.setEnabled(itemDisplay.getItemStack() != null);
     }
 }
