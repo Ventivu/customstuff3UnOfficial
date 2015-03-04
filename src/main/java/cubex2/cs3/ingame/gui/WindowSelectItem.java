@@ -35,7 +35,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         desc.columns = 7;
         desc.rows = 7;
         desc.elements = ItemStackHelper.getAllItemStacks(wildCardStacks);
-        lbItems = listBox(desc).left(7).top(7).add();
+        lbItems = listBox(desc).left(7).right(7).top(7).add();
 
         btnSelect.setEnabled(false);
 
