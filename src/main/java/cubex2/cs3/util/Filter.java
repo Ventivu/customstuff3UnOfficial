@@ -12,7 +12,7 @@ public interface Filter<T>
         @Override
         public boolean matches(ItemStack obj, String searchText)
         {
-            return StringUtils.containsIgnoreCase(obj.getDisplayName(), searchText);
+            return obj != null && StringUtils.containsIgnoreCase(obj.getDisplayName(), searchText);
         }
     };
 
@@ -21,7 +21,7 @@ public interface Filter<T>
         @Override
         public boolean matches(OreDictionaryClass obj, String searchText)
         {
-            return StringUtils.containsIgnoreCase(obj.oreClass, searchText);
+            return obj != null && StringUtils.containsIgnoreCase(obj.oreClass, searchText);
         }
     };
 

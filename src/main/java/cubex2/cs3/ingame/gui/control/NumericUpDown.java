@@ -76,10 +76,16 @@ public class NumericUpDown extends ControlContainer
 
     private void updateControls()
     {
-        if (tb.getText().length() == 0 || Integer.parseInt(tb.getText()) < minValue)
-            tb.setText(minValue + "");
-        else if (Integer.parseInt(tb.getText()) > maxValue)
+        try
+        {
+            if (tb.getText().length() == 0 || Integer.parseInt(tb.getText()) < minValue)
+                tb.setText(minValue + "");
+            else if (Integer.parseInt(tb.getText()) > maxValue)
+                tb.setText(maxValue + "");
+        } catch (NumberFormatException e)
+        {
             tb.setText(maxValue + "");
+        }
 
         int value = Integer.parseInt(tb.getText());
         btnUp.setEnabled(value < maxValue);
