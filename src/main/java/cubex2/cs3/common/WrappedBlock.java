@@ -9,6 +9,7 @@ import cubex2.cs3.api.scripting.TriggerType;
 import cubex2.cs3.block.EnumBlockType;
 import cubex2.cs3.block.attributes.BlockAttributes;
 import cubex2.cs3.common.attribute.Attribute;
+import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.common.scripting.TriggerData;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.JavaScriptHelper;
@@ -31,21 +32,19 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class WrappedBlock extends BaseContent implements Comparable<WrappedBlock>
+public class WrappedBlock extends AttributeContent implements Comparable<WrappedBlock>
 {
     public Block block;
     public Item blockItem;
     public BlockAttributes container;
 
-    private String name;
     private EnumBlockType type;
 
     private Random random = new Random();
 
     public WrappedBlock(String name, EnumBlockType type, BaseContentPack pack)
     {
-        super(pack);
-        this.name = name;
+        super(name, pack);
         this.type = type;
     }
 
@@ -54,9 +53,16 @@ public class WrappedBlock extends BaseContent implements Comparable<WrappedBlock
         super(pack);
     }
 
-    public String getName()
+    @Override
+    public AttributeContainer getContainer()
     {
-        return name;
+        return container;
+    }
+
+    @Override
+    public String getTypeString()
+    {
+        return type.name;
     }
 
     public EnumBlockType getType()
@@ -91,20 +97,6 @@ public class WrappedBlock extends BaseContent implements Comparable<WrappedBlock
         }
 
         super.apply();
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound compound)
-    {
-        compound.setString("Name", name);
-        compound.setString("Type", type.name);
-
-        NBTTagCompound attributesCompound = new NBTTagCompound();
-        if (container != null)
-        {
-            container.writeToNBT(attributesCompound);
-        }
-        compound.setTag("Attributes", attributesCompound);
     }
 
     @Override

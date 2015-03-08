@@ -337,6 +337,11 @@ public class ControlContainer extends Control
         return new VerticalSliderBuilder(maxValue, this);
     }
 
+    public HorizontalSliderBuilder horizontalSlider(int maxValue)
+    {
+        return new HorizontalSliderBuilder(maxValue, this);
+    }
+
     public <T> ListBoxBuilder<T> listBox(ListBoxDescription<T> desc)
     {
         return new ListBoxBuilder<T>(desc, this);
@@ -360,5 +365,10 @@ public class ControlContainer extends Control
     public NumericUpDownBuilder numericUpDown()
     {
         return new NumericUpDownBuilder(this);
+    }
+
+    public HorizontalItemListBuilder horItemList(int numItems)
+    {
+        return new HorizontalItemListBuilder(numItems,this);
     }
 }

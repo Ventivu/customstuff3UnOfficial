@@ -21,13 +21,19 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
 
     public WindowSelectItem()
     {
-        this(false);
+        this(false, null);
     }
 
     public WindowSelectItem(boolean wildCardStacks)
     {
+        this(wildCardStacks, null);
+    }
+
+    public WindowSelectItem(boolean wildCardStacks, ISelectElementCallback<ItemStack> callback)
+    {
         super("Select Item", SELECT | CANCEL, 197, 211);
         this.wildCardStacks = wildCardStacks;
+        this.callback = callback;
 
         ListBoxDescription<ItemStack> desc = new ListBoxDescription<ItemStack>(7, 7);
         desc.elementWidth = 22;

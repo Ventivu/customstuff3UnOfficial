@@ -48,5 +48,6 @@ public abstract class DefaultAttributeBridges
         register(BlockDrop.class, BlockDropBridge.class);
         register(String[].class, StringArrayBridge.class);
         register(ToolClass[].class, ToolClassArrayBridge.class);
+        register(ItemStack[].class, ItemStackArrayBridge.class);
     }
 }

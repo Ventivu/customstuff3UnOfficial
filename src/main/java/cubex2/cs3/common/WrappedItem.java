@@ -5,6 +5,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cubex2.cs3.api.scripting.ITriggerData;
 import cubex2.cs3.api.scripting.TriggerType;
+import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.common.scripting.TriggerData;
 import cubex2.cs3.item.EnumItemType;
 import cubex2.cs3.item.attributes.ItemAttributes;
@@ -29,19 +30,17 @@ import net.minecraftforge.common.ForgeHooks;
 
 import java.util.*;
 
-public class WrappedItem extends BaseContent implements Comparable<WrappedItem>
+public class WrappedItem extends AttributeContent implements Comparable<WrappedItem>
 {
     public Item item;
     public ItemAttributes container;
 
-    private String name;
     private EnumItemType type;
 
 
     public WrappedItem(String name, EnumItemType type, BaseContentPack pack)
     {
-        super(pack);
-        this.name = name;
+        super(name, pack);
         this.type = type;
     }
 
@@ -50,9 +49,16 @@ public class WrappedItem extends BaseContent implements Comparable<WrappedItem>
         super(pack);
     }
 
-    public String getName()
+    @Override
+    public AttributeContainer getContainer()
     {
-        return name;
+        return container;
+    }
+
+    @Override
+    public String getTypeString()
+    {
+        return type.name;
     }
 
     public EnumItemType getType()
@@ -100,20 +106,6 @@ public class WrappedItem extends BaseContent implements Comparable<WrappedItem>
     public void remove()
     {
         super.remove();
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound compound)
-    {
-        compound.setString("Name", name);
-        compound.setString("Type", type.name);
-
-        NBTTagCompound attributesCompound = new NBTTagCompound();
-        if (container != null)
-        {
-            container.writeToNBT(attributesCompound);
-        }
-        compound.setTag("Attributes", attributesCompound);
     }
 
     @Override

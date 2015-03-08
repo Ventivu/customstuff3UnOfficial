@@ -5,13 +5,14 @@ import cubex2.cs3.ingame.IngameContentPack;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
+import cubex2.cs3.ingame.gui.worldgen.WindowWorldGens;
 
 import java.util.List;
 
 public class WindowEditPack extends Window implements IListBoxItemClickListener<String>
 {
     private static final List<String> listBoxElements = Lists.newArrayList("Fuels", "Smelting Recipes",
-            "Ore Dictionary", "Shaped Recipes", "Shapeless Recipes", "Items", "Blocks");
+            "Ore Dictionary", "Shaped Recipes", "Shapeless Recipes", "Items", "Blocks", "World Generation");
 
     private IngameContentPack pack;
 
@@ -55,6 +56,9 @@ public class WindowEditPack extends Window implements IListBoxItemClickListener<
             } else if (item.equals("Blocks"))
             {
                 GuiBase.openWindow(new WindowBlocks(pack));
+            } else if (item.equals("World Generation"))
+            {
+                GuiBase.openWindow(new WindowWorldGens(pack));
             }
         }
     }

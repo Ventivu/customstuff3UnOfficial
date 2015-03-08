@@ -37,6 +37,7 @@ public abstract class BaseContentPack implements IContentPack
         registerContentRegistry(new ShapelessRecipeRegistry(this), ShapelessRecipe.class);
         registerContentRegistry(new ItemRegistry(this), WrappedItem.class);
         registerContentRegistry(new BlockRegistry(this), WrappedBlock.class);
+        registerContentRegistry(new WorldGenRegistry(this), WrappedWorldGen.class);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.ISelectElementCallback;
+import cubex2.cs3.ingame.gui.WindowSelectBlock;
 import cubex2.cs3.ingame.gui.WindowSelectItem;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.GuiHelper;
@@ -30,19 +31,26 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
     private int currentIndex = 0;
 
     private boolean usesSelectItemDialog = false;
+    private boolean usesSelectBlockDialog = false;
     private boolean dialogWildCards = false;
 
     private IToolTipModifier toolTipModifier;
 
     public ItemDisplay(Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(16, 16, anchor, offsetX,offsetY, parent);
+        super(16, 16, anchor, offsetX, offsetY, parent);
     }
 
     public ItemDisplay useSelectItemDialog(boolean wildCardStacks)
     {
         usesSelectItemDialog = true;
         dialogWildCards = wildCardStacks;
+        return this;
+    }
+
+    public ItemDisplay useSelectBlockDialog()
+    {
+        usesSelectBlockDialog = true;
         return this;
     }
 
@@ -150,11 +158,15 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
         if (button == 1 && clearOnRightClick)
         {
             setItemStack(null);
-        } else if (button == 0 && usesSelectItemDialog)
+        } else if (button == 0)
         {
-            WindowSelectItem dialog = new WindowSelectItem(dialogWildCards);
-            dialog.setCallback(this);
-            GuiBase.openWindow(dialog);
+            if (usesSelectItemDialog)
+            {
+                GuiBase.openWindow(new WindowSelectItem(dialogWildCards, this));
+            } else if (usesSelectBlockDialog)
+            {
+                GuiBase.openWindow(new WindowSelectBlock(false, false, this, null));
+            }
         }
     }
 

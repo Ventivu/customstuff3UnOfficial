@@ -1,6 +1,7 @@
 package cubex2.cs3.ingame;
 
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.lib.Strings;
 import cubex2.cs3.registry.ContentRegistry;
 import cubex2.cs3.util.IOHelper;
 import cubex2.cs3.util.IPurposeStringProvider;

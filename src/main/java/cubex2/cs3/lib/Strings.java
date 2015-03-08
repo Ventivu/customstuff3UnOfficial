@@ -21,6 +21,7 @@ public class Strings
     public static final String REGISTRY_SHAPELESS_RECIPE = "ShapelessRecipeRegistry";
     public static final String REGISTRY_ITEM = "ItemRegistry";
     public static final String REGISTRY_BLOCK = "BlockRegistry";
+    public static final String REGISTRY_WORLD_GEN = "WorldGenRegistry";
 
     // GUI text
     public static final String INFO_NEW_PACK = "This has to be unique and|is used to reference items,|blocks and textures.";

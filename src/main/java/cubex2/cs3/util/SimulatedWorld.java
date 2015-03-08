@@ -48,7 +48,7 @@ public class SimulatedWorld implements IBlockAccess
 
     public void setBlock(Block block, int x, int y, int z)
     {
-        if (x < minX || y < minY || y < minZ || x > maxX || y > maxY || z > maxZ)
+        if (x < minX || y < minY || z < minZ || x > maxX || y > maxY || z > maxZ)
             return;
 
         x += Math.abs(Math.min(0, minX));
@@ -85,7 +85,7 @@ public class SimulatedWorld implements IBlockAccess
 
     public void setMetadata(int metadata, int x, int y, int z)
     {
-        if (x < minX || y < minY || y < minZ || x > maxX || y > maxY || z > maxZ)
+        if (x < minX || y < minY || z < minZ || x > maxX || y > maxY || z > maxZ)
             return;
 
         x += Math.abs(Math.min(0, minX));
@@ -128,9 +128,18 @@ public class SimulatedWorld implements IBlockAccess
     @Override
     public boolean isSideSolid(int x, int y, int z, ForgeDirection side, boolean _default)
     {
-        if (x < minX || y < minY || y < minZ || x > maxX || y > maxY || z > maxZ)
+        if (x < minX || y < minY || z < minZ || x > maxX || y > maxY || z > maxZ)
             return _default;
 
         return getBlock(x, y, z).isSideSolid(this, x, y, z, side);
+    }
+
+    public void clear()
+    {
+        for (int i = 0; i < blocks.length; i++)
+        {
+            blocks[i] = null;
+            meta[i] = 0;
+        }
     }
 }

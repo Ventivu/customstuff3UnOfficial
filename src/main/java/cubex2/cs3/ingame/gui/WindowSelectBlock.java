@@ -1,5 +1,6 @@
 package cubex2.cs3.ingame.gui;
 
+import com.google.common.base.Predicate;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
@@ -21,17 +22,20 @@ public class WindowSelectBlock extends Window implements IListBoxItemClickListen
     private TextBox tbSearch;
 
     private ISelectElementCallback<ItemStack> callback;
+    private Predicate<ItemStack> itemFilter;
 
     public WindowSelectBlock()
     {
-        this(false, false);
+        this(false, false, null, null);
     }
 
-    public WindowSelectBlock(boolean wildCardStacks, boolean subBlocks)
+    public WindowSelectBlock(boolean wildCardStacks, boolean subBlocks, ISelectElementCallback<ItemStack> callback, Predicate<ItemStack> itemFilter)
     {
         super("Select Block", SELECT | CANCEL, 197, 211);
         this.wildCardStacks = wildCardStacks;
         this.subBlocks = subBlocks;
+        this.callback = callback;
+        this.itemFilter = itemFilter;
 
         ListBoxDescription<ItemStack> desc = new ListBoxDescription<ItemStack>(7, 7);
         desc.elementWidth = 22;
@@ -48,13 +52,21 @@ public class WindowSelectBlock extends Window implements IListBoxItemClickListen
 
     private List<ItemStack> getStacks()
     {
-        if (subBlocks)
+        List<ItemStack> stacks = subBlocks ? ItemStackHelper.getBlockStacks(wildCardStacks) :
+                ItemStackHelper.getBlockStacks();
+
+        if (itemFilter != null)
         {
-            return ItemStackHelper.getBlockStacks(wildCardStacks);
-        } else
-        {
-            return ItemStackHelper.getBlockOnlyStacks();
+            for (int i = 0; i < stacks.size(); i++)
+            {
+                if (!itemFilter.apply(stacks.get(i)))
+                {
+                    stacks.remove(i--);
+                }
+            }
         }
+
+        return stacks;
     }
 
     public void setCallback(ISelectElementCallback<ItemStack> callback)

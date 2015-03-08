@@ -19,6 +19,7 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
     protected static final int EDIT = 32;
     protected static final int SELECT = 64;
 
+
     public String tag = null;
 
     protected Button btnBack;

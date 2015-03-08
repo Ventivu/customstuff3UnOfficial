@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -202,7 +203,7 @@ public class ItemStackHelper
         return stacks;
     }
 
-    public static List<ItemStack> getBlockOnlyStacks()
+    public static List<ItemStack> getBlockStacks()
     {
         List<ItemStack> stacks = Lists.newArrayList();
 
@@ -210,9 +211,17 @@ public class ItemStackHelper
         {
             Block block = (Block) GameData.getBlockRegistry().getObject(o);
             Item item = Item.getItemFromBlock(block);
-            if (item != null)
+            if (item != null && item instanceof ItemBlock)
             {
-                stacks.add(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
+                if (item.getHasSubtypes())
+                {
+                    List<ItemStack> list = Lists.newArrayList();
+                    item.getSubItems(item, CreativeTabs.tabAllSearch, list);
+                    stacks.addAll(list);
+                } else
+                {
+                    stacks.add(new ItemStack(item, 1, 0));
+                }
             }
         }
 

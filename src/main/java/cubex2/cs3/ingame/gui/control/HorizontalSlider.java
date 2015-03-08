@@ -8,7 +8,7 @@ import org.lwjgl.util.Rectangle;
 
 public class HorizontalSlider extends Control
 {
-    private static final int SCROLL_THUMNB_WIDTH = 10;
+    private static final int SCROLL_THUMNB_WIDTH = 16;
     private static final int CENTER_LINE_HEIGHT = 6;
 
     private int maxValue;
@@ -19,12 +19,28 @@ public class HorizontalSlider extends Control
     private boolean mouseOverControl = false;
     private int prevScrollOffset = -1;
     private int mx = -1;
+    private int wheelScrollStep = 1;
+    private boolean wheelScrollEverywhere = false;
+    private boolean wheelScrollParent = false;
+    private boolean listBoxRendering = false;
 
-    public HorizontalSlider(int maxValue, int width, int height, Anchor anchor, Control parent)
+    private IHorizontalSliderValueListener listener;
+
+    public HorizontalSlider(int maxValue, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(width, height, anchor, parent);
+        super(width, height, anchor, offsetX, offsetY, parent);
         scrollThumbRect = new Rectangle(getX(), getY(), SCROLL_THUMNB_WIDTH, getHeight());
         this.maxValue = maxValue;
+
+        if (rootControl instanceof IHorizontalSliderValueListener)
+        {
+            listener = (IHorizontalSliderValueListener) rootControl;
+        }
+    }
+
+    public void setValueListener(IHorizontalSliderValueListener listener)
+    {
+        this.listener = listener;
     }
 
     public int getValue()
@@ -35,6 +51,36 @@ public class HorizontalSlider extends Control
     public float getValueFloat()
     {
         return scrollOffset / (float) (getWidth() - SCROLL_THUMNB_WIDTH) * maxValue;
+    }
+
+    public void setWheelScrollStep(int value)
+    {
+        wheelScrollStep = value;
+    }
+
+    public void setWheelScrollEverywhere(boolean value)
+    {
+        wheelScrollEverywhere = value;
+    }
+
+    public void setWheelScrollParent(boolean value)
+    {
+        wheelScrollParent = value;
+    }
+
+    public void setListBoxRendering(boolean value)
+    {
+        listBoxRendering = value;
+    }
+
+    public void setMaxValue(int value)
+    {
+        maxValue = value;
+
+        currentValue = Math.min(currentValue, maxValue);
+        int scrollHeight = getWidth() - SCROLL_THUMNB_WIDTH;
+        scrollOffset = (int) (scrollHeight / (float) maxValue * currentValue);
+        scrollThumbRect.setX(getX() + scrollOffset);
     }
 
     @Override
@@ -50,12 +96,15 @@ public class HorizontalSlider extends Control
     public void onUpdate()
     {
         int wheel = GuiBase.dWheel;
-        if (wheel != 0 && mouseOverControl)
+        if (wheel != 0 && (mouseOverControl || wheelScrollEverywhere) && maxValue > 0)
         {
-            currentValue = MathHelper.clamp_int(currentValue + wheel / 120, 0, maxValue);
+            currentValue = MathHelper.clamp_int(currentValue - wheel / 120 * wheelScrollStep, 0, maxValue);
             int scrollWidth = getWidth() - SCROLL_THUMNB_WIDTH;
             scrollOffset = (int) (scrollWidth / (float) maxValue * currentValue);
             scrollThumbRect.setX(getX() + scrollOffset);
+
+            if (listener != null)
+                listener.valueChanged(this);
         }
     }
 
@@ -74,7 +123,6 @@ public class HorizontalSlider extends Control
 
             if (!scrollThumbRect.contains(mouseX, mouseY))
                 updateScroll();
-
         }
     }
 
@@ -99,12 +147,19 @@ public class HorizontalSlider extends Control
         float widthPerScroll = (scrollWidth) / (float) ((maxValue + 1));
         currentValue = (int) (scrollOffset / widthPerScroll);
         currentValue = MathHelper.clamp_int(currentValue, 0, maxValue);
+
+        if (listener != null)
+            listener.valueChanged(this);
     }
 
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
         mouseOverControl = bounds.contains(mouseX, mouseY);
+        if (wheelScrollParent && !mouseOverControl)
+        {
+            mouseOverControl = parent.bounds.contains(mouseX, mouseY);
+        }
 
         if (mouseDown)
         {
@@ -112,11 +167,17 @@ public class HorizontalSlider extends Control
             updateScroll();
         }
 
-        int x1 = getX();
-        int y1 = getY() + (getHeight() - CENTER_LINE_HEIGHT) / 2;
-        int x2 = x1 + getWidth();
-        int y2 = y1 + CENTER_LINE_HEIGHT;
-        GuiHelper.drawRect(x1, y1, x2, y2, Color.LIGHT_GREY);
+        if (listBoxRendering)
+        {
+            GuiHelper.drawOutlinedRect(getBounds(), Color.DARK_GREY, Color.LIGHT_GREY);
+        } else
+        {
+            int x1 = getX();
+            int y1 = getY() + (getHeight() - CENTER_LINE_HEIGHT) / 2;
+            int x2 = x1 + getWidth();
+            int y2 = y1 + CENTER_LINE_HEIGHT;
+            GuiHelper.drawRect(x1, y1, x2, y2, Color.LIGHT_GREY);
+        }
 
         // Scroll bar thumb
         if (maxValue > 0)
