@@ -12,7 +12,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
 
-public class HorizontalItemList extends ControlContainer implements IHorizontalSliderValueListener, ISelectElementCallback<ItemStack>
+public class HorizontalItemList extends ControlContainer implements IValueListener<Slider>, ISelectElementCallback<ItemStack>
 {
     private ItemDisplay[] displays;
     private HorizontalSlider slider;
@@ -43,7 +43,7 @@ public class HorizontalItemList extends ControlContainer implements IHorizontalS
         slider.setWheelScrollParent(true);
         slider.setListBoxRendering(true);
 
-        valueChanged(slider);
+        onValueChanged(slider);
     }
 
     public List<ItemStack> getStacks()
@@ -109,7 +109,7 @@ public class HorizontalItemList extends ControlContainer implements IHorizontalS
     }
 
     @Override
-    public void valueChanged(HorizontalSlider slider)
+    public void onValueChanged(Slider slider)
     {
         for (int i = 0; i < displays.length; i++)
         {

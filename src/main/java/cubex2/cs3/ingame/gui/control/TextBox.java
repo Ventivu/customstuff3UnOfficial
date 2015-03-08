@@ -11,7 +11,7 @@ public class TextBox extends Control implements IValidityControl
 {
     private GuiTextField textField;
     private IValidityProvider validityProvider;
-    private IValueChangedListener valueChangedListener;
+    private IValueListener valueChangedListener;
     private String validityMessage;
     private boolean isValid = true;
     private Rectangle validityRect;
@@ -55,7 +55,7 @@ public class TextBox extends Control implements IValidityControl
     }
 
     @Override
-    public void setValueChangedListener(IValueChangedListener listener)
+    public void setValueChangedListener(IValueListener listener)
     {
         valueChangedListener = listener;
     }
@@ -75,6 +75,11 @@ public class TextBox extends Control implements IValidityControl
     public boolean isFocused()
     {
         return textField.isFocused();
+    }
+
+    public void setFocused(boolean value)
+    {
+        textField.setFocused(value);
     }
 
     @Override
@@ -122,7 +127,7 @@ public class TextBox extends Control implements IValidityControl
 
         if (valueChangedListener != null)
         {
-            valueChangedListener.valueChanged(this);
+            valueChangedListener.onValueChanged(this);
         }
     }
 

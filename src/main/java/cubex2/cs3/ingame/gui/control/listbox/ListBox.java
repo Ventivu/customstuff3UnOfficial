@@ -8,7 +8,7 @@ import cubex2.cs3.util.Filter;
 import java.util.Collections;
 import java.util.List;
 
-public class ListBox<T> extends ControlContainer implements IVerticalSliderValueListener
+public class ListBox<T> extends ControlContainer implements IValueListener<Slider>
 {
     public static final int HORIZONTAL_GAP = 1;
     public static final int VERTICAL_GAP = 1;
@@ -16,6 +16,10 @@ public class ListBox<T> extends ControlContainer implements IVerticalSliderValue
     private VerticalSlider slider;
     private ControlContainer scrollerWindow;
     private ControlContainer itemContainer;
+    private TextBox tbSearch;
+
+    private Filter<T> filter;
+    private final List<T> allElements;
 
     private final List<T> elements;
     private final List<Integer> selectedIndices = Lists.newArrayList();
@@ -43,17 +47,24 @@ public class ListBox<T> extends ControlContainer implements IVerticalSliderValue
         elementWidth = desc.elementWidth;
         listBoxItemMeta = desc.listBoxItemMeta;
 
+        allElements = Lists.newArrayList(desc.elements);
         elements = Lists.newArrayList(desc.elements);
         if (isSorted)
             Collections.sort((List<Comparable>) elements);
 
-        slider = verticalSlider(calculateTotalHeight()).top(0).bottom(0).right(0).width(desc.sliderWidth).add();
+        if (desc.hasSearchBar)
+        {
+            filter = desc.filter;
+            tbSearch = textBox().fillWidth(0).bottom(0).add();
+        }
+
+        slider = verticalSlider(calculateTotalHeight()).top(0).bottom(desc.hasSearchBar ? 17 :0).right(0).width(desc.sliderWidth).add();
         slider.setValueListener(this);
         slider.setWheelScrollEverywhere(true);
         slider.setWheelScrollStep(elementHeight + VERTICAL_GAP);
         slider.setListBoxRendering(true);
 
-        scrollerWindow = container().at(0, 0).bottom(0).right(slider, 3).add();
+        scrollerWindow = container().at(0, 0).bottom(slider, 0, true).right(slider, 3).add();
         scrollerWindow.enableScissor = true;
         itemContainer = new ItemContainerBuilder<T>(this, scrollerWindow).fill().add();
 
@@ -146,16 +157,21 @@ public class ListBox<T> extends ControlContainer implements IVerticalSliderValue
 
     public void updateElements(List<T> newElements, Filter<T> filter, String searchText)
     {
-        if (filter != null)
-        {
-            for (int i = 0; i < newElements.size(); i++)
-            {
-                if (!filter.matches(newElements.get(i), searchText))
-                    newElements.remove(i--);
-            }
-        }
         elements.clear();
         elements.addAll(newElements);
+
+        if (filter != null)
+        {
+            for (int i = 0; i < elements.size(); i++)
+            {
+                if (!filter.matches(elements.get(i), searchText))
+                    elements.remove(i--);
+            }
+        } else
+        {
+            allElements.clear();
+            allElements.addAll(newElements);
+        }
 
         if (isSorted)
             Collections.sort((List<Comparable>) elements);
@@ -185,6 +201,25 @@ public class ListBox<T> extends ControlContainer implements IVerticalSliderValue
         super.onParentResized();
 
         slider.setMaxValue(calculateTotalHeight() - slider.getHeight());
+    }
+
+    @Override
+    public void keyTyped(char c, int key)
+    {
+        if (tbSearch == null)
+        {
+            super.keyTyped(c, key);
+        } else
+        {
+            String prev = tbSearch.getText();
+            super.keyTyped(c, key);
+            String now = tbSearch.getText();
+            if (!prev.equals(now))
+            {
+                updateElements(allElements, filter, now);
+                tbSearch.setFocused(true);
+            }
+        }
     }
 
     @Override
@@ -224,7 +259,7 @@ public class ListBox<T> extends ControlContainer implements IVerticalSliderValue
     }
 
     @Override
-    public void valueChanged(VerticalSlider slider)
+    public void onValueChanged(Slider slider)
     {
         setScroll(slider.getValue());
     }

@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
-public abstract class Window extends ControlContainer implements IValueChangedListener
+public abstract class Window extends ControlContainer implements IValueListener
 {
     protected static final int BACK = 1;
     protected static final int CANCEL = 2;
@@ -145,7 +145,7 @@ public abstract class Window extends ControlContainer implements IValueChangedLi
     }
 
     @Override
-    public void valueChanged(Control c)
+    public void onValueChanged(Control c)
     {
         updateValidation();
     }

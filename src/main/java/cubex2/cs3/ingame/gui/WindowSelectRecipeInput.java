@@ -19,8 +19,6 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
     private IngameContentPack pack;
     private ListBox<ItemStack> lbItems;
     private ListBox<OreDictionaryClass> lbOreDictClasses;
-    private TextBox tbSearchItems;
-    private TextBox tbSearchOreClasses;
     private TabControl tabControl;
     private Object selectedInput = null;
 
@@ -40,9 +38,9 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         desc.rows = 7;
         desc.elements = ItemStackHelper.getAllItemStacks();
         desc.listBoxItemMeta = 1;
+        desc.hasSearchBar = true;
+        desc.filter = Filter.ITEM_STACK;
         lbItems = itemTab.listBox(desc).left(7).top(7).right(7).add();
-
-        tbSearchItems = itemTab.textBox().top(lbItems, 3).fillWidth(7).add();
 
         ListBoxDescription<OreDictionaryClass> desc1 = new ListBoxDescription<OreDictionaryClass>(7, 7);
         desc1.elementWidth = 22;
@@ -51,9 +49,9 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         desc1.rows = 7;
         desc1.elements = OreDictionaryClass.getAllClasses();
         desc1.sorted = true;
+        desc1.hasSearchBar = true;
+        desc1.filter = Filter.ORE_CLASS;
         lbOreDictClasses = oreTab.listBox(desc1).left(7).top(7).right(7).add();
-
-        tbSearchOreClasses = oreTab.textBox().top(lbOreDictClasses, 3).fillWidth(7).add();
 
         btnSelect.setEnabled(false);
     }
@@ -62,25 +60,6 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
     {
         if (selectedInput == null) return null;
         return selectedInput instanceof ItemStack ? new RecipeInput((ItemStack) selectedInput) : new RecipeInput(((OreDictionaryClass) selectedInput).oreClass);
-    }
-
-    @Override
-    public void keyTyped(char c, int key)
-    {
-        String prevItem = tbSearchItems.getText();
-        String prevOre = tbSearchOreClasses.getText();
-        super.keyTyped(c, key);
-        String nowItem = tbSearchItems.getText();
-        String nowOre = tbSearchOreClasses.getText();
-
-        if (!prevItem.equals(nowItem))
-        {
-            lbItems.updateElements(ItemStackHelper.getAllItemStacks(true), Filter.ITEM_STACK, nowItem);
-        }
-        if (!prevOre.equals(nowOre))
-        {
-            lbOreDictClasses.updateElements(OreDictionaryClass.getAllClasses(), Filter.ORE_CLASS, nowOre);
-        }
     }
 
     @Override

@@ -15,8 +15,6 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
     private ItemStack selectedStack = null;
     private boolean wildCardStacks = true;
 
-    private TextBox tbSearch;
-
     private ISelectElementCallback<ItemStack> callback;
 
     public WindowSelectItem()
@@ -41,11 +39,11 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         desc.columns = 7;
         desc.rows = 7;
         desc.elements = ItemStackHelper.getAllItemStacks(wildCardStacks);
+        desc.hasSearchBar = true;
+        desc.filter = Filter.ITEM_STACK;
         lbItems = listBox(desc).left(7).right(7).top(7).add();
 
         btnSelect.setEnabled(false);
-
-        tbSearch = textBox().top(lbItems, 3).fillWidth(7).add();
     }
 
     public void setCallback(ISelectElementCallback<ItemStack> callback)
@@ -56,18 +54,6 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
     public ItemStack getSelectedStack()
     {
         return selectedStack;
-    }
-
-    @Override
-    public void keyTyped(char c, int key)
-    {
-        String prev = tbSearch.getText();
-        super.keyTyped(c, key);
-        String now = tbSearch.getText();
-        if (!prev.equals(now))
-        {
-            lbItems.updateElements(ItemStackHelper.getAllItemStacks(wildCardStacks), Filter.ITEM_STACK, now);
-        }
     }
 
     @Override

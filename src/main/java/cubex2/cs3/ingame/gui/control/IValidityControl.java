@@ -4,5 +4,5 @@ public interface IValidityControl
 {
     boolean hasValidValue();
 
-    void setValueChangedListener(IValueChangedListener listener);
+    void setValueChangedListener(IValueListener listener);
 }

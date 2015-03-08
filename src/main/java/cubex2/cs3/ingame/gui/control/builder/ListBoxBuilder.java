@@ -20,6 +20,8 @@ public class ListBoxBuilder<T> extends ControlBuilder<ListBox<T>>
         if (height <= 0 && desc.rows != -1)
         {
             height = desc.rows * (desc.elementHeight + ListBox.VERTICAL_GAP) - ListBox.VERTICAL_GAP;
+            if (desc.hasSearchBar)
+                height += 17;
         }
         return new ListBox<T>(desc, width, height, anchor, offsetX, offsetY, container);
     }

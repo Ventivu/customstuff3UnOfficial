@@ -5,7 +5,7 @@ import com.google.common.base.Predicate;
 public abstract class ValidityControl<T extends Control> extends Control implements IValidityControl
 {
     protected Predicate<T> validatorFunc = null;
-    protected IValueChangedListener valueChangedListener = null;
+    protected IValueListener valueChangedListener = null;
 
     public ValidityControl(int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
@@ -24,7 +24,7 @@ public abstract class ValidityControl<T extends Control> extends Control impleme
     }
 
     @Override
-    public void setValueChangedListener(IValueChangedListener listener)
+    public void setValueChangedListener(IValueListener listener)
     {
         valueChangedListener = listener;
     }
@@ -33,7 +33,7 @@ public abstract class ValidityControl<T extends Control> extends Control impleme
     {
         if (valueChangedListener != null)
         {
-            valueChangedListener.valueChanged(this);
+            valueChangedListener.onValueChanged(this);
         }
     }
 }
