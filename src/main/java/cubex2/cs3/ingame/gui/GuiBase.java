@@ -103,7 +103,7 @@ public class GuiBase extends GuiScreen
     @Override
     public void updateScreen()
     {
-        dWheel = Mouse.getDWheel();
+        dWheel = Mouse.getDWheel() / 120;
         window.onUpdate();
     }
 

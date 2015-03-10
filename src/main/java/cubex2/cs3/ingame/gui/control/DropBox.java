@@ -44,7 +44,7 @@ public class DropBox<T> extends Control
         int wheel = GuiBase.dWheel;
         if (wheel != 0 && isExpanded && values.length > maxShowedValues)
         {
-            offset = MathHelper.clamp_int(offset - wheel / 120, 0, values.length - maxShowedValues);
+            offset = MathHelper.clamp_int(offset - wheel, 0, values.length - maxShowedValues);
         }
     }
 

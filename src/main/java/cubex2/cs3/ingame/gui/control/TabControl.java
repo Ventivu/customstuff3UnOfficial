@@ -4,15 +4,15 @@ import com.google.common.collect.Lists;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.lib.Textures;
-import cubex2.cs3.util.GuiHelper;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.client.event.RenderHandEvent;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
 public class TabControl extends Control
 {
+    private static final int SCROLL_BUTTON_HEIGHT = 10;
+
     private List<Tab> tabs = Lists.newArrayList();
     private Tab activeTab = null;
     private int tabWidth;
@@ -70,10 +70,10 @@ public class TabControl extends Control
             {
                 activeTab = tabs.get(clickedTab);
             }
-        } else if (mouseX >= getX() - tabWidth / 2 - 4 && mouseX < getX() - tabWidth / 2 + 15 && mouseY >= getY() - 10 && mouseY < getY() - 10 + 10 && scroll > 0)
+        } else if (mouseX >= getX() - tabWidth / 2 - 4 && mouseX < getX() - tabWidth / 2 + 15 && mouseY >= getY() - SCROLL_BUTTON_HEIGHT && mouseY < getY() && scroll > 0)
         {
             scroll--;
-        } else if (mouseX >= getX() - tabWidth / 2 - 4 && mouseX < getX() - tabWidth / 2 + 15 && mouseY >= getY() + getHeight() && mouseY < getY() + getHeight() + 10 && scroll < maxScroll)
+        } else if (mouseX >= getX() - tabWidth / 2 - 4 && mouseX < getX() - tabWidth / 2 + 15 && mouseY >= getY() + getHeight() && mouseY < getY() + getHeight() + SCROLL_BUTTON_HEIGHT && scroll < maxScroll)
         {
             scroll++;
         } else if (activeTab != null)
@@ -98,7 +98,6 @@ public class TabControl extends Control
         {
             activeTab.mouseUp(mouseX, mouseY, button);
         }
-
     }
 
     @Override
@@ -125,30 +124,20 @@ public class TabControl extends Control
         int wheel = GuiBase.dWheel;
         if (wheel != 0 && mouseX >= getX() - tabWidth && mouseX < getX() && mouseY >= getY() && mouseY < getY() + getHeight())
         {
-            scroll = MathHelper.clamp_int(scroll - wheel / 120, 0, maxScroll);
+            scroll = MathHelper.clamp_int(scroll - wheel, 0, maxScroll);
         }
 
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         mc.renderEngine.bindTexture(Textures.CONTROLS2);
 
+        // draw scroll buttons
         if (tabs.size() > maxPossibleTabs)
         {
-            int x = getX() - tabWidth / 2 - 4;
-            int y = getY() - 10;
-            boolean enabled = scroll > 0;
-            boolean hover = mouseX >= x && mouseX < x + 19 && mouseY >= y && mouseY < y + 10;
-            int u = enabled ? hover ? 0 : 19 : 38;
-            int v = 180;
-            drawTexturedModalRect(x, y, u, v, 19, 10);
-
-            y = getY() + getHeight();
-            enabled = scroll < maxScroll;
-            hover = mouseX >= x && mouseX < x + 19 && mouseY >= y && mouseY < y + 10;
-            u = enabled ? hover ? 0 : 19 : 38;
-            v = 191;
-            drawTexturedModalRect(x, y, u, v, 19, 10);
+            drawScrollButton(-SCROLL_BUTTON_HEIGHT, mouseX, mouseY, 180, scroll > 0);
+            drawScrollButton(getHeight(), mouseX, mouseY, 191, scroll < maxScroll);
         }
 
+        // draw tab backgrounds
         for (int i = 0; i < maxPossibleTabs; i++)
         {
             int idx = i + scroll;
@@ -171,6 +160,7 @@ public class TabControl extends Control
 
         }
 
+        // draw tab text
         for (int i = 0; i < maxPossibleTabs; i++)
         {
             int idx = i + scroll;
@@ -186,6 +176,15 @@ public class TabControl extends Control
         {
             activeTab.draw(mouseX, mouseY, renderTick);
         }
+    }
+
+    private void drawScrollButton(int yOffset, int mouseX, int mouseY, int v, boolean enabled)
+    {
+        int x = getX() - tabWidth / 2 - 4;
+        int y = getY() + yOffset;
+        boolean hover = mouseX >= x && mouseX < x + 19 && mouseY >= y && mouseY < y + SCROLL_BUTTON_HEIGHT;
+        int u = enabled ? hover ? 0 : 19 : 38;
+        drawTexturedModalRect(x, y, u, v, 19, SCROLL_BUTTON_HEIGHT);
     }
 
     @Override

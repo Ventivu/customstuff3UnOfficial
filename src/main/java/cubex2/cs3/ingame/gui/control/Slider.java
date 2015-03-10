@@ -6,9 +6,14 @@ import cubex2.cs3.util.GuiHelper;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.util.Rectangle;
 
-public abstract class Slider extends Control
+public class Slider extends Control
 {
-    protected static final int CENTER_LINE_SIZE = 6;
+    public enum Direction
+    {
+        VERTICAL, HORIZONTAL
+    }
+
+    private final Direction direction;
 
     protected Rectangle scrollThumbRect;
     protected int mousePos = -1;
@@ -21,17 +26,20 @@ public abstract class Slider extends Control
     private boolean wheelScrollEverywhere = false;
     private boolean wheelScrollParent = false;
 
-    protected boolean listBoxRendering = false;
-
     private int currentValue;
     protected int maxValue;
 
+    private int thumbSize;
+
     private IValueListener<Slider> listener;
 
-    public Slider(int maxValue, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
+    public Slider(Direction direction, int maxValue, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
         super(width, height, anchor, offsetX, offsetY, parent);
+        this.direction = direction;
         this.maxValue = maxValue;
+        updateThumbSize();
+        scrollThumbRect = new Rectangle(getX(), getY(), thumbWidth(), thumbHeight());
 
         if (rootControl instanceof IValueListener)
         {
@@ -39,11 +47,33 @@ public abstract class Slider extends Control
         }
     }
 
-    protected abstract int getSliderSize();
+    private int scrollAreaSize()
+    {
+        return direction == Direction.HORIZONTAL ? getWidth() : getHeight();
+    }
 
-    protected abstract int getThumbSize();
+    private int thumbWidth()
+    {
+        return direction == Direction.HORIZONTAL ? thumbSize : getWidth();
+    }
 
-    protected abstract void updateThumbRect();
+    private int thumbHeight()
+    {
+        return direction == Direction.VERTICAL ? thumbSize : getHeight();
+    }
+
+    private int maxScrollSize()
+    {
+        return (direction == Direction.HORIZONTAL ? getWidth() : getHeight()) - thumbSize;
+    }
+
+    private void updateThumbRect()
+    {
+        if (direction == Direction.HORIZONTAL)
+            scrollThumbRect.setX(getX() + scrollOffset);
+        else
+            scrollThumbRect.setY(getY() + scrollOffset);
+    }
 
     public void setValueListener(IValueListener<Slider> listener)
     {
@@ -57,7 +87,7 @@ public abstract class Slider extends Control
 
     public float getValueFloat()
     {
-        return scrollOffset / (float) (getSliderSize() - getThumbSize()) * maxValue;
+        return scrollOffset / (float) maxScrollSize() * maxValue;
     }
 
     public void setWheelScrollStep(int value)
@@ -75,19 +105,73 @@ public abstract class Slider extends Control
         wheelScrollParent = value;
     }
 
-    public void setListBoxRendering(boolean value)
-    {
-        listBoxRendering = value;
-    }
-
+    /**
+     * Sets the maxValue in pixels.
+     */
     public void setMaxValue(int value)
     {
         maxValue = value;
+        updateThumbSize();
+
+        scrollThumbRect.setHeight(thumbSize);
 
         currentValue = Math.min(currentValue, maxValue);
-        int scrollHeight = getSliderSize() - getThumbSize();
-        scrollOffset = (int) (scrollHeight / (float) maxValue * currentValue);
+        scrollOffset = (int) (maxScrollSize() / (float) maxValue * currentValue);
         updateThumbRect();
+    }
+
+    private void updateThumbSize()
+    {
+        int total = scrollAreaSize() + maxValue;
+        float perc = scrollAreaSize() / (float) total;
+        thumbSize = maxValue <= 0 ? 0 : Math.max((int) (perc * scrollAreaSize()), 10);
+    }
+
+    @Override
+    public void onParentResized()
+    {
+        super.onParentResized();
+
+        scrollThumbRect = new Rectangle(getX(), getY(), thumbWidth(), thumbHeight());
+        updateThumbRect();
+    }
+
+    @Override
+    public void mouseDown(int mouseX, int mouseY, int button)
+    {
+        if (button == 0 && maxValue > 0)
+        {
+            mouseDown = true;
+
+            if (!scrollThumbRect.contains(mouseX, mouseY))
+                scrollOffset = MathHelper.clamp_int(mousePos(mouseX, mouseY) - zeroThumbPos() - thumbSize / 2, 0, maxScrollSize());
+
+            prevScrollOffset = scrollOffset;
+            mousePos = mousePos(mouseX, mouseY);
+
+            if (!scrollThumbRect.contains(mouseX, mouseY))
+                updateScroll();
+        }
+    }
+
+    @Override
+    public void mouseUp(int mouseX, int mouseY, int button)
+    {
+        if (button == 0 && mouseDown)
+        {
+            mouseDown = false;
+        }
+    }
+
+    private int zeroThumbPos()
+    {
+        return direction == Direction.HORIZONTAL ? getX() : getY();
+    }
+
+
+    private int mousePos(int mouseX, int mouseY)
+    {
+        return direction == Direction.HORIZONTAL ? mouseX : mouseY;
     }
 
     @Override
@@ -96,9 +180,8 @@ public abstract class Slider extends Control
         int wheel = GuiBase.dWheel;
         if (wheel != 0 && (mouseOverControl || wheelScrollEverywhere) && maxValue > 0)
         {
-            currentValue = MathHelper.clamp_int(currentValue - wheel / 120 * wheelScrollStep, 0, maxValue);
-            int scrollWidth = getSliderSize() - getThumbSize();
-            scrollOffset = (int) (scrollWidth / (float) maxValue * currentValue);
+            currentValue = MathHelper.clamp_int(currentValue - wheel * wheelScrollStep, 0, maxValue);
+            scrollOffset = (int) (maxScrollSize() / (float) maxValue * currentValue);
             updateThumbRect();
 
             if (listener != null)
@@ -109,8 +192,7 @@ public abstract class Slider extends Control
     public void updateScroll()
     {
         updateThumbRect();
-        int scrollWidth = getSliderSize() - getThumbSize();
-        float widthPerScroll = (scrollWidth) / (float) ((maxValue + 1));
+        float widthPerScroll = maxScrollSize() / (float) ((maxValue + 1));
         currentValue = (int) (scrollOffset / widthPerScroll);
         currentValue = MathHelper.clamp_int(currentValue, 0, maxValue);
 
@@ -121,13 +203,25 @@ public abstract class Slider extends Control
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
+        if (mouseDown)
+        {
+            scrollOffset = MathHelper.clamp_int(prevScrollOffset + mousePos(mouseX, mouseY) - mousePos, 0, maxScrollSize());
+            updateScroll();
+        }
+
+        GuiHelper.drawOutlinedRect(getBounds(), Color.DARK_GREY, Color.LIGHT_GREY);
+
         mouseOverControl = bounds.contains(mouseX, mouseY);
         if (wheelScrollParent && !mouseOverControl)
         {
             mouseOverControl = parent.bounds.contains(mouseX, mouseY);
         }
 
-        // Scroll bar thumb
+        drawThumb(mouseX, mouseY);
+    }
+
+    private void drawThumb(int mouseX, int mouseY)
+    {
         if (maxValue > 0)
         {
             if (scrollThumbRect.contains(mouseX, mouseY) || mouseDown)

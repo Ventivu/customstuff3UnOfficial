@@ -332,14 +332,14 @@ public class ControlContainer extends Control
         return new TabControlBuilder(tabWidth, tabHeight, this);
     }
 
-    public VerticalSliderBuilder verticalSlider(int maxValue)
+    public SliderBuilder verticalSlider(int maxValue)
     {
-        return new VerticalSliderBuilder(maxValue, this);
+        return new SliderBuilder(Slider.Direction.VERTICAL, maxValue, this);
     }
 
-    public HorizontalSliderBuilder horizontalSlider(int maxValue)
+    public SliderBuilder horizontalSlider(int maxValue)
     {
-        return new HorizontalSliderBuilder(maxValue, this);
+        return new SliderBuilder(Slider.Direction.HORIZONTAL,maxValue, this);
     }
 
     public <T> ListBoxBuilder<T> listBox(ListBoxDescription<T> desc)

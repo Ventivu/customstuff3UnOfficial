@@ -672,7 +672,7 @@ public class TextField extends Control
         if (GuiBase.dWheel != 0)
         {
             int maxVertScroll = Math.max(0, lines.size() - linesToDisplay);
-            verticalScroll = MathHelper.clamp_int(verticalScroll - GuiBase.dWheel / 120, 0, maxVertScroll);
+            verticalScroll = MathHelper.clamp_int(verticalScroll - GuiBase.dWheel, 0, maxVertScroll);
         }
     }
 

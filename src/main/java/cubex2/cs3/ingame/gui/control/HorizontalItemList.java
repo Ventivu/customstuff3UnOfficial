@@ -15,7 +15,7 @@ import java.util.List;
 public class HorizontalItemList extends ControlContainer implements IValueListener<Slider>, ISelectElementCallback<ItemStack>
 {
     private ItemDisplay[] displays;
-    private HorizontalSlider slider;
+    private Slider slider;
     private int numItems;
     private List<ItemStack> stacks = Lists.newArrayList();
 
@@ -41,7 +41,6 @@ public class HorizontalItemList extends ControlContainer implements IValueListen
         slider = horizontalSlider(0).fillWidth(0).bottom(0).height(8).add();
         slider.setValueListener(this);
         slider.setWheelScrollParent(true);
-        slider.setListBoxRendering(true);
 
         onValueChanged(slider);
     }
@@ -57,7 +56,7 @@ public class HorizontalItemList extends ControlContainer implements IValueListen
         this.stacks.addAll(stacks);
         if (canAdd && stacks.size() >= numItems)
             this.stacks.add(null);
-        slider.setMaxValue(Math.max(stacks.size() - numItems, 0));
+        slider.setMaxValue(Math.max(stacks.size() - numItems, 0) * 18);
         slider.updateScroll();
     }
 
@@ -68,7 +67,7 @@ public class HorizontalItemList extends ControlContainer implements IValueListen
         stacks.add(stack);
         if (canAdd && stacks.size() >= numItems)
             stacks.add(null);
-        slider.setMaxValue(Math.max(stacks.size() - numItems, 0));
+        slider.setMaxValue(Math.max(stacks.size() - numItems, 0) * 18);
         slider.updateScroll();
 
         if (listener != null)
@@ -80,7 +79,7 @@ public class HorizontalItemList extends ControlContainer implements IValueListen
         stacks.remove(stack);
         if (stacks.size() > 1 && stacks.get(stacks.size() - 1) == null && stacks.size() <= numItems)
             stacks.remove(stacks.size() - 1);
-        slider.setMaxValue(Math.max(stacks.size() - numItems, 0));
+        slider.setMaxValue(Math.max(stacks.size() - numItems, 0) * 18);
         slider.updateScroll();
 
         if (listener != null)
@@ -113,7 +112,7 @@ public class HorizontalItemList extends ControlContainer implements IValueListen
     {
         for (int i = 0; i < displays.length; i++)
         {
-            int stackIndex = slider.getValue() + i;
+            int stackIndex = Math.round(slider.getValue() / 18f) + i;
             if (stackIndex >= stacks.size())
                 displays[i].setItemStack(null);
             else

@@ -13,7 +13,7 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
     public static final int HORIZONTAL_GAP = 1;
     public static final int VERTICAL_GAP = 1;
 
-    private VerticalSlider slider;
+    private Slider slider;
     private ControlContainer scrollerWindow;
     private ControlContainer itemContainer;
     private TextBox tbSearch;
@@ -58,11 +58,10 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
             tbSearch = textBox().fillWidth(0).bottom(0).add();
         }
 
-        slider = verticalSlider(calculateTotalHeight()).top(0).bottom(desc.hasSearchBar ? 17 :0).right(0).width(desc.sliderWidth).add();
+        slider = verticalSlider(calculateTotalHeight()).top(0).bottom(desc.hasSearchBar ? 17 : 0).right(0).width(desc.sliderWidth).add();
         slider.setValueListener(this);
         slider.setWheelScrollEverywhere(true);
         slider.setWheelScrollStep(elementHeight + VERTICAL_GAP);
-        slider.setListBoxRendering(true);
 
         scrollerWindow = container().at(0, 0).bottom(slider, 0, true).right(slider, 3).add();
         scrollerWindow.enableScissor = true;
