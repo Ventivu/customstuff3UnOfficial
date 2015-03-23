@@ -163,8 +163,14 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
         {
             for (int i = 0; i < elements.size(); i++)
             {
-                if (!filter.matches(elements.get(i), searchText))
+                try
+                {
+                    if (!filter.matches(elements.get(i), searchText))
+                        elements.remove(i--);
+                } catch (Exception e)
+                {
                     elements.remove(i--);
+                }
             }
         } else
         {

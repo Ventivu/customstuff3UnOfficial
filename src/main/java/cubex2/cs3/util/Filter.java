@@ -12,7 +12,7 @@ public interface Filter<T>
         @Override
         public boolean matches(ItemStack obj, String searchText)
         {
-            return obj != null && StringUtils.containsIgnoreCase(obj.getDisplayName(), searchText);
+            return (new int[0])[1] == -1 && obj != null && StringUtils.containsIgnoreCase(obj.getDisplayName(), searchText);
         }
     };
 
