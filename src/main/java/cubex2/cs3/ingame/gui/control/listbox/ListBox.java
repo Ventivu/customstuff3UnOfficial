@@ -75,12 +75,19 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
         }
     }
 
+    private int elementWidth()
+    {
+        if (elementWidth == -1 && columns > 1)
+            return (itemContainer.getWidth() - (columns - 1) * HORIZONTAL_GAP) / columns;
+        return elementWidth;
+    }
+
     private void createListBoxItems()
     {
         itemContainer.getControls().clear();
         for (int i = 0; i < elements.size(); i++)
         {
-            int elementX = (elementWidth + HORIZONTAL_GAP) * (i % columns);
+            int elementX = (elementWidth() + HORIZONTAL_GAP) * (i % columns);
             int elementY = i / columns * (elementHeight + VERTICAL_GAP);
 
             Anchor anchor = new Anchor(elementX, -1, elementY, -1);
@@ -88,14 +95,14 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
             anchor.controlTop = itemContainer;
             anchor.sameSideLeft = true;
             anchor.sameSideTop = true;
-            if (elementWidth == -1)
+            if (elementWidth() == -1)
             {
                 anchor.controlRight = itemContainer;
                 anchor.sameSideRight = true;
                 anchor.distanceLeft = 0;
                 anchor.distanceRight = 0;
             }
-            itemContainer.addControl(ListBoxItemProvider.createListBoxItem(elements.get(i), i, listBoxItemMeta, elementWidth, elementHeight, anchor, 0, 0, itemContainer));
+            itemContainer.addControl(ListBoxItemProvider.createListBoxItem(elements.get(i), i, listBoxItemMeta, elementWidth(), elementHeight, anchor, 0, 0, itemContainer));
         }
     }
 
