@@ -537,6 +537,7 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
         {
             block.onBlockPlacedBy(world, x, y, z, player, stack);
             block.onPostBlockPlaced(world, x, y, z, metadata);
+            world.notifyBlockChange(x, y, z, block);
         }
 
         return true;

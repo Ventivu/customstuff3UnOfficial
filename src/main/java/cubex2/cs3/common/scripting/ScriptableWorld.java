@@ -15,6 +15,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -44,7 +45,7 @@ public class ScriptableWorld
     }
 
     /**
-     * Sets the id of the block at the given position
+     * Sets the block at the given position
      *
      * @param position  The position
      * @param blockName The name of the block
@@ -55,7 +56,19 @@ public class ScriptableWorld
     }
 
     /**
-     * Sets the id of the block at the given coordinates
+     * Sets the block at the given position
+     *
+     * @param position        The position
+     * @param blockName       The name of the block
+     * @param notifyNeighbors Should neighbor blocks notified about the change
+     */
+    public void setBlock(ScriptablePosition position, String blockName, boolean notifyNeighbors)
+    {
+        setBlock((int) position.x, (int) position.y, (int) position.z, blockName, notifyNeighbors);
+    }
+
+    /**
+     * Sets the block at the given coordinates
      *
      * @param x         The x coordinate
      * @param y         The y coordinate
@@ -64,7 +77,26 @@ public class ScriptableWorld
      */
     public void setBlock(int x, int y, int z, String blockName)
     {
-        world.setBlock(x, y, z, GeneralHelper.getBlock(blockName));
+        setBlock(x, y, z, blockName, true);
+    }
+
+    /**
+     * Sets the block at the given coordinates
+     *
+     * @param x               The x coordinate
+     * @param y               The y coordinate
+     * @param z               The z coordinate
+     * @param blockName       The name of the block
+     * @param notifyNeighbors Should neighbor blocks notified about the change
+     */
+    public void setBlock(int x, int y, int z, String blockName, boolean notifyNeighbors)
+    {
+        Block block = GeneralHelper.getBlock(blockName);
+        world.setBlock(x, y, z, block);
+        if (notifyNeighbors)
+        {
+            world.notifyBlockChange(x, y, z, block);
+        }
     }
 
     /**
@@ -144,6 +176,7 @@ public class ScriptableWorld
 
         world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, block.stepSound.getBreakSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
         world.setBlockToAir(x, y, z);
+        world.notifyBlockChange(x, y, z, Blocks.air);
         float f = 0.7F;
         double d = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
         double d1 = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
