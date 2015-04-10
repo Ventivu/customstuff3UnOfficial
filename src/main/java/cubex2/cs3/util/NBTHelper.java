@@ -1,6 +1,7 @@
 package cubex2.cs3.util;
 
 import cubex2.cs3.lib.Strings;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -89,17 +90,16 @@ public class NBTHelper
             w.write(getIndent(depth) + "}" + nl);
         } else if (o instanceof NBTTagList)
         {
-            NBTTagList tagList = (NBTTagList)o;
+            NBTTagList tagList = (NBTTagList) o;
             w.write(getIndent(depth) + name + "{" + nl);
 
-            for(int i=0;i<tagList.tagCount();i++)
+            for (int i = 0; i < tagList.tagCount(); i++)
             {
                 writeObject("[" + i + "]: ", tagList.getCompoundTagAt(i), w, depth + 1);
             }
 
             w.write(getIndent(depth) + "}" + nl);
-        }
-        else
+        } else
         {
             w.write(getIndent(depth) + name + o.toString() + nl);
         }
@@ -110,6 +110,26 @@ public class NBTHelper
         String res = "";
         for (int i = 0; i < depth; i++) res += "   ";
         return res;
+    }
+
+    public static void writeToNBT(ItemStack stack, String name, NBTTagCompound nbt)
+    {
+        if (stack != null)
+        {
+            NBTTagCompound compound = new NBTTagCompound();
+            ItemStackHelper.writeToNBTNamed(stack, compound);
+            nbt.setTag(name, compound);
+        }
+    }
+
+    public static ItemStack readStackFromNBT(String name, NBTTagCompound nbt)
+    {
+        if (nbt.hasKey(name))
+        {
+            return ItemStackHelper.readFromNBTNamed(nbt.getCompoundTag(name));
+        }
+
+        return null;
     }
 
 }

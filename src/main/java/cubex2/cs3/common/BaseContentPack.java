@@ -38,6 +38,7 @@ public abstract class BaseContentPack implements IContentPack
         registerContentRegistry(new ItemRegistry(this), WrappedItem.class);
         registerContentRegistry(new BlockRegistry(this), WrappedBlock.class);
         registerContentRegistry(new WorldGenRegistry(this), WrappedWorldGen.class);
+        registerContentRegistry(new TradeRecipeRegistry(this), TradeRecipe.class);
     }
 
     @Override

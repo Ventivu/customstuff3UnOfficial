@@ -12,7 +12,7 @@ import java.util.List;
 public class WindowEditPack extends Window implements IListBoxItemClickListener<String>
 {
     private static final List<String> listBoxElements = Lists.newArrayList("Fuels", "Smelting Recipes",
-            "Ore Dictionary", "Shaped Recipes", "Shapeless Recipes", "Items", "Blocks", "World Generation");
+            "Ore Dictionary", "Shaped Recipes", "Shapeless Recipes", "Trade Recipes", "Items", "Blocks", "World Generation");
 
     private IngameContentPack pack;
 
@@ -50,6 +50,9 @@ public class WindowEditPack extends Window implements IListBoxItemClickListener<
             } else if (item.equals("Shapeless Recipes"))
             {
                 GuiBase.openWindow(new WindowShapelessRecipes(pack));
+            } else if (item.equals("Trade Recipes"))
+            {
+                GuiBase.openWindow(new WindowTradeRecipes(pack));
             } else if (item.equals("Items"))
             {
                 GuiBase.openWindow(new WindowItems(pack));

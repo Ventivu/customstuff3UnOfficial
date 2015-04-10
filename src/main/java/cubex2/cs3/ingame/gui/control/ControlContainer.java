@@ -135,7 +135,8 @@ public class ControlContainer extends Control
      */
     protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-
+        if (parent instanceof ControlContainer)
+            ((ControlContainer) parent).controlClicked(c, mouseX, mouseY);
     }
 
     @Override

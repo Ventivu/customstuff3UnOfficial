@@ -42,6 +42,8 @@ public class ListBoxItemProvider
             return new ListBoxItemLabel<Object>(value, idx, width, height, anchor, offsetX, offsetY, parent);
         if (value instanceof WrappedWorldGen)
             return new ListBoxItemWrappedWorldGen((WrappedWorldGen) value, idx, width, height, anchor, offsetX, offsetY, parent);
+        if (value instanceof TradeRecipe)
+            return new ListBoxItemTradeRecipe((TradeRecipe) value, idx, width, height, anchor, offsetX, offsetY, parent);
         throw new RuntimeException("Not supported object for ListBox.");
     }
 }
