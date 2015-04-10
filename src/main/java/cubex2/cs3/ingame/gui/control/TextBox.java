@@ -16,6 +16,7 @@ public class TextBox extends Control implements IValidityControl
     private boolean isValid = true;
     private Rectangle validityRect;
     private boolean numbersOnly = false;
+    private boolean isFocused = false;
 
     private int maxLength = Integer.MAX_VALUE;
 
@@ -79,6 +80,7 @@ public class TextBox extends Control implements IValidityControl
 
     public void setFocused(boolean value)
     {
+        isFocused = value;
         textField.setFocused(value);
     }
 
@@ -89,6 +91,7 @@ public class TextBox extends Control implements IValidityControl
 
         String text = getText();
         textField = new GuiTextField(mc.fontRenderer, bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+        textField.setFocused(isFocused);
         textField.setMaxStringLength(maxLength);
         setText(text);
         validityRect = new Rectangle(bounds.getX() + bounds.getWidth() - 12, bounds.getY() + (bounds.getHeight() - 9) / 2, 9, 9);
@@ -115,6 +118,7 @@ public class TextBox extends Control implements IValidityControl
     public void mouseClicked(int mouseX, int mouseY, int button, boolean intoControl)
     {
         textField.mouseClicked(mouseX, mouseY, button);
+        isFocused = textField.isFocused();
     }
 
     private void valueChanged()

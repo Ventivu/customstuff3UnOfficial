@@ -42,6 +42,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         desc.hasSearchBar = true;
         desc.filter = Filter.ITEM_STACK;
         lbItems = listBox(desc).left(7).right(7).top(7).add();
+        lbItems.getSearchBox().setFocused(true);
 
         btnSelect.setEnabled(false);
     }

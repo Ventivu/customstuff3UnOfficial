@@ -41,6 +41,7 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         desc.hasSearchBar = true;
         desc.filter = Filter.ITEM_STACK;
         lbItems = itemTab.listBox(desc).left(7).top(7).right(7).add();
+        lbItems.getSearchBox().setFocused(true);
 
         ListBoxDescription<OreDictionaryClass> desc1 = new ListBoxDescription<OreDictionaryClass>(7, 7);
         desc1.elementWidth = 22;
@@ -52,6 +53,7 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         desc1.hasSearchBar = true;
         desc1.filter = Filter.ORE_CLASS;
         lbOreDictClasses = oreTab.listBox(desc1).left(7).top(7).right(7).add();
+        lbOreDictClasses.getSearchBox().setFocused(true);
 
         btnSelect.setEnabled(false);
     }

@@ -75,6 +75,11 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
         }
     }
 
+    public TextBox getSearchBox()
+    {
+        return tbSearch;
+    }
+
     private int elementWidth()
     {
         if (elementWidth == -1 && columns > 1)
