@@ -1,67 +1,32 @@
 package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.Fuel;
-import cubex2.cs3.ingame.IngameContentPack;
-import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
-import cubex2.cs3.ingame.gui.control.listbox.ListBox;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 
-public class WindowFuels extends Window implements IListBoxItemClickListener<Fuel>, IWindowClosedListener<WindowEditOrCreateFuel>
+public class WindowFuels extends WindowContentList<Fuel>
 {
-    private IngameContentPack pack;
-
-    private ListBox<Fuel> listBox;
-
-    public WindowFuels(IngameContentPack pack)
+    public WindowFuels(BaseContentPack pack)
     {
-        super("Fuels", BACK | NEW | EDIT | DELETE, 263, 201);
-        this.pack = pack;
+        super(Fuel.class, "Fuels", 263, 201, pack);
+    }
 
-        ListBoxDescription<Fuel> desc = new ListBoxDescription<Fuel>(7, 7);
+    @Override
+    protected void modifyListBoxDesc(ListBoxDescription<Fuel> desc)
+    {
         desc.rows = 7;
         desc.elementHeight = 22;
-        desc.elements = pack.getContentRegistry(Fuel.class).getContentList();
-        desc.canSelect = true;
-        listBox = listBox(desc).fillWidth(7).top(7).add();
-
-        btnEdit.setEnabled(false);
-        btnDelete.setEnabled(false);
     }
 
     @Override
-    public void itemClicked(Fuel item, ListBox<Fuel> listBox, int button)
+    protected Window createNewContentWindow()
     {
-        btnEdit.setEnabled(listBox.getSelectedIndex() != -1);
-        btnDelete.setEnabled(listBox.getSelectedIndex() != -1);
+        return new WindowEditOrCreateFuel(pack);
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY)
+    protected Window createEditContentWindow(Fuel content)
     {
-        if (c == btnNew)
-        {
-            GuiBase.openWindow(new WindowEditOrCreateFuel(pack));
-        } else if (c == btnEdit)
-        {
-            GuiBase.openWindow(new WindowEditOrCreateFuel(listBox.getSelectedItem(), pack));
-        } else if (c == btnDelete)
-        {
-            listBox.getSelectedItem().remove();
-            listBox.updateElements(pack.getContentRegistry(Fuel.class).getContentList());
-            btnDelete.setEnabled(false);
-            btnEdit.setEnabled(false);
-        } else
-        {
-            handleDefaultButtonClick(c);
-        }
-    }
-
-    @Override
-    public void windowClosed(WindowEditOrCreateFuel window)
-    {
-        listBox.updateElements(pack.getContentRegistry(Fuel.class).getContentList());
-        btnDelete.setEnabled(false);
-        btnEdit.setEnabled(false);
+        return new WindowEditOrCreateFuel(content, pack);
     }
 }

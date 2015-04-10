@@ -9,7 +9,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cubex2.cs3.asm.ICSMod;
-import cubex2.cs3.ingame.IngameContentPackLoader;
+import cubex2.cs3.common.BaseContentPackLoader;
 import cubex2.cs3.lib.Directories;
 import cubex2.cs3.lib.ModInfo;
 import org.apache.logging.log4j.Logger;
@@ -48,25 +48,16 @@ public class CustomStuff3
 
     public static void onPreInitPack(ICSMod pack)
     {
-        if (pack.isIngamePack())
-        {
-            IngameContentPackLoader.instance().onPreInitPack(pack);
-        }
+        BaseContentPackLoader.instance().onPreInitPack(pack);
     }
 
     public static void onInitPack(ICSMod pack)
     {
-        if (pack.isIngamePack())
-        {
-            IngameContentPackLoader.instance().onInitPack(pack);
-        }
+        BaseContentPackLoader.instance().onInitPack(pack);
     }
 
     public static void onPostInitPack(ICSMod pack)
     {
-        if (pack.isIngamePack())
-        {
-            IngameContentPackLoader.instance().onPostInitPack(pack);
-        }
+        BaseContentPackLoader.instance().onPostInitPack(pack);
     }
 }

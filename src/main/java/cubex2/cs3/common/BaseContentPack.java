@@ -5,14 +5,17 @@ import com.google.common.collect.Maps;
 import cubex2.cs3.api.IContentPack;
 import cubex2.cs3.lib.ModInfo;
 import cubex2.cs3.registry.*;
-import cubex2.cs3.util.PostponeHandler;
+import cubex2.cs3.util.*;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public abstract class BaseContentPack implements IContentPack
+public class BaseContentPack implements IContentPack, IPurposeStringProvider, Comparable<BaseContentPack>
 {
     public final String name;
     public final String id;
@@ -22,6 +25,7 @@ public abstract class BaseContentPack implements IContentPack
     protected final List<ContentRegistry> contentRegistryList = Lists.newArrayList();
     protected final Map<Class<? extends Content>, ContentRegistry> contentRegistry = Maps.newHashMap();
     private final Map<String, ContentRegistry> nameToRegistryMap = Maps.newHashMap();
+    private boolean initialized = false;
 
     public BaseContentPack(File directory, String name, String id)
     {
@@ -59,6 +63,11 @@ public abstract class BaseContentPack implements IContentPack
         return logger;
     }
 
+    public List<ContentRegistry> getRegistries()
+    {
+        return Collections.unmodifiableList(contentRegistryList);
+    }
+
     public <T extends Content> ContentRegistry<T> getContentRegistry(T content)
     {
         return contentRegistry.get(content.getClass());
@@ -86,11 +95,57 @@ public abstract class BaseContentPack implements IContentPack
 
     public void save()
     {
+        if (!initialized)
+            return;
+
+        NBTTagCompound compound = new NBTTagCompound();
+
+        NBTTagList managerList = new NBTTagList();
+        for (ContentRegistry contentManager : contentRegistryList)
+        {
+            NBTTagCompound managerTag = new NBTTagCompound();
+            contentManager.writeToNBT(managerTag);
+            managerList.appendTag(managerTag);
+        }
+        compound.setTag("ManagerList", managerList);
+
+        IOHelper.writeNBTToFile(compound, new File(directory, "data.dat"));
+
+        NBTHelper.dumpNBT(compound, new File(directory, "data.txt"));
     }
 
     public void load()
     {
+        if (!new File(directory, "data.dat").exists())
+            return;
+        NBTTagCompound compound = IOHelper.readNBTFromFile(new File(directory, "data.dat"));
+
+        NBTTagList managerList = compound.getTagList("ManagerList", 10);
+        for (int i = 0; i < managerList.tagCount(); i++)
+        {
+            NBTTagCompound managerTag = managerList.getCompoundTagAt(i);
+            String managerName = managerTag.getString("Name");
+            ContentRegistry manager = getContentRegistry(managerName);
+            manager.readFromNBT(managerTag);
+        }
     }
 
-    public abstract void init();
+    public void init()
+    {
+        logger.info("Initializing...");
+        load();
+        initialized = true;
+    }
+
+    @Override
+    public String getStringForPurpose(StringProviderPurpose purpose)
+    {
+        return purpose == StringProviderPurpose.LIST_BOX_ITEM_LABEl ? getName() : null;
+    }
+
+    @Override
+    public int compareTo(BaseContentPack o)
+    {
+        return name.compareTo(o.name);
+    }
 }

@@ -1,23 +1,23 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.ingame.IngameContentPack;
-import cubex2.cs3.ingame.IngameContentPackLoader;
+import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.BaseContentPackLoader;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 
-public class WindowContentPacks extends Window implements IListBoxItemClickListener<IngameContentPack>
+public class WindowContentPacks extends Window implements IListBoxItemClickListener<BaseContentPack>
 {
-    private ListBox<IngameContentPack> lbPacks;
+    private ListBox<BaseContentPack> lbPacks;
 
     public WindowContentPacks()
     {
         super("Content Packs", NEW | BACK, 180, 201);
 
-        ListBoxDescription<IngameContentPack> desc = new ListBoxDescription<IngameContentPack>(7, 7);
+        ListBoxDescription<BaseContentPack> desc = new ListBoxDescription<BaseContentPack>(7, 7);
         desc.rows = 12;
-        desc.elements = IngameContentPackLoader.instance().getContentPacks();
+        desc.elements = BaseContentPackLoader.instance().getContentPacks();
         desc.sorted = true;
         desc.canSelect = false;
         lbPacks = listBox(desc).left(7).right(7).top(7).height(12 * 14 - 1).add();
@@ -36,7 +36,7 @@ public class WindowContentPacks extends Window implements IListBoxItemClickListe
     }
 
     @Override
-    public void itemClicked(IngameContentPack item, ListBox<IngameContentPack> listBox, int button)
+    public void itemClicked(BaseContentPack item, ListBox<BaseContentPack> listBox, int button)
     {
         if (button == 0)
         {

@@ -2,12 +2,12 @@ package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.block.EnumBlockType;
 import cubex2.cs3.common.WrappedBlock;
-import cubex2.cs3.ingame.IngameContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 
 public class WindowCreateBlock extends Window implements IValidityProvider, IStringProvider<EnumBlockType>
 {
-    private final IngameContentPack pack;
+    private final BaseContentPack pack;
 
     private Label lblName;
     private TextBox tbName;
@@ -16,7 +16,7 @@ public class WindowCreateBlock extends Window implements IValidityProvider, IStr
 
     private Label lblInfo;
 
-    public WindowCreateBlock(IngameContentPack pack)
+    public WindowCreateBlock(BaseContentPack pack)
     {
         super("New Block", CREATE | CANCEL, 180, 201);
         this.pack = pack;

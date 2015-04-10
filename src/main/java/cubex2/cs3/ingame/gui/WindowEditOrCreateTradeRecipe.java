@@ -3,7 +3,7 @@ package cubex2.cs3.ingame.gui;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 import cubex2.cs3.common.TradeRecipe;
-import cubex2.cs3.ingame.IngameContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.TextBoxValidators;
 import cubex2.cs3.lib.Textures;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClosedListener<WindowSelectItem>
 {
-    private final IngameContentPack pack;
+    private final BaseContentPack pack;
     private TradeRecipe editingRecipe;
 
     private ItemDisplay input1;
@@ -30,7 +30,7 @@ public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClos
     private DropBox<Integer> dbProfession;
     private TextBox tbChance;
 
-    public WindowEditOrCreateTradeRecipe(IngameContentPack pack)
+    public WindowEditOrCreateTradeRecipe(BaseContentPack pack)
     {
         super("New Trade Recipe", CREATE | CANCEL, 180, 150);
         this.pack = pack;
@@ -38,7 +38,7 @@ public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClos
         initControls();
     }
 
-    public WindowEditOrCreateTradeRecipe(TradeRecipe recipe, IngameContentPack pack)
+    public WindowEditOrCreateTradeRecipe(TradeRecipe recipe, BaseContentPack pack)
     {
         super("Edit Trade Recipe", EDIT | CANCEL, 180, 150);
         this.pack = pack;

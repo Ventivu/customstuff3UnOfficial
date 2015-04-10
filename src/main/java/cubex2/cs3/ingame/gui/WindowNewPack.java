@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.ingame.IngameContentPack;
-import cubex2.cs3.ingame.IngameContentPackLoader;
+import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.BaseContentPackLoader;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.IValidityProvider;
 import cubex2.cs3.ingame.gui.control.Label;
@@ -16,9 +16,9 @@ public class WindowNewPack extends Window implements IValidityProvider
     private TextBox tbName;
     private TextBox tbId;
 
-    private ListBox<IngameContentPack> parentListBox;
+    private ListBox<BaseContentPack> parentListBox;
 
-    public WindowNewPack(ListBox<IngameContentPack> listBox)
+    public WindowNewPack(ListBox<BaseContentPack> listBox)
     {
         super("New Content Pack", CREATE | CANCEL, 180, 201);
         parentListBox = listBox;
@@ -42,8 +42,8 @@ public class WindowNewPack extends Window implements IValidityProvider
     {
         if (c == btnCreate)
         {
-            IngameContentPackLoader.instance().createContentPack(tbName.getText().trim(), tbId.getText().trim());
-            parentListBox.updateElements(IngameContentPackLoader.instance().getContentPacks());
+            BaseContentPackLoader.instance().createContentPack(tbName.getText().trim(), tbId.getText().trim());
+            parentListBox.updateElements(BaseContentPackLoader.instance().getContentPacks());
             GuiBase.openPrevWindow();
         }
         else
@@ -76,7 +76,7 @@ public class WindowNewPack extends Window implements IValidityProvider
         }
         else
         {
-            for (IngameContentPack pack : IngameContentPackLoader.instance().getContentPacks())
+            for (BaseContentPack pack : BaseContentPackLoader.instance().getContentPacks())
             {
                 if (tb == tbName)
                 {

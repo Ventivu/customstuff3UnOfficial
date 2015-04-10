@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.OreDictionaryEntry;
-import cubex2.cs3.ingame.IngameContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class WindowEditOrCreateOreDictEntry extends Window implements IValidityProvider, IWindowClosedListener<WindowSelectItem>
 {
-    private IngameContentPack pack;
+    private BaseContentPack pack;
     private OreDictionaryEntry editingEntry;
 
     private Label lblItem;
@@ -21,7 +21,7 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
     private TextBox tbOreClass;
     private ItemDisplay[] itemDisplays;
 
-    public WindowEditOrCreateOreDictEntry(IngameContentPack pack)
+    public WindowEditOrCreateOreDictEntry(BaseContentPack pack)
     {
         super("New Ore Dictionary Entry", CREATE | CANCEL, 182, 201);
         this.pack = pack;
@@ -29,7 +29,7 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
         initControls();
     }
 
-    public WindowEditOrCreateOreDictEntry(OreDictionaryEntry entry, IngameContentPack pack)
+    public WindowEditOrCreateOreDictEntry(OreDictionaryEntry entry, BaseContentPack pack)
     {
         super("Edit Ore Dictionary Entry", EDIT | CANCEL, 182, 201);
         this.pack = pack;

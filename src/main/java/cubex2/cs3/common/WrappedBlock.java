@@ -89,6 +89,12 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
     }
 
     @Override
+    public boolean canEdit()
+    {
+        return block != null;
+    }
+
+    @Override
     public void apply()
     {
         if (block != null)

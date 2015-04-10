@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.Fuel;
-import cubex2.cs3.ingame.IngameContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.Label;
@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 
 public class WindowEditOrCreateFuel extends Window implements IWindowClosedListener<WindowSelectItem>
 {
-    private IngameContentPack pack;
+    private BaseContentPack pack;
     private Fuel editingFuel;
 
     private Label lblItem;
@@ -19,7 +19,7 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
     private ItemDisplay itemDisplay;
     private NumericUpDown nupDuration;
 
-    public WindowEditOrCreateFuel(IngameContentPack pack)
+    public WindowEditOrCreateFuel(BaseContentPack pack)
     {
         super("New Fuel", CREATE | CANCEL, 180, 100);
         this.pack = pack;
@@ -27,7 +27,7 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
         initControls();
     }
 
-    public WindowEditOrCreateFuel(Fuel fuel, IngameContentPack pack)
+    public WindowEditOrCreateFuel(Fuel fuel, BaseContentPack pack)
     {
         super("Edit Fuel", EDIT | CANCEL, 180, 100);
         this.pack = pack;

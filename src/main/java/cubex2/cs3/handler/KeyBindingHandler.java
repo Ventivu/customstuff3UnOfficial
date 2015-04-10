@@ -1,4 +1,4 @@
-package cubex2.cs3;
+package cubex2.cs3.handler;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

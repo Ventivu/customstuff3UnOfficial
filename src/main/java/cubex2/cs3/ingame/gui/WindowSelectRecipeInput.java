@@ -1,6 +1,6 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.ingame.IngameContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.Tab;
 import cubex2.cs3.ingame.gui.control.TabControl;
@@ -16,13 +16,13 @@ import net.minecraft.item.ItemStack;
 
 public class WindowSelectRecipeInput extends Window implements IListBoxItemClickListener
 {
-    private IngameContentPack pack;
+    private BaseContentPack pack;
     private ListBox<ItemStack> lbItems;
     private ListBox<OreDictionaryClass> lbOreDictClasses;
     private TabControl tabControl;
     private Object selectedInput = null;
 
-    public WindowSelectRecipeInput(IngameContentPack pack)
+    public WindowSelectRecipeInput(BaseContentPack pack)
     {
         super("Select", SELECT | CANCEL, 197, 211);
         this.pack = pack;

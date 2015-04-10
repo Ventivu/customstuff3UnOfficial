@@ -1,4 +1,4 @@
-package cubex2.cs3.ingame;
+package cubex2.cs3.common;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -11,23 +11,23 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-public class IngameContentPackLoader
+public class BaseContentPackLoader
 {
-    private static final IngameContentPackLoader instance = new IngameContentPackLoader();
+    private static final BaseContentPackLoader instance = new BaseContentPackLoader();
 
-    private List<IngameContentPack> contentPacks = Lists.newArrayList();
-    private Map<ICSMod, IngameContentPack> contentPackMap = Maps.newHashMap();
+    private List<BaseContentPack> contentPacks = Lists.newArrayList();
+    private Map<ICSMod, BaseContentPack> contentPackMap = Maps.newHashMap();
 
-    private IngameContentPackLoader()
+    private BaseContentPackLoader()
     {
     }
 
-    public static IngameContentPackLoader instance()
+    public static BaseContentPackLoader instance()
     {
         return instance;
     }
 
-    public List<IngameContentPack> getContentPacks()
+    public List<BaseContentPack> getContentPacks()
     {
         return contentPacks;
     }
@@ -57,7 +57,7 @@ public class IngameContentPackLoader
 
     public void onPreInitPack(ICSMod pack)
     {
-        IngameContentPack ipack = new IngameContentPack(new File(Directories.MODS, pack.getId()), pack.getName(), pack.getId());
+        BaseContentPack ipack = new BaseContentPack(new File(Directories.MODS, pack.getId()), pack.getName(), pack.getId());
         contentPacks.add(ipack);
         contentPackMap.put(pack,ipack);
     }

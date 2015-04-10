@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.ShapedRecipe;
-import cubex2.cs3.ingame.IngameContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.RecipeInput;
@@ -10,7 +10,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClosedListener
 {
-    private final IngameContentPack pack;
+    private final BaseContentPack pack;
     private ShapedRecipe editingRecipe;
 
     private RecipeInputDisplay[] inputDisplays;
@@ -21,7 +21,7 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
     private Label lblWidth;
     private Label lblHeight;
 
-    public WindowEditOrCreateShapedRecipe(IngameContentPack pack)
+    public WindowEditOrCreateShapedRecipe(BaseContentPack pack)
     {
         super("New Shaped Recipe", CREATE | CANCEL, 180, 150);
         this.pack = pack;
@@ -29,7 +29,7 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
         initControls();
     }
 
-    public WindowEditOrCreateShapedRecipe(ShapedRecipe recipe, IngameContentPack pack)
+    public WindowEditOrCreateShapedRecipe(ShapedRecipe recipe, BaseContentPack pack)
     {
         super("Edit Shaped Recipe", EDIT | CANCEL, 180, 150);
         this.pack = pack;

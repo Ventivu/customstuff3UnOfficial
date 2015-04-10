@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.SmeltingRecipe;
-import cubex2.cs3.ingame.IngameContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.PictureBox;
@@ -11,14 +11,14 @@ import net.minecraft.item.ItemStack;
 
 public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowClosedListener<WindowSelectItem>
 {
-    private IngameContentPack pack;
+    private BaseContentPack pack;
     private SmeltingRecipe editingRecipe;
 
     private ItemDisplay inputDisplay;
     private ItemDisplay resultDisplay;
     private PictureBox pbArrow;
 
-    public WindowEditOrCreateSmeltingRecipe(IngameContentPack pack)
+    public WindowEditOrCreateSmeltingRecipe(BaseContentPack pack)
     {
         super("New Smelting Recipe", CREATE | CANCEL, 180, 100);
         this.pack = pack;
@@ -26,7 +26,7 @@ public class WindowEditOrCreateSmeltingRecipe extends Window implements IWindowC
         initControls();
     }
 
-    public WindowEditOrCreateSmeltingRecipe(SmeltingRecipe recipe, IngameContentPack pack)
+    public WindowEditOrCreateSmeltingRecipe(SmeltingRecipe recipe, BaseContentPack pack)
     {
         super("Edit Smelting Recipe", EDIT | CANCEL, 180, 100);
         this.pack = pack;

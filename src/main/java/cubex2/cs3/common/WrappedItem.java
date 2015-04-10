@@ -97,6 +97,12 @@ public class WrappedItem extends AttributeContent implements Comparable<WrappedI
     }
 
     @Override
+    public boolean canEdit()
+    {
+        return item != null;
+    }
+
+    @Override
     public void edit()
     {
         super.edit();

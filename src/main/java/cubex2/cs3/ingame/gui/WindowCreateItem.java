@@ -1,13 +1,13 @@
 package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.WrappedItem;
-import cubex2.cs3.ingame.IngameContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.item.EnumItemType;
 
 public class WindowCreateItem extends Window implements IValidityProvider
 {
-    private IngameContentPack pack;
+    private BaseContentPack pack;
 
     private Label lblName;
     private TextBox tbName;
@@ -16,7 +16,7 @@ public class WindowCreateItem extends Window implements IValidityProvider
 
     private Label lblInfo;
 
-    public WindowCreateItem(IngameContentPack pack)
+    public WindowCreateItem(BaseContentPack pack)
     {
         super("New Item", CREATE | CANCEL, 180, 201);
         this.pack = pack;

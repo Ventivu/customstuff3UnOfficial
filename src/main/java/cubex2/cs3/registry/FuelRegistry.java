@@ -4,6 +4,8 @@ import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.Fuel;
+import cubex2.cs3.ingame.gui.Window;
+import cubex2.cs3.ingame.gui.WindowFuels;
 import cubex2.cs3.lib.Strings;
 import net.minecraft.item.ItemStack;
 
@@ -19,6 +21,18 @@ public class FuelRegistry extends ContentRegistry<Fuel> implements IFuelHandler
     public Fuel newDataInstance()
     {
         return new Fuel(pack);
+    }
+
+    @Override
+    public Window createListWindow()
+    {
+        return new WindowFuels(pack);
+    }
+
+    @Override
+    public String getNameForEditPack()
+    {
+        return "Fuels";
     }
 
     @Override

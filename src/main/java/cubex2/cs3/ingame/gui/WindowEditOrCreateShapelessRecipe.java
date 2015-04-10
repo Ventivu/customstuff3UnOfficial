@@ -2,7 +2,7 @@ package cubex2.cs3.ingame.gui;
 
 import com.google.common.collect.Lists;
 import cubex2.cs3.common.ShapelessRecipe;
-import cubex2.cs3.ingame.IngameContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.RecipeInput;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class WindowEditOrCreateShapelessRecipe extends Window implements IWindowClosedListener
 {
-    private final IngameContentPack pack;
+    private final BaseContentPack pack;
     private ShapelessRecipe editingRecipe;
 
     private RecipeInputDisplay[] inputDisplays;
@@ -22,7 +22,7 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
     private ButtonUpDown btnIncrAmount;
     private ButtonUpDown btnDecrAmount;
 
-    public WindowEditOrCreateShapelessRecipe(IngameContentPack pack)
+    public WindowEditOrCreateShapelessRecipe(BaseContentPack pack)
     {
         super("New Shapeless Recipe", CREATE | CANCEL, 180, 150);
         this.pack = pack;
@@ -30,7 +30,7 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
         initControls();
     }
 
-    public WindowEditOrCreateShapelessRecipe(ShapelessRecipe recipe, IngameContentPack pack)
+    public WindowEditOrCreateShapelessRecipe(ShapelessRecipe recipe, BaseContentPack pack)
     {
         super("Edit Shapeless Recipe", EDIT | CANCEL, 180, 150);
         this.pack = pack;

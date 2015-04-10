@@ -2,7 +2,7 @@ package cubex2.cs3.ingame.gui.worldgen;
 
 import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.common.WrappedWorldGen;
-import cubex2.cs3.ingame.IngameContentPack;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.*;
@@ -10,14 +10,14 @@ import cubex2.cs3.worldgen.EnumWorldGenType;
 
 public class WindowCreateWorldGen extends Window implements IValidityProvider, IStringProvider<EnumWorldGenType>
 {
-    private final IngameContentPack pack;
+    private final BaseContentPack pack;
 
     private Label lblName;
     private TextBox tbName;
     private Label lblType;
     private DropBox<EnumWorldGenType> dbType;
 
-    public WindowCreateWorldGen(IngameContentPack pack)
+    public WindowCreateWorldGen(BaseContentPack pack)
     {
         super("New World Gen", CREATE | CANCEL, 180, 201);
         this.pack = pack;

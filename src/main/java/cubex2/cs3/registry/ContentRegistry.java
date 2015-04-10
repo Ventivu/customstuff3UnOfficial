@@ -3,14 +3,17 @@ package cubex2.cs3.registry;
 import com.google.common.collect.Lists;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.Content;
+import cubex2.cs3.ingame.gui.Window;
+import cubex2.cs3.util.IPurposeStringProvider;
 import cubex2.cs3.util.PostponableTask;
+import cubex2.cs3.util.StringProviderPurpose;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 import java.util.Collections;
 import java.util.List;
 
-public abstract class ContentRegistry<T extends Content>
+public abstract class ContentRegistry<T extends Content> implements IPurposeStringProvider, Comparable<ContentRegistry>
 {
     protected BaseContentPack pack;
     protected List<T> contentList = Lists.newArrayList();
@@ -37,7 +40,25 @@ public abstract class ContentRegistry<T extends Content>
 
     public abstract T newDataInstance();
 
+    public abstract Window createListWindow();
+
+    public abstract String getNameForEditPack();
+
     public abstract String getName();
+
+    @Override
+    public String getStringForPurpose(StringProviderPurpose purpose)
+    {
+        if (purpose == StringProviderPurpose.LIST_BOX_ITEM_LABEl)
+            return getNameForEditPack();
+        return "";
+    }
+
+    @Override
+    public int compareTo(ContentRegistry o)
+    {
+        return getNameForEditPack().compareTo(o.getNameForEditPack());
+    }
 
     public void writeToNBT(NBTTagCompound compound)
     {

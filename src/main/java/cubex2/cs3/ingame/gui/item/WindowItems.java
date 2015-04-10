@@ -1,21 +1,22 @@
-package cubex2.cs3.ingame.gui.worldgen;
+package cubex2.cs3.ingame.gui.item;
 
-import cubex2.cs3.common.WrappedWorldGen;
+import cubex2.cs3.common.WrappedItem;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.WindowContentList;
+import cubex2.cs3.ingame.gui.WindowCreateItem;
 import cubex2.cs3.ingame.gui.common.WindowEditAttributeContent;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 
-public class WindowWorldGens extends WindowContentList<WrappedWorldGen>
+public class WindowItems extends WindowContentList<WrappedItem>
 {
-    public WindowWorldGens(BaseContentPack pack)
+    public WindowItems(BaseContentPack pack)
     {
-        super(WrappedWorldGen.class, "World Generators", 263, 160, pack);
+        super(WrappedItem.class, "Items", 263, 160, pack);
     }
 
     @Override
-    protected void modifyListBoxDesc(ListBoxDescription<WrappedWorldGen> desc)
+    protected void modifyListBoxDesc(ListBoxDescription<WrappedItem> desc)
     {
         desc.rows = 5;
         desc.elementHeight = 22;
@@ -25,11 +26,11 @@ public class WindowWorldGens extends WindowContentList<WrappedWorldGen>
     @Override
     protected Window createNewContentWindow()
     {
-        return new WindowCreateWorldGen(pack);
+        return new WindowCreateItem(pack);
     }
 
     @Override
-    protected Window createEditContentWindow(WrappedWorldGen content)
+    protected Window createEditContentWindow(WrappedItem content)
     {
         return new WindowEditAttributeContent(content);
     }
