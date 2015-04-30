@@ -44,6 +44,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         registerContentRegistry(new WorldGenRegistry(this), WrappedWorldGen.class);
         registerContentRegistry(new TradeRecipeRegistry(this), TradeRecipe.class);
         registerContentRegistry(new GrassPlantRegistry(this), GrassPlant.class);
+        registerContentRegistry(new GrassSeedRegistry(this), GrassSeed.class);
     }
 
     @Override

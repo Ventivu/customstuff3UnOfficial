@@ -2,13 +2,11 @@ package cubex2.cs3.ingame.gui.control.listbox;
 
 import cubex2.cs3.common.*;
 import cubex2.cs3.common.attribute.AttributeData;
-import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.Anchor;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.util.BlockDrop;
 import cubex2.cs3.util.IPurposeStringProvider;
 import cubex2.cs3.util.OreDictionaryClass;
-import cubex2.cs3.util.ToolClass;
 import net.minecraft.item.ItemStack;
 
 public class ListBoxItemProvider
@@ -44,7 +42,9 @@ public class ListBoxItemProvider
         if (value instanceof TradeRecipe)
             return new ListBoxItemTradeRecipe((TradeRecipe) value, idx, width, height, anchor, offsetX, offsetY, parent);
         if (value instanceof GrassPlant)
-            return new ListBoxItemGrassPlant((GrassPlant)value, idx, width, height, anchor, offsetX, offsetY, parent);
+            return new ListBoxItemGrassPlant((GrassPlant) value, idx, width, height, anchor, offsetX, offsetY, parent);
+        if (value instanceof GrassSeed)
+            return new ListBoxItemGrassSeed((GrassSeed) value, idx, width, height, anchor, offsetX, offsetY, parent);
 
         if (value instanceof IPurposeStringProvider) // check last
             return new ListBoxItemLabel<Object>(value, idx, width, height, anchor, offsetX, offsetY, parent);
