@@ -29,8 +29,6 @@ public class WindowCreateItem extends Window implements IValidityProvider
 
         tbName.setValidityProvider(this);
         dbType.setSelectedValue(EnumItemType.NORMAL.name);
-
-        btnCreate.setEnabled(false);
     }
 
     @Override

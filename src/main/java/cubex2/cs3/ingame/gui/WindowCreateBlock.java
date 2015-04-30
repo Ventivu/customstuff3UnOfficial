@@ -30,8 +30,6 @@ public class WindowCreateBlock extends Window implements IValidityProvider, IStr
         tbName.setValidityProvider(this);
         dbType.setStringProvider(this);
         dbType.setSelectedValue(EnumBlockType.NORMAL);
-
-        btnCreate.setEnabled(false);
     }
 
     @Override

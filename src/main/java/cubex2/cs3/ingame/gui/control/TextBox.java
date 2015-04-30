@@ -59,13 +59,13 @@ public class TextBox extends Control implements IValidityControl
     public void setValueChangedListener(IValueListener listener)
     {
         valueChangedListener = listener;
+        valueChanged();
     }
 
     public void setValidityProvider(IValidityProvider validityProvider)
     {
         this.validityProvider = validityProvider;
     }
-
 
     public void setMaxLength(int value)
     {

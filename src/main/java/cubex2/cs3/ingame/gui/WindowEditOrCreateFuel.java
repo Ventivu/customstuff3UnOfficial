@@ -52,9 +52,6 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
         {
             nupDuration.setValue(editingFuel.duration);
         }
-
-        if (editingFuel == null)
-            btnCreate.setEnabled(false);
     }
 
     @Override

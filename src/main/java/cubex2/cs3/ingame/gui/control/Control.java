@@ -10,7 +10,7 @@ import org.lwjgl.util.Rectangle;
 public abstract class Control
 {
     // This is the parent control of Windows, so they must not be handled differently
-    // Only used for getting bounds. This is NOT a actual control
+    // Only used for getting bounds. This is NOT an actual control
     public static final Control ROOT_CONTROL_DUMMY = new Control(0, 0, null)
     {
         @Override
@@ -222,7 +222,7 @@ public abstract class Control
     }
 
     /**
-     * Gets the control's rectangle.
+     * Gets the controls rectangle.
      *
      * @return The rectangle in absolute positions.
      */

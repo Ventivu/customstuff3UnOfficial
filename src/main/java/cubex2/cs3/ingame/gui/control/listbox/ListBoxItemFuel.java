@@ -16,7 +16,7 @@ public class ListBoxItemFuel extends ListBoxItem<Fuel>
         super(value, idx, width, height, anchor, offsetX, offsetY, parent);
         ItemDisplay itemDisplay = itemDisplay(value.stack).left(3).centerVert().add();
 
-        lblDuration = label("Duration: " + value.duration).left(itemDisplay, 2).centerVert().add();
+        lblDuration = label("Duration: " + value.duration).left(itemDisplay, 2).centerVert(1).add();
     }
 
     @Override

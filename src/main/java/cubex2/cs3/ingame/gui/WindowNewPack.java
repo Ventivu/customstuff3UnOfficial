@@ -23,7 +23,7 @@ public class WindowNewPack extends Window implements IValidityProvider
         super("New Content Pack", CREATE | CANCEL, 180, 201);
         parentListBox = listBox;
 
-        lblName = label("Name:").at(7,7).add();
+        lblName = label("Name:").at(7, 7).add();
         tbName = textBox().below(lblName).fillWidth(7).height(17).add();
         tbName.setValidityProvider(this);
 
@@ -33,8 +33,6 @@ public class WindowNewPack extends Window implements IValidityProvider
         tbId.setValidityProvider(this);
 
         label("You need to restart Minecraft\nfor the pack to appear.").below(tbId, 10).add();
-
-        btnCreate.setEnabled(false);
     }
 
     @Override
@@ -45,19 +43,10 @@ public class WindowNewPack extends Window implements IValidityProvider
             BaseContentPackLoader.instance().createContentPack(tbName.getText().trim(), tbId.getText().trim());
             parentListBox.updateElements(BaseContentPackLoader.instance().getContentPacks());
             GuiBase.openPrevWindow();
-        }
-        else
+        } else
         {
             handleDefaultButtonClick(c);
         }
-    }
-
-    @Override
-    public void keyTyped(char c, int key)
-    {
-        super.keyTyped(c, key);
-
-        btnCreate.setEnabled(tbId.hasValidValue() && tbName.hasValidValue());
     }
 
     @Override
@@ -69,12 +58,10 @@ public class WindowNewPack extends Window implements IValidityProvider
         if (text.length() == 0)
         {
             message = tb == tbName ? "Enter a name." : "Enter an ID.";
-        }
-        else if (text.contains(" ") && tb== tbId)
+        } else if (text.contains(" ") && tb == tbId)
         {
             message = "Whitespaces are not allowed.";
-        }
-        else
+        } else
         {
             for (BaseContentPack pack : BaseContentPackLoader.instance().getContentPacks())
             {
@@ -85,8 +72,7 @@ public class WindowNewPack extends Window implements IValidityProvider
                         message = "There is already a pack with this name.";
                         break;
                     }
-                }
-                else
+                } else
                 {
                     if (pack.id.equals(text))
                     {

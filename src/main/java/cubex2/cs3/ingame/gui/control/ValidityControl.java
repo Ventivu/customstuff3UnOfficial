@@ -15,6 +15,7 @@ public abstract class ValidityControl<T extends Control> extends Control impleme
     public void setValidatorFunc(Predicate<T> func)
     {
         validatorFunc = func;
+        valueChanged();
     }
 
     @Override
@@ -27,6 +28,7 @@ public abstract class ValidityControl<T extends Control> extends Control impleme
     public void setValueChangedListener(IValueListener listener)
     {
         valueChangedListener = listener;
+        valueChanged();
     }
 
     protected void valueChanged()

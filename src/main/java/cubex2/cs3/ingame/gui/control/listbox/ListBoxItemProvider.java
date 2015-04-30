@@ -43,6 +43,8 @@ public class ListBoxItemProvider
             return new ListBoxItemWrappedWorldGen((WrappedWorldGen) value, idx, width, height, anchor, offsetX, offsetY, parent);
         if (value instanceof TradeRecipe)
             return new ListBoxItemTradeRecipe((TradeRecipe) value, idx, width, height, anchor, offsetX, offsetY, parent);
+        if (value instanceof GrassPlant)
+            return new ListBoxItemGrassPlant((GrassPlant)value, idx, width, height, anchor, offsetX, offsetY, parent);
 
         if (value instanceof IPurposeStringProvider) // check last
             return new ListBoxItemLabel<Object>(value, idx, width, height, anchor, offsetX, offsetY, parent);

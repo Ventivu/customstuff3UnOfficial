@@ -7,7 +7,7 @@ public interface Filter<T>
 {
     boolean matches(T obj, String searchText);
 
-    public static final Filter<ItemStack> ITEM_STACK = new Filter<ItemStack>()
+    Filter<ItemStack> ITEM_STACK = new Filter<ItemStack>()
     {
         @Override
         public boolean matches(ItemStack obj, String searchText)
@@ -16,7 +16,7 @@ public interface Filter<T>
         }
     };
 
-    public static final Filter<OreDictionaryClass> ORE_CLASS = new Filter<OreDictionaryClass>()
+    Filter<OreDictionaryClass> ORE_CLASS = new Filter<OreDictionaryClass>()
     {
         @Override
         public boolean matches(OreDictionaryClass obj, String searchText)

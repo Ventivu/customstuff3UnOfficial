@@ -2,8 +2,8 @@ package cubex2.cs3.ingame.gui;
 
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.VillagerRegistry;
-import cubex2.cs3.common.TradeRecipe;
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.TradeRecipe;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.TextBoxValidators;
 import cubex2.cs3.lib.Textures;
@@ -122,7 +122,7 @@ public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClos
             GuiBase.openPrevWindow();
         } else if (c == btnEdit)
         {
-            editingRecipe.profession = 0;
+            editingRecipe.profession = dbProfession.getSelectedValue();
             editingRecipe.input1 = input1.getItemStack();
             editingRecipe.input2 = input2.getItemStack();
             editingRecipe.result = result.getItemStack();
