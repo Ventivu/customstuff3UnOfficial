@@ -111,7 +111,8 @@ public class DropBox<T> extends Control
             if (expandedRect.contains(mouseX, mouseY))
             {
                 int index = (mouseY - expandedRect.getY()) / getHeight() + offset;
-                selectedValue = values[index];
+                if (index < values.length)
+                    selectedValue = values[index];
             }
             isExpanded = false;
             GuiBase.releaseInput();

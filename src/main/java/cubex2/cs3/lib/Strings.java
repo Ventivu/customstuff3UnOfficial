@@ -25,6 +25,7 @@ public class Strings
     public static final String REGISTRY_TRADE_RECIPE = "TradeRecipeRegistry";
     public static final String REGISTRY_GRASS_PLANT = "GrassPlantRegistry";
     public static final String REGISTRY_GRASS_SEED = "GrassSeedRegistry";
+    public static final String REGISTRY_CHEST_ITEM = "ChestItemRegistry";
 
     // GUI text
     public static final String INFO_NEW_PACK = "This has to be unique and|is used to reference items,|blocks and textures.";

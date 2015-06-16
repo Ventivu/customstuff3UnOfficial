@@ -11,6 +11,7 @@ public class DropBoxBuilder<T> extends ControlBuilder<DropBox<T>>
     {
         super(c);
         this.values = values;
+        width = 60;
         height = 15;
     }
 

@@ -18,6 +18,11 @@ public class ControlContainer extends Control
     public boolean enableScissor = false;
     protected List<Control> controls = Lists.newArrayList();
 
+    /**
+     * The control that has been added last
+     */
+    protected Control lastControl;
+
     public ControlContainer(int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
         super(width, height, anchor, offsetX, offsetY, parent);
@@ -26,6 +31,7 @@ public class ControlContainer extends Control
     public void addControl(Control c)
     {
         controls.add(c);
+        lastControl = c;
     }
 
     public List<Control> getControls()

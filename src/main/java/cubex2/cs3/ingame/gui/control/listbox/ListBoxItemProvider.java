@@ -45,6 +45,8 @@ public class ListBoxItemProvider
             return new ListBoxItemGrassPlant((GrassPlant) value, idx, width, height, anchor, offsetX, offsetY, parent);
         if (value instanceof GrassSeed)
             return new ListBoxItemGrassSeed((GrassSeed) value, idx, width, height, anchor, offsetX, offsetY, parent);
+        if (value instanceof ChestItem)
+            return new ListBoxItemChestItem((ChestItem) value, idx, width, height, anchor, offsetX, offsetY, parent);
 
         if (value instanceof IPurposeStringProvider) // check last
             return new ListBoxItemLabel<Object>(value, idx, width, height, anchor, offsetX, offsetY, parent);
