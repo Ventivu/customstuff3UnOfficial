@@ -6,6 +6,7 @@ import cubex2.cs3.ingame.gui.control.builder.ControlBuilder;
 import cubex2.cs3.util.Filter;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ListBox<T> extends ControlContainer implements IValueListener<Slider>
@@ -18,6 +19,7 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
     private ControlContainer itemContainer;
     private TextBox tbSearch;
 
+    private Comparator<T> comparator;
     private Filter<T> filter;
     private final List<T> allElements;
 
@@ -46,11 +48,11 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
         elementHeight = desc.elementHeight;
         elementWidth = desc.elementWidth;
         listBoxItemMeta = desc.listBoxItemMeta;
+        comparator = desc.comparator;
 
         allElements = Lists.newArrayList(desc.elements);
         elements = Lists.newArrayList(desc.elements);
-        if (isSorted)
-            Collections.sort((List<Comparable>) elements);
+        sortElements();
 
         if (desc.hasSearchBar)
         {
@@ -72,6 +74,20 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
         if (rootControl instanceof IListBoxItemClickListener)
         {
             itemClickListener = (IListBoxItemClickListener<T>) rootControl;
+        }
+    }
+
+    private void sortElements()
+    {
+        if (isSorted)
+        {
+            if (comparator != null)
+            {
+                Collections.sort(elements, comparator);
+            } else
+            {
+                Collections.sort((List<Comparable>) elements);
+            }
         }
     }
 
@@ -190,16 +206,54 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
             allElements.addAll(newElements);
         }
 
-        if (isSorted)
-            Collections.sort((List<Comparable>) elements);
+        sortElements();
 
         selectedIndices.clear();
-
 
         createListBoxItems();
         onParentResized();
 
         slider.updateScroll();
+    }
+
+    public void select(T item)
+    {
+        if (elements.contains(item))
+        {
+            for (int i = 0; i < elements.size(); i++)
+            {
+                if (elements.get(i).equals(item))
+                    select(i);
+            }
+        }
+    }
+
+    public void select(int index)
+    {
+        if (index < elements.size())
+        {
+            if (!multiSelect)
+            {
+                selectedIndices.clear();
+            }
+            selectedIndices.add(index);
+
+            for (Integer idx : selectedIndices)
+            {
+                ((ListBoxItem<T>) itemContainer.getControls().get(idx)).setSelected(true);
+            }
+
+            Collections.sort(selectedIndices);
+        }
+    }
+
+    public void select(List<T> items)
+    {
+        if (!multiSelect) return;
+        for (T t : items)
+        {
+            select(t);
+        }
     }
 
     private void setScroll(int value)

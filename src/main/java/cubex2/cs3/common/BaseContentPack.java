@@ -2,6 +2,7 @@ package cubex2.cs3.common;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import cubex2.cs3.MobSpawn;
 import cubex2.cs3.api.IContentPack;
 import cubex2.cs3.lib.ModInfo;
 import cubex2.cs3.registry.*;
@@ -46,6 +47,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         registerContentRegistry(new GrassPlantRegistry(this), GrassPlant.class);
         registerContentRegistry(new GrassSeedRegistry(this), GrassSeed.class);
         registerContentRegistry(new ChestItemRegistry(this), ChestItem.class);
+        registerContentRegistry(new MobSpawnRegistry(this), MobSpawn.class);
     }
 
     @Override

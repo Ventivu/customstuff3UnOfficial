@@ -1,5 +1,6 @@
 package cubex2.cs3.ingame.gui.control.listbox;
 
+import cubex2.cs3.MobSpawn;
 import cubex2.cs3.common.*;
 import cubex2.cs3.common.attribute.AttributeData;
 import cubex2.cs3.ingame.gui.control.Anchor;
@@ -8,6 +9,7 @@ import cubex2.cs3.util.BlockDrop;
 import cubex2.cs3.util.IPurposeStringProvider;
 import cubex2.cs3.util.OreDictionaryClass;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class ListBoxItemProvider
 {
@@ -47,6 +49,8 @@ public class ListBoxItemProvider
             return new ListBoxItemGrassSeed((GrassSeed) value, idx, width, height, anchor, offsetX, offsetY, parent);
         if (value instanceof ChestItem)
             return new ListBoxItemChestItem((ChestItem) value, idx, width, height, anchor, offsetX, offsetY, parent);
+        if (value instanceof BiomeGenBase)
+            return new ListBoxItemBiome((BiomeGenBase) value, idx, width, height, anchor, offsetX, offsetY, parent);
 
         if (value instanceof IPurposeStringProvider) // check last
             return new ListBoxItemLabel<Object>(value, idx, width, height, anchor, offsetX, offsetY, parent);

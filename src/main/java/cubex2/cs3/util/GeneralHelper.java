@@ -1,13 +1,17 @@
 package cubex2.cs3.util;
 
+import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ChestGenHooks;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class GeneralHelper
 {
@@ -43,6 +47,21 @@ public class GeneralHelper
     {
         HashMap<String, ChestGenHooks> chestInfo = ReflectionHelper.getPrivateValue(ChestGenHooks.class, null, "chestInfo");
         String[] ret = chestInfo.keySet().toArray(new String[chestInfo.size()]);
+        Arrays.sort(ret);
+        return ret;
+    }
+
+    public static String[] getMobNames()
+    {
+        List<String> list = Lists.newArrayList();
+        for (Object clazz : EntityList.classToStringMapping.keySet())
+        {
+            if (clazz instanceof Class && EntityLiving.class.isAssignableFrom((Class<?>) clazz))
+            {
+                list.add((String) EntityList.classToStringMapping.get(clazz));
+            }
+        }
+        String[] ret = list.toArray(new String[list.size()]);
         Arrays.sort(ret);
         return ret;
     }

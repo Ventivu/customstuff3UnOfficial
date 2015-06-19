@@ -32,7 +32,7 @@ public class WindowEditOrCreateChestItem extends Window implements IWindowClosed
 
     public WindowEditOrCreateChestItem(ChestItem item, BaseContentPack pack)
     {
-        super("New Chest Item", CREATE | CANCEL, 180, 100);
+        super("Edit Chest Item", EDIT | CANCEL, 180, 200);
         this.pack = pack;
         editingItem = item;
 
