@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.ingame.gui.control.builder.ControlBuilder;
 import cubex2.cs3.util.Filter;
+import org.lwjgl.input.Keyboard;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,6 +37,9 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
     private final int listBoxItemMeta;
 
     private IListBoxItemClickListener<T> itemClickListener;
+
+    private int mouseX = -1;
+    private int mouseY = -1;
 
     public ListBox(ListBoxDescription<T> desc, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
@@ -277,6 +281,22 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
     @Override
     public void keyTyped(char c, int key)
     {
+        if (isMouseOverControl(mouseX, mouseY) && (tbSearch == null || !tbSearch.isFocused()))
+        {
+            if (key == Keyboard.KEY_END)
+            {
+                slider.setScroll(Integer.MAX_VALUE);
+            } else if (key == Keyboard.KEY_HOME)
+            {
+                slider.setScroll(0);
+            } else if (key == Keyboard.KEY_PRIOR)
+            {
+                slider.setScroll(slider.getValue() - getHeight() - VERTICAL_GAP);
+            } else if (key == Keyboard.KEY_NEXT)
+            {
+                slider.setScroll(slider.getValue() + getHeight() + VERTICAL_GAP);
+            }
+        }
         if (tbSearch == null)
         {
             super.keyTyped(c, key);
@@ -327,6 +347,15 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
                 itemClickListener.itemClicked(lbItem.value, this, button);
             }
         }
+    }
+
+    @Override
+    public void draw(int mouseX, int mouseY, float renderTick)
+    {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+
+        super.draw(mouseX, mouseY, renderTick);
     }
 
     @Override

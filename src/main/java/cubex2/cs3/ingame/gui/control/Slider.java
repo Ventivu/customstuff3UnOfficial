@@ -174,6 +174,12 @@ public class Slider extends Control
         return direction == Direction.HORIZONTAL ? mouseX : mouseY;
     }
 
+    public void setScroll(int value)
+    {
+        currentValue = MathHelper.clamp_int(value, 0, maxValue);
+        scrollChanged();
+    }
+
     @Override
     public void onUpdate()
     {
@@ -181,12 +187,17 @@ public class Slider extends Control
         if (wheel != 0 && (mouseOverControl || wheelScrollEverywhere) && maxValue > 0)
         {
             currentValue = MathHelper.clamp_int(currentValue - wheel * wheelScrollStep, 0, maxValue);
-            scrollOffset = (int) (maxScrollSize() / (float) maxValue * currentValue);
-            updateThumbRect();
-
-            if (listener != null)
-                listener.onValueChanged(this);
+            scrollChanged();
         }
+    }
+
+    private void scrollChanged()
+    {
+        scrollOffset = (int) (maxScrollSize() / (float) maxValue * currentValue);
+        updateThumbRect();
+
+        if (listener != null)
+            listener.onValueChanged(this);
     }
 
     public void updateScroll()
