@@ -233,8 +233,8 @@ public class ControlContainer extends Control
         return controls.size();
     }
 
-    private ControlContainer lastRow;
-    private ControlContainer lastCol;
+    private Control lastRow;
+    private Control lastCol;
 
     /* Layout Builders */
 
@@ -262,14 +262,13 @@ public class ControlContainer extends Control
     public <T extends Control> T row(ControlBuilder<T> builder, int offset)
     {
         if (lastRow == null)
-            lastRow = container().top(7).fillWidth(7).height(builder.height).add();
+            lastRow = builder.top(7).left(7).add();
         else
-            lastRow = container().top(lastRow, offset).fillWidth(7).height(builder.height).add();
+            lastRow = builder.top(lastRow, offset).left(7).add();
 
-        builder.container = lastRow;
         if (builder.width == 0 && !(builder instanceof LabelBuilder))
-            builder.right(0);
-        return builder.left(0).top(0).add();
+            builder.right(7);
+        return builder.add();
     }
 
     public <T extends Control> T col(ControlBuilder<T> builder)
@@ -280,14 +279,12 @@ public class ControlContainer extends Control
     public <T extends Control> T col(ControlBuilder<T> builder, int offset)
     {
         if (lastCol == null)
-            lastCol = container().left(0).fillHeight(0).width(builder.width).add();
+            lastCol = builder.left(0).fillHeight(0).add();
         else
-            lastCol = container().left(lastCol, offset).fillHeight(0).width(builder.width).add();
+            lastCol = builder.left(lastCol, offset).fillHeight(0).add();
 
-        builder.container = lastCol;
-        return builder.left(0).top(0).add();
+        return builder.add();
     }
-
 
     /* Builders */
     public LabelBuilder label(String text)

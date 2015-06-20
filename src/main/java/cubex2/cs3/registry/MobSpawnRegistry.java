@@ -1,6 +1,6 @@
 package cubex2.cs3.registry;
 
-import cubex2.cs3.MobSpawn;
+import cubex2.cs3.common.MobSpawn;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.WindowMobSpawns;

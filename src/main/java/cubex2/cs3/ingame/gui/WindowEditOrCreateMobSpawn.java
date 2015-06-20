@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui;
 
 import com.google.common.collect.Lists;
-import cubex2.cs3.MobSpawn;
+import cubex2.cs3.common.MobSpawn;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ControlContainer;
@@ -59,13 +59,13 @@ public class WindowEditOrCreateMobSpawn extends Window
         nupRate = row(numericUpDown());
         nupRate.setMinValue(1);
 
-        ControlContainer container = row(container().height(9));
-        container.col(label("Min Count:").width((180 - 14) / 2));
-        container.col(label("Max Count:").width((180 - 14) / 2));
+        ControlContainer c = row(container().height(9));
+        c.col(c.label("Min Count:").width((180 - 14) / 2));
+        c.col(c.label("Max Count:").width((180 - 14) / 2));
 
-        container = row(container().height(20));
-        nupMin = container.col(numericUpDown().width((180 - 14 - 2) / 2), 3);
-        nupMax = container.col(numericUpDown().width((180 - 14 - 4) / 2), 3);
+        c = row(container().height(20));
+        nupMin = c.col(c.numericUpDown().width((180 - 14 - 2) / 2), 3);
+        nupMax = c.col(c.numericUpDown().width((180 - 14 - 4) / 2), 3);
 
         row("Biomes:");
         ListBoxDescription<BiomeGenBase> desc = new ListBoxDescription<BiomeGenBase>();

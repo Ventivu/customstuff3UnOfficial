@@ -1,6 +1,5 @@
 package cubex2.cs3.ingame.gui.control.listbox;
 
-import cubex2.cs3.MobSpawn;
 import cubex2.cs3.common.*;
 import cubex2.cs3.common.attribute.AttributeData;
 import cubex2.cs3.ingame.gui.control.Anchor;

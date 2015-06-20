@@ -1,4 +1,4 @@
-package cubex2.cs3;
+package cubex2.cs3.common;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

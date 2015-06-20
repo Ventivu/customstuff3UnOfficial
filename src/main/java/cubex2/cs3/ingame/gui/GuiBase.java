@@ -142,6 +142,11 @@ public class GuiBase extends GuiScreen
     @Override
     protected void keyTyped(char c, int i)
     {
+        if (i == Keyboard.KEY_DELETE)
+        {
+            GuiBase.openPrevWindow();
+            inputLockedControl = null;
+        }
         if (i == Keyboard.KEY_ESCAPE)
         {
             mc.displayGuiScreen((GuiScreen) null);
