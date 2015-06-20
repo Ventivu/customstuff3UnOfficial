@@ -90,7 +90,7 @@ public class TextBox extends Control implements IValidityControl
         super.onParentResized();
 
         String text = getText();
-        textField = new GuiTextField(mc.fontRenderer, bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+        textField = new GuiTextField(mc.fontRenderer, bounds.getX()+1, bounds.getY()+1, bounds.getWidth()-2, bounds.getHeight()-2);
         textField.setFocused(isFocused);
         textField.setMaxStringLength(maxLength);
         setText(text);

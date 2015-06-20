@@ -11,7 +11,7 @@ public class WindowEditExpDrop extends WindowEditBlockAttribute
 
     public WindowEditExpDrop(WrappedBlock block)
     {
-        super(block, "expDrop", 150, 95);
+        super(block, "expDrop", 150, 105);
 
         Label lblMin = label("Min").at(7, 7).add();
 

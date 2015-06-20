@@ -11,7 +11,7 @@ public class WindowEditHeight extends WindowEditWorldGenAttribute
 
     public WindowEditHeight(WrappedWorldGen wrappedWorldGen)
     {
-        super(wrappedWorldGen, "height", 150, 95);
+        super(wrappedWorldGen, "height", 150, 105);
 
         Label lblMin = label("Min").at(7, 7).add();
 

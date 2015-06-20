@@ -8,6 +8,7 @@ public class NumericUpDownBuilder extends ControlBuilder<NumericUpDown>
     public NumericUpDownBuilder(ControlContainer c)
     {
         super(c);
+        height = 20;
     }
 
     @Override

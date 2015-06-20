@@ -4,6 +4,7 @@ import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.util.GuiHelper;
 import net.minecraft.util.MathHelper;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.Rectangle;
 
 public class Slider extends Control
@@ -18,7 +19,6 @@ public class Slider extends Control
     protected Rectangle scrollThumbRect;
     protected int mousePos = -1;
     protected boolean mouseDown = false;
-    private boolean mouseOverControl = false;
     protected int scrollOffset;
     protected int prevScrollOffset = -1;
 
@@ -32,6 +32,9 @@ public class Slider extends Control
     private int thumbSize;
 
     private IValueListener<Slider> listener;
+
+    private int mouseX = -1;
+    private int mouseY = -1;
 
     public Slider(Direction direction, int maxValue, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
@@ -181,14 +184,47 @@ public class Slider extends Control
     }
 
     @Override
+    public void keyTyped(char c, int key)
+    {
+        if (canChangeScroll())
+        {
+            if (key == Keyboard.KEY_END)
+            {
+                setScroll(Integer.MAX_VALUE);
+            } else if (key == Keyboard.KEY_HOME)
+            {
+                setScroll(0);
+            } else if (key == Keyboard.KEY_PRIOR)
+            {
+                setScroll(getValue() - getHeight() - 1);
+            } else if (key == Keyboard.KEY_NEXT)
+            {
+                setScroll(getValue() + getHeight() + 1);
+            }
+        }
+    }
+
+    @Override
     public void onUpdate()
     {
         int wheel = GuiBase.dWheel;
-        if (wheel != 0 && (mouseOverControl || wheelScrollEverywhere) && maxValue > 0)
+        if (wheel != 0 && canChangeScroll() && maxValue > 0)
         {
             currentValue = MathHelper.clamp_int(currentValue - wheel * wheelScrollStep, 0, maxValue);
             scrollChanged();
         }
+    }
+
+    /**
+     * Checks if the wheel scrolling or using end, pgDown keys can be used
+     *
+     * @return true if can be used, false otherwise.
+     */
+    private boolean canChangeScroll()
+    {
+        return wheelScrollEverywhere
+                || (wheelScrollParent && parent.isMouseOverControl(mouseX, mouseY))
+                || isMouseOverControl(mouseX, mouseY);
     }
 
     private void scrollChanged()
@@ -214,6 +250,9 @@ public class Slider extends Control
     @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+
         if (mouseDown)
         {
             scrollOffset = MathHelper.clamp_int(prevScrollOffset + mousePos(mouseX, mouseY) - mousePos, 0, maxScrollSize());
@@ -221,12 +260,6 @@ public class Slider extends Control
         }
 
         GuiHelper.drawOutlinedRect(getBounds(), Color.DARK_GREY, Color.LIGHT_GREY);
-
-        mouseOverControl = bounds.contains(mouseX, mouseY);
-        if (wheelScrollParent && !mouseOverControl)
-        {
-            mouseOverControl = parent.bounds.contains(mouseX, mouseY);
-        }
 
         drawThumb(mouseX, mouseY);
     }

@@ -1,10 +1,9 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.common.Fuel;
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.Fuel;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
-import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.NumericUpDown;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
@@ -14,8 +13,6 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
     private BaseContentPack pack;
     private Fuel editingFuel;
 
-    private Label lblItem;
-    private Label lblDuration;
     private ItemDisplay itemDisplay;
     private NumericUpDown nupDuration;
 
@@ -38,10 +35,10 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
 
     private void initControls()
     {
-        lblItem = label("Item:").at(7, 7).add();
-        itemDisplay = itemDisplay().below(lblItem).add();
-        lblDuration = label("Duration:").below(itemDisplay, 5).add();
-        nupDuration = numericUpDown().below(lblDuration).fillWidth(7).add();
+        row("Item:");
+        itemDisplay = row(itemDisplay());
+        row("Duration:");
+        nupDuration = row(numericUpDown());
 
         itemDisplay.setDrawSlotBackground();
         itemDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);

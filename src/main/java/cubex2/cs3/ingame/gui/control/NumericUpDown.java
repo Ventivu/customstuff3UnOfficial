@@ -13,13 +13,13 @@ public class NumericUpDown extends ControlContainer
 
     public NumericUpDown(int width, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
-        super(width, 16, anchor, offsetX, offsetY, parent);
+        super(width, 20, anchor, offsetX, offsetY, parent);
 
         tb = textBox().height(-1).left(0).top(0).bottom(0).right(0).add();
         tb.setNumbersOnly(true);
 
-        btnUp = buttonUp().top(0).right(0).add();
-        btnDown = buttonDown().bottom(0).right(0).add();
+        btnUp = buttonUp().top(1).right(1).add();
+        btnDown = buttonDown().bottom(1).right(1).add();
 
         updateControls();
     }

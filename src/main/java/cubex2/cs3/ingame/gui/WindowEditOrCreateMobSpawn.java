@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import cubex2.cs3.MobSpawn;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
+import cubex2.cs3.ingame.gui.control.ControlContainer;
 import cubex2.cs3.ingame.gui.control.DropBox;
 import cubex2.cs3.ingame.gui.control.NumericUpDown;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
@@ -29,7 +30,7 @@ public class WindowEditOrCreateMobSpawn extends Window
 
     public WindowEditOrCreateMobSpawn(BaseContentPack pack)
     {
-        super("New Mob Spawn", CREATE | CANCEL, 180, 215);
+        super("New Mob Spawn", CREATE | CANCEL, 180, 225);
         this.pack = pack;
 
         initControls();
@@ -37,7 +38,7 @@ public class WindowEditOrCreateMobSpawn extends Window
 
     public WindowEditOrCreateMobSpawn(MobSpawn spawn, BaseContentPack pack)
     {
-        super("Edit Mob Spawn", EDIT | CANCEL, 180, 215);
+        super("Edit Mob Spawn", EDIT | CANCEL, 180, 225);
         this.pack = pack;
         editingSpawn = spawn;
 
@@ -46,27 +47,27 @@ public class WindowEditOrCreateMobSpawn extends Window
 
     private void initControls()
     {
-        label("Mob:").at(7, 7).add();
-        dbMob = dropBox(GeneralHelper.getMobNames()).below(lastControl).fillWidth(7).add();
+        row("Mob:");
+        dbMob = row(dropBox(GeneralHelper.getMobNames()));
         dbMob.setSelectedValue("Creeper");
 
-        label("Spawn Type:").below(dbMob).add();
-        dbType = dropBox(EnumCreatureType.values()).below(lastControl).fillWidth(7).add();
+        row("Spawn Type:");
+        dbType = row(dropBox(EnumCreatureType.values()));
         dbType.setSelectedValue(EnumCreatureType.monster);
 
-        label("Rate:").below(dbType, 5).add();
-        nupRate = numericUpDown().below(lastControl).fillWidth(7).add();
+        row("Rate:");
+        nupRate = row(numericUpDown());
         nupRate.setMinValue(1);
 
-        label("Min Count:").below(nupRate, 5).add();
-        nupMin = numericUpDown().below(lastControl).left(7).width((180 - 14) / 2).add();
-        nupMin.setMinValue(1);
+        ControlContainer container = row(container().height(9));
+        container.col(label("Min Count:").width((180 - 14) / 2));
+        container.col(label("Max Count:").width((180 - 14) / 2));
 
-        label("Max Count:").below(nupRate, 5).left(nupMin, 3).add();
-        nupMax = numericUpDown().below(lastControl).left(nupMin, 3).right(7).add();
-        nupMax.setMinValue(1);
+        container = row(container().height(20));
+        nupMin = container.col(numericUpDown().width((180 - 14 - 2) / 2), 3);
+        nupMax = container.col(numericUpDown().width((180 - 14 - 4) / 2), 3);
 
-        label("Biomes:").below(nupMin, 5).add();
+        row("Biomes:");
         ListBoxDescription<BiomeGenBase> desc = new ListBoxDescription<BiomeGenBase>();
         desc.multiSelect = true;
         desc.elements = Biomes.getBiomes();
@@ -74,6 +75,7 @@ public class WindowEditOrCreateMobSpawn extends Window
         desc.sorted = true;
         desc.comparator = Biomes.COMPARATOR;
         lbBiomes = listBox(desc).below(lastControl).fillWidth(7).add();
+        lbBiomes.disableGlobalScrolling();
 
         if (editingSpawn != null)
         {
@@ -97,7 +99,7 @@ public class WindowEditOrCreateMobSpawn extends Window
             String mob = dbMob.getSelectedValue();
             EnumCreatureType type = dbType.getSelectedValue();
             int rate = nupRate.getValue();
-            int min = nupRate.getValue();
+            int min = nupMin.getValue();
             int max = nupMax.getValue();
             List<BiomeGenBase> biomes = Lists.newArrayList(lbBiomes.getSelectedItems());
             MobSpawn spawn = new MobSpawn(mob, rate, min, max, type, biomes, pack);
@@ -108,7 +110,7 @@ public class WindowEditOrCreateMobSpawn extends Window
             editingSpawn.mob = dbMob.getSelectedValue();
             editingSpawn.type = dbType.getSelectedValue();
             editingSpawn.rate = nupRate.getValue();
-            editingSpawn.min = nupRate.getValue();
+            editingSpawn.min = nupMin.getValue();
             editingSpawn.max = nupMax.getValue();
             if (editingSpawn.max < editingSpawn.min)
                 editingSpawn.max = editingSpawn.min;

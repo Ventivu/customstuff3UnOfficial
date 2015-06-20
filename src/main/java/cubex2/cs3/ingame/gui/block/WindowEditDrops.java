@@ -91,5 +91,8 @@ public class WindowEditDrops extends WindowEditBlockAttribute implements IWindow
         {
             listBox.updateElements(container.drop.getDrops());
         }
+
+        btnEdit.setEnabled(listBox.getSelectedIndex() != -1);
+        btnDelete.setEnabled(listBox.getSelectedIndex() != -1);
     }
 }

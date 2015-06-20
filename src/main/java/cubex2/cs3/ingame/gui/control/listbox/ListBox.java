@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.ingame.gui.control.builder.ControlBuilder;
 import cubex2.cs3.util.Filter;
-import org.lwjgl.input.Keyboard;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -93,6 +92,15 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
                 Collections.sort((List<Comparable>) elements);
             }
         }
+    }
+
+    /**
+     * Makes wheel scroll and the use of pgDown... keys only work if mouse is over listbox.
+     */
+    public void disableGlobalScrolling()
+    {
+        slider.setWheelScrollEverywhere(false);
+        slider.setWheelScrollParent(true);
     }
 
     public TextBox getSearchBox()
@@ -281,22 +289,6 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
     @Override
     public void keyTyped(char c, int key)
     {
-        if (isMouseOverControl(mouseX, mouseY) && (tbSearch == null || !tbSearch.isFocused()))
-        {
-            if (key == Keyboard.KEY_END)
-            {
-                slider.setScroll(Integer.MAX_VALUE);
-            } else if (key == Keyboard.KEY_HOME)
-            {
-                slider.setScroll(0);
-            } else if (key == Keyboard.KEY_PRIOR)
-            {
-                slider.setScroll(slider.getValue() - getHeight() - VERTICAL_GAP);
-            } else if (key == Keyboard.KEY_NEXT)
-            {
-                slider.setScroll(slider.getValue() + getHeight() + VERTICAL_GAP);
-            }
-        }
         if (tbSearch == null)
         {
             super.keyTyped(c, key);

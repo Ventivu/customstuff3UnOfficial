@@ -233,6 +233,62 @@ public class ControlContainer extends Control
         return controls.size();
     }
 
+    private ControlContainer lastRow;
+    private ControlContainer lastCol;
+
+    /* Layout Builders */
+
+    public Label row(String text)
+    {
+        return row(label(text));
+    }
+
+    public Label row(String text, int offset)
+    {
+        return row(label(text), offset);
+    }
+
+    /**
+     * Don't use any methods but size on the builder.
+     */
+    public <T extends Control> T row(ControlBuilder<T> builder)
+    {
+        return row(builder, 4);
+    }
+
+    /**
+     * Don't use any methods but size on the builder.
+     */
+    public <T extends Control> T row(ControlBuilder<T> builder, int offset)
+    {
+        if (lastRow == null)
+            lastRow = container().top(7).fillWidth(7).height(builder.height).add();
+        else
+            lastRow = container().top(lastRow, offset).fillWidth(7).height(builder.height).add();
+
+        builder.container = lastRow;
+        if (builder.width == 0 && !(builder instanceof LabelBuilder))
+            builder.right(0);
+        return builder.left(0).top(0).add();
+    }
+
+    public <T extends Control> T col(ControlBuilder<T> builder)
+    {
+        return col(builder, 3);
+    }
+
+    public <T extends Control> T col(ControlBuilder<T> builder, int offset)
+    {
+        if (lastCol == null)
+            lastCol = container().left(0).fillHeight(0).width(builder.width).add();
+        else
+            lastCol = container().left(lastCol, offset).fillHeight(0).width(builder.width).add();
+
+        builder.container = lastCol;
+        return builder.left(0).top(0).add();
+    }
+
+
     /* Builders */
     public LabelBuilder label(String text)
     {
@@ -346,7 +402,7 @@ public class ControlContainer extends Control
 
     public SliderBuilder horizontalSlider(int maxValue)
     {
-        return new SliderBuilder(Slider.Direction.HORIZONTAL,maxValue, this);
+        return new SliderBuilder(Slider.Direction.HORIZONTAL, maxValue, this);
     }
 
     public <T> ListBoxBuilder<T> listBox(ListBoxDescription<T> desc)
@@ -376,6 +432,6 @@ public class ControlContainer extends Control
 
     public HorizontalItemListBuilder horItemList(int numItems)
     {
-        return new HorizontalItemListBuilder(numItems,this);
+        return new HorizontalItemListBuilder(numItems, this);
     }
 }

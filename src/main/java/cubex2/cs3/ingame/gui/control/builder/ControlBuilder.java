@@ -6,12 +6,12 @@ import cubex2.cs3.ingame.gui.control.ControlContainer;
 
 public abstract class ControlBuilder<T extends Control>
 {
-    protected ControlContainer container;
+    public ControlContainer container;
 
     protected Anchor anchor = new Anchor();
 
-    protected int width = 0;
-    protected int height = 0;
+    public int width = 0;
+    public int height = 0;
 
     protected int offsetX = 0;
     protected int offsetY = 0;
@@ -177,6 +177,11 @@ public abstract class ControlBuilder<T extends Control>
     {
         height = h;
         return this;
+    }
+
+    public ControlBuilder<T> fillHeight(int gap)
+    {
+        return top(gap).bottom(gap).height(-1);
     }
 
     public T add()

@@ -14,7 +14,7 @@ public class WindowEditDropData extends WindowEditBlockAttribute
 
     public WindowEditDropData(WrappedBlock block, BlockDrop.DropData drop)
     {
-        super(block, "Edit drop", 150, 95);
+        super(block, "Edit drop", 150, 105);
         this.drop = drop;
 
         Label lblMin = label("Min").at(7, 7).add();
