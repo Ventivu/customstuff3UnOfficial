@@ -25,7 +25,7 @@ public class WindowEditOrCreateDungeonMob extends Window
 
     public WindowEditOrCreateDungeonMob(DungeonMob editingMob, BaseContentPack pack)
     {
-        super("Edit Dungen Mob", EDIT | CANCEL, 180, 105);
+        super("Edit Dungeon Mob", EDIT | CANCEL, 180, 105);
         this.pack = pack;
         this.editingMob = editingMob;
 

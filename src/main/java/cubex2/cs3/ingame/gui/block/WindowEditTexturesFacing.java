@@ -33,6 +33,11 @@ public class WindowEditTexturesFacing extends WindowEditTexturesBase
         worldDisplay.setLook(0.5f, 0.5f, 0.5f);
     }
 
+    public WindowEditTexturesFacing(WrappedBlock block)
+    {
+        this(block, true, true, true);
+    }
+
     @Override
     protected void applyChanges()
     {
