@@ -2,6 +2,7 @@ package cubex2.cs3.common;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cubex2.cs3.util.NBTHelper;
+import cubex2.cs3.util.StackLabelItem;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,7 +10,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 import java.util.List;
 
-public class GrassPlant extends BaseContent
+public class GrassPlant extends BaseContent implements StackLabelItem
 {
     public ItemStack block;
     public int weight;
@@ -95,5 +96,17 @@ public class GrassPlant extends BaseContent
         weight = compound.getInteger("Weight");
 
         return block != null;
+    }
+
+    @Override
+    public ItemStack getStack()
+    {
+        return block;
+    }
+
+    @Override
+    public String getLabel()
+    {
+        return "Weight: " + weight;
     }
 }

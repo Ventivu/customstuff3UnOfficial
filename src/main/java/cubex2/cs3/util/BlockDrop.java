@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class BlockDrop
 {
-    public static class DropData
+    public static class DropData implements StackLabelItem
     {
         String itemName;
         Item item;
@@ -68,6 +68,20 @@ public class BlockDrop
         public int getMaxCount()
         {
             return maxCount;
+        }
+
+        @Override
+        public ItemStack getStack()
+        {
+            return createStack();
+        }
+
+        @Override
+        public String getLabel()
+        {
+            int min = getMinCount();
+            int max = getMaxCount();
+            return "Amount: " + min + (min != max ? " - " + max : "");
         }
     }
 

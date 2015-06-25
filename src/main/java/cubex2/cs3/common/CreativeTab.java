@@ -6,13 +6,14 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import cubex2.cs3.util.ClientHelper;
 import cubex2.cs3.util.CreativeTabCS3;
 import cubex2.cs3.util.ItemStackHelper;
+import cubex2.cs3.util.StackLabelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.Map;
 import java.util.Properties;
 
-public class CreativeTab extends BaseContent
+public class CreativeTab extends BaseContent implements StackLabelItem
 {
     public String name;
     public String label;
@@ -77,5 +78,17 @@ public class CreativeTab extends BaseContent
         icon = ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Icon"));
 
         return icon != null;
+    }
+
+    @Override
+    public ItemStack getStack()
+    {
+        return icon;
+    }
+
+    @Override
+    public String getLabel()
+    {
+        return name;
     }
 }

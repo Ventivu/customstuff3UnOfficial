@@ -1,11 +1,12 @@
 package cubex2.cs3.common;
 
 import cubex2.cs3.util.ItemStackHelper;
+import cubex2.cs3.util.StackLabelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class Fuel extends BaseContent
+public class Fuel extends BaseContent implements StackLabelItem
 {
     public ItemStack stack;
     public int duration;
@@ -42,5 +43,17 @@ public class Fuel extends BaseContent
         duration = compound.getInteger("Duration");
 
         return stack != null;
+    }
+
+    @Override
+    public ItemStack getStack()
+    {
+        return stack;
+    }
+
+    @Override
+    public String getLabel()
+    {
+        return "Duration: " + duration;
     }
 }

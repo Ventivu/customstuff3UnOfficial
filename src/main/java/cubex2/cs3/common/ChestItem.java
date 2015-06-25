@@ -1,7 +1,9 @@
 package cubex2.cs3.common;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import cubex2.cs3.util.GeneralHelper;
 import cubex2.cs3.util.ItemStackHelper;
+import cubex2.cs3.util.StackLabelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -9,7 +11,7 @@ import net.minecraftforge.common.ChestGenHooks;
 
 import java.util.ArrayList;
 
-public class ChestItem extends BaseContent
+public class ChestItem extends BaseContent implements StackLabelItem
 {
     public String chest;
     public ItemStack stack;
@@ -96,5 +98,17 @@ public class ChestItem extends BaseContent
         rarity = compound.getInteger("Rarity");
 
         return stack != null;
+    }
+
+    @Override
+    public ItemStack getStack()
+    {
+        return stack;
+    }
+
+    @Override
+    public String getLabel()
+    {
+        return chest + ", Count: " + GeneralHelper.rangeToString(minCount, maxCount) + ", Rarity: " + rarity;
     }
 }

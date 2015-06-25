@@ -1,11 +1,12 @@
 package cubex2.cs3.common;
 
 import cubex2.cs3.util.NBTHelper;
+import cubex2.cs3.util.StackLabelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
 
-public class GrassSeed extends BaseContent
+public class GrassSeed extends BaseContent implements StackLabelItem
 {
     public ItemStack item;
     public int weight;
@@ -50,5 +51,17 @@ public class GrassSeed extends BaseContent
         weight = compound.getInteger("Weight");
 
         return item != null;
+    }
+
+    @Override
+    public ItemStack getStack()
+    {
+        return item;
+    }
+
+    @Override
+    public String getLabel()
+    {
+        return "Weight: " + weight;
     }
 }

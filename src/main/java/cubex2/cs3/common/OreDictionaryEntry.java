@@ -1,11 +1,12 @@
 package cubex2.cs3.common;
 
 import cubex2.cs3.util.ItemStackHelper;
+import cubex2.cs3.util.StackLabelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class OreDictionaryEntry extends BaseContent
+public class OreDictionaryEntry extends BaseContent implements StackLabelItem
 {
     public String oreClass;
     public ItemStack stack;
@@ -50,5 +51,17 @@ public class OreDictionaryEntry extends BaseContent
         stack = ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Stack"));
 
         return stack != null;
+    }
+
+    @Override
+    public ItemStack getStack()
+    {
+        return stack;
+    }
+
+    @Override
+    public String getLabel()
+    {
+        return "Ore Class: " + oreClass;
     }
 }
