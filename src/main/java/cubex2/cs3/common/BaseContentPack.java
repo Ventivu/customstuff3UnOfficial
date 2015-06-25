@@ -48,6 +48,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         registerContentRegistry(new ChestItemRegistry(this), ChestItem.class);
         registerContentRegistry(new MobSpawnRegistry(this), MobSpawn.class);
         registerContentRegistry(new DungeonMobRegistry(this), DungeonMob.class);
+        registerContentRegistry(new CreativeTabRegistry(this), CreativeTab.class);
     }
 
     @Override

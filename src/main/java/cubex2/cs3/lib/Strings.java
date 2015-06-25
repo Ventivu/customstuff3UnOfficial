@@ -28,6 +28,7 @@ public class Strings
     public static final String REGISTRY_CHEST_ITEM = "ChestItemRegistry";
     public static final String REGISTRY_MOB_SPAWN = "MobSpawnRegistry";
     public static final String REGISTRY_DUNGEON_MOB = "DungeonMobRegistry";
+    public static final String REGISTRY_CREATIVE_TAB = "CreativeTabRegistry";
 
     // GUI text
     public static final String INFO_NEW_PACK = "This has to be unique and|is used to reference items,|blocks and textures.";

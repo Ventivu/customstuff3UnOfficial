@@ -50,6 +50,8 @@ public class ListBoxItemProvider
             return new ListBoxItemChestItem((ChestItem) value, idx, width, height, anchor, offsetX, offsetY, parent);
         if (value instanceof BiomeGenBase)
             return new ListBoxItemBiome((BiomeGenBase) value, idx, width, height, anchor, offsetX, offsetY, parent);
+        if (value instanceof CreativeTab)
+            return new ListBoxItemCreativeTab((CreativeTab) value, idx, width, height, anchor, offsetX, offsetY, parent);
 
         if (value instanceof IPurposeStringProvider) // check last
             return new ListBoxItemLabel<Object>(value, idx, width, height, anchor, offsetX, offsetY, parent);
