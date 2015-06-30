@@ -10,6 +10,7 @@ public class ScriptableEntityItem extends ScriptableEntity
     public ScriptableEntityItem(EntityItem entity)
     {
         super(entity);
+        item = entity;
     }
 
     public String getItemName()
