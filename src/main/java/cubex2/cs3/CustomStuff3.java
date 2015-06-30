@@ -31,6 +31,8 @@ public class CustomStuff3
         logger = FMLLog.getLogger();
 
         Directories.init(event.getModConfigurationDirectory().getParentFile());
+
+        Config.init(event);
     }
 
     @EventHandler

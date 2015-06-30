@@ -5,6 +5,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cubex2.cs3.Config;
 import cubex2.cs3.ingame.gui.GuiBase;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
@@ -24,7 +25,7 @@ public class KeyBindingHandler
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
-        if (event.phase == TickEvent.Phase.END && event.side == Side.CLIENT && openGuiKey.isPressed() && FMLClientHandler.instance().getClient().inGameHasFocus && FMLClientHandler.instance().getClient().isSingleplayer())
+        if (Config.GUI_ENABLED && event.phase == TickEvent.Phase.END && event.side == Side.CLIENT && openGuiKey.isPressed() && FMLClientHandler.instance().getClient().inGameHasFocus && FMLClientHandler.instance().getClient().isSingleplayer())
         {
             Keyboard.enableRepeatEvents(true);
             FMLClientHandler.instance().showGuiScreen(GuiBase.INSTANCE);
