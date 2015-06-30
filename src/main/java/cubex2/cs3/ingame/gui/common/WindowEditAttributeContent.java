@@ -25,7 +25,6 @@ public class WindowEditAttributeContent extends Window implements IListBoxItemCl
         ListBoxDescription<AttributeData> desc = new ListBoxDescription<AttributeData>(7, 7);
         desc.rows = 9;
         desc.columns = 1;
-        //desc.elementHeight = 22;
         desc.elements = Lists.newArrayList(content.getContainer().getAttributeDatas(content.getTypeString()));
         desc.canSelect = false;
         desc.sorted = true;

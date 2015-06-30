@@ -5,19 +5,21 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedWorldGen;
 import cubex2.cs3.worldgen.attributes.WorldGenAttributes;
+import cubex2.cs3.worldgen.attributes.WorldGenFlowerAttributes;
 import cubex2.cs3.worldgen.attributes.WorldGenOreAttributes;
 
 import java.util.Map;
 
 public enum EnumWorldGenType
 {
-    ORE("ore", WorldGenCSOre.class, WorldGenOreAttributes.class);
+    ORE("ore", WorldGenCSOre.class, WorldGenOreAttributes.class),
+    FLOWER("flower", WorldGenCSFlower.class, WorldGenFlowerAttributes.class);
 
     public final String name;
     public final Class<? extends WorldGenCS> worldGenClass;
     public final Class<? extends WorldGenAttributes> attributeClass;
 
-    private EnumWorldGenType(String name, Class<? extends WorldGenCS> worldGenClass, Class<? extends WorldGenAttributes> attributeClass)
+    EnumWorldGenType(String name, Class<? extends WorldGenCS> worldGenClass, Class<? extends WorldGenAttributes> attributeClass)
     {
         this.name = name;
         this.worldGenClass = worldGenClass;

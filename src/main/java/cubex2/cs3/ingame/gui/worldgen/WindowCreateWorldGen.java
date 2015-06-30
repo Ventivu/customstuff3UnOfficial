@@ -1,8 +1,7 @@
 package cubex2.cs3.ingame.gui.worldgen;
 
-import cubex2.cs3.common.WrappedBlock;
-import cubex2.cs3.common.WrappedWorldGen;
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.WrappedWorldGen;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.*;
@@ -40,6 +39,8 @@ public class WindowCreateWorldGen extends Window implements IValidityProvider, I
         if (c == btnCreate)
         {
             WrappedWorldGen worldGen = new WrappedWorldGen(tbName.getText().trim(), dbType.getSelectedValue(), pack);
+            worldGen.container = worldGen.getType().createAttributeContainer(worldGen);
+            worldGen.worldGen = worldGen.getType().createWorldGen(worldGen);
             worldGen.apply();
 
             GuiBase.openPrevWindow();
