@@ -36,6 +36,7 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
     private final int listBoxItemMeta;
 
     private IListBoxItemClickListener<T> itemClickListener;
+    private IListBoxItemProvider itemProvider;
 
     private int mouseX = -1;
     private int mouseY = -1;
@@ -52,6 +53,7 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
         elementWidth = desc.elementWidth;
         listBoxItemMeta = desc.listBoxItemMeta;
         comparator = desc.comparator;
+        itemProvider = desc.itemProvider;
 
         allElements = Lists.newArrayList(desc.elements);
         elements = Lists.newArrayList(desc.elements);
@@ -135,7 +137,7 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
                 anchor.distanceLeft = 0;
                 anchor.distanceRight = 0;
             }
-            itemContainer.addControl(ListBoxItemProvider.createListBoxItem(elements.get(i), i, listBoxItemMeta, elementWidth(), elementHeight, anchor, 0, 0, itemContainer));
+            itemContainer.addControl(itemProvider.createListBoxItem(elements.get(i), i, listBoxItemMeta, elementWidth(), elementHeight, anchor, 0, 0, itemContainer));
         }
     }
 

@@ -11,9 +11,9 @@ import cubex2.cs3.util.StackLabelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class ListBoxItemProvider
+public class ListBoxItemProvider implements IListBoxItemProvider
 {
-    public static <T> ListBoxItem<?> createListBoxItem(T value, int idx, int meta, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
+    public <T> ListBoxItem<?> createListBoxItem(T value, int idx, int meta, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
         if (value instanceof String)
             return new ListBoxItemLabel<Object>(value, idx, width, height, anchor, offsetX, offsetY, parent);

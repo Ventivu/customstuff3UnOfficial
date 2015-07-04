@@ -29,4 +29,5 @@ public class ListBoxDescription<E>
     public Comparator<E> comparator;
     public Filter<E> filter;
     public List<E> elements;
+    public IListBoxItemProvider itemProvider = new ListBoxItemProvider();
 }
