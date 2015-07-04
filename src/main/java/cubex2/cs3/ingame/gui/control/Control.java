@@ -3,6 +3,7 @@ package cubex2.cs3.ingame.gui.control;
 import cpw.mods.fml.client.FMLClientHandler;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
+import cubex2.cs3.util.GuiHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.util.Rectangle;
@@ -64,6 +65,8 @@ public abstract class Control
 
     private boolean isEnabled = true;
     private boolean isVisible = true;
+
+    public ToolTipProvider toolTipProvider;
 
     public Control(int width, int height, Control parent)
     {
@@ -340,7 +343,14 @@ public abstract class Control
      */
     public void drawForeground(int mouseX, int mouseY)
     {
-
+        if (toolTipProvider != null && isMouseOverControl(mouseX, mouseY))
+        {
+            String toolTip = toolTipProvider.getToolTip(this);
+            if (toolTip != null && toolTip.length() > 0)
+            {
+                GuiHelper.drawToolTip(toolTip.split("\n"), mouseX, mouseY, mc.fontRenderer);
+            }
+        }
     }
 
     public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height)

@@ -30,6 +30,9 @@ public class Strings
     public static final String REGISTRY_DUNGEON_MOB = "DungeonMobRegistry";
     public static final String REGISTRY_CREATIVE_TAB = "CreativeTabRegistry";
 
+    // Tool tips
+    public static final String TOOL_TIP_NEEDS_RESTART = "Restart of the game is required.";
+
     // GUI text
     public static final String INFO_NEW_PACK = "This has to be unique and|is used to reference items,|blocks and textures.";
     public static final String INFO_TEXURE_FILE = "The format is [modId]:[texture]|" +
