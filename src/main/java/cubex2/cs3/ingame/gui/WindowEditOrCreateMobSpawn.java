@@ -1,8 +1,8 @@
 package cubex2.cs3.ingame.gui;
 
 import com.google.common.collect.Lists;
-import cubex2.cs3.common.MobSpawn;
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.MobSpawn;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ControlContainer;
 import cubex2.cs3.ingame.gui.control.DropBox;
@@ -10,6 +10,7 @@ import cubex2.cs3.ingame.gui.control.NumericUpDown;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 import cubex2.cs3.lib.Biomes;
+import cubex2.cs3.lib.Strings;
 import cubex2.cs3.util.GeneralHelper;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -55,17 +56,23 @@ public class WindowEditOrCreateMobSpawn extends Window
         dbType = row(dropBox(EnumCreatureType.values()));
         dbType.setSelectedValue(EnumCreatureType.monster);
 
-        row("Rate:");
+        row("Rate:", Strings.INFO_MOB_SPAWN_RATE);
         nupRate = row(numericUpDown());
         nupRate.setMinValue(1);
 
-        ControlContainer c = row(container().height(9));
-        c.col(c.label("Min Count:").width((180 - 14) / 2));
-        c.col(c.label("Max Count:").width((180 - 14) / 2));
+        row("Min Count:", Strings.INFO_MOB_SPAWN_MIN);
+        /*ControlContainer c = row(container().height(9));
+        c.col(c.label("Min Count:         ").width((180 - 14) / 2));
+        c.col(c.label("Max Count:").width((180 - 14) / 2));*/
 
-        c = row(container().height(20));
+        ControlContainer c = row(container().height(20));
         nupMin = c.col(c.numericUpDown().width((180 - 14 - 2) / 2), 3);
+        nupMin.setValue(1);
         nupMax = c.col(c.numericUpDown().width((180 - 14 - 4) / 2), 3);
+        nupMax.setValue(1);
+
+        label("Max Count:").left(nupMax, 0, true).bottom(nupMax, 4).add();
+        infoButton(Strings.INFO_MOB_SPAWN_MAX).rightTo(lastControl).add();
 
         row("Biomes:");
         ListBoxDescription<BiomeGenBase> desc = new ListBoxDescription<BiomeGenBase>();

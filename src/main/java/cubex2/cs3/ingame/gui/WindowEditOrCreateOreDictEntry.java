@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.common.OreDictionaryEntry;
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.OreDictionaryEntry;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
@@ -14,9 +14,6 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
     private BaseContentPack pack;
     private OreDictionaryEntry editingEntry;
 
-    private Label lblItem;
-    private Label lblOreClass;
-    private Label lblOtherItems;
     private ItemDisplay itemDisplay;
     private TextBox tbOreClass;
     private ItemDisplay[] itemDisplays;
@@ -40,11 +37,11 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
 
     private void initControls()
     {
-        lblItem = label("Item:").at(7,7).add();
-        itemDisplay = itemDisplay().below(lblItem).add();
-        lblOreClass = label("Ore Class:").below(itemDisplay,5).add();
-        tbOreClass = textBox().below(lblOreClass).fillWidth(7).height(20).add();
-        lblOtherItems = label("Items in ore class:").below(tbOreClass, 10).add();
+        row("Item:");
+        itemDisplay = row(itemDisplay());
+        row("Ore Class:");
+        tbOreClass = row(textBox());
+        Label label = row("Items in ore class:",10);
 
         itemDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
         itemDisplay.setDrawSlotBackground();
@@ -61,7 +58,7 @@ public class WindowEditOrCreateOreDictEntry extends Window implements IValidityP
         itemDisplays = new ItemDisplay[9];
         for (int i = 0; i < itemDisplays.length; i++)
         {
-            itemDisplays[i] = itemDisplay().left(7 + i * 19).top(91).add().setDrawSlotBackground();
+            itemDisplays[i] = itemDisplay().left(7 + i * 19).top(label, 4).add().setDrawSlotBackground();
         }
         updateItemDisplays();
     }

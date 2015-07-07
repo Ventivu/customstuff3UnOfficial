@@ -6,6 +6,7 @@ import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.DropBox;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.NumericUpDown;
+import cubex2.cs3.lib.Strings;
 import cubex2.cs3.lib.Validators;
 import cubex2.cs3.util.GeneralHelper;
 import net.minecraft.item.ItemStack;
@@ -41,25 +42,25 @@ public class WindowEditOrCreateChestItem extends Window implements IWindowClosed
 
     private void initControls()
     {
-        label("Chest:").at(7, 7).add();
-        dbChest = dropBox(GeneralHelper.getChestGenNames()).below(lastControl).fillWidth(7).add();
+        row("Chest:");
+        dbChest = row(dropBox(GeneralHelper.getChestGenNames()));
         dbChest.setSelectedValue(ChestGenHooks.BONUS_CHEST);
 
-        label("Item:").below(dbChest).add();
-        itemDisplay = itemDisplay().below(lastControl).add();
+        row("Item:");
+        itemDisplay = row(itemDisplay());
         itemDisplay.setDrawSlotBackground();
         itemDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
 
-        label("Min Count:").below(itemDisplay, 5).add();
-        nupMinCount = numericUpDown().below(lastControl).fillWidth(7).add();
+        row("Min Count:");
+        nupMinCount = row(numericUpDown());
         nupMinCount.setMinValue(1);
 
-        label("Max Count:").below(nupMinCount, 5).add();
-        nupMaxCount = numericUpDown().below(lastControl).fillWidth(7).add();
+        row("Max Count:");
+        nupMaxCount = row(numericUpDown());
         nupMaxCount.setMinValue(1);
 
-        label("Rarity:").below(nupMaxCount, 5).add();
-        nupRarity = numericUpDown().below(lastControl).fillWidth(7).add();
+        row("Rarity:", Strings.INFO_CHEST_ITEM_RARITY);
+        nupRarity = row(numericUpDown());
         nupRarity.setValue(1);
 
         if (editingItem != null)

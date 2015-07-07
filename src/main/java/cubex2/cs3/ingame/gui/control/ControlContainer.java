@@ -21,7 +21,7 @@ public class ControlContainer extends Control
     /**
      * The control that has been added last
      */
-    protected Control lastControl;
+    public Control lastControl;
 
     public ControlContainer(int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
@@ -237,6 +237,12 @@ public class ControlContainer extends Control
     private Control lastCol;
 
     /* Layout Builders */
+    public Label row(String text, String infoText)
+    {
+        Label label = row(text);
+        infoButton(infoText).rightTo(label).add();
+        return label;
+    }
 
     public Label row(String text)
     {
@@ -430,5 +436,10 @@ public class ControlContainer extends Control
     public HorizontalItemListBuilder horItemList(int numItems)
     {
         return new HorizontalItemListBuilder(numItems, this);
+    }
+
+    public ScrollContainerBuilder scrollContainer(int totalHeight)
+    {
+        return new ScrollContainerBuilder(totalHeight, this);
     }
 }

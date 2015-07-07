@@ -50,10 +50,11 @@ public class Label extends Control
         }
 
         bounds.setWidth(width);
-        bounds.setHeight(lines.length * 9 + (lines.length - 1) * 4);
+        bounds.setHeight(lines.length * 13 - 4);
 
         this.width = width;
-        this.height = lines.length * 9 + (lines.length - 1) * 4;
+        this.height = lines.length * 13 - 4;
+        this.height = lines.length * 13 - 4;
     }
 
     @Override
@@ -70,5 +71,10 @@ public class Label extends Control
                 mc.fontRenderer.drawString(lines[i], bounds.getX(), y, color);
             }
         }
+    }
+
+    public static int calcTextHeight(String text)
+    {
+        return text.split("\n").length * 13 - 4;
     }
 }

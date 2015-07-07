@@ -6,6 +6,7 @@ import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.NumericUpDown;
+import cubex2.cs3.lib.Strings;
 import cubex2.cs3.lib.Validators;
 
 public class WindowEditOrCreateGrassPlant extends Window implements IWindowClosedListener<WindowSelectBlock>
@@ -35,7 +36,8 @@ public class WindowEditOrCreateGrassPlant extends Window implements IWindowClose
 
     private void initControls()
     {
-        blockDisplay = itemDisplay().centerHor().top(20).add();
+        row("Block:");
+        blockDisplay = row(itemDisplay());
         blockDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
         if (editingPlant == null)
             blockDisplay.useSelectBlockDialog();
@@ -43,8 +45,8 @@ public class WindowEditOrCreateGrassPlant extends Window implements IWindowClose
             blockDisplay.setItemStack(editingPlant.block);
         blockDisplay.setDrawSlotBackground();
 
-        Label label = label("Weight").left(7).top(blockDisplay, 7).add();
-        nupWeight = numericUpDown().below(label).fillWidth(7).add();
+        row("Weight:", Strings.INFO_GRASS_PLANT_WEIGHT);
+        nupWeight = row(numericUpDown());
         nupWeight.setMinValue(1);
         nupWeight.setValue(editingPlant == null ? 1 : editingPlant.weight);
     }

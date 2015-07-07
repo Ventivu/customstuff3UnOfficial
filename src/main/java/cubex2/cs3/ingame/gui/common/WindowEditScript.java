@@ -3,6 +3,8 @@ package cubex2.cs3.ingame.gui.common;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
+import cubex2.cs3.ingame.gui.control.Button;
+import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.TextField;
 import cubex2.cs3.lib.Color;
@@ -16,6 +18,7 @@ public class WindowEditScript extends Window
 
     private TextField textField;
     private Label lblError;
+    private Button btnInfo;
 
 
     public WindowEditScript(String scriptName, AttributeContainer container)
@@ -29,12 +32,28 @@ public class WindowEditScript extends Window
             scriptWrapper = new ScriptWrapper("");
         }
 
+        btnEdit.setText("Save");
+
         textField = textField().top(7).bottom(34).fillWidth(7).add();
         textField.setText(scriptWrapper.getSource());
 
-        lblError = label("Script has syntax errors!").rightTo(btnEdit).add();
+        lblError = label("Script has syntax errors!").left(btnEdit, 4).top(btnEdit, 4, true).add();
         lblError.setColor(Color.RED);
         lblError.setVisible(false);
+
+        btnInfo = button("Info").right(btnCancel, 3).bottom(7).add();
+    }
+
+    @Override
+    protected void controlClicked(Control c, int mouseX, int mouseY)
+    {
+        if (c == btnInfo)
+        {
+            GuiBase.openWindow(new WindowScriptInfo(scriptName, container));
+        } else
+        {
+            super.controlClicked(c, mouseX, mouseY);
+        }
     }
 
     @Override

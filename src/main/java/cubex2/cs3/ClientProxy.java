@@ -1,14 +1,25 @@
 package cubex2.cs3;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cubex2.cs3.handler.KeyBindingHandler;
+import cubex2.cs3.lib.ModInfo;
 import cubex2.cs3.lib.RenderIds;
 import cubex2.cs3.renderer.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IResourcePack;
+import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
 
 public class ClientProxy extends CommonProxy
 {
+    public static IResourcePack resPack;
     @Override
     public void registerKeyBindings()
     {
@@ -25,6 +36,8 @@ public class ClientProxy extends CommonProxy
     @Override
     public void initRendering()
     {
+        resPack = FMLClientHandler.instance().getResourcePackFor(ModInfo.ID);
+
         RenderIds.chestRenderId = RenderingRegistry.getNextAvailableRenderId();
         RenderIds.doorRenderId = RenderingRegistry.getNextAvailableRenderId();
         RenderIds.fenceRenderId = RenderingRegistry.getNextAvailableRenderId();

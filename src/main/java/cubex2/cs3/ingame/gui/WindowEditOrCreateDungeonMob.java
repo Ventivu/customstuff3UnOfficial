@@ -5,6 +5,7 @@ import cubex2.cs3.common.DungeonMob;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.DropBox;
 import cubex2.cs3.ingame.gui.control.NumericUpDown;
+import cubex2.cs3.lib.Strings;
 import cubex2.cs3.util.GeneralHelper;
 
 public class WindowEditOrCreateDungeonMob extends Window
@@ -37,7 +38,7 @@ public class WindowEditOrCreateDungeonMob extends Window
         row("Mob:");
         dbMob = row(dropBox(GeneralHelper.getMobNames()));
 
-        row("Rarity:");
+        row("Rarity:", Strings.INFO_DUNGEON_MOB_RARITY);
         nupRarity = row(numericUpDown());
         nupRarity.setMinValue(1);
 

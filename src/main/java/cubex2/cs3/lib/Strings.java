@@ -78,4 +78,34 @@ public class Strings
             " 1 = stone|" +
             " 2 = iron|" +
             " 3 = diamond";
+    public static final String INFO_DUNGEON_MOB_RARITY = "A higher value makes the|" +
+            "mob more common.|" +
+            " 100 = spider / skeleton|" +
+            " 200 = zombie";
+    public static final String INFO_FUEL_DURATION = "The duration in ticks|" +
+            "(20 ticks = 1 second)|" +
+            " 100 = stick|" +
+            " 300 = wood|" +
+            " 1600 = coal|";
+    public static final String INFO_GRASS_PLANT_WEIGHT = "The weight of the plant|" +
+            " 10 = red flowers|" +
+            " 20 = yellow flowers";
+    public static final String INFO_GRASS_SEED_WEIGHT = "The weight of the seed|" +
+            " 10 = vanilla seeds";
+    public static final String INFO_MOB_SPAWN_RATE = "The spawn rate of the mob|" +
+            " 5 = witch|" +
+            " 8 = cow|" +
+            " 10 = enderman|" +
+            " 100 = zombie";
+    public static final String INFO_MOB_SPAWN_MIN = "1 = enderman|" +
+            "4 = creeper|" +
+            "8 = bat";
+    public static final String INFO_MOB_SPAWN_MAX = "4 = enderman|" +
+            "4 = creeper|" +
+            "8 = bat";
+    public static final String INFO_CHEST_ITEM_RARITY = "1 = golden apple (dungeon)|" +
+            "3 = stone axe (bonus)|" +
+            "10 = iron ingot (blacksmith)";
+
+
 }

@@ -5,6 +5,7 @@ import cubex2.cs3.common.Fuel;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.NumericUpDown;
+import cubex2.cs3.lib.Strings;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
 
@@ -37,8 +38,9 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
     {
         row("Item:");
         itemDisplay = row(itemDisplay());
-        row("Duration:");
+        row("Duration:", Strings.INFO_FUEL_DURATION);
         nupDuration = row(numericUpDown());
+        nupDuration.setValue(300);
 
         itemDisplay.setDrawSlotBackground();
         itemDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);

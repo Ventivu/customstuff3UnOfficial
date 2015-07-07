@@ -36,10 +36,10 @@ public class WindowEditOrCreateCreativeTab extends Window
 
     public void initControls()
     {
-        row("Name:");
+        row("Name:", "The internal name. Has to be unique.");
         tbName = row(textBox());
 
-        row("Label:");
+        row("Label:", "This is the actual text displayed.");
         tbLabel = row(textBox());
 
         row("Icon:");

@@ -265,6 +265,7 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
 
     public void onBlockPlaced(World world, int x, int y, int z, int facing, float hitX, float hitY, float hitZ)
     {
+        // TODO add facing, hit?
         if (container.onPlaced != null && container.onPlaced.script != null)
         {
             ITriggerData data = new TriggerData("onPlaced", TriggerType.BLOCK, world, x, y, z);
