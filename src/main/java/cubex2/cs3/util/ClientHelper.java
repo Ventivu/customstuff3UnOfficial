@@ -8,7 +8,6 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 
 public class ClientHelper
 {
@@ -32,6 +31,6 @@ public class ClientHelper
             e.printStackTrace();
         }
 
-        return "[FILE NOT FOUND: " + path + " ]";
+        return "TEXT --{\n[FILE NOT FOUND: " + path + " ]\n}--";
     }
 }

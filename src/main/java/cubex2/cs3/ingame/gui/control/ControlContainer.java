@@ -267,14 +267,15 @@ public class ControlContainer extends Control
      */
     public <T extends Control> T row(ControlBuilder<T> builder, int offset)
     {
+        if (builder.width == 0 && !(builder instanceof LabelBuilder))
+            builder.right(7);
+
         if (lastRow == null)
             lastRow = builder.top(7).left(7).add();
         else
             lastRow = builder.top(lastRow, offset).left(7).add();
 
-        if (builder.width == 0 && !(builder instanceof LabelBuilder))
-            builder.right(7);
-        return builder.add();
+        return (T) lastRow;
     }
 
     public <T extends Control> T col(ControlBuilder<T> builder)
@@ -289,7 +290,7 @@ public class ControlContainer extends Control
         else
             lastCol = builder.left(lastCol, offset).fillHeight(0).add();
 
-        return builder.add();
+        return (T) lastCol;
     }
 
     /* Builders */
@@ -441,5 +442,10 @@ public class ControlContainer extends Control
     public ScrollContainerBuilder scrollContainer(int totalHeight)
     {
         return new ScrollContainerBuilder(totalHeight, this);
+    }
+
+    public ButtonDocBuilder buttonDoc(String text, String path)
+    {
+        return new ButtonDocBuilder(text, path, this);
     }
 }

@@ -33,7 +33,7 @@ public abstract class Window extends ControlContainer implements IValueListener
 
     private final int usedControls;
 
-    private String title;
+    public String title;
 
     private List<IValidityControl> validityControls = Lists.newArrayList();
 
