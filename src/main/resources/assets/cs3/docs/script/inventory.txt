@@ -25,7 +25,7 @@ ELEM isItemEqual isItemEqual
 ELEM hasEnchantment hasEnchantment
 ELEM clearEnchantments clearEnchantments
 ELEM addEnchantment addEnchantment
-ELEM removeEnnchantment removeEnnchantment
+ELEM removeEnchantment removeEnchantment
 ELEM getIntData getIntData
 ELEM getFloatData getFloatData
 ELEM getStringData getStringData

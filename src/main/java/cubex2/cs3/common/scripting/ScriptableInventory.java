@@ -286,7 +286,7 @@ public class ScriptableInventory
      * @param slotId The slot's id
      * @param id     The enchantment's id
      */
-    public void removeEnnchantment(int slotId, int id)
+    public void removeEnchantment(int slotId, int id)
     {
         inv.removeEnchantment(slotId, id);
     }
