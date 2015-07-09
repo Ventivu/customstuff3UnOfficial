@@ -32,6 +32,8 @@ public class ParsedDocFile
     {
         ParsedDocFile doc = new ParsedDocFile();
 
+        String elemPrefix = "";
+
         String[] lines = contents.split("\n");
         boolean isText = false;
         String text = "";
@@ -70,10 +72,14 @@ public class ParsedDocFile
             } else if (line.startsWith("TYPE"))
             {
                 doc.type = line.substring(line.indexOf(' ') + 1);
+            } else if (line.startsWith("ELEM_PREFIX"))
+            {
+                elemPrefix = parseLine(line)[1];
             } else if (line.startsWith("ELEM"))
             {
                 String[] parts = parseLine(line);
-                doc.listBoxElements.add(new NamedLink(parts[1], parts[2] + ".txt"));
+                String link = parts.length >= 3 ? elemPrefix + parts[2] + ".txt" : null;
+                doc.listBoxElements.add(new NamedLink(parts[1], link, parts.length >= 4 && parts[3].equals("TRUE")));
             } else if (line.startsWith("SORTED"))
             {
                 doc.sorted = true;

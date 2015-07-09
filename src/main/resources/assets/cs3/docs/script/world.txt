@@ -1,0 +1,54 @@
+TITLE world
+TYPE list
+SORTED
+
+ELEM_PREFIX script/world/
+
+ELEM "setBlock" setBlock
+ELEM "setBlockMetaData" setBlockMetaData
+ELEM "setBlockAndMetaData" setBlockAndMetaData
+ELEM "harvestBlock" harvestBlock
+ELEM "setTime" setTime
+ELEM "getTime" getTime
+ELEM "createExplosion" createExplosion
+ELEM "createThunderbolt" createThunderbolt
+ELEM "spawnMob" spawnMob
+ELEM "spawnItem" spawnItem
+ELEM "setWeather" setWeather
+ELEM "isRaining" isRaining
+ELEM "isThundering" isThundering
+ELEM "fillContainer" fillContainer
+ELEM "clearContainer" clearContainer
+ELEM "addToContainer" addToContainer
+ELEM removeFromContainer removeFromContainer
+ELEM clearContainerSlot clearContainerSlot
+ELEM fillContainerSlot fillContainerSlot
+ELEM setContainerSlot setContainerSlot
+ELEM removeFromContainerSlot removeFromContainerSlot
+ELEM addToContainerSlot addToContainerSlot
+ELEM damageItem damageItem
+ELEM repairItem repairItem
+ELEM hasEnchantment hasEnchantment
+ELEM clearEnchantments clearEnchantments
+ELEM addEnchantment addEnchantment
+ELEM removeEnchantment removeEnchantment
+ELEM getStackIntData getStackIntData
+ELEM getStackStringData getStackStringData
+ELEM setStackIntData setStackIntData
+ELEM setStackStringData setStackStringData
+ELEM getBlockName getBlockName
+ELEM getBlockMetadata getBlockMetadata
+ELEM getContainerSlotItemName getContainerSlotItemName
+ELEM getContainerSlotStackSize getContainerSlotStackSize
+ELEM getContainerSlotMaxStackSize getContainerSlotMaxStackSize
+ELEM getContainerItemCount getContainerItemCount
+ELEM isFuelInContainerSlot isFuelInContainerSlot
+ELEM getBiome getBiome
+ELEM shear shear
+ELEM countEntities countEntities
+ELEM enumEntities enumEntities
+ELEM getBlockLightLevel getBlockLightLevel
+ELEM sendMessageToAllPlayers sendMessageToAllPlayers
+ELEM sendMessageToPlayer sendMessageToPlayer
+ELEM getBlockType getBlockType
+ELEM spawnParticle spawnParticle

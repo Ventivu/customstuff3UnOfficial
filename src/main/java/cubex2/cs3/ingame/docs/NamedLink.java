@@ -7,11 +7,13 @@ public class NamedLink implements IPurposeStringProvider, Comparable<NamedLink>
 {
     public String text;
     public String link;
+    public boolean isFirst;
 
-    public NamedLink(String text, String link)
+    public NamedLink(String text, String link, boolean isFirst)
     {
         this.text = text;
         this.link = link;
+        this.isFirst = isFirst;
     }
 
     @Override
@@ -23,6 +25,8 @@ public class NamedLink implements IPurposeStringProvider, Comparable<NamedLink>
     @Override
     public int compareTo(NamedLink o)
     {
+        if (isFirst)
+            return -1;
         return text.compareTo(o.text);
     }
 }

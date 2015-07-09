@@ -1,0 +1,69 @@
+TITLE player
+TYPE list
+SORTED
+
+ELEM_PREFIX script/player/
+
+ELEM setHunger setHunger
+ELEM getHunger getHunger
+ELEM setSaturation setSaturation
+ELEM getSaturation getSaturation
+ELEM setStepHeight setStepHeight
+ELEM getStepHeight getStepHeight
+ELEM sendMessage sendMessage
+ELEM sendChat sendChat
+ELEM setItemInUse setItemInUse
+ELEM clearInventory clearInventory
+ELEM fillInventory fillInventory
+ELEM add add
+ELEM remove remove
+ELEM clearSlot clearSlot
+ELEM fillSlot fillSlot
+ELEM setSlot setSlot
+ELEM addToSlot addToSlot
+ELEM removeFromSlot removeFromSlot
+ELEM damageItem damageItem
+ELEM repairItem repairItem
+ELEM getItemName getItemName
+ELEM getItemStackSize getItemStackSize
+ELEM getItemMaxStackSize getItemMaxStackSize
+ELEM getItemMetadata getItemMetadata
+ELEM hasEnchantment hasEnchantment
+ELEM clearEnchantments clearEnchantments
+ELEM addEnchantment addEnchantment
+ELEM removeEnchantment removeEnchantment
+ELEM getItemCount getItemCount
+ELEM getCurrentSlot getCurrentSlot
+ELEM placeBlock placeBlock
+ELEM getLookX getLookX
+ELEM getLookY getLookY
+ELEM getLookZ getLookZ
+ELEM addExperience addExperience
+ELEM removeExperience removeExperience
+ELEM setExperience setExperience
+ELEM addExperienceLevel addExperienceLevel
+ELEM removeExperienceLevel removeExperienceLevel
+ELEM setExperienceLevel setExperienceLevel
+ELEM getExperience getExperience
+ELEM getExperienceLevel getExperienceLevel
+ELEM getHorizontalAngle getHorizontalAngle
+ELEM getVerticalAngle getVerticalAngle
+ELEM getUsername getUsername
+ELEM isSneaking isSneaking
+ELEM isSprinting isSprinting
+ELEM getStackIntData getStackIntData
+ELEM getStackFloatData getStackFloatData
+ELEM getStackStringData getStackStringData
+ELEM setStackIntData setStackIntData
+ELEM setStackFloatData setStackFloatData
+ELEM setStackStringData setStackStringData
+ELEM setMaxHealth setMaxHealth
+ELEM getMaxHealth getMaxHealth
+ELEM canEfficientlyBreak canEfficientlyBreak
+ELEM canHarvest canHarvest
+ELEM swingItem swingItem
+ELEM isInCreative isInCreative
+
+ELEM_PREFIX script/
+
+ELEM "Everything from living" living
