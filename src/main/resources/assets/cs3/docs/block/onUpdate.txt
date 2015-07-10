@@ -1,0 +1,6 @@
+TEXT --{
+This script is executed every tickCount ticks when the block is in the world.
+
+Available objects:
+}--
+SCRIPT_OBJECTS onUpdate BLOCK
