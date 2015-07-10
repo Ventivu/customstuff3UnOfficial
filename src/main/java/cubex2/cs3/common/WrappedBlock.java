@@ -17,7 +17,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -248,15 +247,7 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
 
     public void onEntityWalking(World world, int x, int y, int z, Entity entity)
     {
-        if (entity instanceof EntityPlayer && container.onWalkingPlayer != null && container.onWalkingPlayer.script != null)
-        {
-            ITriggerData data = new TriggerData("onWalkingPlayer", TriggerType.BLOCK, world, x, y, z).setPlayer((EntityPlayer) entity);
-            JavaScriptHelper.executeTrigger(container.onWalkingPlayer.script, data, pack);
-        } else if (entity instanceof EntityLiving && container.onWalkingLiving != null && container.onWalkingLiving.script != null)
-        {
-            ITriggerData data = new TriggerData("onWalkingLiving", TriggerType.BLOCK, world, x, y, z).setLiving((EntityLiving) entity);
-            JavaScriptHelper.executeTrigger(container.onWalkingLiving.script, data, pack);
-        } else if (container.onWalking != null && container.onWalking.script != null)
+        if (container.onWalking != null && container.onWalking.script != null)
         {
             ITriggerData data = new TriggerData("onWalking", TriggerType.BLOCK, world, x, y, z).setEntity(entity);
             JavaScriptHelper.executeTrigger(container.onWalking.script, data, pack);
@@ -284,15 +275,7 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
 
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
     {
-        if (entity instanceof EntityPlayer && container.onCollidedWithPlayer != null && container.onCollidedWithPlayer.script != null)
-        {
-            ITriggerData data = new TriggerData("onCollidedWithPlayer", TriggerType.BLOCK, world, x, y, z).setPlayer((EntityPlayer) entity);
-            JavaScriptHelper.executeTrigger(container.onCollided.script, data, pack);
-        } else if (entity instanceof EntityLivingBase && container.onCollidedWithLiving != null && container.onCollidedWithLiving.script != null)
-        {
-            ITriggerData data = new TriggerData("onCollidedWithLiving", TriggerType.BLOCK, world, x, y, z).setLiving((EntityLivingBase) entity);
-            JavaScriptHelper.executeTrigger(container.onCollided.script, data, pack);
-        } else if (container.onCollided != null && container.onCollided.script != null)
+        if (container.onCollided != null && container.onCollided.script != null)
         {
             ITriggerData data = new TriggerData("onCollided", TriggerType.BLOCK, world, x, y, z).setEntity(entity);
             JavaScriptHelper.executeTrigger(container.onCollided.script, data, pack);

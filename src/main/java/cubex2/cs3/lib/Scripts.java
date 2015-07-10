@@ -46,13 +46,9 @@ public class Scripts
     public static final ScriptInfo BLOCK_ON_NEIGHBOR_CHANGE = addBlock("onNeighborChange", "world", "position");
     public static final ScriptInfo BLOCK_ON_REDSTONE_SIGNAL = addBlock("onRedstoneSignal", "world", "position");
     public static final ScriptInfo BLOCK_ON_BREAK = addBlock("onBreak", "world", "position");
-    public static final ScriptInfo BLOCK_ON_WALKING_PLAYER = addBlock("onWalkingPlayer", "world", "position", "player");
-    public static final ScriptInfo BLOCK_ON_WALKINg_LIVING = addBlock("onWalkingLiving", "world", "position", "living");
     public static final ScriptInfo BLOCK_ON_WALKING = addBlock("onWalking", "world", "position", "entity");
     public static final ScriptInfo BLOCK_ON_PLACED = addBlock("onPlaced", "world", "position");
     public static final ScriptInfo BLOCK_ON_CLICKED = addBlock("onClicked", "world", "position", "player");
-    public static final ScriptInfo BLOCK_ON_COLLIDED_WITH_PLAYER = addBlock("onCollidedWithPlayer", "world", "position", "player");
-    public static final ScriptInfo BLOCK_ON_COLLIDED_WITH_LIVING = addBlock("onCollidedWithLiving", "world", "position", "living");
     public static final ScriptInfo BLOCK_ON_COLLIDED = addBlock("onCollided", "world", "position", "entity");
     public static final ScriptInfo BLOCK_ON_PLACED_BY_PLAYER = addBlock("onPlacedByPlayer", "world", "position", "player");
     public static final ScriptInfo BLOCK_ON_PLACED_BY = addBlock("onPlacedBy", "world", "position", "living");
