@@ -62,6 +62,9 @@ public class NBTHelper
         try
         {
             FileWriter w = new FileWriter(file);
+            w.write("IMPORTANT:\n");
+            w.write("This is just the packs data in a readable format used for debugging stuff.\n");
+            w.write("Changes made here have no effect at all. This is intended.\n\n");
             writeObject("", tag, w, 0);
             w.flush();
             w.close();

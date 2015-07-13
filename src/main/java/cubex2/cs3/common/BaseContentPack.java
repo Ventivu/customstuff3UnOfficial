@@ -117,7 +117,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
 
         IOHelper.writeNBTToFile(compound, new File(directory, "data.dat"));
 
-        NBTHelper.dumpNBT(compound, new File(directory, "data.txt"));
+        NBTHelper.dumpNBT(compound, new File(directory, "data_dump.txt"));
     }
 
     public void load()
