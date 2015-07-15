@@ -1,0 +1,18 @@
+TITLE repairItem
+MAX_WIDTH
+
+TEXT --{
+repairItem(position, slotId)
+ count = max possible
+repairItem(x, y, z, slotId)
+ count = max possible
+repairItem(position, slotId, count)
+repairItem(x, y, z, slotId, count)
+
+Repairs an item in the given slot. If the slot is empty, this does nothing.
+
+- position: The position of the container
+- x, y, z (int): The coordinates of the container
+- slotId (int): The id of the slot
+- count (int): The amount of damage to remove from the item
+}--

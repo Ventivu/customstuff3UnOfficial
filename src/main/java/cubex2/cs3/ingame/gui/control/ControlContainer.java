@@ -251,7 +251,7 @@ public class ControlContainer extends Control
 
     public Label row(String text, int offset)
     {
-        return row(label(text), offset);
+        return row(label(text), offset, false);
     }
 
     /**
@@ -259,21 +259,26 @@ public class ControlContainer extends Control
      */
     public <T extends Control> T row(ControlBuilder<T> builder)
     {
-        return row(builder, 4);
+        return row(builder, 4, false);
+    }
+
+    public <T extends Control> T row(ControlBuilder<T> builder, boolean noOffset)
+    {
+        return row(builder, 4, true);
     }
 
     /**
      * Don't use any methods but size on the builder.
      */
-    public <T extends Control> T row(ControlBuilder<T> builder, int offset)
+    public <T extends Control> T row(ControlBuilder<T> builder, int offset, boolean noOffset)
     {
         if (builder.width == 0 && !(builder instanceof LabelBuilder))
             builder.right(7);
 
         if (lastRow == null)
-            lastRow = builder.top(7).left(7).add();
+            lastRow = builder.top(noOffset ? 0 : 7).left(noOffset ? 0 : 7).add();
         else
-            lastRow = builder.top(lastRow, offset).left(7).add();
+            lastRow = builder.top(lastRow, offset).left(noOffset ? 0 : 7).add();
 
         return (T) lastRow;
     }

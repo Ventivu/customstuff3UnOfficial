@@ -1,0 +1,12 @@
+TITLE clearContainer
+MAX_WIDTH
+
+TEXT --{
+clearContainer(position)
+clearContainer(x, y, z)
+
+Deletes all items in the container.
+
+- position: The position of the container
+- x, y, z (int): The coordinates of the container
+}--

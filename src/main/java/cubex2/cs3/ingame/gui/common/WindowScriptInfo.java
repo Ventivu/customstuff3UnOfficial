@@ -3,6 +3,7 @@ package cubex2.cs3.ingame.gui.common;
 import cubex2.cs3.api.scripting.TriggerType;
 import cubex2.cs3.block.attributes.BlockAttributes;
 import cubex2.cs3.common.attribute.AttributeContainer;
+import cubex2.cs3.ingame.docs.ParsedDocFile;
 
 public class WindowScriptInfo extends WindowDocs
 {
@@ -11,7 +12,7 @@ public class WindowScriptInfo extends WindowDocs
 
     public WindowScriptInfo(String scriptName, AttributeContainer container)
     {
-        super(scriptName, getDocs(scriptName, container));
+        super(scriptName, ParsedDocFile.fromPath(getDocs(scriptName, container)));
         this.scriptName = scriptName;
         this.container = container;
 

@@ -1,0 +1,14 @@
+TITLE clearContainerSlot
+MAX_WIDTH
+
+TEXT --{
+clearContainerSlot(position, slotId)
+clearContainerSlot(x, y, z, slotId)
+
+Clears a slot of a container.
+
+
+- position: The position of the container
+- x, y, z (int): The coordinates of the container
+- slotId (int): The id of the slot
+}--

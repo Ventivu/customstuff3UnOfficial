@@ -4,6 +4,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cubex2.cs3.api.scripting.TriggerType;
+import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.common.WindowDocs;
 import cubex2.cs3.ingame.gui.control.ControlContainer;
 import cubex2.cs3.ingame.gui.control.ScrollContainer;
@@ -21,16 +22,21 @@ public class ParsedDocFile
 
     public static ParsedDocFile fromPath(String path)
     {
-        if (docs.containsKey(path))
+        return fromPath(path, true);
+    }
+
+    public static ParsedDocFile fromPath(String path, boolean useCache)
+    {
+        if (useCache && docs.containsKey(path))
             return docs.get(path);
-        ParsedDocFile doc = fromString(ClientHelper.loadDocFile(path));
+        ParsedDocFile doc = fromString(ClientHelper.loadDocFile(path), path);
         docs.put(path, doc);
         return doc;
     }
 
-    public static ParsedDocFile fromString(String contents)
+    public static ParsedDocFile fromString(String contents, String path)
     {
-        ParsedDocFile doc = new ParsedDocFile();
+        ParsedDocFile doc = new ParsedDocFile(path);
 
         String elemPrefix = "";
 
@@ -83,6 +89,9 @@ public class ParsedDocFile
             } else if (line.startsWith("SORTED"))
             {
                 doc.sorted = true;
+            } else if (line.startsWith("MAX_WIDTH"))
+            {
+                doc.maxWidth = true;
             }
         }
 
@@ -136,10 +145,20 @@ public class ParsedDocFile
     private List<NamedLink> listBoxElements = Lists.newArrayList();
     private String type = "default";
     private boolean sorted = false;
+    private boolean maxWidth = false;
+    public String path = "";
 
-    private ParsedDocFile()
+    private ParsedDocFile(String path)
     {
+        this.path = path;
+    }
 
+    public int getWidth()
+    {
+        if (maxWidth)
+            return Math.min(GuiBase.INSTANCE.width, 504);
+
+        return 256;
     }
 
     public void add(WindowDocs window)
@@ -156,7 +175,7 @@ public class ParsedDocFile
 
             for (DocElement element : elements)
             {
-                element.add(window, content);
+                element.add(this, window, content);
 
             }
 
@@ -174,7 +193,7 @@ public class ParsedDocFile
 
     private interface DocElement
     {
-        void add(WindowDocs window, ControlContainer content);
+        void add(ParsedDocFile docFile, WindowDocs window, ControlContainer content);
     }
 
     private static class DocLabel implements DocElement
@@ -187,9 +206,9 @@ public class ParsedDocFile
         }
 
         @Override
-        public void add(WindowDocs window, ControlContainer content)
+        public void add(ParsedDocFile docFile, WindowDocs window, ControlContainer content)
         {
-            content.row(window.label(Joiner.on('\n').join(window.mc.fontRenderer.listFormattedStringToWidth(text, window.getWidth() - 14 - 3 - ScrollContainer.SLIDER_WIDTH))));
+            content.row(content.label(Joiner.on('\n').join(window.mc.fontRenderer.listFormattedStringToWidth(text, docFile.getWidth() - 14 - 3 - ScrollContainer.SLIDER_WIDTH))), true);
         }
     }
 
@@ -205,9 +224,9 @@ public class ParsedDocFile
         }
 
         @Override
-        public void add(WindowDocs window, ControlContainer content)
+        public void add(ParsedDocFile docFile, WindowDocs window, ControlContainer content)
         {
-            content.row(window.buttonDoc(text, path).size(100, 13));
+            content.row(content.buttonDoc(text, path).size(100, 13), true);
         }
     }
 }

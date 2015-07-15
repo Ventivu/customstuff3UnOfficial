@@ -58,7 +58,7 @@ public abstract class Control
     protected Control parent;
 
     protected Rectangle bounds;
-    protected int width;
+    public int width;
     protected int height;
 
     protected float zLevel = 0F;

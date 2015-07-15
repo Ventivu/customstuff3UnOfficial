@@ -1,6 +1,7 @@
 package cubex2.cs3.ingame.gui.control.listbox;
 
 import cubex2.cs3.ingame.docs.NamedLink;
+import cubex2.cs3.ingame.docs.ParsedDocFile;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.common.WindowDocs;
 import cubex2.cs3.ingame.gui.control.Anchor;
@@ -20,7 +21,7 @@ public class ListBoxItemDoc extends ListBoxItemLabel<NamedLink>
 
         if (value.link != null && value.link.length() > 0)
         {
-            GuiBase.openWindow(new WindowDocs(value.text, value.link));
+            GuiBase.openWindow(new WindowDocs(value.text, ParsedDocFile.fromPath(value.link)));
         }
     }
 }

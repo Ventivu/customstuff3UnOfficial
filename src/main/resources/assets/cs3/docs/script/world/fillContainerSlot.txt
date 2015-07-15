@@ -1,0 +1,14 @@
+TITLE fillContainer
+MAX_WIDTH
+
+TEXT --{
+int fillContainer(position, slotId)
+int fillContainer(x, y, z, slotId)
+
+Fills a slot with the item that is in it. If the slot is empty, this does nothing.
+Returns the number of items added or -1 if there was no valid container.
+
+- position: The position of the container
+- x, y, z (int): The coordinates of the container
+- slotId (int): The id of the slot
+}--

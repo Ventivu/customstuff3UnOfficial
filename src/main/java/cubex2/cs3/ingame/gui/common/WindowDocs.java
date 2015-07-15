@@ -1,16 +1,45 @@
 package cubex2.cs3.ingame.gui.common;
 
 import cubex2.cs3.ingame.docs.ParsedDocFile;
+import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Button;
+import cubex2.cs3.ingame.gui.control.Control;
 
 public class WindowDocs extends Window
 {
-    public WindowDocs(String title, String path)
-    {
-        super(title, BACK, 256, 200);
+    private final ParsedDocFile docFile;
+    private Button btnReload;
 
-        ParsedDocFile.fromPath(path).add(this);
+    public WindowDocs(String title, ParsedDocFile docFile)
+    {
+        super(title, BACK, docFile.getWidth(), 200);
+        this.docFile = docFile;
+
+        docFile.add(this);
+
+        btnReload = button("Reload").left(7).bottom(7).add();
+    }
+
+    @Override
+    public void onParentResized()
+    {
+        width = docFile.getWidth();
+
+        super.onParentResized();
+    }
+
+    @Override
+    protected void controlClicked(Control c, int mouseX, int mouseY)
+    {
+        if (c == btnReload)
+        {
+            GuiBase.openPrevWindow();
+            GuiBase.openWindow(new WindowDocs("", ParsedDocFile.fromPath(docFile.path, false)));
+        } else
+        {
+            super.controlClicked(c, mouseX, mouseY);
+        }
     }
 
     public Button getBackButton()

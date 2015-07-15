@@ -1,0 +1,14 @@
+TITLE damageItem
+MAX_WIDTH
+
+TEXT --{
+damageItem(position, slotId, count)
+damageItem(x, y, z, slotId, count)
+
+Damages an item in the given slot. If the slot is empty, this does nothing.
+
+- position: The position of the container
+- x, y, z (int): The coordinates of the container
+- slotId (int): The id of the slot
+- count (int): The amount of damage to add to the item
+}--
