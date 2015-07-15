@@ -28,3 +28,4 @@ ELEM sendMessageToAllPlayers sendMessageToAllPlayers
 ELEM sendMessageToPlayer sendMessageToPlayer
 ELEM getBlockType getBlockType
 ELEM spawnParticle spawnParticle
+ELEM getInventory
