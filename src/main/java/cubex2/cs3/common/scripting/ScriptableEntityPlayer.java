@@ -3,6 +3,7 @@ package cubex2.cs3.common.scripting;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cubex2.cs3.common.inventory.Inventory;
+import cubex2.cs3.common.inventory.WrappedInventory;
 import cubex2.cs3.util.GeneralHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -153,6 +154,7 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
 
     /**
      * Gets the id of the slot the player is currently using
+     *
      * @return The id of the slot
      */
     public int getCurrentSlot()
@@ -497,5 +499,20 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
     public ScriptableInventory getInventory()
     {
         return new ScriptableInventory(player.inventory);
+    }
+
+    public void openEnderChest(String customName)
+    {
+        if (!player.worldObj.isRemote)
+        {
+            WrappedInventory inv = new WrappedInventory(player.getInventoryEnderChest());
+            inv.customName = customName;
+            player.displayGUIChest(inv);
+        }
+    }
+
+    public void openEnderChest()
+    {
+        openEnderChest(null);
     }
 }

@@ -35,6 +35,7 @@ ELEM swingItem swingItem
 ELEM isInCreative isInCreative
 ELEM getInventory getInventory
 ELEM getCurrentSlot getCurrentSlot
+ELEM openEnderChest openEnderChest
 
 ELEM_PREFIX script/
 
