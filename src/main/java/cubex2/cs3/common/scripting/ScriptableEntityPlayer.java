@@ -154,41 +154,39 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
     /**
      * Places a block
      *
-     * @param position  The position
-     * @param side      On what side at position the block should be added
-     * @param blockName The block's name
-     * @param metadata  The block's metadata
-     * @param flag      If true the function will uses blocks from the inventory and won't place any block if the required block isn't in the
-     *                  player's inventory
+     * @param position         The position
+     * @param side             On what side at position the block should be added
+     * @param blockName        The block's name
+     * @param metadata         The block's metadata
+     * @param useFromInventory If true the function will uses blocks from the inventory and won't place any block if the required block isn't in the
+     *                         player's inventory
      * @return True if the block has been placed, false otherwise
      */
-    public boolean placeBlock(ScriptablePosition position, int side, String blockName, int metadata, boolean flag)
+    public boolean placeBlock(ScriptablePosition position, int side, String blockName, int metadata, boolean useFromInventory)
     {
-        return placeBlock((int) position.x, (int) position.y, (int) position.z, side, blockName, metadata, flag);
+        return placeBlock((int) position.x, (int) position.y, (int) position.z, side, blockName, metadata, useFromInventory);
     }
 
     /**
      * Places a block
      *
-     * @param x         The x coordinate
-     * @param y         The y coordinate
-     * @param z         The z coordinate
-     * @param side      On what side at position the block should be added
-     * @param blockName The block's name
-     * @param metadata  The block's metadata
-     * @param flag      If true the function will uses blocks from the inventory and won't place any block if the required block isn't in the
-     *                  player's inventory
+     * @param x                The x coordinate
+     * @param y                The y coordinate
+     * @param z                The z coordinate
+     * @param side             On what side at position the block should be added
+     * @param blockName        The block's name
+     * @param metadata         The block's metadata
+     * @param useFromInventory If true the function will uses blocks from the inventory and won't place any block if the required block isn't in the
+     *                         player's inventory
      * @return True if the block has been placed, false otherwise
      */
-    public boolean placeBlock(int x, int y, int z, int side, String blockName, int metadata, boolean flag /*
-                                                                                                 * TODO : find name
-                                                                                                 */)
+    public boolean placeBlock(int x, int y, int z, int side, String blockName, int metadata, boolean useFromInventory)
     {
         Block block = GeneralHelper.getBlock(blockName);
 
         World world = player.worldObj;
         ItemStack stack;
-        if (flag)
+        if (useFromInventory)
         {
             stack = inventory.findItem(Item.getItemFromBlock(block), metadata);
             if (stack == null)
