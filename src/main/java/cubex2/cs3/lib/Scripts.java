@@ -55,7 +55,8 @@ public class Scripts
     public static final ScriptInfo BLOCK_ON_FALLEN_UPON = addBlock("onFallenUpon", "world", "position", "entity");
 
     public static final ScriptInfo ITEM_ON_USE = addItem("onUse", "world", "player", "itemstack", "position", "hitX", "hitY", "side");
-    public static final ScriptInfo ITEM_ON_RIGHT_CLICK = addItem("onRightClicked", "world", "player", "itemstack");
+    public static final ScriptInfo ITEM_ON_EATEN = addItem("onEaten", "world", "player", "itemstack");
+    public static final ScriptInfo ITEM_ON_RIGHT_CLICK = addItem("onRightClick", "world", "player", "itemstack");
     public static final ScriptInfo ITEM_ON_USE_FIRST = addItem("onUseFirst", "world", "player", "itemstack", "position", "hitX", "hitY", "side");
     public static final ScriptInfo ITEM_ON_USE_ON_PLAYER = addItem("onUseOnPlayer", "world", "player", "itemstack", "interactPlayer");
     public static final ScriptInfo ITEM_ON_USE_ON_ENTITY = addItem("onUseOnEntity", "world", "player", "itemstack", "living");
