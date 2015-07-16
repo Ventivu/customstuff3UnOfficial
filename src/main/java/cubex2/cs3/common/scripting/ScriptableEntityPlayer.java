@@ -470,14 +470,6 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
         player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(value);
     }
 
-    /**
-     * Gets the player's max health
-     */
-    @Override
-    public float getMaxHealth()
-    {
-        return player.getMaxHealth();
-    }
 
     /**
      * Swings the item the player is holding.

@@ -18,12 +18,9 @@ public class ScriptableItemStack
     /**
      * Sets the stack's item, damage value and stack size
      *
-     * @param itemName
-     *         The new item name
-     * @param stacksize
-     *         The new stack size
-     * @param meta
-     *         The new damage value
+     * @param itemName  The new item name
+     * @param stacksize The new stack size
+     * @param meta      The new damage value
      */
     public void setValues(String itemName, int stacksize, int meta)
     {
@@ -35,8 +32,7 @@ public class ScriptableItemStack
     /**
      * Sets the stack's item
      *
-     * @param itemName
-     *         The new item name
+     * @param itemName The new item name
      */
     public void setItem(String itemName)
     {
@@ -56,8 +52,7 @@ public class ScriptableItemStack
     /**
      * Sets the stack's damage value
      *
-     * @param damage
-     *         The new damage value
+     * @param damage The new damage value
      */
     public void setDamage(int damage)
     {
@@ -77,8 +72,7 @@ public class ScriptableItemStack
     /**
      * Sets the stack's stack size
      *
-     * @param stackSize
-     *         The new stack size
+     * @param stackSize The new stack size
      */
     public void setStackSize(int stackSize)
     {
@@ -108,8 +102,7 @@ public class ScriptableItemStack
     /**
      * Damages the item by the given amount
      *
-     * @param amount
-     *         The damage to add to the item
+     * @param amount The damage to add to the item
      */
     public void damageItem(int amount)
     {
@@ -129,8 +122,7 @@ public class ScriptableItemStack
     /**
      * Checks if the itemstack has the given enchantment
      *
-     * @param id
-     *         The id of the enchantment
+     * @param id The id of the enchantment
      * @return true if the itemstack has the givem enchantment
      */
     public boolean hasEnchantment(int id)
@@ -141,10 +133,8 @@ public class ScriptableItemStack
     /**
      * Checks if the itemstack has the given enchantment.
      *
-     * @param id
-     *         The id of the enchantment
-     * @param level
-     *         The level of the enchantment
+     * @param id    The id of the enchantment
+     * @param level The level of the enchantment
      * @return true if the itemstack has the given enchantment with the given level
      */
     public boolean hasEnchantment(int id, int level)
@@ -163,10 +153,8 @@ public class ScriptableItemStack
     /**
      * Adds an enchantment to the itemstack
      *
-     * @param id
-     *         The id of the enchantment
-     * @param level
-     *         The level of the enchantment
+     * @param id    The id of the enchantment
+     * @param level The level of the enchantment
      */
     public void addEnchantment(int id, int level)
     {
@@ -176,8 +164,7 @@ public class ScriptableItemStack
     /**
      * Removes an enchantment from the itemstack
      *
-     * @param id
-     *         The id of the enchantment
+     * @param id The id of the enchantment
      */
     public void removeEnchantment(int id)
     {
@@ -187,8 +174,7 @@ public class ScriptableItemStack
     /**
      * Gets the stack's int data
      *
-     * @param name
-     *         The data's name
+     * @param name The data's name
      * @return The data or -1 if the data doesn't exist
      */
     public int getIntData(String name)
@@ -199,8 +185,7 @@ public class ScriptableItemStack
     /**
      * Gets the stack's float data
      *
-     * @param name
-     *         The data's name
+     * @param name The data's name
      * @return The data or -1.0 if the data doesn't exist
      */
     public float getFloatData(String name)
@@ -211,8 +196,7 @@ public class ScriptableItemStack
     /**
      * Gets the stack's string data
      *
-     * @param name
-     *         The data's name
+     * @param name The data's name
      * @return The data or null if the data doesn't exist
      */
     public String getStringData(String name)
@@ -223,10 +207,8 @@ public class ScriptableItemStack
     /**
      * Sets the stack's int data
      *
-     * @param name
-     *         The data's name
-     * @param data
-     *         The data
+     * @param name The data's name
+     * @param data The data
      */
     public void setIntData(String name, int data)
     {
@@ -236,10 +218,8 @@ public class ScriptableItemStack
     /**
      * Sets the stack's float data
      *
-     * @param name
-     *         The data's name
-     * @param data
-     *         The data
+     * @param name The data's name
+     * @param data The data
      */
     public void setFloatData(String name, float data)
     {
@@ -249,10 +229,8 @@ public class ScriptableItemStack
     /**
      * Sets the stack's string data
      *
-     * @param name
-     *         The data's name
-     * @param data
-     *         The data
+     * @param name The data's name
+     * @param data The data
      */
     public void setStringData(String name, String data)
     {
@@ -263,10 +241,8 @@ public class ScriptableItemStack
      * Checks if the itemstack can efficiently break the given block. It actually checks if it can harvest the block and if its efficiency
      * against the block is higher than 1.0.
      *
-     * @param blockName
-     *         The block's name
-     * @param metadata
-     *         The block's metadata
+     * @param blockName The block's name
+     * @param metadata  The block's metadata
      * @return true if the block can efficiently be breaked.
      */
     public boolean canEfficientlyBreak(String blockName, int metadata)
@@ -278,13 +254,10 @@ public class ScriptableItemStack
     /**
      * Checks if the itemstack can harvest the given block.
      *
-     * @param blockName
-     *         The block's name
-     * @param metadata
-     *         The block's metadata
+     * @param blockName The block's name
      * @return true if the block can efficiently be breaked.
      */
-    public boolean canHarvest(String blockName, int metadata)
+    public boolean canHarvest(String blockName)
     {
         return stack.getItem().canHarvestBlock(GeneralHelper.getBlock(blockName), stack);
     }

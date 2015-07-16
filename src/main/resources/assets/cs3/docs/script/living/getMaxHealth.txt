@@ -4,5 +4,5 @@ MAX_WIDTH
 TEXT --{
 float getMaxHealth()
 
-Returns the maximum health of the player.
+Returns the maximum health of the living.
 }--

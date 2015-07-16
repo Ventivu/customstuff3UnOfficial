@@ -31,7 +31,6 @@ ELEM getUsername getUsername
 ELEM isSneaking isSneaking
 ELEM isSprinting isSprinting
 ELEM setMaxHealth setMaxHealth
-ELEM getMaxHealth getMaxHealth
 ELEM swingItem swingItem
 ELEM isInCreative isInCreative
 ELEM getInventory getInventory

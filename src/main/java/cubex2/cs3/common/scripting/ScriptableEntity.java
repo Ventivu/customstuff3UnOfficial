@@ -1,6 +1,7 @@
 package cubex2.cs3.common.scripting;
 
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.util.GeneralHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -62,15 +63,15 @@ public class ScriptableEntity
     /**
      * Drops an item at the position of the entity
      *
-     * @param alias     The stack name
-     * @param stacksize The item's stacksize
+     * @param itemName    The item's name
+     * @param damageValue The items damage value
+     * @param stacksize   The item's stacksize
      */
-    public void dropItem(String alias, int stacksize)
+    public void dropItem(String itemName, int damageValue, int stacksize)
     {
         if (!entity.worldObj.isRemote)
         {
-            //Alias alias1 = pack.aliasRegistry.getAlias(stack);
-            //entity.entityDropItem(alias1.getItemStackForInventory(stacksize), 0.0f);
+            entity.entityDropItem(new ItemStack(GeneralHelper.getItem(itemName), stacksize, damageValue), 0.0f);
         }
     }
 
@@ -79,7 +80,6 @@ public class ScriptableEntity
      */
     public double getPosX()
     {
-
         return entity.posX;
     }
 

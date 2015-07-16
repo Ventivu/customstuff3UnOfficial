@@ -100,6 +100,7 @@ public class ScriptableEntityLiving extends ScriptableEntity
             if (sheep.getSheared())
             {
                 sheep.setSheared(false);
+                return true;
             }
         }
         return false;
