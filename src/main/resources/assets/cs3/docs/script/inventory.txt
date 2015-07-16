@@ -32,3 +32,6 @@ ELEM getStringData getStringData
 ELEM setIntData setIntData
 ELEM setFloatData setFloatData
 ELEM setStringData setStringData
+ELEM canEfficientlyBreak canEfficientlyBreak
+ELEM canHarvest canHarvest
+ELEM isFuel isFuel

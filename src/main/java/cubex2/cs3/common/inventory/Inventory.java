@@ -257,6 +257,11 @@ public class Inventory
             }
     }
 
+    public ItemStack getStack(int slotId)
+    {
+        return inv.getStackInSlot(slotId);
+    }
+
     public Item getItem(int slotId)
     {
         ItemStack stack = inv.getStackInSlot(slotId);

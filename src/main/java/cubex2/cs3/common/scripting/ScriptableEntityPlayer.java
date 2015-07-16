@@ -152,6 +152,15 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
     }
 
     /**
+     * Gets the id of the slot the player is currently using
+     * @return The id of the slot
+     */
+    public int getCurrentSlot()
+    {
+        return player.inventory.currentItem;
+    }
+
+    /**
      * Places a block
      *
      * @param position         The position
@@ -468,37 +477,6 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
     public float getMaxHealth()
     {
         return player.getMaxHealth();
-    }
-
-    /**
-     * Checks if the itemstack int the given slot can efficiently break the given block. It actually checks if it can harvest the block and
-     * if its efficiency against the block is higher than 1.0.
-     *
-     * @param slotId    The slot's id
-     * @param blockName The block's name
-     * @param metadata  The block's metadata
-     * @return true if the block can efficiently be breaked.
-     */
-    public boolean canEfficientlyBreak(int slotId, String blockName, int metadata)
-    {
-        Block block = GeneralHelper.getBlock(blockName);
-        ItemStack stack = player.inventory.getStackInSlot(slotId);
-        return stack != null ? stack.getItem().canHarvestBlock(block, stack) && stack.getItem().getDigSpeed(stack, block, metadata) > 1.0f : false;
-    }
-
-    /**
-     * Checks if the itemstack in the given slot can harvest the given block.
-     *
-     * @param slotId    The slot's id
-     * @param blockName The block's name
-     * @param metadata  The block's metadata
-     * @return true if the block can efficiently be breaked.
-     */
-    public boolean canHarvest(int slotId, String blockName, int metadata)
-    {
-        Block block = GeneralHelper.getBlock(blockName);
-        ItemStack stack = player.inventory.getStackInSlot(slotId);
-        return stack != null ? stack.getItem().canHarvestBlock(block, stack) : false;
     }
 
     /**

@@ -32,11 +32,10 @@ ELEM isSneaking isSneaking
 ELEM isSprinting isSprinting
 ELEM setMaxHealth setMaxHealth
 ELEM getMaxHealth getMaxHealth
-ELEM canEfficientlyBreak canEfficientlyBreak
-ELEM canHarvest canHarvest
 ELEM swingItem swingItem
 ELEM isInCreative isInCreative
-ELEM getInventory
+ELEM getInventory getInventory
+ELEM getCurrentSlot getCurrentSlot
 
 ELEM_PREFIX script/
 

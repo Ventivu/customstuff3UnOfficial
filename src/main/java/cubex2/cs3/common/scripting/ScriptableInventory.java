@@ -2,8 +2,11 @@ package cubex2.cs3.common.scripting;
 
 import cubex2.cs3.common.inventory.Inventory;
 import cubex2.cs3.util.GeneralHelper;
+import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ScriptableInventory
 {
@@ -361,5 +364,48 @@ public class ScriptableInventory
     public void setStringData(int slotId, String name, String data)
     {
         inv.setStringData(slotId, name, data);
+    }
+
+    /**
+     * Checks if the itemstack int the given slot can efficiently break the given block. It actually checks if it can harvest the block and
+     * if its efficiency against the block is higher than 1.0.
+     *
+     * @param slotId    The slot's id
+     * @param blockName The block's name
+     * @param metadata  The block's metadata
+     * @return true if the block can efficiently be breaked.
+     */
+    public boolean canEfficientlyBreak(int slotId, String blockName, int metadata)
+    {
+        Block block = GeneralHelper.getBlock(blockName);
+        ItemStack stack = inv.getStack(slotId);
+        return stack != null && stack.getItem().canHarvestBlock(block, stack) && stack.getItem().getDigSpeed(stack, block, metadata) > 1.0f;
+    }
+
+    /**
+     * Checks if the itemstack in the given slot can harvest the given block.
+     *
+     * @param slotId    The slot's id
+     * @param blockName The block's name
+     * @param metadata  The block's metadata
+     * @return true if the block can efficiently be breaked.
+     */
+    public boolean canHarvest(int slotId, String blockName, int metadata)
+    {
+        Block block = GeneralHelper.getBlock(blockName);
+        ItemStack stack = inv.getStack(slotId);
+        return stack != null && stack.getItem().canHarvestBlock(block, stack);
+    }
+
+    /**
+     * Checks if the item in the slot is a valid fuel for a furnace.
+     *
+     * @param slotId The id of the slot
+     * @return True if the item is fuel.
+     */
+    public boolean isFuel(int slotId)
+    {
+        ItemStack stack = inv.getStack(slotId);
+        return TileEntityFurnace.isItemFuel(stack);
     }
 }
