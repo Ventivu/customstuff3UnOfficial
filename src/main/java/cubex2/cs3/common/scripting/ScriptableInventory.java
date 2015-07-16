@@ -45,7 +45,7 @@ public class ScriptableInventory
      * @param metadata The item's damage value
      * @return The amount added to the inventory
      */
-    public int add(String itemName, int count, int metadata)
+    public int add(String itemName, int metadata, int count)
     {
         return inv.add(GeneralHelper.getItem(itemName), count, metadata);
     }
@@ -58,7 +58,7 @@ public class ScriptableInventory
      * @param metadata The item's damage value
      * @return The amount removed from the inventory
      */
-    public int remove(String itemName, int count, int metadata)
+    public int remove(String itemName, int metadata, int count)
     {
         return inv.remove(GeneralHelper.getItem(itemName), count, metadata);
     }
@@ -94,7 +94,7 @@ public class ScriptableInventory
      * @return The given count if the slot's content doesn't match with the item or the amount added or removed if the slot's content
      * matches with the item
      */
-    public int setSlot(int slotId, String itemName, int count, int metadata)
+    public int setSlot(int slotId, String itemName, int metadata, int count)
     {
         return inv.setSlot(slotId, GeneralHelper.getItem(itemName), count, metadata);
     }
@@ -213,6 +213,7 @@ public class ScriptableInventory
         return inv.getItemCount(GeneralHelper.getItem(itemName), metadata);
     }
 
+    // TODO return num moved
     /**
      * Move as many items as possible from one slot to another.
      *
@@ -387,10 +388,9 @@ public class ScriptableInventory
      *
      * @param slotId    The slot's id
      * @param blockName The block's name
-     * @param metadata  The block's metadata
      * @return true if the block can efficiently be breaked.
      */
-    public boolean canHarvest(int slotId, String blockName, int metadata)
+    public boolean canHarvest(int slotId, String blockName)
     {
         Block block = GeneralHelper.getBlock(blockName);
         ItemStack stack = inv.getStack(slotId);
