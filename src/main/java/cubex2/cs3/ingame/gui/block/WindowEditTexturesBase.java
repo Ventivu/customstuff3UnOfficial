@@ -17,8 +17,7 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
     private String[] textures;
 
     private Label[] labels;
-    private TextBox[] textBoxes;
-    private ResourceLocation[] locations;
+    private IconTextBox[] textBoxes;
 
     private CheckBox cbTransparent;
     private CheckBox cbSemiTransparent;
@@ -54,8 +53,7 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
         }
 
         labels = new Label[textures.length];
-        textBoxes = new TextBox[textures.length];
-        locations = new ResourceLocation[textures.length];
+        textBoxes = new IconTextBox[textures.length];
 
         for (int i = 0; i < labels.length; i++)
         {
@@ -65,7 +63,7 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
             else lb = (LabelBuilder) lb.below(textBoxes[i - (singleCol ? 1 : 2)]);
             labels[i] = lb.add();
 
-            textBoxes[i] = textBox().below(labels[i]).height(13).width(150 - 14 - 18).add();
+            textBoxes[i] = iconTextBox(block.getPack(), "blocks").below(labels[i]).height(13).width(150 - 14 - 18).add();
             textBoxes[i].setMaxLength(256);
 
             String textureString = container.getTexture(textures[i]).getTextForGui(wrappedBlock.getPack());
@@ -117,8 +115,6 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
             worldDisplay.camX = 0.5f;
             worldDisplay.lookX = 1.0f;
         }
-
-        updatePreviewLocations();
     }
 
     @Override
@@ -157,27 +153,6 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
     }
 
     @Override
-    public void keyTyped(char c, int key)
-    {
-        super.keyTyped(c, key);
-
-        updatePreviewLocations();
-    }
-
-    private void updatePreviewLocations()
-    {
-        for (int i = 0; i < textBoxes.length; i++)
-        {
-            String text = textBoxes[i].getText().trim();
-
-            String modId = text.contains(":") ? text.split(":")[0] : wrappedBlock.getPack().id.toLowerCase();
-            String textureName = text.contains(":") && text.indexOf(':') != text.length() - 1 ? text.split(":")[1] : text;
-
-            locations[i] = new ResourceLocation(modId + ":" + "textures/blocks/" + textureName + ".png");
-        }
-    }
-
-    @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
         boolean prevTile = container.tileTransparent;
@@ -200,7 +175,7 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
 
-        for (int i = 0; i < locations.length; i++)
+        for (int i = 0; i < textBoxes.length; i++)
         {
             if (textBoxes[i] == null || textBoxes[i].getText() == null || textBoxes[i].getText().length() == 0)
                 continue;
@@ -208,9 +183,9 @@ public abstract class WindowEditTexturesBase extends WindowEditBlockAttribute
             int posX = textBoxes[i].getX() + textBoxes[i].getWidth() + 3;
             int posY = textBoxes[i].getY() - 1;
 
-            if (locations[i] != null)
+            if (textBoxes[i].getLocation() != null)
             {
-                mc.renderEngine.bindTexture(locations[i]);
+                mc.renderEngine.bindTexture(textBoxes[i].getLocation());
                 GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
                 GL11.glScalef(1 / 16.0F, 1 / 16.0F, 1.0F);
                 drawTexturedModalRect(posX * 16, posY * 16, 0, 0, 256, 256);

@@ -51,6 +51,11 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         registerContentRegistry(new CreativeTabRegistry(this), CreativeTab.class);
     }
 
+    public boolean isZipped()
+    {
+        return false;
+    }
+
     @Override
     public String getName()
     {

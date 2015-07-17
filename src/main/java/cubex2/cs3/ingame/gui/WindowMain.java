@@ -1,7 +1,9 @@
 package cubex2.cs3.ingame.gui;
 
+import cubex2.cs3.ingame.gui.common.WindowSelectTexture;
 import cubex2.cs3.ingame.gui.control.Button;
 import cubex2.cs3.ingame.gui.control.Control;
+import cubex2.cs3.util.ClientHelper;
 
 public class WindowMain extends Window
 {
@@ -19,11 +21,13 @@ public class WindowMain extends Window
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY)
     {
+        //ClientHelper.getAllBlockIcons();
         if (c == btnClose)
         {
             GuiBase.closeGui();
         } else if (c == btnContentPacks)
         {
+
             GuiBase.openWindow(new WindowContentPacks());
         }
     }

@@ -9,6 +9,7 @@ import cubex2.cs3.util.IPurposeStringProvider;
 import cubex2.cs3.util.OreDictionaryClass;
 import cubex2.cs3.util.StackLabelItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class ListBoxItemProvider implements IListBoxItemProvider
@@ -41,6 +42,8 @@ public class ListBoxItemProvider implements IListBoxItemProvider
             return new ListBoxItemBiome((BiomeGenBase) value, idx, width, height, anchor, offsetX, offsetY, parent);
         if (value instanceof NamedLink)
             return new ListBoxItemDoc((NamedLink) value, idx, width, height, anchor, offsetX, offsetY, parent);
+        if (value instanceof ResourceLocation)
+            return new ListBoxItemResourceLocation((ResourceLocation) value, idx, width, height, anchor, offsetX, offsetY, parent);
 
         if (value instanceof IPurposeStringProvider) // check last
             return new ListBoxItemLabel<Object>(value, idx, width, height, anchor, offsetX, offsetY, parent);

@@ -1,6 +1,7 @@
 package cubex2.cs3.ingame.gui.control;
 
 import com.google.common.collect.Lists;
+import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.control.builder.*;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
@@ -452,5 +453,10 @@ public class ControlContainer extends Control
     public ButtonDocBuilder buttonDoc(String text, String path)
     {
         return new ButtonDocBuilder(text, path, this);
+    }
+
+    public IconTextBoxBuilder iconTextBox(BaseContentPack pack, String subFolder)
+    {
+        return new IconTextBoxBuilder(pack, subFolder, this);
     }
 }

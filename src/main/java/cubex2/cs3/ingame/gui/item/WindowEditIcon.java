@@ -3,10 +3,7 @@ package cubex2.cs3.ingame.gui.item;
 import cubex2.cs3.common.WrappedItem;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.InfoButton;
-import cubex2.cs3.ingame.gui.control.Label;
-import cubex2.cs3.ingame.gui.control.TextBox;
+import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.lib.Strings;
 import cubex2.cs3.util.ClientHelper;
@@ -20,8 +17,7 @@ public class WindowEditIcon extends WindowEditItemAttribute
 {
     private Label lblIcon;
     private InfoButton infoButton;
-    private TextBox textBox;
-    private ResourceLocation location;
+    private IconTextBox textBox;
 
     public WindowEditIcon(WrappedItem item)
     {
@@ -29,15 +25,13 @@ public class WindowEditIcon extends WindowEditItemAttribute
 
         lblIcon = label("Icon name:").at(7, 7).add();
         infoButton = infoButton(Strings.INFO_TEXURE_FILE).rightTo(lblIcon).add();
-        textBox = textBox().below(lblIcon).height(16).fillWidth(7).add();
+        textBox = iconTextBox(item.getPack(), "items").below(lblIcon).height(16).fillWidth(7).add();
         textBox.setMaxLength(256);
 
         String iconString = container.icon.iconString;
         if (iconString.contains(":") && iconString.split(":")[0].equals(wrappedItem.getPack().id.toLowerCase()))
             iconString = iconString.split(":")[1];
         textBox.setText(iconString);
-
-        updatePreviewLocation();
     }
 
     @Override
@@ -56,31 +50,13 @@ public class WindowEditIcon extends WindowEditItemAttribute
     }
 
     @Override
-    public void keyTyped(char c, int key)
-    {
-        super.keyTyped(c, key);
-
-        updatePreviewLocation();
-    }
-
-    private void updatePreviewLocation()
-    {
-        String text = textBox.getText().trim();
-
-        String modId = text.contains(":") ? text.split(":")[0] : wrappedItem.getPack().id.toLowerCase();
-        String textureName = text.contains(":") && text.indexOf(':') != text.length() - 1 ? text.split(":")[1] : text;
-
-        location = new ResourceLocation(modId + ":" + "textures/items/" + textureName + ".png");
-    }
-
-    @Override
     public void draw(int mouseX, int mouseY, float renderTick)
     {
         super.draw(mouseX, mouseY, renderTick);
 
-        if (location != null)
+        if (textBox.getLocation() != null)
         {
-            mc.renderEngine.bindTexture(location);
+            mc.renderEngine.bindTexture(textBox.getLocation());
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             GL11.glScalef(1 / 16.0F, 1 / 16.0F, 1.0F);
             drawTexturedModalRect((getX() + 7 + 1) * 16, (getY() + 40 + 1) * 16, 0, 0, 256, 256);
