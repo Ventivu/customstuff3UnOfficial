@@ -1,28 +1,69 @@
 package cubex2.cs3.util;
 
+import cubex2.cs3.common.BaseContentPack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class IOHelper
 {
-    public static NBTTagCompound readNBTFromFile(File file)
+    public static NBTTagCompound readNBTFromPath(String path, BaseContentPack pack)
     {
-        NBTTagCompound nbt = null;
+        if (pack.isZipped())
+        {
+            return readNBTFromZip(pack.getDirectory(), path);
+        } else
+        {
+            return readNBTFromFile(pack.getDirectory(), path);
+        }
+    }
 
+    public static NBTTagCompound readNBTFromFile(File modDir, String path)
+    {
         try
         {
-            nbt = CompressedStreamTools.readCompressed(new FileInputStream(file));
+            NBTTagCompound nbt = CompressedStreamTools.readCompressed(new FileInputStream(new File(modDir, path)));
+            return nbt;
         } catch (IOException e)
         {
             e.printStackTrace();
         }
 
-        return nbt;
+        return null;
+    }
+
+    public static NBTTagCompound readNBTFromZip(File zipFile, String entryName)
+    {
+        ZipFile zip = null;
+        try
+        {
+            zip = new ZipFile(zipFile);
+            ZipEntry entry = zip.getEntry(entryName);
+            if (entry != null)
+            {
+                NBTTagCompound nbt;
+                InputStream stream = zip.getInputStream(entry);
+                nbt = CompressedStreamTools.readCompressed(stream);
+                return nbt;
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        } finally
+        {
+            try
+            {
+                if (zip != null) zip.close();
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 
     public static void writeNBTToFile(NBTTagCompound nbt, File file)

@@ -53,7 +53,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
 
     public boolean isZipped()
     {
-        return false;
+        return directory.isFile();
     }
 
     @Override
@@ -106,7 +106,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
 
     public void save()
     {
-        if (!initialized)
+        if (!initialized || isZipped())
             return;
 
         NBTTagCompound compound = new NBTTagCompound();
@@ -127,9 +127,9 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
 
     public void load()
     {
-        if (!new File(directory, "data.dat").exists())
+        NBTTagCompound compound = IOHelper.readNBTFromPath("data.dat", this);
+        if (compound == null)
             return;
-        NBTTagCompound compound = IOHelper.readNBTFromFile(new File(directory, "data.dat"));
 
         NBTTagList managerList = compound.getTagList("ManagerList", 10);
         for (int i = 0; i < managerList.tagCount(); i++)

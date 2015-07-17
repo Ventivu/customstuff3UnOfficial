@@ -204,7 +204,9 @@ public class ClientHelper
             List<? extends ZipEntry> entries = Collections.list(zip.entries());
             for (ZipEntry entry : entries)
             {
-                if (entry.getName().startsWith(dir) && entry.getName().indexOf("/", dir.length()) == -1)
+                File file = new File(entry.getName());
+                if ((file.getParent() == null && dir.equals("")) ||
+                        (file.getParent() != null && file.getParent().replace("\\", "/").equals(dir)))
                 {
                     ret.add(entry.getName());
                 }

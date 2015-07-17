@@ -2,6 +2,7 @@ package cubex2.cs3.common;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cubex2.cs3.asm.ICSMod;
 import cubex2.cs3.asm.ModGenData;
 import cubex2.cs3.asm.ModGenerator;
@@ -57,7 +58,8 @@ public class BaseContentPackLoader
 
     public void onPreInitPack(ICSMod pack)
     {
-        BaseContentPack ipack = new BaseContentPack(new File(Directories.MODS, pack.getId()), pack.getName(), pack.getId());
+        File packDir = FMLCommonHandler.instance().findContainerFor(pack).getSource();
+        BaseContentPack ipack = new BaseContentPack(packDir, pack.getName(), pack.getId());
         contentPacks.add(ipack);
         contentPackMap.put(pack,ipack);
     }

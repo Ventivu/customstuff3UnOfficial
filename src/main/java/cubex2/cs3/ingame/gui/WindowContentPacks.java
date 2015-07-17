@@ -38,7 +38,7 @@ public class WindowContentPacks extends Window implements IListBoxItemClickListe
     @Override
     public void itemClicked(BaseContentPack item, ListBox<BaseContentPack> listBox, int button)
     {
-        if (button == 0)
+        if (button == 0 && !item.isZipped())
         {
             GuiBase.openWindow(new WindowEditPack(item));
         }
