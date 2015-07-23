@@ -12,11 +12,8 @@ import cubex2.cs3.util.GeneralHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ChestGenHooks;
 
-public class WindowEditOrCreateChestItem extends Window implements IWindowClosedListener<WindowSelectItem>
+public class WindowEditOrCreateChestItem extends WindowEditOrCreate<ChestItem> implements IWindowClosedListener<WindowSelectItem>
 {
-    private BaseContentPack pack;
-    private ChestItem editingItem;
-
     private DropBox<String> dbChest;
     private ItemDisplay itemDisplay;
     private NumericUpDown nupMinCount;
@@ -25,22 +22,16 @@ public class WindowEditOrCreateChestItem extends Window implements IWindowClosed
 
     public WindowEditOrCreateChestItem(BaseContentPack pack)
     {
-        super("New Chest Item", CREATE | CANCEL, 180, 205);
-        this.pack = pack;
-
-        initControls();
+        super("New Chest Item", 180, 205, pack);
     }
 
     public WindowEditOrCreateChestItem(ChestItem item, BaseContentPack pack)
     {
-        super("Edit Chest Item", EDIT | CANCEL, 180, 205);
-        this.pack = pack;
-        editingItem = item;
-
-        initControls();
+        super("Edit Chest Item", 180, 205, item, pack);
     }
 
-    private void initControls()
+    @Override
+    protected void initControls()
     {
         row("Chest:");
         dbChest = row(dropBox(GeneralHelper.getChestGenNames()));
@@ -63,14 +54,39 @@ public class WindowEditOrCreateChestItem extends Window implements IWindowClosed
         nupRarity = row(numericUpDown());
         nupRarity.setValue(1);
 
-        if (editingItem != null)
+        if (editingContent != null)
         {
-            dbChest.setSelectedValue(editingItem.chest);
-            itemDisplay.setItemStack(editingItem.stack);
-            nupMinCount.setValue(editingItem.minCount);
-            nupMaxCount.setValue(editingItem.maxCount);
-            nupRarity.setValue(editingItem.rarity);
+            dbChest.setSelectedValue(editingContent.chest);
+            itemDisplay.setItemStack(editingContent.stack);
+            nupMinCount.setValue(editingContent.minCount);
+            nupMaxCount.setValue(editingContent.maxCount);
+            nupRarity.setValue(editingContent.rarity);
         }
+    }
+
+    @Override
+    protected ChestItem createContent()
+    {
+        String chest = dbChest.getSelectedValue();
+        ItemStack stack = itemDisplay.getItemStack();
+        int minCount = nupMinCount.getValue();
+        int maxCount = nupMaxCount.getValue();
+        if (maxCount < minCount)
+            maxCount = minCount;
+        int rarity = nupRarity.getValue();
+        return new ChestItem(stack, chest, minCount, maxCount, rarity, pack);
+    }
+
+    @Override
+    protected void editContent()
+    {
+        editingContent.chest = dbChest.getSelectedValue();
+        editingContent.stack = itemDisplay.getItemStack();
+        editingContent.minCount = nupMinCount.getValue();
+        editingContent.maxCount = nupMaxCount.getValue();
+        if (editingContent.maxCount < editingContent.minCount)
+            editingContent.maxCount = editingContent.minCount;
+        editingContent.rarity = nupRarity.getValue();
     }
 
     @Override
@@ -79,32 +95,9 @@ public class WindowEditOrCreateChestItem extends Window implements IWindowClosed
         if (c == itemDisplay)
         {
             GuiBase.openWindow(new WindowSelectItem());
-        } else if (c == btnCreate)
-        {
-            String chest = dbChest.getSelectedValue();
-            ItemStack stack = itemDisplay.getItemStack();
-            int minCount = nupMinCount.getValue();
-            int maxCount = nupMaxCount.getValue();
-            if (maxCount < minCount)
-                maxCount = minCount;
-            int rarity = nupRarity.getValue();
-            ChestItem chestItem = new ChestItem(stack, chest, minCount, maxCount, rarity, pack);
-            chestItem.apply();
-            GuiBase.openPrevWindow();
-        } else if (c == btnEdit)
-        {
-            editingItem.chest = dbChest.getSelectedValue();
-            editingItem.stack = itemDisplay.getItemStack();
-            editingItem.minCount = nupMinCount.getValue();
-            editingItem.maxCount = nupMaxCount.getValue();
-            if (editingItem.maxCount < editingItem.minCount)
-                editingItem.maxCount = editingItem.minCount;
-            editingItem.rarity = nupRarity.getValue();
-            editingItem.edit();
-            GuiBase.openPrevWindow();
         } else
         {
-            handleDefaultButtonClick(c);
+            super.controlClicked(c, mouseX, mouseY);
         }
     }
 

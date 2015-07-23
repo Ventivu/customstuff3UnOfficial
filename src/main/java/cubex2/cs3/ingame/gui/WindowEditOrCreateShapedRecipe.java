@@ -1,18 +1,15 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.common.ShapedRecipe;
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.ShapedRecipe;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.RecipeInput;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.ArrayUtils;
 
-public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClosedListener
+public class WindowEditOrCreateShapedRecipe extends WindowEditOrCreate<ShapedRecipe> implements IWindowClosedListener
 {
-    private final BaseContentPack pack;
-    private ShapedRecipe editingRecipe;
-
     private RecipeInputDisplay[] inputDisplays;
     private ItemDisplay resultDisplay;
     private PictureBox pbArrow;
@@ -23,22 +20,16 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
 
     public WindowEditOrCreateShapedRecipe(BaseContentPack pack)
     {
-        super("New Shaped Recipe", CREATE | CANCEL, 180, 150);
-        this.pack = pack;
-
-        initControls();
+        super("New Shaped Recipe", 180, 150, pack);
     }
 
     public WindowEditOrCreateShapedRecipe(ShapedRecipe recipe, BaseContentPack pack)
     {
-        super("Edit Shaped Recipe", EDIT | CANCEL, 180, 150);
-        this.pack = pack;
-        editingRecipe = recipe;
-
-        initControls();
+        super("Edit Shaped Recipe", 180, 150, recipe, pack);
     }
 
-    private void initControls()
+    @Override
+    protected void initControls()
     {
         inputDisplays = new RecipeInputDisplay[9];
         for (int i = 0; i < 9; i++)
@@ -46,7 +37,7 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
             int row = i / 3;
             int col = i % 3;
 
-            inputDisplays[i] = recipeInputDisplay().left(33+col*18).top(10+row*18).add().setDrawSlotBackground();
+            inputDisplays[i] = recipeInputDisplay().left(33 + col * 18).top(10 + row * 18).add().setDrawSlotBackground();
             inputDisplays[i].setClearOnRightClick();
         }
 
@@ -56,17 +47,17 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
         btnIncrAmount = buttonUp().left(138).top(27).add();
         btnDecrAmount = buttonDown().left(138).top(36).add();
 
-        if (editingRecipe != null)
+        if (editingContent != null)
         {
-            for (int i = 0; i < editingRecipe.input.length; i++)
+            for (int i = 0; i < editingContent.input.length; i++)
             {
-                int row = i / editingRecipe.width;
-                int col = i % editingRecipe.width;
+                int row = i / editingContent.width;
+                int col = i % editingContent.width;
 
-                inputDisplays[col + row * 3].setRecipeInput(editingRecipe.input[i]);
+                inputDisplays[col + row * 3].setRecipeInput(editingContent.input[i]);
             }
 
-            resultDisplay.setItemStack(editingRecipe.result);
+            resultDisplay.setItemStack(editingContent.result);
         }
 
         pbArrow = pictureBox(Textures.CONTROLS, 218, 18).left(93).top(28).size(22, 15).add();
@@ -80,54 +71,55 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
     }
 
     @Override
+    protected ShapedRecipe createContent()
+    {
+        int[] minMax = getMinMax();
+        int width = minMax[1] - minMax[0] + 1;
+        int height = minMax[3] - minMax[2] + 1;
+
+        ItemStack result = resultDisplay.getItemStack();
+
+        RecipeInput[] inputs = new RecipeInput[width * height];
+        for (int i = 0; i < inputs.length; i++)
+        {
+            int row = i / width + minMax[2];
+            int col = i % width + minMax[0];
+
+            inputs[i] = inputDisplays[col + row * 3].getRecipeInput();
+        }
+
+        return new ShapedRecipe(width, height, inputs, result, pack);
+    }
+
+    @Override
+    protected void editContent()
+    {
+        int[] minMax = getMinMax();
+        int width = minMax[1] - minMax[0] + 1;
+        int height = minMax[3] - minMax[2] + 1;
+
+        ItemStack result = resultDisplay.getItemStack();
+
+        RecipeInput[] inputs = new RecipeInput[width * height];
+        for (int i = 0; i < inputs.length; i++)
+        {
+            int row = i / width + minMax[2];
+            int col = i % width + minMax[0];
+
+            inputs[i] = inputDisplays[col + row * 3].getRecipeInput();
+        }
+        editingContent.width = width;
+        editingContent.height = height;
+        editingContent.result = result;
+        editingContent.input = inputs;
+    }
+
+    @Override
     protected void controlClicked(Control c, int mouseX, int mouseY)
     {
         if (c == resultDisplay)
         {
             GuiBase.openWindow(new WindowSelectItem(false), "result");
-        } else if (c == btnCreate)
-        {
-            int[] minMax = getMinMax();
-            int width = minMax[1] - minMax[0] + 1;
-            int height = minMax[3] - minMax[2] + 1;
-
-            ItemStack result = resultDisplay.getItemStack();
-
-            RecipeInput[] inputs = new RecipeInput[width * height];
-            for (int i = 0; i < inputs.length; i++)
-            {
-                int row = i / width + minMax[2];
-                int col = i % width + minMax[0];
-
-                inputs[i] = inputDisplays[col + row * 3].getRecipeInput();
-            }
-
-            ShapedRecipe recipe = new ShapedRecipe(width, height, inputs, result, pack);
-            recipe.apply();
-
-            GuiBase.openPrevWindow();
-        } else if (c == btnEdit)
-        {
-            int[] minMax = getMinMax();
-            int width = minMax[1] - minMax[0] + 1;
-            int height = minMax[3] - minMax[2] + 1;
-
-            ItemStack result = resultDisplay.getItemStack();
-
-            RecipeInput[] inputs = new RecipeInput[width * height];
-            for (int i = 0; i < inputs.length; i++)
-            {
-                int row = i / width + minMax[2];
-                int col = i % width + minMax[0];
-
-                inputs[i] = inputDisplays[col + row * 3].getRecipeInput();
-            }
-            editingRecipe.width = width;
-            editingRecipe.height = height;
-            editingRecipe.result = result;
-            editingRecipe.input = inputs;
-            editingRecipe.edit();
-            GuiBase.openPrevWindow();
         } else if (c == btnIncrAmount)
         {
             int stackSize = resultDisplay.getItemStack().stackSize;
@@ -149,7 +141,7 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
                 GuiBase.openWindow(new WindowSelectRecipeInput(pack), "" + index);
             } else
             {
-                handleDefaultButtonClick(c);
+                super.controlClicked(c, mouseX, mouseY);
             }
         }
     }
@@ -167,7 +159,7 @@ public class WindowEditOrCreateShapedRecipe extends Window implements IWindowClo
                 validData = false;
             }
         }
-        if (editingRecipe == null)
+        if (editingContent == null)
         {
             btnCreate.setEnabled(validData);
         } else

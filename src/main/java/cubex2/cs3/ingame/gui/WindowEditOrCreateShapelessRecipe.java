@@ -1,8 +1,8 @@
 package cubex2.cs3.ingame.gui;
 
 import com.google.common.collect.Lists;
-import cubex2.cs3.common.ShapelessRecipe;
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.ShapelessRecipe;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.RecipeInput;
@@ -11,11 +11,8 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
 
-public class WindowEditOrCreateShapelessRecipe extends Window implements IWindowClosedListener
+public class WindowEditOrCreateShapelessRecipe extends WindowEditOrCreate<ShapelessRecipe> implements IWindowClosedListener
 {
-    private final BaseContentPack pack;
-    private ShapelessRecipe editingRecipe;
-
     private RecipeInputDisplay[] inputDisplays;
     private ItemDisplay resultDisplay;
     private PictureBox pbArrow;
@@ -24,22 +21,16 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
 
     public WindowEditOrCreateShapelessRecipe(BaseContentPack pack)
     {
-        super("New Shapeless Recipe", CREATE | CANCEL, 180, 150);
-        this.pack = pack;
-
-        initControls();
+        super("New Shapeless Recipe", 180, 150, pack);
     }
 
     public WindowEditOrCreateShapelessRecipe(ShapelessRecipe recipe, BaseContentPack pack)
     {
-        super("Edit Shapeless Recipe", EDIT | CANCEL, 180, 150);
-        this.pack = pack;
-        editingRecipe = recipe;
-
-        initControls();
+        super("Edit Shapeless Recipe", 180, 150, recipe, pack);
     }
 
-    private void initControls()
+    @Override
+    protected void initControls()
     {
         inputDisplays = new RecipeInputDisplay[9];
         for (int i = 0; i < 9; i++)
@@ -57,15 +48,15 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
         btnIncrAmount = buttonUp().left(138).top(27).add();
         btnDecrAmount = buttonDown().left(138).top(36).add();
 
-        if (editingRecipe != null)
+        if (editingContent != null)
         {
-            for (int i = 0; i < editingRecipe.input.length; i++)
+            for (int i = 0; i < editingContent.input.length; i++)
             {
 
-                inputDisplays[i].setRecipeInput(editingRecipe.input[i]);
+                inputDisplays[i].setRecipeInput(editingContent.input[i]);
             }
 
-            resultDisplay.setItemStack(editingRecipe.result);
+            resultDisplay.setItemStack(editingContent.result);
         }
 
         pbArrow = pictureBox(Textures.CONTROLS, 218, 18).left(93).top(28).size(22, 15).add();
@@ -74,30 +65,30 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
     }
 
     @Override
+    protected ShapelessRecipe createContent()
+    {
+        ItemStack result = resultDisplay.getItemStack();
+        RecipeInput[] inputs = getRecipeInput();
+
+        return new ShapelessRecipe(inputs, result, pack);
+    }
+
+    @Override
+    protected void editContent()
+    {
+        ItemStack result = resultDisplay.getItemStack();
+        RecipeInput[] inputs = getRecipeInput();
+
+        editingContent.result = result;
+        editingContent.input = inputs;
+    }
+
+    @Override
     protected void controlClicked(Control c, int mouseX, int mouseY)
     {
         if (c == resultDisplay)
         {
             GuiBase.openWindow(new WindowSelectItem(false), "result");
-        } else if (c == btnCreate)
-        {
-            ItemStack result = resultDisplay.getItemStack();
-            RecipeInput[] inputs = getRecipeInput();
-
-            ShapelessRecipe recipe = new ShapelessRecipe(inputs, result, pack);
-            recipe.apply();
-
-            GuiBase.openPrevWindow();
-        } else if (c == btnEdit)
-        {
-            ItemStack result = resultDisplay.getItemStack();
-            RecipeInput[] inputs = getRecipeInput();
-
-            editingRecipe.result = result;
-            editingRecipe.input = inputs;
-            editingRecipe.edit();
-
-            GuiBase.openPrevWindow();
         } else if (c == btnIncrAmount)
         {
             int stackSize = resultDisplay.getItemStack().stackSize;
@@ -119,7 +110,7 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
                 GuiBase.openWindow(new WindowSelectRecipeInput(pack), "" + index);
             } else
             {
-                handleDefaultButtonClick(c);
+                super.controlClicked(c, mouseX, mouseY);
             }
         }
     }
@@ -142,7 +133,7 @@ public class WindowEditOrCreateShapelessRecipe extends Window implements IWindow
     {
         boolean validData = resultDisplay.getItemStack() != null && getRecipeInput().length > 0;
 
-        if (editingRecipe == null)
+        if (editingContent == null)
         {
             btnCreate.setEnabled(validData);
         } else

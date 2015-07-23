@@ -2,38 +2,28 @@ package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.DungeonMob;
-import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.DropBox;
 import cubex2.cs3.ingame.gui.control.NumericUpDown;
 import cubex2.cs3.lib.Strings;
 import cubex2.cs3.util.GeneralHelper;
 
-public class WindowEditOrCreateDungeonMob extends Window
+public class WindowEditOrCreateDungeonMob extends WindowEditOrCreate<DungeonMob>
 {
-    private final BaseContentPack pack;
-    private DungeonMob editingMob;
-
     private DropBox<String> dbMob;
     private NumericUpDown nupRarity;
 
     public WindowEditOrCreateDungeonMob(BaseContentPack pack)
     {
-        super("New Dungeon Mob", CREATE | CANCEL, 180, 105);
-        this.pack = pack;
-
-        initControls();
+        super("New Dungeon Mob", 180, 105, pack);
     }
 
     public WindowEditOrCreateDungeonMob(DungeonMob editingMob, BaseContentPack pack)
     {
-        super("Edit Dungeon Mob", EDIT | CANCEL, 180, 105);
-        this.pack = pack;
-        this.editingMob = editingMob;
-
-        initControls();
+        super("Edit Dungeon Mob", 180, 105, editingMob, pack);
     }
 
-    private void initControls()
+    @Override
+    protected void initControls()
     {
         row("Mob:");
         dbMob = row(dropBox(GeneralHelper.getMobNames()));
@@ -42,10 +32,10 @@ public class WindowEditOrCreateDungeonMob extends Window
         nupRarity = row(numericUpDown());
         nupRarity.setMinValue(1);
 
-        if (editingMob != null)
+        if (editingContent != null)
         {
-            dbMob.setSelectedValue(editingMob.mob);
-            nupRarity.setValue(editingMob.rarity);
+            dbMob.setSelectedValue(editingContent.mob);
+            nupRarity.setValue(editingContent.rarity);
         } else
         {
             dbMob.setSelectedValue("Creeper");
@@ -54,24 +44,17 @@ public class WindowEditOrCreateDungeonMob extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY)
+    protected DungeonMob createContent()
     {
-        if (c == btnCreate)
-        {
-            String mob = dbMob.getSelectedValue();
-            int rarity = nupRarity.getValue();
-            DungeonMob dungeonMob = new DungeonMob(mob, rarity, pack);
-            dungeonMob.apply();
-            GuiBase.openPrevWindow();
-        } else if (c == btnEdit)
-        {
-            editingMob.mob = dbMob.getSelectedValue();
-            editingMob.rarity = nupRarity.getValue();
-            editingMob.edit();
-            GuiBase.openPrevWindow();
-        } else
-        {
-            handleDefaultButtonClick(c);
-        }
+        String mob = dbMob.getSelectedValue();
+        int rarity = nupRarity.getValue();
+        return new DungeonMob(mob, rarity, pack);
+    }
+
+    @Override
+    protected void editContent()
+    {
+        editingContent.mob = dbMob.getSelectedValue();
+        editingContent.rarity = nupRarity.getValue();
     }
 }

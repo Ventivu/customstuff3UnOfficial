@@ -3,7 +3,6 @@ package cubex2.cs3.ingame.gui;
 import com.google.common.collect.Lists;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.MobSpawn;
-import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ControlContainer;
 import cubex2.cs3.ingame.gui.control.DropBox;
 import cubex2.cs3.ingame.gui.control.NumericUpDown;
@@ -17,11 +16,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 import java.util.List;
 
-public class WindowEditOrCreateMobSpawn extends Window
+public class WindowEditOrCreateMobSpawn extends WindowEditOrCreate<MobSpawn>
 {
-    private final BaseContentPack pack;
-    private MobSpawn editingSpawn;
-
     private DropBox<String> dbMob;
     private DropBox<EnumCreatureType> dbType;
     private NumericUpDown nupRate;
@@ -31,22 +27,16 @@ public class WindowEditOrCreateMobSpawn extends Window
 
     public WindowEditOrCreateMobSpawn(BaseContentPack pack)
     {
-        super("New Mob Spawn", CREATE | CANCEL, 180, 225);
-        this.pack = pack;
-
-        initControls();
+        super("New Mob Spawn", 180, 225, pack);
     }
 
     public WindowEditOrCreateMobSpawn(MobSpawn spawn, BaseContentPack pack)
     {
-        super("Edit Mob Spawn", EDIT | CANCEL, 180, 225);
-        this.pack = pack;
-        editingSpawn = spawn;
-
-        initControls();
+        super("Edit Mob Spawn", 180, 225, spawn, pack);
     }
 
-    private void initControls()
+    @Override
+    protected void initControls()
     {
         row("Mob:");
         dbMob = row(dropBox(GeneralHelper.getMobNames()));
@@ -84,14 +74,14 @@ public class WindowEditOrCreateMobSpawn extends Window
         lbBiomes = listBox(desc).below(lastControl).fillWidth(7).add();
         lbBiomes.disableGlobalScrolling();
 
-        if (editingSpawn != null)
+        if (editingContent != null)
         {
-            dbMob.setSelectedValue(editingSpawn.mob);
-            dbType.setSelectedValue(editingSpawn.type);
-            nupRate.setValue(editingSpawn.rate);
-            nupMin.setValue(editingSpawn.min);
-            nupMax.setValue(editingSpawn.max);
-            lbBiomes.select(editingSpawn.biomes);
+            dbMob.setSelectedValue(editingContent.mob);
+            dbType.setSelectedValue(editingContent.type);
+            nupRate.setValue(editingContent.rate);
+            nupMin.setValue(editingContent.min);
+            nupMax.setValue(editingContent.max);
+            lbBiomes.select(editingContent.biomes);
         } else
         {
             lbBiomes.select(Biomes.getBiomes());
@@ -99,35 +89,28 @@ public class WindowEditOrCreateMobSpawn extends Window
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY)
+    protected MobSpawn createContent()
     {
-        if (c == btnCreate)
-        {
-            String mob = dbMob.getSelectedValue();
-            EnumCreatureType type = dbType.getSelectedValue();
-            int rate = nupRate.getValue();
-            int min = nupMin.getValue();
-            int max = nupMax.getValue();
-            List<BiomeGenBase> biomes = Lists.newArrayList(lbBiomes.getSelectedItems());
-            MobSpawn spawn = new MobSpawn(mob, rate, min, max, type, biomes, pack);
-            spawn.apply();
-            GuiBase.openPrevWindow();
-        } else if (c == btnEdit)
-        {
-            editingSpawn.mob = dbMob.getSelectedValue();
-            editingSpawn.type = dbType.getSelectedValue();
-            editingSpawn.rate = nupRate.getValue();
-            editingSpawn.min = nupMin.getValue();
-            editingSpawn.max = nupMax.getValue();
-            if (editingSpawn.max < editingSpawn.min)
-                editingSpawn.max = editingSpawn.min;
-            editingSpawn.biomes.clear();
-            editingSpawn.biomes.addAll(lbBiomes.getSelectedItems());
-            editingSpawn.edit();
-            GuiBase.openPrevWindow();
-        } else
-        {
-            handleDefaultButtonClick(c);
-        }
+        String mob = dbMob.getSelectedValue();
+        EnumCreatureType type = dbType.getSelectedValue();
+        int rate = nupRate.getValue();
+        int min = nupMin.getValue();
+        int max = nupMax.getValue();
+        List<BiomeGenBase> biomes = Lists.newArrayList(lbBiomes.getSelectedItems());
+        return new MobSpawn(mob, rate, min, max, type, biomes, pack);
+    }
+
+    @Override
+    protected void editContent()
+    {
+        editingContent.mob = dbMob.getSelectedValue();
+        editingContent.type = dbType.getSelectedValue();
+        editingContent.rate = nupRate.getValue();
+        editingContent.min = nupMin.getValue();
+        editingContent.max = nupMax.getValue();
+        if (editingContent.max < editingContent.min)
+            editingContent.max = editingContent.min;
+        editingContent.biomes.clear();
+        editingContent.biomes.addAll(lbBiomes.getSelectedItems());
     }
 }

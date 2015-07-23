@@ -2,39 +2,29 @@ package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.Fuel;
-import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.NumericUpDown;
 import cubex2.cs3.lib.Strings;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditOrCreateFuel extends Window implements IWindowClosedListener<WindowSelectItem>
+public class WindowEditOrCreateFuel extends WindowEditOrCreate<Fuel> implements IWindowClosedListener<WindowSelectItem>
 {
-    private BaseContentPack pack;
-    private Fuel editingFuel;
-
     private ItemDisplay itemDisplay;
     private NumericUpDown nupDuration;
 
     public WindowEditOrCreateFuel(BaseContentPack pack)
     {
-        super("New Fuel", CREATE | CANCEL, 180, 100);
-        this.pack = pack;
-
-        initControls();
+        super("New Fuel", 180, 100, pack);
     }
 
     public WindowEditOrCreateFuel(Fuel fuel, BaseContentPack pack)
     {
-        super("Edit Fuel", EDIT | CANCEL, 180, 100);
-        this.pack = pack;
-        editingFuel = fuel;
-
-        initControls();
+        super("Edit Fuel", 180, 100, fuel, pack);
     }
 
-    private void initControls()
+    @Override
+    protected void initControls()
     {
         row("Item:");
         itemDisplay = row(itemDisplay());
@@ -43,39 +33,30 @@ public class WindowEditOrCreateFuel extends Window implements IWindowClosedListe
         nupDuration.setValue(300);
 
         itemDisplay.setDrawSlotBackground();
+        itemDisplay.useSelectItemDialog(false);
         itemDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
-        if (editingFuel != null)
-            itemDisplay.setItemStack(editingFuel.stack);
+        if (editingContent != null)
+            itemDisplay.setItemStack(editingContent.stack);
 
-        if (editingFuel != null)
+        if (editingContent != null)
         {
-            nupDuration.setValue(editingFuel.duration);
+            nupDuration.setValue(editingContent.duration);
         }
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY)
+    protected Fuel createContent()
     {
-        if (c == itemDisplay)
-        {
-            GuiBase.openWindow(new WindowSelectItem());
-        } else if (c == btnCreate)
-        {
-            ItemStack stack = itemDisplay.getItemStack();
-            int duration = nupDuration.getValue();
-            Fuel fuel = new Fuel(stack, duration, pack);
-            fuel.apply();
-            GuiBase.openPrevWindow();
-        } else if (c == btnEdit)
-        {
-            editingFuel.stack = itemDisplay.getItemStack();
-            editingFuel.duration = nupDuration.getValue();
-            editingFuel.edit();
-            GuiBase.openPrevWindow();
-        } else
-        {
-            handleDefaultButtonClick(c);
-        }
+        ItemStack stack = itemDisplay.getItemStack();
+        int duration = nupDuration.getValue();
+        return new Fuel(stack, duration, pack);
+    }
+
+    @Override
+    protected void editContent()
+    {
+        editingContent.stack = itemDisplay.getItemStack();
+        editingContent.duration = nupDuration.getValue();
     }
 
     @Override

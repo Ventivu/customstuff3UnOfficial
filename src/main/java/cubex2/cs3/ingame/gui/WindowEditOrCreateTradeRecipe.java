@@ -12,11 +12,8 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClosedListener<WindowSelectItem>
+public class WindowEditOrCreateTradeRecipe extends WindowEditOrCreate<TradeRecipe> implements IWindowClosedListener<WindowSelectItem>
 {
-    private final BaseContentPack pack;
-    private TradeRecipe editingRecipe;
-
     private ItemDisplay input1;
     private ItemDisplay input2;
     private ItemDisplay result;
@@ -32,24 +29,19 @@ public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClos
 
     public WindowEditOrCreateTradeRecipe(BaseContentPack pack)
     {
-        super("New Trade Recipe", CREATE | CANCEL, 180, 150);
-        this.pack = pack;
-
-        initControls();
+        super("New Trade Recipe", 180, 150, pack);
     }
 
     public WindowEditOrCreateTradeRecipe(TradeRecipe recipe, BaseContentPack pack)
     {
-        super("Edit Trade Recipe", EDIT | CANCEL, 180, 150);
-        this.pack = pack;
-        editingRecipe = recipe;
-
-        initControls();
+        super("Edit Trade Recipe", 180, 150, recipe, pack);
     }
 
-    private void initControls()
+    @Override
+    protected void initControls()
     {
         input1 = itemDisplay().at(37, 25).add();
+        input1.useSelectItemDialog(false);
         input1.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
         input1.setDrawSlotBackground();
 
@@ -57,6 +49,7 @@ public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClos
         btnDecrInput1 = buttonDown().left(input1, 1).top(btnIncrInput1, 0).add();
 
         input2 = itemDisplay().at(67, 25).add();
+        input2.useSelectItemDialog(false);
         input2.setDrawSlotBackground();
 
         btnIncrInput2 = buttonUp().left(input2, 1).top(24).add();
@@ -65,6 +58,7 @@ public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClos
         pbArrow = pictureBox(Textures.CONTROLS, 218, 18).at(97, 26).size(22, 15).add();
 
         result = itemDisplay().at(126, 25).add();
+        result.useSelectItemDialog(false);
         result.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
         result.setDrawSlotBackground();
 
@@ -90,12 +84,12 @@ public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClos
         tbChance.setText("0.0");
         tbChance.setValidityProvider(TextBoxValidators.FLOAT_ZERO_ONE);
 
-        if (editingRecipe != null)
+        if (editingContent != null)
         {
-            input1.setItemStack(editingRecipe.input1);
-            input2.setItemStack(editingRecipe.input2);
-            result.setItemStack(editingRecipe.result);
-            dbProfession.setSelectedValue(editingRecipe.profession);
+            input1.setItemStack(editingContent.input1);
+            input2.setItemStack(editingContent.input2);
+            result.setItemStack(editingContent.result);
+            dbProfession.setSelectedValue(editingContent.profession);
         }
 
         updateButtons();
@@ -103,33 +97,25 @@ public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClos
     }
 
     @Override
+    protected TradeRecipe createContent()
+    {
+        return new TradeRecipe(dbProfession.getSelectedValue(), input1.getItemStack(), input2.getItemStack(), result.getItemStack(), Float.parseFloat(tbChance.getText()), pack);
+    }
+
+    @Override
+    protected void editContent()
+    {
+        editingContent.profession = dbProfession.getSelectedValue();
+        editingContent.input1 = input1.getItemStack();
+        editingContent.input2 = input2.getItemStack();
+        editingContent.result = result.getItemStack();
+        editingContent.chance = Float.parseFloat(tbChance.getText());
+    }
+
+    @Override
     protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (c == result)
-        {
-            GuiBase.openWindow(new WindowSelectItem(false), "result");
-        } else if (c == input1)
-        {
-            GuiBase.openWindow(new WindowSelectItem(false), "input1");
-        } else if (c == input2)
-        {
-            GuiBase.openWindow(new WindowSelectItem(false), "input2");
-        } else if (c == btnCreate)
-        {
-            TradeRecipe recipe = new TradeRecipe(dbProfession.getSelectedValue(), input1.getItemStack(), input2.getItemStack(), result.getItemStack(), Float.parseFloat(tbChance.getText()), pack);
-            recipe.apply();
-
-            GuiBase.openPrevWindow();
-        } else if (c == btnEdit)
-        {
-            editingRecipe.profession = dbProfession.getSelectedValue();
-            editingRecipe.input1 = input1.getItemStack();
-            editingRecipe.input2 = input2.getItemStack();
-            editingRecipe.result = result.getItemStack();
-            editingRecipe.chance = Float.parseFloat(tbChance.getText());
-            editingRecipe.edit();
-            GuiBase.openPrevWindow();
-        } else if (c == btnIncrInput1)
+        if (c == btnIncrInput1)
         {
             increaseAmount(input1);
         } else if (c == btnDecrInput1)
@@ -149,7 +135,7 @@ public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClos
             decreaseAmount(result);
         }
         {
-            handleDefaultButtonClick(c);
+            super.controlClicked(c, mouseX, mouseY);
         }
     }
 
@@ -188,21 +174,7 @@ public class WindowEditOrCreateTradeRecipe extends Window implements IWindowClos
     @Override
     public void windowClosed(WindowSelectItem window)
     {
-        if (window.getSelectedStack() != null)
-        {
-            if (window.tag.equals("input1"))
-            {
-                input1.setItemStack(window.getSelectedStack());
-            } else if (window.tag.equals("input2"))
-            {
-                input2.setItemStack(window.getSelectedStack());
-            }
-            if (window.tag.equals("result"))
-            {
-                result.setItemStack(window.getSelectedStack());
-            }
-            updateButtons();
-        }
+        updateButtons();
     }
 
     private static IStringProvider<Integer> VILLAGER_PROFESSION = new IStringProvider<Integer>()

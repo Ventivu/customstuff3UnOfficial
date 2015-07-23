@@ -2,39 +2,29 @@ package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.CreativeTab;
-import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.ItemDisplay;
 import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditOrCreateCreativeTab extends Window
+public class WindowEditOrCreateCreativeTab extends WindowEditOrCreate<CreativeTab>
 {
-    private final BaseContentPack pack;
-    private CreativeTab editingTab;
-
     private TextBox tbName;
     private TextBox tbLabel;
     private ItemDisplay display;
 
     public WindowEditOrCreateCreativeTab(BaseContentPack pack)
     {
-        super("New Creative Tab", CREATE | CANCEL, 180, 128);
-        this.pack = pack;
-
-        initControls();
+        super("New Creative Tab", 180, 128, pack);
     }
 
     public WindowEditOrCreateCreativeTab(CreativeTab editingTab, BaseContentPack pack)
     {
-        super("Edit Creative Tab", EDIT | CANCEL, 180, 128);
-        this.pack = pack;
-        this.editingTab = editingTab;
-
-        initControls();
+        super("Edit Creative Tab", 180, 128, editingTab, pack);
     }
 
-    public void initControls()
+    @Override
+    protected void initControls()
     {
         row("Name:", "The internal name. Has to be unique.");
         tbName = row(textBox());
@@ -48,35 +38,28 @@ public class WindowEditOrCreateCreativeTab extends Window
         display.useSelectItemDialog(false);
         display.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
 
-        if (editingTab != null)
+        if (editingContent != null)
         {
-            tbName.setText(editingTab.name);
+            tbName.setText(editingContent.name);
             tbName.setEnabled(false);
-            tbLabel.setText(editingTab.label);
-            display.setItemStack(editingTab.icon);
+            tbLabel.setText(editingContent.label);
+            display.setItemStack(editingContent.icon);
         }
     }
 
     @Override
-    protected void controlClicked(Control c, int mouseX, int mouseY)
+    protected CreativeTab createContent()
     {
-        if (c == btnCreate)
-        {
-            String name = tbName.getText();
-            String label = tbLabel.getText();
-            ItemStack icon = display.getItemStack();
-            CreativeTab tab = new CreativeTab(name, label, icon, pack);
-            tab.apply();
-            GuiBase.openPrevWindow();
-        } else if (c == btnEdit)
-        {
-            editingTab.label = tbLabel.getText();
-            editingTab.icon = display.getItemStack();
-            editingTab.edit();
-            GuiBase.openPrevWindow();
-        } else
-        {
-            handleDefaultButtonClick(c);
-        }
+        String name = tbName.getText();
+        String label = tbLabel.getText();
+        ItemStack icon = display.getItemStack();
+        return new CreativeTab(name, label, icon, pack);
+    }
+
+    @Override
+    protected void editContent()
+    {
+        editingContent.label = tbLabel.getText();
+        editingContent.icon = display.getItemStack();
     }
 }
