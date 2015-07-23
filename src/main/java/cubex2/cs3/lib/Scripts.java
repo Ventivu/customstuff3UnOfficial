@@ -53,6 +53,7 @@ public class Scripts
     public static final ScriptInfo BLOCK_ON_PLACED_BY_PLAYER = addBlock("onPlacedByPlayer", "world", "position", "player");
     public static final ScriptInfo BLOCK_ON_PLACED_BY = addBlock("onPlacedBy", "world", "position", "living");
     public static final ScriptInfo BLOCK_ON_FALLEN_UPON = addBlock("onFallenUpon", "world", "position", "entity");
+    public static final ScriptInfo BLOCK_ON_RANDOM_DISPLAY_TICK = addBlock("onRandomDisplayTick", "world", "position");
 
     public static final ScriptInfo ITEM_ON_USE = addItem("onUse", "world", "player", "itemstack", "position", "hitX", "hitY", "side");
     public static final ScriptInfo ITEM_ON_EATEN = addItem("onEaten", "world", "player", "itemstack");

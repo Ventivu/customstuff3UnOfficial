@@ -314,6 +314,15 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
         return false;
     }
 
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
+    {
+        if (container.onRandomDisplayTick != null && container.onRandomDisplayTick.script != null)
+        {
+            ITriggerData data = new TriggerData("onRandomDisplayTick", TriggerType.BLOCK, world, x, y, z);
+            JavaScriptHelper.executeTrigger(container.onRandomDisplayTick.script, data, pack);
+        }
+    }
+
     public boolean isWood(IBlockAccess world, int x, int y, int z)
     {
         return container.isWood;

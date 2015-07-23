@@ -180,6 +180,8 @@ public class BlockAttributes extends AttributeContainer
     public ScriptWrapper onBonemeal = null;
     @Attribute(windowClass = WindowEditScript.class)
     public ScriptWrapper onRedstoneSignal = null;
+    @Attribute(windowClass = WindowEditScript.class)
+    public ScriptWrapper onRandomDisplayTick = null;
 
     protected Class<? extends Window> textureWindow = WindowEditTextures.class;
 

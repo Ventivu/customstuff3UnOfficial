@@ -139,6 +139,12 @@ public class BlockCS extends Block implements IBlockCS
     }
 
     @Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
+    {
+        wrappedBlock.randomDisplayTick(world, x, y, z, random);
+    }
+
+    @Override
     public boolean isWood(IBlockAccess world, int x, int y, int z)
     {
         return wrappedBlock.isWood(world, x, y, z);

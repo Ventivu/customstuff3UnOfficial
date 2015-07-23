@@ -159,6 +159,12 @@ public class BlockCSFluid extends BlockFluidClassic implements IBlockCS
     }
 
     @Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
+    {
+        wrappedBlock.randomDisplayTick(world, x, y, z, random);
+    }
+
+    @Override
     public IIcon getIcon(int side, int meta)
     {
         return side != 0 && side != 1 ? container.textureFlowing.icon : container.textureStill.icon;
