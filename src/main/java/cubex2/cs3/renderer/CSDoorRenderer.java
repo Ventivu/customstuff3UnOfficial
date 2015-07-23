@@ -3,6 +3,7 @@ package cubex2.cs3.renderer;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cubex2.cs3.block.BlockCSDoor;
 import cubex2.cs3.lib.RenderIds;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -31,9 +32,15 @@ public class CSDoorRenderer implements ISimpleBlockRenderingHandler
             {
                 if (renderer.blockAccess.getBlock(x, y - 1, z) != block)
                     return false;
-            }
-            else if (renderer.blockAccess.getBlock(x, y + 1, z) != block)
+            } else if (renderer.blockAccess.getBlock(x, y + 1, z) != block)
                 return false;
+
+            if (((BlockCSDoor) block).normalBlockShading())
+            {
+                renderer.renderStandardBlock(block, x, y, z);
+                return true;
+            }
+            boolean top = (l & 8) != 0;
 
             boolean flag = false;
             float f = 0.5F;
@@ -41,13 +48,19 @@ public class CSDoorRenderer implements ISimpleBlockRenderingHandler
             float f2 = 0.8F;
             float f3 = 0.6F;
             int i1 = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z);
-            tessellator.setBrightness(renderer.renderMinY > 0.0D ? i1 : block.getMixedBrightnessForBlock(renderer.blockAccess, x, y - 1, z));
-            tessellator.setColorOpaque_F(f, f, f);
-            renderer.renderFaceYNeg(block, x, y, z, renderer.getBlockIcon(block, renderer.blockAccess, x, y, z, 0));
+            if (!top)
+            {
+                tessellator.setBrightness(renderer.renderMinY > 0.0D ? i1 : block.getMixedBrightnessForBlock(renderer.blockAccess, x, y - 1, z));
+                tessellator.setColorOpaque_F(f, f, f);
+                renderer.renderFaceYNeg(block, x, y, z, renderer.getBlockIcon(block, renderer.blockAccess, x, y, z, 0));
+            }
             flag = true;
-            tessellator.setBrightness(renderer.renderMaxY < 1.0D ? i1 : block.getMixedBrightnessForBlock(renderer.blockAccess, x, y + 1, z));
-            tessellator.setColorOpaque_F(f1, f1, f1);
-            renderer.renderFaceYPos(block, x, y, z, renderer.getBlockIcon(block, renderer.blockAccess, x, y, z, 1));
+            if (top)
+            {
+                tessellator.setBrightness(renderer.renderMaxY < 1.0D ? i1 : block.getMixedBrightnessForBlock(renderer.blockAccess, x, y + 1, z));
+                tessellator.setColorOpaque_F(f1, f1, f1);
+                renderer.renderFaceYPos(block, x, y, z, renderer.getBlockIcon(block, renderer.blockAccess, x, y, z, 1));
+            }
             flag = true;
             tessellator.setBrightness(renderer.renderMinZ > 0.0D ? i1 : block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z - 1));
             tessellator.setColorOpaque_F(f2, f2, f2);

@@ -42,6 +42,11 @@ public class BlockCSDoor extends BlockCS
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
     }
 
+    public boolean normalBlockShading()
+    {
+        return container.normalBlockShading;
+    }
+
     @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {

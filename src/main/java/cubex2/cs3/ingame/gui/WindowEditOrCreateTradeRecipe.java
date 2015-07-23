@@ -10,7 +10,9 @@ import cubex2.cs3.lib.Textures;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class WindowEditOrCreateTradeRecipe extends WindowEditOrCreate<TradeRecipe> implements IWindowClosedListener<WindowSelectItem>
 {
