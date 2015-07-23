@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
 import java.util.Map;
@@ -49,5 +50,6 @@ public abstract class DefaultAttributeBridges
         register(String[].class, StringArrayBridge.class);
         register(ToolClass[].class, ToolClassArrayBridge.class);
         register(ItemStack[].class, ItemStackArrayBridge.class);
+        register(ItemArmor.ArmorMaterial.class, ArmorMaterialBridge.class);
     }
 }

@@ -48,4 +48,11 @@ public class FluidAttributes extends BlockAttributes
             return textureFlowing;
         return super.getTexture(name);
     }
+
+    @Override
+    protected boolean addAttribute(String attribute, String type)
+    {
+        return !attribute.equals("textureBottom") &&
+                !attribute.equals("drop");
+    }
 }

@@ -43,7 +43,7 @@ public class ListBoxItemProvider implements IListBoxItemProvider
         if (value instanceof NamedLink)
             return new ListBoxItemDoc((NamedLink) value, idx, width, height, anchor, offsetX, offsetY, parent);
         if (value instanceof ResourceLocation)
-            return new ListBoxItemResourceLocation((ResourceLocation) value, idx, width, height, anchor, offsetX, offsetY, parent);
+            return new ListBoxItemResourceLocation((ResourceLocation) value, meta == 1, idx, width, height, anchor, offsetX, offsetY, parent);
 
         if (value instanceof IPurposeStringProvider) // check last
             return new ListBoxItemLabel<Object>(value, idx, width, height, anchor, offsetX, offsetY, parent);

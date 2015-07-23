@@ -120,10 +120,10 @@ public class WrappedItem extends AttributeContent implements Comparable<WrappedI
         name = compound.getString("Name");
         type = EnumItemType.get(compound.getString("Type"));
 
-        item = type.createItem(this);
-
         container = type.createAttributeContainer(this);
         container.loadFromNBT(compound.getCompoundTag("Attributes"));
+
+        item = type.createItem(this);
 
         return true;
     }

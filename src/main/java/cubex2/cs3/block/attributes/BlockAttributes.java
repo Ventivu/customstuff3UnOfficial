@@ -51,7 +51,7 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditInteger.class)
     public int tickrate = 10;
 
-    @Attribute(windowClass = WindowEditDrops.class, exclude = "fluid")
+    @Attribute(windowClass = WindowEditDrops.class)
     public BlockDrop drop = null;
 
     @Attribute(windowClass = WindowEditInteger.class, additionalInfo = "0-1000000")
@@ -96,7 +96,7 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditStepSound.class)
     public Block.SoundType stepSound = Block.soundTypeStone;
 
-    @Attribute(windowClass = WindowEditTextures.class, customName = "textures", exclude = "fluid")
+    @Attribute(windowClass = WindowEditTextures.class, customName = "textures")
     public IconWrapper textureBottom = new IconWrapper("");
 
     @Attribute(windowClass = Window.class, hasOwnWindow = false)

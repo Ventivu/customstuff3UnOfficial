@@ -255,6 +255,13 @@ public class ControlContainer extends Control
         return row(label(text), offset, false);
     }
 
+    public Label row(String text, String infoText, int offset)
+    {
+        Label label = row(label(text), offset, false);
+        infoButton(infoText).rightTo(label).add();
+        return label;
+    }
+
     /**
      * Don't use any methods but size on the builder.
      */
@@ -458,5 +465,10 @@ public class ControlContainer extends Control
     public IconTextBoxBuilder iconTextBox(BaseContentPack pack, String subFolder)
     {
         return new IconTextBoxBuilder(pack, subFolder, this);
+    }
+
+    public TextureTextBoxBuilder textureTextBox(BaseContentPack pack, String subFolder)
+    {
+        return new TextureTextBoxBuilder(pack, subFolder, this);
     }
 }

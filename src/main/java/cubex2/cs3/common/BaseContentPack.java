@@ -49,6 +49,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         registerContentRegistry(new MobSpawnRegistry(this), MobSpawn.class);
         registerContentRegistry(new DungeonMobRegistry(this), DungeonMob.class);
         registerContentRegistry(new CreativeTabRegistry(this), CreativeTab.class);
+        registerContentRegistry(new ArmorMaterialRegistry(this), ArmorMaterial.class);
     }
 
     public boolean isZipped()
@@ -143,7 +144,6 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
 
     public void init()
     {
-        logger.info("Initializing...");
         load();
         initialized = true;
     }

@@ -29,6 +29,7 @@ public class Strings
     public static final String REGISTRY_MOB_SPAWN = "MobSpawnRegistry";
     public static final String REGISTRY_DUNGEON_MOB = "DungeonMobRegistry";
     public static final String REGISTRY_CREATIVE_TAB = "CreativeTabRegistry";
+    public static final String REGISTRY_ARMOR_MATERIAL = "ArmorMaterialRegistry";
 
     // Tool tips
     public static final String TOOL_TIP_NEEDS_RESTART = "Restart of the game is required.";
@@ -106,6 +107,13 @@ public class Strings
     public static final String INFO_CHEST_ITEM_RARITY = "1 = golden apple (dungeon)|" +
             "3 = stone axe (bonus)|" +
             "10 = iron ingot (blacksmith)";
+    public static final String INFO_DURABILITY_ARMOR = "The actual durability is this|" +
+            "multiplied with these values:|" +
+            "Helmet: 11|" +
+            "Plate: 16|" +
+            "Legs: 15|" +
+            "Boots: 13";
+    public static final String INFO_ARMOR_REDUCTION_AMOUNTS = "Each 1 point is half a shield";
 
 
 }

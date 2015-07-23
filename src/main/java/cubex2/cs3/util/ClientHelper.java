@@ -4,9 +4,11 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
 import cubex2.cs3.ClientProxy;
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.lib.Directories;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -14,6 +16,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
+import org.lwjgl.opengl.GL11;
 
 import java.io.File;
 import java.io.IOException;
@@ -232,5 +235,23 @@ public class ClientHelper
     {
         String rp = location.getResourcePath();
         return location.getResourceDomain() + ":" + rp.substring(rp.lastIndexOf('/') + 1, rp.length() - 4);
+    }
+
+    public static void drawResource(Minecraft mc, ResourceLocation location, int x, int y, int width, int height)
+    {
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+
+        mc.renderEngine.bindTexture(location);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GL11.glScalef(1f / 256 * width, 1f / 256 * height, 1.0F);
+        GuiBase.INSTANCE.drawTexturedModalRect((int)(x * 256f / width), (int)(y * 256f / height), 0, 0, 256, 256);
+        GL11.glScalef(256 * width, 256 * height, 1.0F);
+
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glPopMatrix();
     }
 }

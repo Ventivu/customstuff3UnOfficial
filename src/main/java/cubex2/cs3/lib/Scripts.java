@@ -70,4 +70,5 @@ public class Scripts
     public static final ScriptInfo ITEM_ON_STOPPED_USING = addItem("onStoppedUsing", "world", "player", "itemstack", "tickCount");
     public static final ScriptInfo ITEM_ON_DROPPED_BY_PLAYER = addItem("onDroppedByPlayer", "world", "player", "itemstack");
     public static final ScriptInfo ITEM_ON_BLOCK_START_BREAK = addItem("onBlockStartBreak", "world", "player", "itemstack", "position");
+    public static final ScriptInfo ITEM_ON_ARMOR_UPDATE = addItem("onArmorUpdate", "world", "player", "itemstack");
 }

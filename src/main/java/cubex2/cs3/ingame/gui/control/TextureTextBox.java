@@ -3,11 +3,11 @@ package cubex2.cs3.ingame.gui.control;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.ISelectElementCallback;
-import cubex2.cs3.ingame.gui.common.WindowSelectIcon;
+import cubex2.cs3.ingame.gui.common.WindowSelectTexture;
 import cubex2.cs3.util.ClientHelper;
 import net.minecraft.util.ResourceLocation;
 
-public class IconTextBox extends ControlContainer implements ISelectElementCallback<String>
+public class TextureTextBox extends ControlContainer implements ISelectElementCallback<String>
 {
     private final BaseContentPack pack;
     private final String subFolder;
@@ -17,7 +17,7 @@ public class IconTextBox extends ControlContainer implements ISelectElementCallb
     private ResourceLocation location = null;
     private String prevText = null;
 
-    public IconTextBox(BaseContentPack pack, String subFolder, int width, Anchor anchor, int offsetX, int offsetY, Control parent)
+    public TextureTextBox(BaseContentPack pack, String subFolder, int width, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
         super(width, 14, anchor, offsetX, offsetY, parent);
         this.pack = pack;
@@ -48,7 +48,7 @@ public class IconTextBox extends ControlContainer implements ISelectElementCallb
     {
         if (c == btnDialog)
         {
-            GuiBase.openWindow(new WindowSelectIcon(ClientHelper.getPackIcons(pack, subFolder), ClientHelper.getAllIcons(subFolder), this));
+            GuiBase.openWindow(new WindowSelectTexture(ClientHelper.getPackIcons(pack, subFolder), this));
         } else
         {
             super.controlClicked(c, mouseX, mouseY);
@@ -59,20 +59,5 @@ public class IconTextBox extends ControlContainer implements ISelectElementCallb
     public void itemSelected(String element)
     {
         tb.setText(element);
-    }
-
-    public ResourceLocation getLocation()
-    {
-        String text = tb.getText().trim();
-        if (location == null || prevText == null || !prevText.equals(text))
-        {
-            String modId = text.contains(":") ? text.split(":")[0] : pack.id.toLowerCase();
-            String textureName = text.contains(":") && text.indexOf(':') != text.length() - 1 ? text.split(":")[1] : text;
-
-            location = new ResourceLocation(modId + ":" + "textures/" + subFolder + "/" + textureName + ".png");
-            prevText = text;
-        }
-
-        return location;
     }
 }

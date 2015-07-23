@@ -4,12 +4,9 @@ import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.ISelectElementCallback;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.Tab;
-import cubex2.cs3.ingame.gui.control.TabControl;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
-import cubex2.cs3.util.ClientHelper;
 import cubex2.cs3.util.Filter;
 import net.minecraft.util.ResourceLocation;
 
@@ -17,50 +14,28 @@ import java.util.List;
 
 public class WindowSelectTexture extends Window implements IListBoxItemClickListener<ResourceLocation>
 {
-    private ListBox<ResourceLocation> lbPack;
-    private ListBox<ResourceLocation> lbAll;
-    private TabControl tabControl;
+    private final ISelectElementCallback<String> callback;
+    private ListBox<ResourceLocation> listBox;
+
     private String selectedTexture;
 
-    private ISelectElementCallback<String> callback;
-
-    public WindowSelectTexture(List<ResourceLocation> packIcons, List<ResourceLocation> allIcons, ISelectElementCallback<String> callback)
+    public WindowSelectTexture(List<ResourceLocation> textures, ISelectElementCallback<String> callback)
     {
-        super("Select Texture", SELECT | CANCEL, 197, 211);
+        super("Select Texture", SELECT | CANCEL, 171, 211);
         this.callback = callback;
 
-        tabControl = tabControl(70, 20).fill().add();
-        Tab packTab = tabControl.addTab("Pack");
-        Tab allTab = tabControl.addTab("All");
-
         ListBoxDescription<ResourceLocation> desc = new ListBoxDescription<ResourceLocation>(7, 7);
-        desc.elementWidth = 22;
-        desc.elementHeight = 22;
-        desc.columns = 7;
-        desc.rows = 7;
-        desc.elements = packIcons;
+        desc.elementWidth = 128+6;
+        desc.elementHeight = 64+6;
+        desc.columns = 1;
+        desc.rows = 2;
+        desc.elements = textures;
         desc.hasSearchBar = true;
         desc.filter = Filter.RESOURCE_LOCATION;
-        lbPack = packTab.listBox(desc).left(7).top(7).right(7).add();
-        lbPack.getSearchBox().setFocused(true);
-
-        ListBoxDescription<ResourceLocation> desc1 = new ListBoxDescription<ResourceLocation>(7, 7);
-        desc1.elementWidth = 22;
-        desc1.elementHeight = 22;
-        desc1.columns = 7;
-        desc1.rows = 7;
-        desc1.elements = allIcons;
-        desc1.hasSearchBar = true;
-        desc1.filter = Filter.RESOURCE_LOCATION;
-        lbAll = allTab.listBox(desc1).left(7).top(7).right(7).add();
-        lbAll.getSearchBox().setFocused(true);
+        listBox = listBox(desc).left(7).top(7).right(7).add();
+        listBox.getSearchBox().setFocused(true);
 
         btnSelect.setEnabled(false);
-    }
-
-    public String getSelectedTexture()
-    {
-        return selectedTexture;
     }
 
     @Override
@@ -86,10 +61,7 @@ public class WindowSelectTexture extends Window implements IListBoxItemClickList
     @Override
     public void itemClicked(ResourceLocation item, ListBox<ResourceLocation> listBox, int button)
     {
-        ListBox otherLB = listBox == lbPack ? lbAll : lbPack;
         btnSelect.setEnabled(listBox.getSelectedIndex() != -1);
-        otherLB.removeSelection();
-
-        selectedTexture = ClientHelper.resourceToIconString(listBox.getSelectedItem());
+        selectedTexture = listBox.getSelectedItem().toString();
     }
 }

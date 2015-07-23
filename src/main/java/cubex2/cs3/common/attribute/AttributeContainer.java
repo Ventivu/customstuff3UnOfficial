@@ -6,7 +6,6 @@ import com.google.common.collect.Maps;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.Window;
 import net.minecraft.nbt.NBTTagCompound;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -120,13 +119,18 @@ public class AttributeContainer
      */
     public AttributeData[] getAttributeDatas(String type)
     {
-        Field[] fields = getAttributeFields(ATTRIBUTE_WITH_OWN_WINDOW, new PredicateCheckExclude(type));
+        Field[] fields = getAttributeFields(ATTRIBUTE_WITH_OWN_WINDOW, new PredicateCheckExclude(type, this));
         AttributeData[] datas = new AttributeData[fields.length];
         for (int i = 0; i < datas.length; i++)
         {
             datas[i] = new AttributeData(fields[i].getAnnotation(Attribute.class), fields[i]);
         }
         return datas;
+    }
+
+    protected boolean addAttribute(String attribute, String type)
+    {
+        return true;
     }
 
     public <T> T getAttribute(String attributeName)
@@ -178,20 +182,19 @@ public class AttributeContainer
 
     private static class PredicateCheckExclude implements Predicate<Field>
     {
+        private final AttributeContainer container;
         private String type;
 
-        public PredicateCheckExclude(String type)
+        public PredicateCheckExclude(String type, AttributeContainer container)
         {
             this.type = type;
+            this.container = container;
         }
 
         @Override
         public boolean apply(Field input)
         {
-            if (!input.isAnnotationPresent(Attribute.class)) return false;
-            Attribute attr = input.getAnnotation(Attribute.class);
-            if (attr.exclude().length() == 0) return true;
-            return !ArrayUtils.contains(attr.exclude().split(","), type);
+            return container.addAttribute(input.getName(), type);
         }
     }
 }

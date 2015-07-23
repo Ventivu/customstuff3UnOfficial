@@ -32,11 +32,4 @@ public @interface Attribute
      * @return The custom name
      */
     String customName() default "";
-
-    /**
-     * The block/item/etc. types to that this attribute is not available
-     *
-     * @return The excluded types separated by ','.
-     */
-    String exclude() default "";
 }

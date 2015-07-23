@@ -16,11 +16,15 @@ import java.util.Map;
 
 public enum EnumItemType
 {
-    NORMAL("normal", ItemCS.class, ItemAttributes.class),
-    SWORD("sword", ItemCSSword.class, SwordAttributes.class),
     AXE("axe", ItemCSAxe.class, AxeAttributes.class),
+    BOOTS("boots", ItemCSBoots.class, ArmorAttributes.class),
+    HELMET("helmet", ItemCSHelmet.class, ArmorAttributes.class),
+    LEGS("legs", ItemCSLegs.class, ArmorAttributes.class),
+    NORMAL("normal", ItemCS.class, ItemAttributes.class),
     PICKAXE("pickaxe", ItemCSPickaxe.class, PickaxeAttributes.class),
-    SHOVEL("shovel", ItemCSShovel.class, ShovelAttributes.class);
+    PLATE("plate", ItemCSPlate.class, ArmorAttributes.class),
+    SHOVEL("shovel", ItemCSShovel.class, ShovelAttributes.class),
+    SWORD("sword", ItemCSSword.class, SwordAttributes.class);
 
     public final String name;
     public final Class<? extends Item> itemClass;
@@ -39,7 +43,6 @@ public enum EnumItemType
         {
             Item item = itemClass.getConstructor(WrappedItem.class).newInstance(wrappedItem);
             GameRegistry.registerItem(item, wrappedItem.getName());
-            System.err.println("Item ID: " + GameData.getItemRegistry().getId(item));
 
             if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
             {

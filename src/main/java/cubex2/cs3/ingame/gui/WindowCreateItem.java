@@ -5,14 +5,14 @@ import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.item.EnumItemType;
 
-public class WindowCreateItem extends Window implements IValidityProvider
+public class WindowCreateItem extends Window implements IValidityProvider, IStringProvider<EnumItemType>
 {
     private BaseContentPack pack;
 
     private Label lblName;
     private TextBox tbName;
     private Label lblType;
-    private DropBox<String> dbType;
+    private DropBox<EnumItemType> dbType;
 
     private Label lblInfo;
 
@@ -24,11 +24,12 @@ public class WindowCreateItem extends Window implements IValidityProvider
         lblName = label("Name:").at(7, 7).add();
         tbName = textBox().below(lblName).size(166, 17).add();
         lblType = label("Type:").below(tbName, 5).add();
-        dbType = dropBox(EnumItemType.getNames()).below(lblType).size(100, 15).add();
+        dbType = dropBox(EnumItemType.values()).below(lblType).size(100, 15).add();
         lblInfo = label("You need to restart Minecraft\nin order to use or edit this item.").below(dbType, 10).add();
 
         tbName.setValidityProvider(this);
-        dbType.setSelectedValue(EnumItemType.NORMAL.name);
+        dbType.setSelectedValue(EnumItemType.NORMAL);
+        dbType.setStringProvider(this);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class WindowCreateItem extends Window implements IValidityProvider
     {
         if (c == btnCreate)
         {
-            WrappedItem item = new WrappedItem(tbName.getText().trim(), EnumItemType.get(dbType.getSelectedValue()), pack);
+            WrappedItem item = new WrappedItem(tbName.getText().trim(), dbType.getSelectedValue(), pack);
             item.apply();
 
             GuiBase.openPrevWindow();
@@ -69,5 +70,11 @@ public class WindowCreateItem extends Window implements IValidityProvider
 
         btnCreate.setEnabled(message == null);
         return message;
+    }
+
+    @Override
+    public String getStringFor(EnumItemType value)
+    {
+        return value.name;
     }
 }
