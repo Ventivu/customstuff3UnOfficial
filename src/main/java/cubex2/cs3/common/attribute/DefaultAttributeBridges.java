@@ -51,5 +51,6 @@ public abstract class DefaultAttributeBridges
         register(ToolClass[].class, ToolClassArrayBridge.class);
         register(ItemStack[].class, ItemStackArrayBridge.class);
         register(ItemArmor.ArmorMaterial.class, ArmorMaterialBridge.class);
+        register(Block.class, BlockBridge.class);
     }
 }

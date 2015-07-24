@@ -7,21 +7,6 @@ import net.minecraftforge.event.entity.player.BonemealEvent;
 
 public class BonemealHandler
 {
-    private static BonemealHandler instance;
-
-    public static BonemealHandler instance()
-    {
-        if (instance == null)
-        {
-            instance = new BonemealHandler();
-        }
-        return instance;
-    }
-
-    private BonemealHandler()
-    {
-    }
-
     @SubscribeEvent
     public void onUseBonemeal(BonemealEvent event)
     {

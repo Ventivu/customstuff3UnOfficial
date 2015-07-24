@@ -18,6 +18,7 @@ public enum EnumItemType
 {
     AXE("axe", ItemCSAxe.class, AxeAttributes.class),
     BOOTS("boots", ItemCSBoots.class, ArmorAttributes.class),
+    BUCKET("bucket", ItemCSBucket.class, BucketAttributes.class),
     HELMET("helmet", ItemCSHelmet.class, ArmorAttributes.class),
     LEGS("legs", ItemCSLegs.class, ArmorAttributes.class),
     NORMAL("normal", ItemCS.class, ItemAttributes.class),
@@ -30,7 +31,7 @@ public enum EnumItemType
     public final Class<? extends Item> itemClass;
     public final Class<? extends ItemAttributes> attributesClass;
 
-    private EnumItemType(String name, Class<? extends Item> itemClass, Class<? extends ItemAttributes> attributesClass)
+    EnumItemType(String name, Class<? extends Item> itemClass, Class<? extends ItemAttributes> attributesClass)
     {
         this.name = name;
         this.itemClass = itemClass;

@@ -1,5 +1,6 @@
 package cubex2.cs3.ingame.gui.control;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameData;
 import cubex2.cs3.ingame.gui.GuiBase;
@@ -33,8 +34,10 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
     private boolean usesSelectItemDialog = false;
     private boolean usesSelectBlockDialog = false;
     private boolean dialogWildCards = false;
+    private Predicate<ItemStack> filter;
 
     private IToolTipModifier toolTipModifier;
+
 
     public ItemDisplay(Anchor anchor, int offsetX, int offsetY, Control parent)
     {
@@ -51,6 +54,13 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
     public ItemDisplay useSelectBlockDialog()
     {
         usesSelectBlockDialog = true;
+        return this;
+    }
+
+    public ItemDisplay useSelectBlockDialog(Predicate<ItemStack> filter)
+    {
+        usesSelectBlockDialog = true;
+        this.filter = filter;
         return this;
     }
 
@@ -165,7 +175,7 @@ public class ItemDisplay extends ValidityControl<ItemDisplay> implements ISelect
                 GuiBase.openWindow(new WindowSelectItem(dialogWildCards, this));
             } else if (usesSelectBlockDialog)
             {
-                GuiBase.openWindow(new WindowSelectBlock(false, false, this, null));
+                GuiBase.openWindow(new WindowSelectBlock(false, false, this, filter));
             }
         }
     }
