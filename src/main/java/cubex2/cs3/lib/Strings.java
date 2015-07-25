@@ -30,6 +30,7 @@ public class Strings
     public static final String REGISTRY_DUNGEON_MOB = "DungeonMobRegistry";
     public static final String REGISTRY_CREATIVE_TAB = "CreativeTabRegistry";
     public static final String REGISTRY_ARMOR_MATERIAL = "ArmorMaterialRegistry";
+    public static final String REGISTRY_MOB_DROP = "MobDropRegistry";
 
     // Tool tips
     public static final String TOOL_TIP_NEEDS_RESTART = "Restart of the game is required.";

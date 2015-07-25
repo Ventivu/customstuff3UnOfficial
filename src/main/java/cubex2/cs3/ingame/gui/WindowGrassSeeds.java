@@ -8,7 +8,7 @@ public class WindowGrassSeeds extends WindowContentList<GrassSeed>
 {
     public WindowGrassSeeds(BaseContentPack pack)
     {
-        super(GrassSeed.class, "New Grass Seed", NEW | DELETE | BACK, 263, 171, pack);
+        super(GrassSeed.class, "Grass Seeds", NEW | DELETE | BACK, 263, 171, pack);
     }
 
     @Override

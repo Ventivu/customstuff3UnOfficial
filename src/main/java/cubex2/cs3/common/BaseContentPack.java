@@ -50,6 +50,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         registerContentRegistry(new DungeonMobRegistry(this), DungeonMob.class);
         registerContentRegistry(new CreativeTabRegistry(this), CreativeTab.class);
         registerContentRegistry(new ArmorMaterialRegistry(this), ArmorMaterial.class);
+        registerContentRegistry(new MobDropRegistry(this), MobDrop.class);
     }
 
     public boolean isZipped()
