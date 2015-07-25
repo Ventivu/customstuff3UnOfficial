@@ -114,6 +114,14 @@ public class Strings
             "Legs: 15|" +
             "Boots: 13";
     public static final String INFO_ARMOR_REDUCTION_AMOUNTS = "Each 1 point is half a shield";
+    public static final String INFO_HUNGER = "Each 1 point is half a hunger stick.|" +
+            "2 = melon|" +
+            "4 = apple|" +
+            "8 = steak";
+    public static final String INFO_POTION_DURATION = "Duration in seconds";
+    public static final String INFO_SATURATION = "0.1 = cookie|" +
+            "0.3 = melon|" +
+            "0.8 = steak";
 
 
 }

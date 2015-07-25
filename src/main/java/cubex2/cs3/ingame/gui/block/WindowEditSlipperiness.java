@@ -9,7 +9,7 @@ public class WindowEditSlipperiness extends WindowEditFloat
 
     public WindowEditSlipperiness(WrappedBlock wrappedBlock)
     {
-        super("slipperiness", wrappedBlock.container);
+        super("slipperiness",null, wrappedBlock.container);
         this.wrappedBlock = wrappedBlock;
     }
 

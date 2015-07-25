@@ -13,15 +13,13 @@ public class WindowEditBoolean extends Window
 
     private CheckBox checkBox;
 
-    private String text;
-
     public WindowEditBoolean(AttributeData attributeData, AttributeContainer container)
     {
         super(attributeData.getDisplayName(), EDIT | CANCEL, 150, 70);
         this.container = container;
         this.fieldName = attributeData.field.getName();
 
-        text = attributeData.attribute.additionalInfo();
+        String text = attributeData.attribute.additionalInfo();
 
         checkBox = checkBox().centerVert(-16).left(7).add();
         checkBox.setIsChecked((Boolean) container.getAttribute(fieldName));
@@ -33,11 +31,6 @@ public class WindowEditBoolean extends Window
             width = Math.max(150, mc.fontRenderer.getStringWidth(text) + 14 + checkBox.width + 3);
         }
     }
-
-    /*private static int caclWidth(AttributeData data)
-    {
-        String text = data.attribute.additionalInfo();
-    }*/
 
     @Override
     protected void handleEditButtonClicked()

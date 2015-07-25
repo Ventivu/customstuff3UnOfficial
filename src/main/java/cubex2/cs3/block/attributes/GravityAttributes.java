@@ -12,5 +12,6 @@ public class GravityAttributes extends BlockAttributes
     public GravityAttributes(BaseContentPack pack)
     {
         super(pack);
+        tickrate = 2;
     }
 }

@@ -2,8 +2,6 @@ package cubex2.cs3.ingame.gui.common;
 
 import com.google.common.collect.Lists;
 import cubex2.cs3.common.AttributeContent;
-import cubex2.cs3.common.BaseContent;
-import cubex2.cs3.common.WrappedBlock;
 import cubex2.cs3.common.attribute.AttributeData;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
@@ -45,7 +43,7 @@ public class WindowEditAttributeContent extends Window implements IListBoxItemCl
                 GuiBase.openWindow(new WindowEditInteger(item, content.getContainer()));
             } else if (windowClass == WindowEditFloat.class)
             {
-                GuiBase.openWindow(new WindowEditFloat(item.field.getName(), content.getContainer()));
+                GuiBase.openWindow(new WindowEditFloat(item, content.getContainer()));
             } else if (windowClass == WindowEditBoolean.class)
             {
                 GuiBase.openWindow(new WindowEditBoolean(item, content.getContainer()));

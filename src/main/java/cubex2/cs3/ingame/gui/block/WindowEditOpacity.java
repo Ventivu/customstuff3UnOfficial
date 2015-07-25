@@ -9,7 +9,7 @@ public class WindowEditOpacity extends WindowEditInteger
 
     public WindowEditOpacity(WrappedBlock wrappedBlock)
     {
-        super("opacity", 0, 255, wrappedBlock.container);
+        super("opacity", null, 0, 255, wrappedBlock.container);
         this.wrappedBlock = wrappedBlock;
     }
 

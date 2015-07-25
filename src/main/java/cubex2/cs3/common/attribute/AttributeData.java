@@ -9,11 +9,13 @@ public class AttributeData implements Comparable<AttributeData>, IPurposeStringP
 {
     public final Attribute attribute;
     public final Field field;
+    public final String desc;
 
     public AttributeData(Attribute attribute, Field field)
     {
         this.attribute = attribute;
         this.field = field;
+        desc = field.isAnnotationPresent(AttributeDescription.class) ? field.getAnnotation(AttributeDescription.class).value() : null;
     }
 
     public String getDisplayName()
