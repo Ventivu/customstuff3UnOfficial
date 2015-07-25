@@ -4,6 +4,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cubex2.cs3.entity.EntityCSGravityBlock;
 import cubex2.cs3.handler.KeyBindingHandler;
 import cubex2.cs3.lib.ModInfo;
 import cubex2.cs3.lib.RenderIds;
@@ -69,5 +70,7 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerBlockHandler(new CSFacingRenderer());
         RenderingRegistry.registerBlockHandler(new CSPostRenderer());
         //RenderingRegistry.registerBlockHandler(slopeRenderer);
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityCSGravityBlock.class, new RenderCSBlockGravity());
     }
 }

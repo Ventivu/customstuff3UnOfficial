@@ -26,7 +26,7 @@ public enum EnumBlockType
     FLAT("flat", BlockCSFlat.class, FlatAttributes.class),
     FLUID("fluid", BlockCSFluid.class, FluidAttributes.class, ItemCSFluid.class),
     // FURNACE("furnace", BlockCSFurnace.class, BlockFurnaceAttributes.class, ItemCSBlockFacing.class),
-    // GRAVITY("gravity", BlockCSGravity.class, BlockGravityAttributes.class),
+    GRAVITY("gravity", BlockCSGravity.class, GravityAttributes.class),
     LADDER("ladder", BlockCSLadder.class, LadderAttributes.class),
     NORMAL("normal", BlockCSNormal.class, BlockAttributes.class),
     PANE("pane", BlockCSPane.class, PaneAttributes.class),
