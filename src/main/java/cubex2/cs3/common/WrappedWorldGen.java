@@ -1,6 +1,7 @@
 package cubex2.cs3.common;
 
 import cubex2.cs3.common.attribute.AttributeContainer;
+import cubex2.cs3.util.PostponableTask;
 import cubex2.cs3.worldgen.EnumWorldGenType;
 import cubex2.cs3.worldgen.WorldGenCS;
 import cubex2.cs3.worldgen.attributes.WorldGenAttributes;
@@ -42,13 +43,22 @@ public class WrappedWorldGen extends AttributeContent implements Comparable<Wrap
     }
 
     @Override
-    public boolean readFromNBT(NBTTagCompound compound)
+    public boolean readFromNBT(final NBTTagCompound compound)
     {
         name = compound.getString("Name");
         type = EnumWorldGenType.get(compound.getString("Type"));
 
         container = type.createAttributeContainer(this);
-        container.loadFromNBT(compound.getCompoundTag("Attributes"));
+        container.loadFromNBT(compound.getCompoundTag("Attributes"), false);
+        pack.postponeHandler.addTask(new PostponableTask()
+        {
+            @Override
+            protected boolean doWork()
+            {
+                container.loadFromNBT(compound.getCompoundTag("Attributes"), true);
+                return true;
+            }
+        });
 
         worldGen = type.createWorldGen(this);
 

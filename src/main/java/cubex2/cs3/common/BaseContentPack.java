@@ -148,6 +148,17 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         initialized = true;
     }
 
+    public void postInit()
+    {
+        for (ContentRegistry<?> registry : contentRegistryList)
+        {
+            for (Content content : registry.getContentList())
+            {
+                content.postInit();
+            }
+        }
+    }
+
     @Override
     public String getStringForPurpose(StringProviderPurpose purpose)
     {

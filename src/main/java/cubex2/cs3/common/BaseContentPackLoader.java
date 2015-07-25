@@ -61,7 +61,7 @@ public class BaseContentPackLoader
         File packDir = FMLCommonHandler.instance().findContainerFor(pack).getSource();
         BaseContentPack ipack = new BaseContentPack(packDir, pack.getName(), pack.getId());
         contentPacks.add(ipack);
-        contentPackMap.put(pack,ipack);
+        contentPackMap.put(pack, ipack);
     }
 
     public void onInitPack(ICSMod pack)
@@ -71,6 +71,7 @@ public class BaseContentPackLoader
 
     public void onPostInitPack(ICSMod pack)
     {
+        contentPackMap.get(pack).postInit();
         contentPackMap.get(pack).postponeHandler.executePostponedTasks();
     }
 }

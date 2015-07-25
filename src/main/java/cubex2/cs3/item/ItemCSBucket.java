@@ -19,7 +19,11 @@ public class ItemCSBucket extends ItemCS
         super(item);
 
         container = (BucketAttributes) item.container;
+    }
 
+    @Override
+    public void postInit()
+    {
         if (container.fluid != null)
             FluidContainerRegistry.registerFluidContainer(((BlockFluidBase) container.fluid).getFluid(), new ItemStack(this), FluidContainerRegistry.EMPTY_BUCKET);
     }

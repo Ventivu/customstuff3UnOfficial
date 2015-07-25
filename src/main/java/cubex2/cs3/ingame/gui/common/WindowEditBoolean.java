@@ -24,13 +24,20 @@ public class WindowEditBoolean extends Window
         text = attributeData.attribute.additionalInfo();
 
         checkBox = checkBox().centerVert(-16).left(7).add();
-        checkBox.setIsChecked((Boolean)container.getAttribute(fieldName));
+        checkBox.setIsChecked((Boolean) container.getAttribute(fieldName));
 
         if (text != null && !text.isEmpty())
         {
             label(text).rightTo(checkBox).add();
+
+            width = Math.max(150, mc.fontRenderer.getStringWidth(text) + 14 + checkBox.width + 3);
         }
     }
+
+    /*private static int caclWidth(AttributeData data)
+    {
+        String text = data.attribute.additionalInfo();
+    }*/
 
     @Override
     protected void handleEditButtonClicked()

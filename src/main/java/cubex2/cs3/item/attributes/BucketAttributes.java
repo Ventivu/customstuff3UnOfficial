@@ -8,7 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 
 public class BucketAttributes extends ItemAttributes
 {
-    @Attribute(windowClass = WindowEditFluid.class)
+    @Attribute(windowClass = WindowEditFluid.class, loadOnPostInit = true)
     public Block fluid;
 
     public BucketAttributes(BaseContentPack pack)

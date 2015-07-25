@@ -18,7 +18,7 @@ public abstract class BaseContent implements Content
     @Override
     public void apply()
     {
-        if(applied)
+        if (applied)
         {
             throw new IllegalStateException("Content is already applied!");
         }
@@ -52,5 +52,10 @@ public abstract class BaseContent implements Content
     public boolean canRemove()
     {
         return true;
+    }
+
+    public void postInit()
+    {
+
     }
 }

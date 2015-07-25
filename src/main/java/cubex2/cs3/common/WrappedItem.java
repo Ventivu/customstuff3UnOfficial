@@ -8,11 +8,9 @@ import cubex2.cs3.api.scripting.TriggerType;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.common.scripting.TriggerData;
 import cubex2.cs3.item.EnumItemType;
+import cubex2.cs3.item.ItemCS;
 import cubex2.cs3.item.attributes.ItemAttributes;
-import cubex2.cs3.util.GeneralHelper;
-import cubex2.cs3.util.ItemStackHelper;
-import cubex2.cs3.util.JavaScriptHelper;
-import cubex2.cs3.util.ToolClass;
+import cubex2.cs3.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -97,6 +95,15 @@ public class WrappedItem extends AttributeContent implements Comparable<WrappedI
     }
 
     @Override
+    public void postInit()
+    {
+        if (item != null && item instanceof ItemCS)
+        {
+            ((ItemCS) item).postInit();
+        }
+    }
+
+    @Override
     public boolean canEdit()
     {
         return item != null;
@@ -115,13 +122,22 @@ public class WrappedItem extends AttributeContent implements Comparable<WrappedI
     }
 
     @Override
-    public boolean readFromNBT(NBTTagCompound compound)
+    public boolean readFromNBT(final NBTTagCompound compound)
     {
         name = compound.getString("Name");
         type = EnumItemType.get(compound.getString("Type"));
 
         container = type.createAttributeContainer(this);
-        container.loadFromNBT(compound.getCompoundTag("Attributes"));
+        container.loadFromNBT(compound.getCompoundTag("Attributes"), false);
+        pack.postponeHandler.addTask(new PostponableTask()
+        {
+            @Override
+            protected boolean doWork()
+            {
+                container.loadFromNBT(compound.getCompoundTag("Attributes"), true);
+                return true;
+            }
+        });
 
         item = type.createItem(this);
 

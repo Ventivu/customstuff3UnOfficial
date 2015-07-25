@@ -17,7 +17,6 @@ public class PostponeHandler
      * Executes a task and adds it to the list of postponed tasks if it fails.
      *
      * @param task The task to execute
-     *
      * @return true if task has been executed successfully, false otherwise
      */
     public boolean executeTask(PostponableTask task)
@@ -30,6 +29,16 @@ public class PostponeHandler
         }
 
         return result;
+    }
+
+    /**
+     * Adds the task to the list without executing it.
+     *
+     * @param task The task to add.
+     */
+    public void addTask(PostponableTask task)
+    {
+        postponedTasks.add(task);
     }
 
     public void executePostponedTasks()

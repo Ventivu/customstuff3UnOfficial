@@ -20,7 +20,7 @@ public class WindowEditFluid extends WindowEditItemAttribute
         itemDisplay = itemDisplay().top(8).centerHor().add();
         itemDisplay.setDrawSlotBackground();
         itemDisplay.setClearOnRightClick();
-        itemDisplay.setItemStack(container.containerItem);
+        itemDisplay.setItemStack(new ItemStack(((BucketAttributes) container).fluid));
         itemDisplay.useSelectBlockDialog(IS_FLUID);
     }
 

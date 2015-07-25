@@ -27,9 +27,9 @@ public class AttributeContainer
         return pack;
     }
 
-    public void loadFromNBT(NBTTagCompound compound)
+    public void loadFromNBT(NBTTagCompound compound, boolean postInit)
     {
-        Field[] fields = getAttributeFields(ALL_ATTRIBUTES);
+        Field[] fields = getAttributeFields(postInit ? ATTRIBUTE_POST_INIT : ATTRIBUTE_NO_POST_INIT);
 
         try
         {
@@ -163,6 +163,24 @@ public class AttributeContainer
         public boolean apply(Field input)
         {
             return input.isAnnotationPresent(Attribute.class);
+        }
+    };
+
+    private static final Predicate<Field> ATTRIBUTE_NO_POST_INIT = new Predicate<Field>()
+    {
+        @Override
+        public boolean apply(Field input)
+        {
+            return input.isAnnotationPresent(Attribute.class) && !input.getAnnotation(Attribute.class).loadOnPostInit();
+        }
+    };
+
+    private static final Predicate<Field> ATTRIBUTE_POST_INIT = new Predicate<Field>()
+    {
+        @Override
+        public boolean apply(Field input)
+        {
+            return input.isAnnotationPresent(Attribute.class) && input.getAnnotation(Attribute.class).loadOnPostInit();
         }
     };
 

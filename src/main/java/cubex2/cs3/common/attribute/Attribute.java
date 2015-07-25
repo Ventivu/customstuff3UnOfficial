@@ -32,4 +32,11 @@ public @interface Attribute
      * @return The custom name
      */
     String customName() default "";
+
+    /**
+     * If set to true, the attribute will be loaded during the post init phase.
+     *
+     * @return True if loaded post init.
+     */
+    boolean loadOnPostInit() default false;
 }

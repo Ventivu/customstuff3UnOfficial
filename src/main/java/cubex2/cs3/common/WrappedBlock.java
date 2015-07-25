@@ -13,6 +13,7 @@ import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.common.scripting.TriggerData;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.JavaScriptHelper;
+import cubex2.cs3.util.PostponableTask;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -105,13 +106,22 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
     }
 
     @Override
-    public boolean readFromNBT(NBTTagCompound compound)
+    public boolean readFromNBT(final NBTTagCompound compound)
     {
         name = compound.getString("Name");
         type = EnumBlockType.get(compound.getString("Type"));
 
         container = type.createAttributeContainer(this);
-        container.loadFromNBT(compound.getCompoundTag("Attributes"));
+        container.loadFromNBT(compound.getCompoundTag("Attributes"), false);
+        pack.postponeHandler.addTask(new PostponableTask()
+        {
+            @Override
+            protected boolean doWork()
+            {
+                container.loadFromNBT(compound.getCompoundTag("Attributes"), true);
+                return true;
+            }
+        });
 
         block = type.createBlock(this);
         blockItem = GameData.getItemRegistry().getObject(pack.id + ":" + getName());

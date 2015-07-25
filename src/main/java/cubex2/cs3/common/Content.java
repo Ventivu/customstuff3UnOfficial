@@ -46,4 +46,9 @@ public interface Content
      * @param compound
      */
     boolean readFromNBT(NBTTagCompound compound);
+
+    /**
+     * This is called during the post init phase.
+     */
+    void postInit();
 }

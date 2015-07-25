@@ -28,6 +28,11 @@ public class ItemCS extends Item
         this.wrappedItem = item;
     }
 
+    public void postInit()
+    {
+
+    }
+
     @Override
     public void setHarvestLevel(String toolClass, int level)
     {
