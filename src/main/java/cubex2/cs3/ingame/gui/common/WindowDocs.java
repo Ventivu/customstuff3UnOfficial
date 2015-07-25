@@ -9,7 +9,7 @@ import cubex2.cs3.ingame.gui.control.Control;
 public class WindowDocs extends Window
 {
     private final ParsedDocFile docFile;
-    private Button btnReload;
+    //private Button btnReload;
 
     public WindowDocs(String title, ParsedDocFile docFile)
     {
@@ -18,7 +18,7 @@ public class WindowDocs extends Window
 
         docFile.add(this);
 
-        btnReload = button("Reload").left(7).bottom(7).add();
+        //btnReload = button("Reload").left(7).bottom(7).add();
     }
 
     @Override
@@ -32,11 +32,11 @@ public class WindowDocs extends Window
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (c == btnReload)
+        /*if (c == btnReload)
         {
             GuiBase.openPrevWindow();
             GuiBase.openWindow(new WindowDocs("", ParsedDocFile.fromPath(docFile.path, false)));
-        } else
+        } else*/
         {
             super.controlClicked(c, mouseX, mouseY);
         }
