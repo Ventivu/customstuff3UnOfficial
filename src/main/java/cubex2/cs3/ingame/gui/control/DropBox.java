@@ -17,6 +17,8 @@ public class DropBox<T> extends Control
 
     private IStringProvider<T> stringProvider;
 
+    public boolean drawNullValue = false;
+
     public DropBox(T[] values, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
         super(width, height, anchor, offsetX, offsetY, parent);
@@ -54,7 +56,7 @@ public class DropBox<T> extends Control
         int borderColor = getBounds().contains(mouseX, mouseY) && !isExpanded ? Color.WHITE : Color.DARK_GREY;
         GuiHelper.drawOutlinedRect(getBounds(), borderColor, Color.LIGHT_GREY);
 
-        if (selectedValue != null)
+        if (drawNullValue || selectedValue != null)
         {
             mc.fontRenderer.drawString(getTextToDraw(selectedValue), bounds.getX() + 3, bounds.getY() + 3, Color.BLACK);
         }

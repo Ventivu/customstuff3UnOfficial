@@ -16,6 +16,7 @@ public class BlockBridge extends AttributeBridge<Block>
     @Override
     public void writeValueToNBT(NBTTagCompound compound, Block value)
     {
-        compound.setString("Value", GeneralHelper.getBlockName(value));
+        if (value != null)
+            compound.setString("Value", GeneralHelper.getBlockName(value));
     }
 }

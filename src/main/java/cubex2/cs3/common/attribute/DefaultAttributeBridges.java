@@ -12,6 +12,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 
 import java.util.Map;
 
@@ -52,5 +53,6 @@ public abstract class DefaultAttributeBridges
         register(ItemStack[].class, ItemStackArrayBridge.class);
         register(ItemArmor.ArmorMaterial.class, ArmorMaterialBridge.class);
         register(Block.class, BlockBridge.class);
+        register(Potion.class, PotionBridge.class);
     }
 }

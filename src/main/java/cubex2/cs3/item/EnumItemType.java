@@ -2,7 +2,6 @@ package cubex2.cs3.item;
 
 import com.google.common.collect.Maps;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cubex2.cs3.common.BaseContentPack;
@@ -19,6 +18,7 @@ public enum EnumItemType
     AXE("axe", ItemCSAxe.class, AxeAttributes.class),
     BOOTS("boots", ItemCSBoots.class, ArmorAttributes.class),
     BUCKET("bucket", ItemCSBucket.class, BucketAttributes.class),
+    FOOD("food", ItemCSFood.class, FoodAttributes.class),
     HELMET("helmet", ItemCSHelmet.class, ArmorAttributes.class),
     LEGS("legs", ItemCSLegs.class, ArmorAttributes.class),
     NORMAL("normal", ItemCS.class, ItemAttributes.class),
