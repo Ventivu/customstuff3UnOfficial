@@ -26,7 +26,7 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditInformation.class)
     public String information = null;
 
-    @Attribute(windowClass = WindowEditCreativeTab.class)
+    @Attribute(windowClass = WindowEditCreativeTab.class, loadOnPostInit = true)
     public CreativeTabs creativeTab = CreativeTabs.tabAllSearch;
 
     // TODO add to creative tab window

@@ -59,7 +59,7 @@ public class ItemAttributes extends AttributeContainer
     @Attribute(windowClass = WindowEditHasEffect.class)
     public boolean hasEffect = false;
 
-    @Attribute(windowClass = WindowEditCreativeTab.class)
+    @Attribute(windowClass = WindowEditCreativeTab.class, loadOnPostInit = true)
     public CreativeTabs creativeTab = CreativeTabs.tabAllSearch;
 
     @Attribute(windowClass = WindowEditUsingAction.class)

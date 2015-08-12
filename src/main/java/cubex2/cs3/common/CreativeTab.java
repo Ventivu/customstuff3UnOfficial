@@ -53,7 +53,7 @@ public class CreativeTab extends BaseContent implements StackLabelItem
 
         Map<String, Properties> modLangData = ReflectionHelper.getPrivateValue(LanguageRegistry.class, LanguageRegistry.instance(), "modLanguageData");
         Properties p = modLangData.get("en_US");
-        if (!p.getProperty("itemgroup." + name).equals(label))
+        if (p.getProperty("itemgroup." + name) == null || !p.getProperty("itemgroup." + name).equals(label))
         {
             p.put("itemGroup." + name, label);
             ClientHelper.refreshResources(FMLClientHandler.instance().getClient());

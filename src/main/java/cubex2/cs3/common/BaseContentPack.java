@@ -35,6 +35,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         logger = Logger.getLogger(ModInfo.ID + "_" + name);
 
         registerContentRegistry(new OreDictEntryRegistry(this), OreDictionaryEntry.class);
+        registerContentRegistry(new CreativeTabRegistry(this), CreativeTab.class);
         registerContentRegistry(new FuelRegistry(this), Fuel.class);
         registerContentRegistry(new SmeltingRecipeRegistry(this), SmeltingRecipe.class);
         registerContentRegistry(new ShapedRecipeRegistry(this), ShapedRecipe.class);
@@ -48,7 +49,6 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         registerContentRegistry(new ChestItemRegistry(this), ChestItem.class);
         registerContentRegistry(new MobSpawnRegistry(this), MobSpawn.class);
         registerContentRegistry(new DungeonMobRegistry(this), DungeonMob.class);
-        registerContentRegistry(new CreativeTabRegistry(this), CreativeTab.class);
         registerContentRegistry(new ArmorMaterialRegistry(this), ArmorMaterial.class);
         registerContentRegistry(new MobDropRegistry(this), MobDrop.class);
     }
