@@ -1,6 +1,7 @@
 package cubex2.cs3.common.attribute;
 
 import com.google.common.collect.Maps;
+import cubex2.cs3.common.WrappedTileEntity;
 import cubex2.cs3.common.attribute.bridges.*;
 import cubex2.cs3.util.BlockDrop;
 import cubex2.cs3.util.IconWrapper;
@@ -54,5 +55,6 @@ public abstract class DefaultAttributeBridges
         register(ItemArmor.ArmorMaterial.class, ArmorMaterialBridge.class);
         register(Block.class, BlockBridge.class);
         register(Potion.class, PotionBridge.class);
+        register(WrappedTileEntity.class, WrappedTileEntityBridge.class);
     }
 }

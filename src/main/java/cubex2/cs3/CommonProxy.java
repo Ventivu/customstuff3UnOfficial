@@ -1,9 +1,11 @@
 package cubex2.cs3;
 
 import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cubex2.cs3.entity.EntityCSGravityBlock;
 import cubex2.cs3.handler.event.BonemealHandler;
 import cubex2.cs3.handler.event.FillBucketHandler;
+import cubex2.cs3.tileentity.TileEntityCS;
 import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy
@@ -22,6 +24,11 @@ public class CommonProxy
     public void registerEntities()
     {
         EntityRegistry.registerModEntity(EntityCSGravityBlock.class, "cs_gravityblock", 1, CustomStuff3.instance, 80, 1, true);
+    }
+
+    public void registerTileEntities()
+    {
+        GameRegistry.registerTileEntity(TileEntityCS.class, "cs3_normal");
     }
 
     public void initRendering()

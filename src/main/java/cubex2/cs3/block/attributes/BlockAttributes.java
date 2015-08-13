@@ -1,6 +1,7 @@
 package cubex2.cs3.block.attributes;
 
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.WrappedTileEntity;
 import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.common.attribute.AttributeData;
@@ -149,6 +150,9 @@ public class BlockAttributes extends AttributeContainer
 
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public boolean canPlaceOnWall = true;
+
+    @Attribute(windowClass = WindowEditTileEntity.class)
+    public WrappedTileEntity tileEntity = null;
 
     @Attribute(windowClass = WindowEditScript.class)
     public ScriptWrapper onUpdate = null;

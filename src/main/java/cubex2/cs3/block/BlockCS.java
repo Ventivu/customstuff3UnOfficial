@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
@@ -59,6 +60,18 @@ public class BlockCS extends Block implements IBlockCS
     }
 
     @Override
+    public boolean hasTileEntity(int metadata)
+    {
+        return wrappedBlock.hasTileEntity(metadata);
+    }
+
+    @Override
+    public TileEntity createTileEntity(World world, int metadata)
+    {
+        return wrappedBlock.createTileEntity(world, metadata);
+    }
+
+    @Override
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
         wrappedBlock.updateTick(world, x, y, z, rand);
@@ -88,6 +101,13 @@ public class BlockCS extends Block implements IBlockCS
     public void breakBlock(World world, int x, int y, int z, Block block, int meta)
     {
         wrappedBlock.onBlockBreak(world, x, y, z, block, meta);
+    }
+
+    @Override
+    public boolean onBlockEventReceived(World world, int x, int y, int z, int id, int data)
+    {
+        super.onBlockEventReceived(world, x, y, z, id, data);
+        return wrappedBlock.onBlockEventReceived(world, x, y, z, id, data);
     }
 
     @Override

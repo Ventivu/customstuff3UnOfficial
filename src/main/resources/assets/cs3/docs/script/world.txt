@@ -28,4 +28,10 @@ ELEM sendMessageToAllPlayers sendMessageToAllPlayers
 ELEM sendMessageToPlayer sendMessageToPlayer
 ELEM getBlockType getBlockType
 ELEM spawnParticle spawnParticle
-ELEM getInventory
+ELEM getInventory getInventory
+ELEM getTileEntityIntData getTileEntityIntData
+ELEM getTileEntityFloatData getTileEntityFloatData
+ELEM getTileEntityStringData getTileEntityStringData
+ELEM setTileEntityIntData setTileEntityIntData
+ELEM setTileEntityFloatData setTileEntityFloatData
+ELEM setTileEntityStringData setTileEntityStringData

@@ -2,7 +2,9 @@ package cubex2.cs3.common.scripting;
 
 import com.google.common.collect.Lists;
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.tileentity.TileEntityCS;
 import cubex2.cs3.util.GeneralHelper;
+import cubex2.cs3.util.NBTHelper;
 import net.minecraft.block.*;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -815,6 +817,196 @@ public class ScriptableWorld
             return new ScriptableInventory((IInventory) te);
         }
         return null;
+    }
+
+
+    /**
+     * Gets the tile entity's int data
+     *
+     * @param pos  The position
+     * @param name The data's name
+     * @return The data or -1 if the data doesn't exist
+     */
+    public int getTileEntityIntData(ScriptablePosition pos, String name)
+    {
+        return getTileEntityIntData((int) pos.x, (int) pos.y, (int) pos.z, name);
+    }
+
+    /**
+     * Gets the tile entity's int data
+     *
+     * @param x    The x-coordinate
+     * @param y    The y-coordinate
+     * @param z    The z-coordinate
+     * @param name The data's name
+     * @return The data or -1 if the data doesn't exist
+     */
+    public int getTileEntityIntData(int x, int y, int z, String name)
+    {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity != null && tileEntity instanceof TileEntityCS)
+        {
+            TileEntityCS tile = (TileEntityCS) tileEntity;
+            return NBTHelper.getCSIntData(tile.getCompound(), name);
+        }
+        return -1;
+    }
+
+    /**
+     * Gets the tile entity's float data
+     *
+     * @param pos  The position
+     * @param name The data's name
+     * @return The data or -1.0 if the data doesn't exist
+     */
+    public float getTileEntityFloatData(ScriptablePosition pos, String name)
+    {
+        return getTileEntityFloatData((int) pos.x, (int) pos.y, (int) pos.z, name);
+    }
+
+    /**
+     * Gets the tile entity's float data
+     *
+     * @param x    The x-coordinate
+     * @param y    The y-coordinate
+     * @param z    The z-coordinate
+     * @param name The data's name
+     * @return The data or -1.0 if the data doesn't exist
+     */
+    public float getTileEntityFloatData(int x, int y, int z, String name)
+    {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity != null && tileEntity instanceof TileEntityCS)
+        {
+            TileEntityCS tile = (TileEntityCS) tileEntity;
+            return NBTHelper.getCSFloatData(tile.getCompound(), name);
+        }
+        return -1.0f;
+    }
+
+    /**
+     * Gets the tile entity's string data
+     *
+     * @param pos  The position
+     * @param name The data's name
+     * @return The data or null if the data doesn't exist
+     */
+    public String getTileEntityStringData(ScriptablePosition pos, String name)
+    {
+        return getTileEntityStringData((int) pos.x, (int) pos.y, (int) pos.z, name);
+    }
+
+    /**
+     * Gets the tile entity's string data
+     *
+     * @param x    The x-coordinate
+     * @param y    The y-coordinate
+     * @param z    The z-coordinate
+     * @param name The data's name
+     * @return The data or null if the data doesn't exist
+     */
+    public String getTileEntityStringData(int x, int y, int z, String name)
+    {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity != null && tileEntity instanceof TileEntityCS)
+        {
+            TileEntityCS tile = (TileEntityCS) tileEntity;
+            return NBTHelper.getCSStringData(tile.getCompound(), name);
+        }
+        return null;
+    }
+
+    /**
+     * Sets the tile entity's int data
+     *
+     * @param pos  The position
+     * @param name The data's name
+     * @param data The data
+     */
+    public void setTileEntityIntData(ScriptablePosition pos, String name, int data)
+    {
+        setTileEntityIntData((int) pos.x, (int) pos.y, (int) pos.z, name, data);
+    }
+
+    /**
+     * Sets the tile entity's int data.
+     *
+     * @param x    The x-coordinate
+     * @param y    The y-coordinate
+     * @param z    The z-coordinate
+     * @param name The data's name
+     * @param data The data
+     */
+    public void setTileEntityIntData(int x, int y, int z, String name, int data)
+    {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity != null && tileEntity instanceof TileEntityCS)
+        {
+            TileEntityCS tile = (TileEntityCS) tileEntity;
+            NBTHelper.setCSIntData(tile.getCompound(), name, data);
+        }
+    }
+
+    /**
+     * Sets the tile entity's float data
+     *
+     * @param pos  The position
+     * @param name The data's name
+     * @param data The data
+     */
+    public void setTileEntityFloatData(ScriptablePosition pos, String name, float data)
+    {
+        setTileEntityFloatData((int) pos.x, (int) pos.y, (int) pos.z, name, data);
+    }
+
+    /**
+     * Sets the tile entity's float data.
+     *
+     * @param x    The x-coordinate
+     * @param y    The y-coordinate
+     * @param z    The z-coordinate
+     * @param name The data's name
+     * @param data The data
+     */
+    public void setTileEntityFloatData(int x, int y, int z, String name, float data)
+    {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity != null && tileEntity instanceof TileEntityCS)
+        {
+            TileEntityCS tile = (TileEntityCS) tileEntity;
+            NBTHelper.setCSFloatData(tile.getCompound(), name, data);
+        }
+    }
+
+    /**
+     * Sets the tile entity's string data
+     *
+     * @param pos  The position
+     * @param name The data's name
+     * @param data The data
+     */
+    public void setTileEntityStringData(ScriptablePosition pos, String name, String data)
+    {
+        setTileEntityStringData((int) pos.x, (int) pos.y, (int) pos.z, name, data);
+    }
+
+    /**
+     * Sets the tile entity's string data.
+     *
+     * @param x    The x-coordinate
+     * @param y    The y-coordinate
+     * @param z    The z-coordinate
+     * @param name The data's name
+     * @param data The data
+     */
+    public void setTileEntityStringData(int x, int y, int z, String name, String data)
+    {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity != null && tileEntity instanceof TileEntityCS)
+        {
+            TileEntityCS tile = (TileEntityCS) tileEntity;
+            NBTHelper.setCSStringData(tile.getCompound(), name, data);
+        }
     }
 }
 

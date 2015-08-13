@@ -41,6 +41,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         registerContentRegistry(new ShapedRecipeRegistry(this), ShapedRecipe.class);
         registerContentRegistry(new ShapelessRecipeRegistry(this), ShapelessRecipe.class);
         registerContentRegistry(new ItemRegistry(this), WrappedItem.class);
+        registerContentRegistry(new TileEntityRegistry(this), WrappedTileEntity.class);
         registerContentRegistry(new BlockRegistry(this), WrappedBlock.class);
         registerContentRegistry(new WorldGenRegistry(this), WrappedWorldGen.class);
         registerContentRegistry(new TradeRecipeRegistry(this), TradeRecipe.class);

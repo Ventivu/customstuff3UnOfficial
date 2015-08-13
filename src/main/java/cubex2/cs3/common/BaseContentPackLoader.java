@@ -33,6 +33,17 @@ public class BaseContentPackLoader
         return contentPacks;
     }
 
+    public BaseContentPack getContentPack(String name)
+    {
+        for (BaseContentPack pack : contentPacks)
+        {
+            if (pack.getName().equals(name))
+                return pack;
+        }
+
+        return null;
+    }
+
     public void createContentPack(String name, String id)
     {
         File directory = new File(Directories.MODS, id);

@@ -23,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
@@ -157,6 +158,16 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
         return side == 0 && block.getBlockBoundsMinY() > 0.0D ? true : side == 1 && block.getBlockBoundsMaxY() < 1.0D ? true : side == 2 && block.getBlockBoundsMinZ() > 0.0D ? true : side == 3 && block.getBlockBoundsMaxZ() < 1.0D ? true : side == 4 && block.getBlockBoundsMinX() > 0.0D ? true : side == 5 && block.getBlockBoundsMaxX() < 1.0D ? true : !world.getBlock(x, y, z).isOpaqueCube();
     }
 
+    public boolean hasTileEntity(int metadata)
+    {
+        return container.tileEntity != null;
+    }
+
+    public TileEntity createTileEntity(World world, int metadata)
+    {
+        return container.tileEntity.createTileEntity();
+    }
+
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
         if (container.onUpdate != null && container.onUpdate.script != null)
@@ -234,15 +245,15 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
             ITriggerData data = new TriggerData("onBreak", TriggerType.BLOCK, world, x, y, z);
             JavaScriptHelper.executeTrigger(container.onBreak.script, data, pack);
         }
-        /*if (container.hasTileEntity)
+        if (container.tileEntity != null)
         {
-            TileEntity te = world.getTileEntity(x, y, z);
+            /* TileEntity te = world.getTileEntity(x, y, z);
             if (te instanceof IInventory)
             {
                 GeneralHelper.dropItems((IInventory) te, world, x, y, z);
-            }
+            }*/
             world.removeTileEntity(x, y, z);
-        }*/
+        }
     }
 
     public boolean blockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float hitX, float hitY, float hitZ)
@@ -484,5 +495,16 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
     public int compareTo(WrappedBlock o)
     {
         return name.compareTo(o.name);
+    }
+
+    public boolean onBlockEventReceived(World world, int x, int y, int z, int id, int data)
+    {
+        if (container.tileEntity != null)
+        {
+            TileEntity tileentity = world.getTileEntity(x, y, z);
+            return tileentity != null && tileentity.receiveClientEvent(id, data);
+        }
+
+        return false;
     }
 }
