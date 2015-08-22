@@ -3,6 +3,7 @@ package cubex2.cs3.ingame.gui.control;
 import com.google.common.collect.Lists;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.GuiBase;
+import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.builder.*;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 import cubex2.cs3.util.RecipeInput;
@@ -16,6 +17,8 @@ import java.util.List;
 
 public class ControlContainer extends Control
 {
+    public ControlContainer defaultBuilderContainer = this;
+    public boolean defaultNoOffset = false;
     public boolean enableScissor = false;
     protected List<Control> controls = Lists.newArrayList();
 
@@ -31,6 +34,11 @@ public class ControlContainer extends Control
 
     public void addControl(Control c)
     {
+        if (rootControl instanceof Window && c instanceof IValidityControl)
+        {
+            ((Window) rootControl).addValidityControl((IValidityControl) c);
+        }
+
         controls.add(c);
         lastControl = c;
     }
@@ -42,8 +50,9 @@ public class ControlContainer extends Control
 
     public Control getControlAt(int x, int y)
     {
-        for (Control c : controls)
+        for (int i = controls.size() - 1; i >= 0; i--)
         {
+            Control c = controls.get(i);
             if (c.isMouseOverControl(x, y))
             {
                 if (c instanceof ControlContainer)
@@ -252,12 +261,12 @@ public class ControlContainer extends Control
 
     public Label row(String text, int offset)
     {
-        return row(label(text), offset, false);
+        return row(label(text), offset, defaultNoOffset);
     }
 
     public Label row(String text, String infoText, int offset)
     {
-        Label label = row(label(text), offset, false);
+        Label label = row(label(text), offset, defaultNoOffset);
         infoButton(infoText).rightTo(label).add();
         return label;
     }
@@ -267,12 +276,12 @@ public class ControlContainer extends Control
      */
     public <T extends Control> T row(ControlBuilder<T> builder)
     {
-        return row(builder, 4, false);
+        return row(builder, 4, defaultNoOffset);
     }
 
     public <T extends Control> T row(ControlBuilder<T> builder, boolean noOffset)
     {
-        return row(builder, 4, true);
+        return row(builder, 4, noOffset);
     }
 
     /**
@@ -280,6 +289,9 @@ public class ControlContainer extends Control
      */
     public <T extends Control> T row(ControlBuilder<T> builder, int offset, boolean noOffset)
     {
+        if (defaultBuilderContainer != this)
+            return defaultBuilderContainer.row(builder, offset, noOffset);
+
         if (builder.width == 0 && !(builder instanceof LabelBuilder))
             builder.right(7);
 
@@ -309,42 +321,42 @@ public class ControlContainer extends Control
     /* Builders */
     public LabelBuilder label(String text)
     {
-        return new LabelBuilder(text, this);
+        return new LabelBuilder(text, defaultBuilderContainer);
     }
 
     public TextBoxBuilder textBox()
     {
-        return new TextBoxBuilder(this);
+        return new TextBoxBuilder(defaultBuilderContainer);
     }
 
     public <T> DropBoxBuilder<T> dropBox(T[] values)
     {
-        return new DropBoxBuilder<T>(values, this);
+        return new DropBoxBuilder<T>(values, defaultBuilderContainer);
     }
 
     public ButtonBuilder button(String text)
     {
-        return new ButtonBuilder(text, this);
+        return new ButtonBuilder(text, defaultBuilderContainer);
     }
 
     public ItemDisplayBuilder itemDisplay()
     {
-        return new ItemDisplayBuilder(null, this);
+        return new ItemDisplayBuilder(null, defaultBuilderContainer);
     }
 
     public ItemDisplayBuilder itemDisplay(ItemStack stack)
     {
-        return new ItemDisplayBuilder(stack, this);
+        return new ItemDisplayBuilder(stack, defaultBuilderContainer);
     }
 
     public InfoButtonBuilder infoButton(String text)
     {
-        return new InfoButtonBuilder(text, this);
+        return new InfoButtonBuilder(text, defaultBuilderContainer);
     }
 
     public ButtonUpDownBuilder buttonUpDown(boolean up)
     {
-        return new ButtonUpDownBuilder(up, this);
+        return new ButtonUpDownBuilder(up, defaultBuilderContainer);
     }
 
     public ButtonUpDownBuilder buttonUp()
@@ -359,77 +371,77 @@ public class ControlContainer extends Control
 
     public PlayerDisplayBuilder playerDisplay()
     {
-        return new PlayerDisplayBuilder(this);
+        return new PlayerDisplayBuilder(defaultBuilderContainer);
     }
 
     public CheckBoxBuilder checkBox()
     {
-        return new CheckBoxBuilder(this);
+        return new CheckBoxBuilder(defaultBuilderContainer);
     }
 
     public CheckBoxBuilder checkBox(boolean checked)
     {
-        return new CheckBoxBuilder(this).checked(checked);
+        return new CheckBoxBuilder(defaultBuilderContainer).checked(checked);
     }
 
     public CheckBoxBuilder checkBox(String text)
     {
-        return new CheckBoxBuilder(text, this);
+        return new CheckBoxBuilder(text, defaultBuilderContainer);
     }
 
     public CheckBoxBuilder checkBox(String text, boolean checked)
     {
-        return new CheckBoxBuilder(text, this).checked(checked);
+        return new CheckBoxBuilder(text, defaultBuilderContainer).checked(checked);
     }
 
     public TextFieldBuilder textField()
     {
-        return new TextFieldBuilder(this);
+        return new TextFieldBuilder(defaultBuilderContainer);
     }
 
     public PictureBoxBuilder pictureBox(ResourceLocation texture, int u, int v)
     {
-        return new PictureBoxBuilder(texture, u, v, this);
+        return new PictureBoxBuilder(texture, u, v, defaultBuilderContainer);
     }
 
     public WorldDisplayBuilder worldDisplay(SimulatedWorld world)
     {
-        return new WorldDisplayBuilder(world, this);
+        return new WorldDisplayBuilder(world, defaultBuilderContainer);
     }
 
     public RecipeInputDisplayBuilder recipeInputDisplay()
     {
-        return new RecipeInputDisplayBuilder(null, this);
+        return new RecipeInputDisplayBuilder(null, defaultBuilderContainer);
     }
 
     public RecipeInputDisplayBuilder recipeInputDisplay(RecipeInput input)
     {
-        return new RecipeInputDisplayBuilder(input, this);
+        return new RecipeInputDisplayBuilder(input, defaultBuilderContainer);
     }
 
     public TabControlBuilder tabControl(int tabWidth, int tabHeight)
     {
-        return new TabControlBuilder(tabWidth, tabHeight, this);
+        return new TabControlBuilder(tabWidth, tabHeight, defaultBuilderContainer);
     }
 
     public SliderBuilder verticalSlider(int maxValue)
     {
-        return new SliderBuilder(Slider.Direction.VERTICAL, maxValue, this);
+        return new SliderBuilder(Slider.Direction.VERTICAL, maxValue, defaultBuilderContainer);
     }
 
     public SliderBuilder horizontalSlider(int maxValue)
     {
-        return new SliderBuilder(Slider.Direction.HORIZONTAL, maxValue, this);
+        return new SliderBuilder(Slider.Direction.HORIZONTAL, maxValue, defaultBuilderContainer);
     }
 
     public <T> ListBoxBuilder<T> listBox(ListBoxDescription<T> desc)
     {
-        return new ListBoxBuilder<T>(desc, this);
+        return new ListBoxBuilder<T>(desc, defaultBuilderContainer);
     }
 
     public ContainerBuilder container()
     {
-        return new ContainerBuilder(this);
+        return new ContainerBuilder(defaultBuilderContainer);
     }
 
     public BlockDisplayBuilder blockDisplay(Block block)
@@ -439,36 +451,36 @@ public class ControlContainer extends Control
 
     public BlockDisplayBuilder blockDisplay(Block block, int meta)
     {
-        return new BlockDisplayBuilder(block, meta, this);
+        return new BlockDisplayBuilder(block, meta, defaultBuilderContainer);
     }
 
     public NumericUpDownBuilder numericUpDown()
     {
-        return new NumericUpDownBuilder(this);
+        return new NumericUpDownBuilder(defaultBuilderContainer);
     }
 
     public HorizontalItemListBuilder horItemList(int numItems)
     {
-        return new HorizontalItemListBuilder(numItems, this);
+        return new HorizontalItemListBuilder(numItems, defaultBuilderContainer);
     }
 
     public ScrollContainerBuilder scrollContainer(int totalHeight)
     {
-        return new ScrollContainerBuilder(totalHeight, this);
+        return new ScrollContainerBuilder(totalHeight, defaultBuilderContainer);
     }
 
     public ButtonDocBuilder buttonDoc(String text, String path)
     {
-        return new ButtonDocBuilder(text, path, this);
+        return new ButtonDocBuilder(text, path, defaultBuilderContainer);
     }
 
     public IconTextBoxBuilder iconTextBox(BaseContentPack pack, String subFolder)
     {
-        return new IconTextBoxBuilder(pack, subFolder, this);
+        return new IconTextBoxBuilder(pack, subFolder, defaultBuilderContainer);
     }
 
     public TextureTextBoxBuilder textureTextBox(BaseContentPack pack, String subFolder)
     {
-        return new TextureTextBoxBuilder(pack, subFolder, this);
+        return new TextureTextBoxBuilder(pack, subFolder, defaultBuilderContainer);
     }
 }

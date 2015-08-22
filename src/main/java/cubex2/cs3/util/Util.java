@@ -7,10 +7,41 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.util.Constants;
 
+import java.util.Collection;
 import java.util.List;
 
 public class Util
 {
+    public static <T extends NBTData> void writeListToNBT(String name, Collection<T> list, NBTTagCompound nbt)
+    {
+        NBTTagList tagList = new NBTTagList();
+        for (NBTData data : list)
+        {
+            NBTTagCompound compound = new NBTTagCompound();
+            data.writeToNBT(compound);
+            tagList.appendTag(compound);
+        }
+        nbt.setTag(name, tagList);
+    }
+
+    public static <T extends NBTData> void readListFromNBT(String name, Collection<T> list, NBTTagCompound nbt, Class<T> clazz)
+    {
+        NBTTagList tagList = nbt.getTagList(name, Constants.NBT.TAG_COMPOUND);
+        for (int i = 0; i < tagList.tagCount(); i++)
+        {
+            try
+            {
+                NBTTagCompound compound = tagList.getCompoundTagAt(i);
+                T data = clazz.newInstance();
+                data.readFromNBT(compound);
+                list.add(data);
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static <T> void writeListToNBT(String listName, List<T> list, MyBiConsumer<T, NBTTagCompound> writer, NBTTagCompound nbt)
     {
         NBTTagList tagList = new NBTTagList();

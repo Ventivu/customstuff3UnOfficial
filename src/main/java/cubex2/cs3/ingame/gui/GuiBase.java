@@ -1,6 +1,7 @@
 package cubex2.cs3.ingame.gui;
 
 import com.google.common.collect.Lists;
+import cubex2.cs3.gui.WindowNormal;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.util.GuiHelper;
@@ -26,7 +27,7 @@ public class GuiBase extends GuiScreen
     public static int dWheel = 0;
 
     public final Stack<Window> windowHistory = new Stack<Window>();
-    private Window window;
+    public Window window;
 
     public static boolean devMode = false;
     public static Control activeDevControl = null;
@@ -66,7 +67,7 @@ public class GuiBase extends GuiScreen
         Window currentWindow = INSTANCE.window;
         INSTANCE.window = INSTANCE.windowHistory.pop();
         INSTANCE.window.onParentResized();
-        if (INSTANCE.window instanceof IWindowClosedListener)
+        if (INSTANCE.window instanceof IWindowClosedListener && !(currentWindow instanceof WindowNormal))
             ((IWindowClosedListener) INSTANCE.window).windowClosed(currentWindow);
     }
 
@@ -97,6 +98,10 @@ public class GuiBase extends GuiScreen
     @Override
     public void onGuiClosed()
     {
+        if (window != null)
+        {
+            window.onGuiClosed();
+        }
         Keyboard.enableRepeatEvents(false);
     }
 
@@ -224,6 +229,7 @@ public class GuiBase extends GuiScreen
                     Color.RED);
         }
     }
+
 
     public Rectangle getBounds()
     {

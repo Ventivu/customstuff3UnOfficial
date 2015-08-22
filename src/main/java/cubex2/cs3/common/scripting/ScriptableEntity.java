@@ -19,17 +19,11 @@ import java.util.Random;
 public class ScriptableEntity
 {
     private Entity entity;
-    protected BaseContentPack pack;
 
     public ScriptableEntity(Entity entity)
     {
         super();
         this.entity = entity;
-    }
-
-    public void setContentPack(BaseContentPack mod)
-    {
-        this.pack = mod;
     }
 
     /**

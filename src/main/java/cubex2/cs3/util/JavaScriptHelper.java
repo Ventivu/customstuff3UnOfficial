@@ -16,6 +16,8 @@ import java.util.List;
 
 public class JavaScriptHelper
 {
+    public static BaseContentPack executingPack = null;
+
     public static Script createPositionScript;
     private static ScriptableObject sharedScope;
 
@@ -78,19 +80,6 @@ public class JavaScriptHelper
             Context.exit();
         }
         return script;
-    }
-
-    public static void evaluateScript(Script script, BaseContentPack pack)
-    {
-        Context cx = Context.enter();
-        try
-        {
-            Scriptable scope = getInstanceScope(cx, pack);
-            script.exec(cx, scope);
-        } finally
-        {
-            Context.exit();
-        }
     }
 
     public static void executeTrigger(Script script, ITriggerData data, BaseContentPack pack)
@@ -220,6 +209,7 @@ public class JavaScriptHelper
                 }
             }
 
+            executingPack = pack;
             script.exec(cx, scope);
 
             if (result != null)
@@ -232,6 +222,7 @@ public class JavaScriptHelper
         } finally
         {
             Context.exit();
+            executingPack = null;
         }
 
         return result;

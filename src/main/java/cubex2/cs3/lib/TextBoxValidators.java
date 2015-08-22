@@ -79,4 +79,19 @@ public class TextBoxValidators
             return message;
         }
     };
+
+    public static IValidityProvider NOT_EMPTY = new IValidityProvider()
+    {
+        @Override
+        public String checkValidity(TextBox tb)
+        {
+            String message = null;
+
+            String text = tb.getText().trim();
+            if (text.length() == 0)
+                message = "Enter something";
+
+            return message;
+        }
+    };
 }

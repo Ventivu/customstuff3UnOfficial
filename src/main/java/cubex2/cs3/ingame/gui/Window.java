@@ -31,6 +31,8 @@ public abstract class Window extends ControlContainer implements IValueListener
     protected Button btnSelect;
     protected Button btnPlus;
 
+    protected boolean drawBackground = true;
+
     private final int usedControls;
 
     public String title;
@@ -101,17 +103,10 @@ public abstract class Window extends ControlContainer implements IValueListener
         }
     }
 
-    @Override
-    public void addControl(Control c)
+    public void addValidityControl(IValidityControl vc)
     {
-        if (c instanceof IValidityControl)
-        {
-            IValidityControl vc = (IValidityControl) c;
-            validityControls.add(vc);
-            vc.setValueChangedListener(this);
-        }
-
-        super.addControl(c);
+        validityControls.add(vc);
+        vc.setValueChangedListener(this);
     }
 
     @Override
@@ -175,9 +170,12 @@ public abstract class Window extends ControlContainer implements IValueListener
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        mc.renderEngine.bindTexture(Textures.BG);
+        if (drawBackground)
+        {
+            mc.renderEngine.bindTexture(Textures.BG);
 
-        GuiHelper.drawRectSliced(bounds, 0, 0, 256, 256);
+            GuiHelper.drawRectSliced(bounds, 0, 0, 256, 256);
+        }
 
         if (title != null)
         {
@@ -191,6 +189,11 @@ public abstract class Window extends ControlContainer implements IValueListener
         }
 
         super.draw(mouseX, mouseY, renderTick);
+    }
+
+    public void onGuiClosed()
+    {
+
     }
 
 }

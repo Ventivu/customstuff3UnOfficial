@@ -2,9 +2,15 @@ package cubex2.cs3.common.scripting;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.WrappedGui;
 import cubex2.cs3.common.inventory.Inventory;
 import cubex2.cs3.common.inventory.WrappedInventory;
+import cubex2.cs3.gui.WindowNormal;
+import cubex2.cs3.ingame.gui.GuiBase;
+import cubex2.cs3.registry.GuiRegistry;
 import cubex2.cs3.util.GeneralHelper;
+import cubex2.cs3.util.JavaScriptHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -50,7 +56,14 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
     public void openGui(String guiName, int x, int y, int z)
     {
         if (player.worldObj.isRemote)
-            return;
+        {
+            BaseContentPack pack = JavaScriptHelper.executingPack;
+            WrappedGui gui = ((GuiRegistry) pack.getContentRegistry(WrappedGui.class)).getGui(guiName);
+            while (GuiBase.INSTANCE.window instanceof WindowNormal)
+                GuiBase.openPrevWindow();
+            FMLClientHandler.instance().showGuiScreen(GuiBase.INSTANCE);
+            GuiBase.openWindow(gui.getType().createWindow(gui));
+        }
         //GuiHandler.openGui(player, mod, guiName, player.worldObj, x, y, z);
         // int guiID = GuiModule.getInstance(mod).getIdFromName(guiName);
         // player.openGui(CustomStuff.instance, guiID << 8 | mod.modID,

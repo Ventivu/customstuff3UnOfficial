@@ -59,7 +59,7 @@ public abstract class Control
 
     protected Rectangle bounds;
     public int width;
-    protected int height;
+    public int height;
 
     protected float zLevel = 0F;
 
@@ -67,6 +67,8 @@ public abstract class Control
     private boolean isVisible = true;
 
     public ToolTipProvider toolTipProvider;
+
+    public Object controlTag;
 
     public Control(int width, int height, Control parent)
     {

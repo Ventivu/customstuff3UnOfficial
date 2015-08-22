@@ -26,6 +26,11 @@ public class Scripts
         return add(TriggerType.ITEM, name, objects);
     }
 
+    private static ScriptInfo addGui(String name, String... objects)
+    {
+        return add(TriggerType.GUI, name, objects);
+    }
+
     private static ScriptInfo add(TriggerType type, String name, String[] objects)
     {
         if (!infos.containsKey(type))
@@ -72,4 +77,6 @@ public class Scripts
     public static final ScriptInfo ITEM_ON_DROPPED_BY_PLAYER = addItem("onDroppedByPlayer", "world", "player", "itemstack");
     public static final ScriptInfo ITEM_ON_BLOCK_START_BREAK = addItem("onBlockStartBreak", "world", "player", "itemstack", "position");
     public static final ScriptInfo ITEM_ON_ARMOR_UPDATE = addItem("onArmorUpdate", "world", "player", "itemstack");
+
+    public static final ScriptInfo GUI_BUTTON_ON_CLICKED = addGui("button/onClicked", "player");
 }

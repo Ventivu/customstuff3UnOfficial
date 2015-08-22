@@ -118,6 +118,13 @@ public abstract class ControlBuilder<T extends Control>
         return left(x).top(y);
     }
 
+    public ControlBuilder<T> offset(int x, int y)
+    {
+        offsetX = x;
+        offsetY = y;
+        return this;
+    }
+
     public ControlBuilder<T> centerHor()
     {
         return centerHor(0);

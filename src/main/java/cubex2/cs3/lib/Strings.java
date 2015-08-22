@@ -32,6 +32,7 @@ public class Strings
     public static final String REGISTRY_ARMOR_MATERIAL = "ArmorMaterialRegistry";
     public static final String REGISTRY_MOB_DROP = "MobDropRegistry";
     public static final String REGISTRY_TILE_ENTITY = "TileEntityRegistry";
+    public static final String REGISTRY_GUI = "GuiRegistry";
 
     // Tool tips
     public static final String TOOL_TIP_NEEDS_RESTART = "Restart of the game is required.";

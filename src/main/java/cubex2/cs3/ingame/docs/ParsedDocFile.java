@@ -176,7 +176,6 @@ public class ParsedDocFile
             for (DocElement element : elements)
             {
                 element.add(this, window, content);
-
             }
 
             scroll.automaticTotalHeight();

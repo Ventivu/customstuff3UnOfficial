@@ -15,14 +15,6 @@ public class WindowScriptInfo extends WindowDocs
         super(scriptName, ParsedDocFile.fromPath(getDocs(scriptName, container)));
         this.scriptName = scriptName;
         this.container = container;
-
-        /*TriggerType type = container instanceof BlockAttributes ? TriggerType.BLOCK : TriggerType.ITEM;
-        String[] objects = Scripts.getInfo(scriptName, type).availableObjects;
-        for (String o : objects)
-        {
-            content.button(o).below(content.lastControl).size(100, 13).add();
-        }
-        scroll.automaticTotalHeight();*/
     }
 
     private static String getDocs(String scriptName, AttributeContainer container)

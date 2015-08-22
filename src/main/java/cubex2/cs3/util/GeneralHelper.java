@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ChestGenHooks;
 
@@ -22,6 +23,10 @@ public class GeneralHelper
 
     public static String getBlockName(Block block)
     {
+        if (block == Blocks.air)
+        {
+            return "minecraft:air";
+        }
         if (GameData.getBlockRegistry().getId(block) > 0)
         {
             return GameData.getBlockRegistry().getNameForObject(block);
