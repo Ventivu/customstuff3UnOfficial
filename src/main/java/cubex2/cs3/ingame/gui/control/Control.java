@@ -54,7 +54,7 @@ public abstract class Control
     public final Minecraft mc;
 
     // TODO give this a better name
-    protected Control rootControl;
+    protected Window rootControl;
     protected Control parent;
 
     protected Rectangle bounds;
@@ -99,7 +99,7 @@ public abstract class Control
         if (this instanceof Window)
         {
             // A window has no parent -> itself is the root control
-            rootControl = this;
+            rootControl = (Window) this;
             if (this.parent == null)
             {
                 this.parent = ROOT_CONTROL_DUMMY;

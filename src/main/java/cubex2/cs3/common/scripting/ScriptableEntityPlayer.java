@@ -6,8 +6,13 @@ import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedGui;
 import cubex2.cs3.common.inventory.Inventory;
 import cubex2.cs3.common.inventory.WrappedInventory;
+import cubex2.cs3.gui.ContainerBasic;
+import cubex2.cs3.gui.EnumGuiType;
+import cubex2.cs3.gui.InventoryItemStack;
 import cubex2.cs3.gui.WindowNormal;
 import cubex2.cs3.ingame.gui.GuiBase;
+import cubex2.cs3.network.PacketOpenCustomGuiServer;
+import cubex2.cs3.network.PacketOpenUserContainerGuiClient;
 import cubex2.cs3.registry.GuiRegistry;
 import cubex2.cs3.util.GeneralHelper;
 import cubex2.cs3.util.JavaScriptHelper;
@@ -15,6 +20,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -42,32 +48,30 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
      */
     public void openGui(String guiName, ScriptablePosition position)
     {
-        openGui(guiName, (int) position.x, (int) position.y, (int) position.z);
+        //openGui(guiName, (int) position.x, (int) position.y, (int) position.z);
     }
 
     /**
      * Opens a gui for the player.
      *
      * @param guiName The name of the gui used for the name-attribute in the gui-file
-     * @param x       The x-coordinate of the block
-     * @param y       The y-coordinate of the block
-     * @param z       The z-coordinate of the block
      */
-    public void openGui(String guiName, int x, int y, int z)
+    public void openGui(String guiName, int slotId)
     {
-        if (player.worldObj.isRemote)
+        BaseContentPack pack = JavaScriptHelper.executingPack;
+        WrappedGui gui = ((GuiRegistry) pack.getContentRegistry(WrappedGui.class)).getGui(guiName);
+        while (GuiBase.INSTANCE.window instanceof WindowNormal)
+            GuiBase.openPrevWindow();
+
+        if (gui.getType() == EnumGuiType.NORMAL && player.worldObj.isRemote)
         {
-            BaseContentPack pack = JavaScriptHelper.executingPack;
-            WrappedGui gui = ((GuiRegistry) pack.getContentRegistry(WrappedGui.class)).getGui(guiName);
-            while (GuiBase.INSTANCE.window instanceof WindowNormal)
-                GuiBase.openPrevWindow();
             FMLClientHandler.instance().showGuiScreen(GuiBase.INSTANCE);
             GuiBase.openWindow(gui.getType().createWindow(gui));
+        } else if (gui.getType() == EnumGuiType.CONTAINER && !player.worldObj.isRemote)
+        {
+            PacketOpenCustomGuiServer.openGuiOnServer((EntityPlayerMP) player, new PacketOpenUserContainerGuiClient(gui, slotId),
+                    new ContainerBasic(gui, player, new InventoryItemStack(gui, player, slotId)));
         }
-        //GuiHandler.openGui(player, mod, guiName, player.worldObj, x, y, z);
-        // int guiID = GuiModule.getInstance(mod).getIdFromName(guiName);
-        // player.openGui(CustomStuff.instance, guiID << 8 | mod.modID,
-        // player.worldObj, x, y, z);
     }
 
     /**

@@ -1,4 +1,4 @@
-package cubex2.cs3.gui;
+package cubex2.cs3.gui.data;
 
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Control;

@@ -31,6 +31,7 @@ public abstract class Window extends ControlContainer implements IValueListener
     protected Button btnSelect;
     protected Button btnPlus;
 
+    public boolean drawSlots = false;
     protected boolean drawBackground = true;
 
     private final int usedControls;

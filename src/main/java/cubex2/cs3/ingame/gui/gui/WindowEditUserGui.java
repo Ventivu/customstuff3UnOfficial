@@ -1,13 +1,13 @@
 package cubex2.cs3.ingame.gui.gui;
 
 import cubex2.cs3.common.WrappedGui;
-import cubex2.cs3.gui.*;
+import cubex2.cs3.gui.EnumGuiType;
+import cubex2.cs3.gui.WindowContainerNormal;
+import cubex2.cs3.gui.WindowNormal;
+import cubex2.cs3.gui.data.*;
 import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.IWindowClosedListener;
 import cubex2.cs3.ingame.gui.Window;
-import cubex2.cs3.ingame.gui.control.Button;
-import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.Label;
+import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.util.GuiHelper;
 import org.lwjgl.input.Keyboard;
@@ -21,6 +21,9 @@ public class WindowEditUserGui extends Window
 
     private Button btnAddButton;
     private Button btnAddLabel;
+    private Button btnAddPlayerInventory;
+    private Button btnAddSlot;
+
     private Button btnEditControl;
     private Button btnMode;
 
@@ -47,7 +50,16 @@ public class WindowEditUserGui extends Window
         btnEditControl.setEnabled(false);
         btnMode = button("Mode: Move").below(btnEditControl).size(80, 16).add();
 
-        window = new WindowNormal(gui);
+        if (gui.getType() == EnumGuiType.NORMAL)
+            window = new WindowNormal(gui);
+        else
+        {
+            btnAddPlayerInventory = button("Player Inv").below(btnAddLabel).size(60, 16).add();
+            btnAddSlot = button("Inv Slot").below(btnAddPlayerInventory).size(60, 16).add();
+
+            window = new WindowContainerNormal(gui, null);
+            window.drawSlots = true;
+        }
         window.onParentResized();
     }
 
@@ -60,22 +72,19 @@ public class WindowEditUserGui extends Window
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (c == btnAddButton)
+        if (c == btnAddButton || c == btnAddLabel || c == btnAddPlayerInventory || c == btnAddSlot)
         {
-            clickedButton = btnAddButton;
-            holdOn = true;
-            setAllControlsEnableState(false);
-        } else if (c == btnAddLabel)
-        {
-            clickedButton = btnAddLabel;
-            holdOn = true;
-            setAllControlsEnableState(false);
+            controlButtonClicked(c);
         } else if (c == btnEditControl)
         {
             if (selected instanceof Button)
                 GuiBase.openWindow(new WindowButton(guiData, window, (Button) selected, (ButtonData) selected.controlTag));
             else if (selected instanceof Label)
                 GuiBase.openWindow(new WindowLabel(guiData, window, (Label) selected, (LabelData) selected.controlTag));
+            else if (selected instanceof PlayerInventoryArea)
+                GuiBase.openWindow(new WindowPlayerInventory(guiData, window, (PlayerInventoryArea) selected, (PlayerInventoryData) selected.controlTag));
+            else if (selected instanceof InventorySlot)
+                GuiBase.openWindow(new WindowInventorySlot(guiData, window, (InventorySlot) selected, (SlotData) selected.controlTag));
         } else if (c == btnMode)
         {
             switchMode();
@@ -84,6 +93,13 @@ public class WindowEditUserGui extends Window
             gui.getPack().save();
             GuiBase.openPrevWindow();
         }
+    }
+
+    private void controlButtonClicked(Control button)
+    {
+        clickedButton = (Button) button;
+        holdOn = true;
+        setAllControlsEnableState(false);
     }
 
     @Override
@@ -134,6 +150,8 @@ public class WindowEditUserGui extends Window
     {
         btnAddButton.setEnabled(value);
         btnAddLabel.setEnabled(value);
+        btnAddPlayerInventory.setEnabled(value);
+        btnAddSlot.setEnabled(value);
         btnMode.setEnabled(value);
         btnBack.setEnabled(value);
     }
@@ -157,6 +175,10 @@ public class WindowEditUserGui extends Window
                 GuiBase.openWindow(new WindowButton(gui.container.guiData, window, x1, y1, width, height));
             else if (clickedButton == btnAddLabel)
                 GuiBase.openWindow(new WindowLabel(gui.container.guiData, window, x1, y1));
+            else if (clickedButton == btnAddPlayerInventory)
+                GuiBase.openWindow(new WindowPlayerInventory(gui.container.guiData, window, x1, y1));
+            else if (clickedButton == btnAddSlot)
+                GuiBase.openWindow(new WindowInventorySlot(gui.container.guiData, window, x1, y1));
 
             setAllControlsEnableState(true);
             isCreatingControl = false;
@@ -228,17 +250,23 @@ public class WindowEditUserGui extends Window
 
         if (isCreatingControl)
         {
-            if (clickedButton != btnAddLabel)
+            if (clickedButton == btnAddLabel)
+            {
+                GuiHelper.drawRect(mouseX - 5, mouseY, mouseX + 6, mouseY + 1, Color.BLUE);
+                GuiHelper.drawRect(mouseX, mouseY - 5, mouseX + 1, mouseY + 6, Color.BLUE);
+            } else if (clickedButton == btnAddPlayerInventory)
+            {
+                GuiHelper.drawRect(mouseX, mouseY, mouseX + 9 * 18, mouseY + 76, Color.BLUE);
+            } else if (clickedButton == btnAddSlot)
+            {
+                GuiHelper.drawRect(mouseX, mouseY, mouseX + 18, mouseY + 18, Color.BLUE);
+            } else
             {
                 int x1 = Math.min(mouseDownX, mouseX);
                 int x2 = Math.max(mouseDownX, mouseX);
                 int y1 = Math.min(mouseDownY, mouseY);
                 int y2 = Math.max(mouseDownY, mouseY);
                 GuiHelper.drawBorder(x1, y1, x2, y2, Color.BLUE);
-            } else
-            {
-                GuiHelper.drawRect(mouseX - 5, mouseY, mouseX + 6, mouseY + 1, Color.BLUE);
-                GuiHelper.drawRect(mouseX, mouseY - 5, mouseX + 1, mouseY + 6, Color.BLUE);
             }
         } else
         {

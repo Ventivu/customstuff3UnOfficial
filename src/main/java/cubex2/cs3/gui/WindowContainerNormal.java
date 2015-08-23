@@ -4,24 +4,27 @@ import cubex2.cs3.api.scripting.ITriggerData;
 import cubex2.cs3.api.scripting.TriggerType;
 import cubex2.cs3.common.WrappedGui;
 import cubex2.cs3.common.scripting.TriggerData;
-import cubex2.cs3.gui.attributes.GuiAttributes;
+import cubex2.cs3.gui.attributes.GuiContainerAttributes;
 import cubex2.cs3.gui.data.ButtonData;
 import cubex2.cs3.gui.data.ControlData;
-import cubex2.cs3.ingame.gui.GuiBase;
-import cubex2.cs3.ingame.gui.Window;
+import cubex2.cs3.ingame.gui.WindowContainer;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.util.JavaScriptHelper;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 
-public class WindowNormal extends Window
+public class WindowContainerNormal extends WindowContainer
 {
-    private final GuiAttributes container;
+    private final GuiContainerAttributes container;
     private final WrappedGui gui;
+    private final IInventory slotInv;
 
-    public WindowNormal(WrappedGui gui)
+    public WindowContainerNormal(WrappedGui gui, IInventory slotInv)
     {
         super(gui.container.width, gui.container.height);
-        this.container = gui.container;
+        this.container = (GuiContainerAttributes) gui.container;
         this.gui = gui;
+        this.slotInv = slotInv;
 
         for (ControlData data : container.guiData.controls)
         {
@@ -29,6 +32,7 @@ public class WindowNormal extends Window
         }
     }
 
+    // TODO move this into another class, see WindowNormal
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY)
     {
@@ -47,8 +51,8 @@ public class WindowNormal extends Window
     }
 
     @Override
-    public void onGuiClosed()
+    public Container getContainer()
     {
-        GuiBase.openPrevWindow();
+        return new ContainerBasic(gui, mc.thePlayer, slotInv);
     }
 }

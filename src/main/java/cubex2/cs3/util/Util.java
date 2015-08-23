@@ -12,6 +12,40 @@ import java.util.List;
 
 public class Util
 {
+    public static void writeStacksToNBT(String name, ItemStack[] stacks, NBTTagCompound nbt)
+    {
+        NBTTagList tagList = new NBTTagList();
+
+        for (int i = 0; i < stacks.length; i++)
+        {
+            if (stacks[i] != null)
+            {
+                NBTTagCompound compound = new NBTTagCompound();
+                compound.setByte("Slot", (byte) i);
+                stacks[i].writeToNBT(compound);
+                tagList.appendTag(compound);
+            }
+        }
+
+        nbt.setTag(name, tagList);
+    }
+
+    public static void readStacksFromNBT(String name, ItemStack[] stacks, NBTTagCompound nbt)
+    {
+        NBTTagList tagList = nbt.getTagList(name, 10);
+
+        for (int i = 0; i < tagList.tagCount(); i++)
+        {
+            NBTTagCompound compound = tagList.getCompoundTagAt(i);
+            int j = compound.getByte("Slot") & 255;
+
+            if (j >= 0 && j < stacks.length)
+            {
+                stacks[i] = ItemStack.loadItemStackFromNBT(compound);
+            }
+        }
+    }
+
     public static <T extends NBTData> void writeListToNBT(String name, Collection<T> list, NBTTagCompound nbt)
     {
         NBTTagList tagList = new NBTTagList();

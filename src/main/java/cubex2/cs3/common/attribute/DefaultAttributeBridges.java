@@ -3,7 +3,7 @@ package cubex2.cs3.common.attribute;
 import com.google.common.collect.Maps;
 import cubex2.cs3.common.WrappedTileEntity;
 import cubex2.cs3.common.attribute.bridges.*;
-import cubex2.cs3.gui.GuiData;
+import cubex2.cs3.gui.data.GuiData;
 import cubex2.cs3.util.BlockDrop;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.ScriptWrapper;

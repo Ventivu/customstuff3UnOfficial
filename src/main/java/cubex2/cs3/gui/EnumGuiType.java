@@ -4,21 +4,24 @@ import com.google.common.collect.Maps;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedGui;
 import cubex2.cs3.gui.attributes.GuiAttributes;
+import cubex2.cs3.gui.attributes.GuiContainerAttributes;
+import cubex2.cs3.ingame.gui.Window;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
 public enum EnumGuiType
 {
-    NORMAL("normal", WindowNormal.class, GuiAttributes.class);
+    NORMAL("normal", WindowNormal.class, GuiAttributes.class),
+    CONTAINER("container", WindowContainerNormal.class, GuiContainerAttributes.class);
 
     public final String name;
-    public final Class<? extends WindowNormal> guiClass;
+    public final Class<? extends Window> guiClass;
     public final Class<? extends GuiAttributes> attributeClass;
 
-    private final Constructor<? extends WindowNormal> constructor;
+    private final Constructor<? extends Window> constructor;
 
-    EnumGuiType(String name, Class<? extends WindowNormal> guiClass, Class<? extends GuiAttributes> attributeClass)
+    EnumGuiType(String name, Class<? extends Window> guiClass, Class<? extends GuiAttributes> attributeClass)
     {
         this.name = name;
         this.guiClass = guiClass;
@@ -26,7 +29,7 @@ public enum EnumGuiType
         constructor = createConstructor();
     }
 
-    private Constructor<? extends WindowNormal> createConstructor()
+    private Constructor<? extends Window> createConstructor()
     {
         try
         {
@@ -39,11 +42,11 @@ public enum EnumGuiType
         return null;
     }
 
-    public WindowNormal createWindow(WrappedGui wrappedGui)
+    public Window createWindow(WrappedGui wrappedGui)
     {
         try
         {
-            WindowNormal gui = constructor.newInstance(wrappedGui);
+            Window gui = constructor.newInstance(wrappedGui);
             return gui;
         } catch (Exception e)
         {

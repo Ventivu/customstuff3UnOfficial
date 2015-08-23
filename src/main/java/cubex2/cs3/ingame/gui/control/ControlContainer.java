@@ -483,4 +483,14 @@ public class ControlContainer extends Control
     {
         return new TextureTextBoxBuilder(pack, subFolder, defaultBuilderContainer);
     }
+
+    public PlayerInventoryAreaBuilder playerInventoryArea()
+    {
+        return new PlayerInventoryAreaBuilder(defaultBuilderContainer);
+    }
+
+    public InventorySlotBuilder inventorySlot()
+    {
+        return new InventorySlotBuilder(defaultBuilderContainer);
+    }
 }

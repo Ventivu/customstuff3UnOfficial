@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 
 public class ScriptableItemStack
 {
-    private ItemStack stack;
+    public ItemStack stack;
 
     public ScriptableItemStack(ItemStack stack)
     {

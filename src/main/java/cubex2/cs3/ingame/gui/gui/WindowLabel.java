@@ -1,7 +1,7 @@
 package cubex2.cs3.ingame.gui.gui;
 
-import cubex2.cs3.gui.GuiData;
-import cubex2.cs3.gui.LabelData;
+import cubex2.cs3.gui.data.GuiData;
+import cubex2.cs3.gui.data.LabelData;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Label;
 import cubex2.cs3.ingame.gui.control.TextBox;

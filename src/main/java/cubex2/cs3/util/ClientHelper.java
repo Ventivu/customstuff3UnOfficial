@@ -1,6 +1,7 @@
 package cubex2.cs3.util;
 
 import com.google.common.collect.Lists;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.registry.GameData;
 import cubex2.cs3.ClientProxy;
 import cubex2.cs3.common.BaseContentPack;
@@ -9,6 +10,7 @@ import cubex2.cs3.lib.Directories;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -28,6 +30,11 @@ import java.util.zip.ZipFile;
 
 public class ClientHelper
 {
+    public static EntityPlayer getPlayer()
+    {
+        return FMLClientHandler.instance().getClientPlayerEntity();
+    }
+
     public static void refreshResources(Minecraft mc)
     {
         mc.getSoundHandler().pauseSounds();

@@ -33,6 +33,9 @@ public class GuiBase extends GuiScreen
     public static Control activeDevControl = null;
     public static Control inputLockedControl = null;
 
+    static boolean isContainerGuiOpen = false;
+    static GuiContainerBase containerGui;
+
     private GuiBase()
     {
         INSTANCE = this;
@@ -47,6 +50,15 @@ public class GuiBase extends GuiScreen
         INSTANCE.mc.displayGuiScreen((GuiScreen) null);
         INSTANCE.mc.setIngameFocus();
         Keyboard.enableRepeatEvents(false);
+    }
+
+    public static <T extends WindowContainer> GuiContainerBase createContainerGui(T window)
+    {
+        GuiContainerBase gui = new GuiContainerBase(window, window.getContainer());
+        isContainerGuiOpen = true;
+        containerGui = gui;
+
+        return gui;
     }
 
     public static void openWindow(Window window)
@@ -233,6 +245,8 @@ public class GuiBase extends GuiScreen
 
     public Rectangle getBounds()
     {
+        if (isContainerGuiOpen)
+            return new Rectangle(0, 0, containerGui.width, containerGui.height);
         return new Rectangle(0, 0, width, height);
     }
 

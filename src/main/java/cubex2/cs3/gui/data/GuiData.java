@@ -1,4 +1,4 @@
-package cubex2.cs3.gui;
+package cubex2.cs3.gui.data;
 
 import com.google.common.collect.Lists;
 import cubex2.cs3.util.MyFunction;
@@ -29,6 +29,19 @@ public class GuiData implements NBTData
         Util.readListFromNBT("Controls", controls, READER, compound);
     }
 
+    public int numSlots()
+    {
+        int num = 0;
+        for (ControlData c : controls)
+        {
+            if (c instanceof SlotData)
+            {
+                num++;
+            }
+        }
+        return num;
+    }
+
     private static final MyFunction<NBTTagCompound, ControlData> READER = new MyFunction<NBTTagCompound, ControlData>()
     {
         @Override
@@ -39,10 +52,15 @@ public class GuiData implements NBTData
             if (type.equals("button"))
             {
                 data = new ButtonData();
-            }
-            else if (type.equals("label"))
+            } else if (type.equals("label"))
             {
                 data = new LabelData();
+            } else if (type.equals("playerInventory"))
+            {
+                data = new PlayerInventoryData();
+            } else if (type.equals("invSlot"))
+            {
+                data = new SlotData();
             }
             data.readFromNBT(compound);
             return data;
