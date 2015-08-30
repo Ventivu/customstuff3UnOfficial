@@ -6,6 +6,7 @@ import cubex2.cs3.common.WrappedGui;
 import cubex2.cs3.gui.attributes.GuiAttributes;
 import cubex2.cs3.gui.attributes.GuiContainerAttributes;
 import cubex2.cs3.ingame.gui.Window;
+import net.minecraft.inventory.IInventory;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
@@ -33,7 +34,9 @@ public enum EnumGuiType
     {
         try
         {
-            return guiClass.getConstructor(WrappedGui.class);
+            if (guiClass == WindowNormal.class)
+                return guiClass.getConstructor(WrappedGui.class);
+            return guiClass.getConstructor(WrappedGui.class, IInventory.class);
         } catch (Exception e)
         {
             e.printStackTrace();

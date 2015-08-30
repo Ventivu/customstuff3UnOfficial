@@ -41,7 +41,7 @@ public class Util
 
             if (j >= 0 && j < stacks.length)
             {
-                stacks[i] = ItemStack.loadItemStackFromNBT(compound);
+                stacks[j] = ItemStack.loadItemStackFromNBT(compound);
             }
         }
     }

@@ -4,13 +4,15 @@ import com.google.common.collect.Maps;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.WrappedTileEntity;
 import cubex2.cs3.tileentity.attributes.TileEntityAttributes;
+import cubex2.cs3.tileentity.attributes.TileEntityInventoryAttributes;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
 public enum EnumTileEntityType
 {
-    NORMAL("normal", TileEntityCS.class, TileEntityAttributes.class);
+    NORMAL("normal", TileEntityCS.class, TileEntityAttributes.class),
+    INVENTORY("inventory", TileEntityInventory.class, TileEntityInventoryAttributes.class);
 
     public final String name;
     public final Class<? extends TileEntityCS> tileEntityClass;

@@ -13,7 +13,6 @@ public class InventoryBasic implements IInventory
     private String inventoryTitle;
     private int slotsCount;
     protected ItemStack[] inventoryContents;
-    private List field_70480_d;
     private boolean hasCustomName;
     private static final String __OBFID = "CL_00001514";
 
@@ -23,21 +22,6 @@ public class InventoryBasic implements IInventory
         this.hasCustomName = hasCustomName;
         this.slotsCount = size;
         this.inventoryContents = new ItemStack[size];
-    }
-
-    public void func_110134_a(IInvBasic p_110134_1_)
-    {
-        if (this.field_70480_d == null)
-        {
-            this.field_70480_d = new ArrayList();
-        }
-
-        this.field_70480_d.add(p_110134_1_);
-    }
-
-    public void func_110132_b(IInvBasic p_110132_1_)
-    {
-        this.field_70480_d.remove(p_110132_1_);
     }
 
     /**

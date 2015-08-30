@@ -285,5 +285,11 @@ public class WindowEditUserGui extends Window
         super.draw(mouseX, mouseY, renderTick);
     }
 
+    @Override
+    public void drawForeground(int mouseX, int mouseY)
+    {
+        window.drawForeground(mouseX, mouseY);
 
+        super.drawForeground(mouseX, mouseY);
+    }
 }

@@ -17,7 +17,7 @@ public class WrappedTileEntityBridge extends AttributeBridge<WrappedTileEntity>
 
         BaseContentPack pack = BaseContentPackLoader.instance().getContentPack(compound.getString("PackName"));
         TileEntityRegistry registry = (TileEntityRegistry) pack.getContentRegistry(WrappedTileEntity.class);
-        return registry.getTileEntity(compound.getString("ContainerName"));
+        return registry.getTileEntity(compound.getString("TileEntityName"));
     }
 
     @Override

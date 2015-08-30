@@ -14,6 +14,7 @@ import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.network.PacketOpenCustomGuiServer;
 import cubex2.cs3.network.PacketOpenUserContainerGuiClient;
 import cubex2.cs3.registry.GuiRegistry;
+import cubex2.cs3.tileentity.TileEntityInventory;
 import cubex2.cs3.util.GeneralHelper;
 import cubex2.cs3.util.JavaScriptHelper;
 import net.minecraft.block.Block;
@@ -22,8 +23,10 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
@@ -71,6 +74,31 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
         {
             PacketOpenCustomGuiServer.openGuiOnServer((EntityPlayerMP) player, new PacketOpenUserContainerGuiClient(gui, slotId),
                     new ContainerBasic(gui, player, new InventoryItemStack(gui, player, slotId)));
+        }
+    }
+
+    public void openGui(String guiName, int x, int y, int z)
+    {
+        BaseContentPack pack = JavaScriptHelper.executingPack;
+        WrappedGui gui = ((GuiRegistry) pack.getContentRegistry(WrappedGui.class)).getGui(guiName);
+        while (GuiBase.INSTANCE.window instanceof WindowNormal)
+            GuiBase.openPrevWindow();
+
+        if (gui.getType() == EnumGuiType.NORMAL && player.worldObj.isRemote)
+        {
+            FMLClientHandler.instance().showGuiScreen(GuiBase.INSTANCE);
+            GuiBase.openWindow(gui.getType().createWindow(gui));
+        } else if (gui.getType() == EnumGuiType.CONTAINER && !player.worldObj.isRemote)
+        {
+            TileEntity te = player.worldObj.getTileEntity(x, y, z);
+            if (te != null && te instanceof TileEntityInventory)
+            {
+                PacketOpenCustomGuiServer.openGuiOnServer((EntityPlayerMP) player, new PacketOpenUserContainerGuiClient(gui, x, y, z),
+                        new ContainerBasic(gui, player, (IInventory) te));
+            } else
+            {
+                player.addChatMessage(new ChatComponentText("ERROR: Block has no tile entity of type 'inventory'"));
+            }
         }
     }
 

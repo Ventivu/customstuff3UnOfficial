@@ -11,6 +11,7 @@ import cubex2.cs3.block.attributes.BlockAttributes;
 import cubex2.cs3.common.attribute.Attribute;
 import cubex2.cs3.common.attribute.AttributeContainer;
 import cubex2.cs3.common.scripting.TriggerData;
+import cubex2.cs3.util.GeneralHelper;
 import cubex2.cs3.util.IconWrapper;
 import cubex2.cs3.util.JavaScriptHelper;
 import cubex2.cs3.util.PostponableTask;
@@ -20,6 +21,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -247,11 +249,11 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
         }
         if (container.tileEntity != null)
         {
-            /* TileEntity te = world.getTileEntity(x, y, z);
+            TileEntity te = world.getTileEntity(x, y, z);
             if (te instanceof IInventory)
             {
-                GeneralHelper.dropItems((IInventory) te, world, x, y, z);
-            }*/
+                GeneralHelper.dropItems((IInventory) te, world, x, y, z, block);
+            }
             world.removeTileEntity(x, y, z);
         }
     }

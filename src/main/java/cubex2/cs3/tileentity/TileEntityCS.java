@@ -28,6 +28,10 @@ public class TileEntityCS extends TileEntity
         container = wrappedTileEntity.container;
     }
 
+    public TileEntityCS()
+    {
+    }
+
     public NBTTagCompound getCompound()
     {
         if (tileCompound == null)

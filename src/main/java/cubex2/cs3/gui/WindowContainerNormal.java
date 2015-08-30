@@ -15,8 +15,8 @@ import net.minecraft.inventory.IInventory;
 
 public class WindowContainerNormal extends WindowContainer
 {
-    private final GuiContainerAttributes container;
-    private final WrappedGui gui;
+    public final GuiContainerAttributes container;
+    public final WrappedGui gui;
     private final IInventory slotInv;
 
     public WindowContainerNormal(WrappedGui gui, IInventory slotInv)

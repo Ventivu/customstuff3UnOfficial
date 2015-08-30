@@ -6,6 +6,7 @@ import cubex2.cs3.entity.EntityCSGravityBlock;
 import cubex2.cs3.handler.event.BonemealHandler;
 import cubex2.cs3.handler.event.FillBucketHandler;
 import cubex2.cs3.tileentity.TileEntityCS;
+import cubex2.cs3.tileentity.TileEntityInventory;
 import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy
@@ -29,6 +30,7 @@ public class CommonProxy
     public void registerTileEntities()
     {
         GameRegistry.registerTileEntity(TileEntityCS.class, "cs3_normal");
+        GameRegistry.registerTileEntity(TileEntityInventory.class, "cs3_inventory");
     }
 
     public void initRendering()

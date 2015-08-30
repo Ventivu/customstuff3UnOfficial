@@ -29,6 +29,20 @@ public class GuiData implements NBTData
         Util.readListFromNBT("Controls", controls, READER, compound);
     }
 
+    public int getSlotIndex(SlotData data)
+    {
+        int index = -1;
+        for (ControlData cd : controls)
+        {
+            if (cd instanceof SlotData)
+                index++;
+            if (cd == data)
+                break;
+        }
+
+        return index;
+    }
+
     public int numSlots()
     {
         int num = 0;
