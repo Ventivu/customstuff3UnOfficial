@@ -292,7 +292,7 @@ public class ControlContainer extends Control
         if (defaultBuilderContainer != this)
             return defaultBuilderContainer.row(builder, offset, noOffset);
 
-        if (builder.width == 0 && !(builder instanceof LabelBuilder))
+        if (builder.width == 0 && !(builder instanceof LabelBuilder) && !(builder instanceof CheckBoxBuilder))
             builder.right(7);
 
         if (lastRow == null)
