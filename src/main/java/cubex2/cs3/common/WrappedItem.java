@@ -407,7 +407,7 @@ public class WrappedItem extends AttributeContent implements Comparable<WrappedI
 
     public ItemStack getContainerItem(ItemStack stack)
     {
-        return container.containerItem.copy();
+        return container.containerItem != null ? container.containerItem.copy() : null;
     }
 
     public boolean getIsRepairable(ItemStack stack, ItemStack material)
