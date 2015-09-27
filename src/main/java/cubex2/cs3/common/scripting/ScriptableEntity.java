@@ -1,6 +1,5 @@
 package cubex2.cs3.common.scripting;
 
-import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.util.GeneralHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -392,5 +391,14 @@ public class ScriptableEntity
     public ScriptableEntityItem asItem()
     {
         return new ScriptableEntityItem((EntityItem) entity);
+    }
+
+
+    /**
+     * Instantly removes the entity from the world.
+     */
+    public void setDead()
+    {
+        entity.setDead();
     }
 }
