@@ -7,10 +7,10 @@ import org.lwjgl.opengl.GL11;
 public class ImageProgressBar extends Control
 {
     // Directions
-    public static int UP = 0;
-    public static int DOWN = 1;
-    public static int LEFT = 2;
-    public static int RIGHT = 3;
+    public static final int UP = 0;
+    public static final int DOWN = 1;
+    public static final int LEFT = 2;
+    public static final int RIGHT = 3;
 
     public ResourceLocation texture;
     public int u;
@@ -34,7 +34,14 @@ public class ImageProgressBar extends Control
 
     public void setProgress(int value)
     {
-        progress = MathHelper.clamp_int(value, 0, bounds.getWidth());
+        progress = MathHelper.clamp_int(value, 0, getMaxProgress());
+    }
+
+    protected final int getMaxProgress()
+    {
+        if (direction == LEFT || direction == RIGHT)
+            return getWidth();
+        return getHeight();
     }
 
     @Override
@@ -43,6 +50,20 @@ public class ImageProgressBar extends Control
         mc.renderEngine.bindTexture(texture);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-        drawTexturedModalRect(bounds.getX(), bounds.getY(), u, v, getProgress(), height);
+        switch (direction)
+        {
+            case UP:
+                drawTexturedModalRect(getX(), getY() + getHeight() - getProgress(), u, v + getHeight() - getProgress(), getWidth(), getProgress());
+                break;
+            case DOWN:
+                drawTexturedModalRect(getX(), getY(), u, v, width, getProgress());
+                break;
+            case LEFT:
+                drawTexturedModalRect(getX() + getWidth() - getProgress(), getY(), u + getWidth() - getProgress(), v, getProgress(), getHeight());
+                break;
+            case RIGHT:
+                drawTexturedModalRect(getX(), getY(), u, v, getProgress(), getHeight());
+                break;
+        }
     }
 }

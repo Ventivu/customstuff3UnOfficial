@@ -121,5 +121,9 @@ public class DropBox<T> extends Control
         }
     }
 
-
+    @Override
+    public boolean isMouseOverControl(int mouseX, int mouseY)
+    {
+        return super.isMouseOverControl(mouseX, mouseY);
+    }
 }

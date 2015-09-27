@@ -125,6 +125,12 @@ public class Strings
     public static final String INFO_SATURATION = "0.1 = cookie|" +
             "0.3 = melon|" +
             "0.8 = steak";
+    public static final String INFO_PROGRESS_DIRECTION = "If the progress is reversed,|" +
+            "like for furnace fuel,|" +
+            "you still need to select|" +
+            "the direction in which the bar|" +
+            "fills:||" +
+            "bar empties downwards -> select up";
 
 
 }

@@ -4,9 +4,10 @@ import cubex2.cs3.common.WrappedGui;
 import cubex2.cs3.gui.data.ProgressData;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.*;
+import cubex2.cs3.lib.Strings;
 import cubex2.cs3.lib.TextBoxValidators;
 
-public abstract class WindowProgress<T extends ImageProgressBar, U extends ProgressData> extends WindowEditOrCreateControl<T, U>
+public abstract class WindowProgress<T extends ImageProgressBar, U extends ProgressData> extends WindowEditOrCreateControl<T, U> implements IStringProvider<Integer>
 {
     protected TextBox tbName;
     protected TextureTextBox tbTexture;
@@ -44,8 +45,10 @@ public abstract class WindowProgress<T extends ImageProgressBar, U extends Progr
         nupU = row(numericUpDown());
         row("Texture Y");
         nupV = row(numericUpDown());
-        row("Progress Direction");
+        row("Progress Direction", Strings.INFO_PROGRESS_DIRECTION);
         dbDirection = row(dropBox(new Integer[]{0, 1, 2, 3}));
+        dbDirection.setStringProvider(this);
+        dbDirection.parentMouseOverCheck = false;
 
         tbName.setValidityProvider(TextBoxValidators.NOT_EMPTY);
         dbDirection.setSelectedValue(0);
@@ -59,5 +62,22 @@ public abstract class WindowProgress<T extends ImageProgressBar, U extends Progr
         data.u = control.u = nupU.getValue();
         data.v = control.v = nupV.getValue();
         data.direction = control.direction = dbDirection.getSelectedValue();
+    }
+
+    @Override
+    public String getStringFor(Integer value)
+    {
+        switch (value)
+        {
+            case ImageProgressBar.UP:
+                return "Up";
+            case ImageProgressBar.DOWN:
+                return "Down";
+            case ImageProgressBar.LEFT:
+                return "Left";
+            case ImageProgressBar.RIGHT:
+                return "Right";
+        }
+        return "UNDEFINED";
     }
 }

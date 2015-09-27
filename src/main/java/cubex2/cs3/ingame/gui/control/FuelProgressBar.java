@@ -19,7 +19,7 @@ public class FuelProgressBar extends ImageProgressBar
     public int getProgress()
     {
         if (tile == null)
-            return getWidth() / 2;
-        return tile.getBurnTimeRemainingScaled(name, getWidth());
+            return getMaxProgress() / 2;
+        return tile.getBurnTimeRemainingScaled(name, getMaxProgress());
     }
 }

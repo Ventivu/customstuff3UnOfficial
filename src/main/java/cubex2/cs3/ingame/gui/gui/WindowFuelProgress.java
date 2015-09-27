@@ -9,12 +9,12 @@ public class WindowFuelProgress extends WindowProgress<FuelProgressBar, FuelProg
 {
     public WindowFuelProgress(WrappedGui gui, Window window, int x, int y, int width, int height)
     {
-        super("Create Fuel Progress", gui, window, x, y, width, height);
+        super("Fuel", gui, window, x, y, width, height);
     }
 
     public WindowFuelProgress(WrappedGui gui, Window window, FuelProgressBar control, FuelProgressData data)
     {
-        super("Edit Fuel Progress", gui, window, control, data);
+        super("Fuel", gui, window, control, data);
     }
 
     @Override

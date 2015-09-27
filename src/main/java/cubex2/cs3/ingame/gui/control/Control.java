@@ -220,7 +220,7 @@ public abstract class Control
         setBounds();
     }
 
-    public final boolean canHandleInput()
+    public boolean canHandleInput()
     {
         return GuiBase.inputLockedControl == null || GuiBase.inputLockedControl == this;
     }

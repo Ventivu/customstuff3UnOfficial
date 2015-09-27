@@ -19,7 +19,7 @@ public class CookProgressBar extends ImageProgressBar
     public int getProgress()
     {
         if (tile == null)
-            return getWidth() / 2;
-        return tile.getCookProgressScaled(name, getWidth());
+            return getMaxProgress() / 2;
+        return tile.getCookProgressScaled(name, getMaxProgress());
     }
 }

@@ -130,6 +130,23 @@ public class ControlContainer extends Control
         }
     }
 
+    @Override
+    public boolean canHandleInput()
+    {
+        if (GuiBase.inputLockedControl == null)
+            return true;
+
+        for (Control control : controls)
+        {
+            if (control == GuiBase.inputLockedControl)
+                return true;
+            if (control instanceof ControlContainer)
+                if (control.canHandleInput())
+                    return true;
+        }
+        return false;
+    }
+
     /**
      * This is called when a control has been clicked
      *
