@@ -75,6 +75,12 @@ public class GuiData implements NBTData
             } else if (type.equals("invSlot"))
             {
                 data = new SlotData();
+            } else if (type.equals("cookProgress"))
+            {
+                data = new CookProgressData();
+            } else if (type.equals("fuelProgress"))
+            {
+                data = new FuelProgressData();
             }
             data.readFromNBT(compound);
             return data;

@@ -36,11 +36,6 @@ public class WindowEditOrCreateShiftClickRule extends Window
         initControls();
     }
 
-    public ShiftClickRule getCreatedRule()
-    {
-        return editingRule;
-    }
-
     private void initControls()
     {
         cbFromInv = row(checkBox("From Player Inventory"));
@@ -54,11 +49,6 @@ public class WindowEditOrCreateShiftClickRule extends Window
         row("To End:");
         nbToEnd = row(numericUpDown());
 
-        /*nbFromStart.setMinValue(-1);
-        nbFromEnd.setMinValue(-1);
-        nbToStart.setMinValue(-1);
-        nbToEnd.setMinValue(-1);*/
-
         if (editingRule != null)
         {
             cbFromInv.setIsChecked(editingRule.fromInv);
@@ -67,10 +57,6 @@ public class WindowEditOrCreateShiftClickRule extends Window
             cbToInv.setIsChecked(editingRule.toInv);
             nbToStart.setValue(editingRule.toStart);
             nbToEnd.setValue(editingRule.toEnd);
-        } else
-        {
-            //nbFromStart.setValue(-1);
-            //nbFromEnd.setValue(-1);
         }
     }
 
@@ -91,7 +77,7 @@ public class WindowEditOrCreateShiftClickRule extends Window
         } else if (c == btnCreate)
         {
             ShiftClickRule rule = new ShiftClickRule(cbFromInv.getIsChecked(), nbFromStart.getValue(), nbFromEnd.getValue(), cbToInv.getIsChecked(), nbToStart.getValue(), nbToEnd.getValue());
-            ((GuiContainerAttributes) gui.container).shiftClickRules.rules.add(rule);
+            ((GuiContainerAttributes) gui.container).shiftClickRules.list.add(rule);
 
             gui.getPack().save();
             GuiBase.openPrevWindow();

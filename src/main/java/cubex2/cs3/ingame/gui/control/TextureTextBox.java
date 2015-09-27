@@ -60,4 +60,25 @@ public class TextureTextBox extends ControlContainer implements ISelectElementCa
     {
         tb.setText(element);
     }
+
+    public ResourceLocation getLocation()
+    {
+        String text = tb.getText().trim();
+        if (location == null || prevText == null || !prevText.equals(text))
+        {
+            String modId = text.contains(":") ? text.split(":")[0] : pack.id.toLowerCase();
+            String textureName = text.contains(":") && text.indexOf(':') != text.length() - 1 ? text.split(":")[1] : text;
+            if (!textureName.endsWith(".png"))
+                textureName += ".png";
+
+            if (textureName.startsWith("textures/" + subFolder + "/"))
+                location = new ResourceLocation(modId + ":" + textureName);
+            else
+                location = new ResourceLocation(modId + ":" + "textures/" + subFolder + "/" + textureName);
+
+            prevText = text;
+        }
+
+        return location;
+    }
 }

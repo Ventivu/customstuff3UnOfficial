@@ -3,6 +3,7 @@ package cubex2.cs3.gui.data;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.util.ScriptWrapper;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ButtonData extends ControlData
@@ -21,7 +22,7 @@ public class ButtonData extends ControlData
     }
 
     @Override
-    public Control addToWindow(Window window)
+    public Control addToWindow(Window window, IInventory slotInv)
     {
         return window.button(text).at(0, 0).offset(x, y).size(width, height).add();
     }

@@ -22,7 +22,7 @@ public class WindowEditShiftClickRules extends WindowEditContainerGuiAttribute i
         desc.rows = 5;
         desc.columns = 1;
         desc.elementHeight = 22;
-        desc.elements = Lists.newArrayList(container.shiftClickRules.rules);
+        desc.elements = Lists.newArrayList(container.shiftClickRules.list);
         desc.canSelect = true;
         listBox = listBox(desc).fillWidth(7).top(7).add();
 
@@ -42,8 +42,8 @@ public class WindowEditShiftClickRules extends WindowEditContainerGuiAttribute i
         } else if (c == btnDelete)
         {
             ShiftClickRule rule = listBox.getSelectedItem();
-            container.shiftClickRules.rules.remove(rule);
-            listBox.updateElements(container.shiftClickRules.rules);
+            container.shiftClickRules.list.remove(rule);
+            listBox.updateElements(container.shiftClickRules.list);
             btnDelete.setEnabled(false);
             btnEdit.setEnabled(false);
 
@@ -64,7 +64,7 @@ public class WindowEditShiftClickRules extends WindowEditContainerGuiAttribute i
     @Override
     public void windowClosed(WindowEditOrCreateShiftClickRule window)
     {
-        listBox.updateElements(container.shiftClickRules.rules);
+        listBox.updateElements(container.shiftClickRules.list);
         btnEdit.setEnabled(listBox.getSelectedIndex() != -1);
         btnDelete.setEnabled(listBox.getSelectedIndex() != -1);
     }

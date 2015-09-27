@@ -103,6 +103,7 @@ public class PacketOpenUserContainerGuiClient extends PacketOpenCustomGuiClient
             {
                 slotInv = (IInventory) player.worldObj.getTileEntity(message.x, message.y, message.z);
             }
+
             return GuiBase.createContainerGui(new WindowContainerNormal(gui, slotInv));
         }
     }

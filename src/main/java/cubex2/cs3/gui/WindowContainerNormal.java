@@ -28,7 +28,7 @@ public class WindowContainerNormal extends WindowContainer
 
         for (ControlData data : container.guiData.controls)
         {
-            data.addToWindow(this).controlTag = data;
+            data.addToWindow(this, slotInv).controlTag = data;
         }
     }
 

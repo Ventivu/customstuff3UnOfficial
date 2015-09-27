@@ -23,6 +23,8 @@ public class WindowEditUserGui extends Window
     private Button btnAddLabel;
     private Button btnAddPlayerInventory;
     private Button btnAddSlot;
+    private Button btnAddCookProgress;
+    private Button btnAddFuelProgress;
 
     private Button btnEditControl;
     private Button btnMode;
@@ -56,6 +58,8 @@ public class WindowEditUserGui extends Window
         {
             btnAddPlayerInventory = button("Player Inv").below(btnAddLabel).size(60, 16).add();
             btnAddSlot = button("Inv Slot").below(btnAddPlayerInventory).size(60, 16).add();
+            btnAddCookProgress = button("Cook Prog").below(btnAddSlot).size(60, 16).add();
+            btnAddFuelProgress = button("Fuel Prog").below(btnAddCookProgress).size(60, 16).add();
 
             window = new WindowContainerNormal(gui, null);
             window.drawSlots = true;
@@ -72,19 +76,23 @@ public class WindowEditUserGui extends Window
     @Override
     protected void controlClicked(Control c, int mouseX, int mouseY)
     {
-        if (c == btnAddButton || c == btnAddLabel || c == btnAddPlayerInventory || c == btnAddSlot)
+        if (c == btnAddButton || c == btnAddLabel || c == btnAddPlayerInventory || c == btnAddSlot || c == btnAddCookProgress || c == btnAddFuelProgress)
         {
             controlButtonClicked(c);
         } else if (c == btnEditControl)
         {
             if (selected instanceof Button)
-                GuiBase.openWindow(new WindowButton(guiData, window, (Button) selected, (ButtonData) selected.controlTag));
+                GuiBase.openWindow(new WindowButton(gui, window, (Button) selected, (ButtonData) selected.controlTag));
             else if (selected instanceof Label)
-                GuiBase.openWindow(new WindowLabel(guiData, window, (Label) selected, (LabelData) selected.controlTag));
+                GuiBase.openWindow(new WindowLabel(gui, window, (Label) selected, (LabelData) selected.controlTag));
             else if (selected instanceof PlayerInventoryArea)
-                GuiBase.openWindow(new WindowPlayerInventory(guiData, window, (PlayerInventoryArea) selected, (PlayerInventoryData) selected.controlTag));
+                GuiBase.openWindow(new WindowPlayerInventory(gui, window, (PlayerInventoryArea) selected, (PlayerInventoryData) selected.controlTag));
             else if (selected instanceof InventorySlot)
-                GuiBase.openWindow(new WindowInventorySlot(guiData, window, (InventorySlot) selected, (SlotData) selected.controlTag));
+                GuiBase.openWindow(new WindowInventorySlot(gui, window, (InventorySlot) selected, (SlotData) selected.controlTag));
+            else if (selected instanceof CookProgressBar)
+                GuiBase.openWindow(new WindowCookProgress(gui, window, (CookProgressBar) selected, (CookProgressData) selected.controlTag));
+            else if (selected instanceof FuelProgressBar)
+                GuiBase.openWindow(new WindowFuelProgress(gui, window, (FuelProgressBar) selected, (FuelProgressData) selected.controlTag));
         } else if (c == btnMode)
         {
             switchMode();
@@ -152,6 +160,8 @@ public class WindowEditUserGui extends Window
         btnAddLabel.setEnabled(value);
         btnAddPlayerInventory.setEnabled(value);
         btnAddSlot.setEnabled(value);
+        btnAddCookProgress.setEnabled(value);
+        btnAddFuelProgress.setEnabled(value);
         btnMode.setEnabled(value);
         btnBack.setEnabled(value);
     }
@@ -172,13 +182,17 @@ public class WindowEditUserGui extends Window
             y1 -= window.getY();
 
             if (clickedButton == btnAddButton)
-                GuiBase.openWindow(new WindowButton(gui.container.guiData, window, x1, y1, width, height));
+                GuiBase.openWindow(new WindowButton(gui, window, x1, y1, width, height));
             else if (clickedButton == btnAddLabel)
-                GuiBase.openWindow(new WindowLabel(gui.container.guiData, window, x1, y1));
+                GuiBase.openWindow(new WindowLabel(gui, window, x1, y1));
             else if (clickedButton == btnAddPlayerInventory)
-                GuiBase.openWindow(new WindowPlayerInventory(gui.container.guiData, window, x1, y1));
+                GuiBase.openWindow(new WindowPlayerInventory(gui, window, x1, y1));
             else if (clickedButton == btnAddSlot)
-                GuiBase.openWindow(new WindowInventorySlot(gui.container.guiData, window, x1, y1));
+                GuiBase.openWindow(new WindowInventorySlot(gui, window, x1, y1));
+            else if (clickedButton == btnAddCookProgress)
+                GuiBase.openWindow(new WindowCookProgress(gui, window, x1, y1, width, height));
+            else if (clickedButton == btnAddFuelProgress)
+                GuiBase.openWindow(new WindowFuelProgress(gui, window, x1, y1, width, height));
 
             setAllControlsEnableState(true);
             isCreatingControl = false;

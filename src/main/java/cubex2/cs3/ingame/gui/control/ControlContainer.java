@@ -6,6 +6,7 @@ import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.builder.*;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
+import cubex2.cs3.tileentity.TileEntityInventory;
 import cubex2.cs3.util.RecipeInput;
 import cubex2.cs3.util.ScissorHelper;
 import cubex2.cs3.util.SimulatedWorld;
@@ -492,5 +493,20 @@ public class ControlContainer extends Control
     public InventorySlotBuilder inventorySlot()
     {
         return new InventorySlotBuilder(defaultBuilderContainer);
+    }
+
+    public ImageProgressBarBuilder imageProgressBar(ResourceLocation texture, int u, int v, int direction)
+    {
+        return new ImageProgressBarBuilder(texture, u, v, direction, this);
+    }
+
+    public CookProgressBarBuilder cookProgressBar(String name, TileEntityInventory tile, ResourceLocation texture, int u, int v, int direction)
+    {
+        return new CookProgressBarBuilder(name, tile, texture, u, v, direction, this);
+    }
+
+    public FuelProgressBarBuilder fuelProgressBar(String name, TileEntityInventory tile, ResourceLocation texture, int u, int v, int direction)
+    {
+        return new FuelProgressBarBuilder(name, tile, texture, u, v, direction, this);
     }
 }

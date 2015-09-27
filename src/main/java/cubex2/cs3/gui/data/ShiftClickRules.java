@@ -1,25 +1,11 @@
 package cubex2.cs3.gui.data;
 
-import com.google.common.collect.Lists;
-import cubex2.cs3.util.NBTData;
-import cubex2.cs3.util.Util;
-import net.minecraft.nbt.NBTTagCompound;
+import cubex2.cs3.util.NBTDataList;
 
-import java.util.List;
-
-public class ShiftClickRules implements NBTData
+public class ShiftClickRules extends NBTDataList<ShiftClickRule>
 {
-    public List<ShiftClickRule> rules = Lists.newArrayList();
-
-    @Override
-    public void writeToNBT(NBTTagCompound compound)
+    public ShiftClickRules()
     {
-        Util.writeListToNBT("Rules", rules, compound);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
-        Util.readListFromNBT("Rules", rules, compound, ShiftClickRule.class);
+        super(ShiftClickRule.class);
     }
 }

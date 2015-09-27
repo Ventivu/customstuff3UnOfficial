@@ -1,5 +1,7 @@
 package cubex2.cs3.ingame.gui.gui;
 
+import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.WrappedGui;
 import cubex2.cs3.gui.data.ControlData;
 import cubex2.cs3.gui.data.GuiData;
 import cubex2.cs3.ingame.gui.GuiBase;
@@ -11,6 +13,7 @@ import cubex2.cs3.ingame.gui.control.ScrollContainer;
 
 public abstract class WindowEditOrCreateControl<T extends Control, U extends ControlData> extends Window
 {
+    protected BaseContentPack pack;
     protected GuiData guiData;
     protected Window window;
 
@@ -24,10 +27,11 @@ public abstract class WindowEditOrCreateControl<T extends Control, U extends Con
     private ScrollContainer scroll;
     protected ControlContainer content;
 
-    public WindowEditOrCreateControl(String title, GuiData guiData, Window window, int x, int y, int width, int height)
+    public WindowEditOrCreateControl(String title, WrappedGui gui, Window window, int x, int y, int width, int height)
     {
         super(title, CREATE | CANCEL, 200, 200);
-        this.guiData = guiData;
+        this.pack = gui.getPack();
+        this.guiData = gui.container.guiData;
         this.window = window;
 
         initControls(width != -1);
@@ -42,10 +46,11 @@ public abstract class WindowEditOrCreateControl<T extends Control, U extends Con
         }
     }
 
-    public WindowEditOrCreateControl(String title, GuiData guiData, Window window, T control, U data)
+    public WindowEditOrCreateControl(String title, WrappedGui gui, Window window, T control, U data)
     {
         super(title, EDIT | CANCEL, 200, 200);
-        this.guiData = guiData;
+        this.pack = gui.getPack();
+        this.guiData = gui.container.guiData;
         this.window = window;
         this.control = control;
         this.data = data;
@@ -99,7 +104,7 @@ public abstract class WindowEditOrCreateControl<T extends Control, U extends Con
         {
             ControlData data = createData();
             guiData.add(data);
-            data.addToWindow(window).controlTag = data;
+            data.addToWindow(window, null).controlTag = data;
             GuiBase.openPrevWindow();
         } else if (c == btnEdit)
         {

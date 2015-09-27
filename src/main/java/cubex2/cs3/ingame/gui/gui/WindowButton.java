@@ -1,5 +1,6 @@
 package cubex2.cs3.ingame.gui.gui;
 
+import cubex2.cs3.common.WrappedGui;
 import cubex2.cs3.gui.data.ButtonData;
 import cubex2.cs3.gui.data.GuiData;
 import cubex2.cs3.ingame.gui.GuiBase;
@@ -14,14 +15,14 @@ public class WindowButton extends WindowEditOrCreateControl<Button, ButtonData>
     private TextBox tbText;
     private Button btnOnClicked;
 
-    public WindowButton(GuiData guiData, Window window, int x, int y, int width, int height)
+    public WindowButton(WrappedGui gui, Window window, int x, int y, int width, int height)
     {
-        super("Create Button", guiData, window, x, y, width, height);
+        super("Create Button", gui, window, x, y, width, height);
     }
 
-    public WindowButton(GuiData guiData, Window window, Button control, ButtonData data)
+    public WindowButton(WrappedGui gui, Window window, Button control, ButtonData data)
     {
-        super("Edit Button", guiData, window, control, data);
+        super("Edit Button", gui, window, control, data);
 
         tbText.setText(data.text);
     }

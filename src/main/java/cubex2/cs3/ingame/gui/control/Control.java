@@ -57,6 +57,8 @@ public abstract class Control
     protected Window rootControl;
     protected Control parent;
 
+    public boolean parentMouseOverCheck = true;
+
     protected Rectangle bounds;
     public int width;
     public int height;
@@ -131,11 +133,13 @@ public abstract class Control
 
     public boolean isMouseOverControl(int mouseX, int mouseY)
     {
-        return parent.isMouseOverControl(mouseX, mouseY) && bounds.contains(mouseX, mouseY);
+        return (!parentMouseOverCheck || parent.isMouseOverControl(mouseX, mouseY)) && bounds.contains(mouseX, mouseY);
     }
 
     protected void setBounds()
     {
+        if (parent == ROOT_CONTROL_DUMMY)
+            parent.setBounds();
         Rectangle parentRect = parent.bounds;
         Padding padding = parent.padding;
 

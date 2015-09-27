@@ -5,6 +5,7 @@ import cubex2.cs3.gui.WindowNormal;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.util.GuiHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.entity.RenderItem;
 import org.lwjgl.input.Keyboard;
@@ -33,7 +34,7 @@ public class GuiBase extends GuiScreen
     public static Control activeDevControl = null;
     public static Control inputLockedControl = null;
 
-    static boolean isContainerGuiOpen = false;
+    public static boolean isContainerGuiOpen = false;
     static GuiContainerBase containerGui;
 
     private GuiBase()
@@ -245,9 +246,13 @@ public class GuiBase extends GuiScreen
 
     public Rectangle getBounds()
     {
+        if (Minecraft.getMinecraft().currentScreen == null)
+            return new Rectangle(0,0,0,0);
+        return new Rectangle(0, 0, Minecraft.getMinecraft().currentScreen.width, Minecraft.getMinecraft().currentScreen.height);
+        /*return mc.currentScreen
         if (isContainerGuiOpen)
             return new Rectangle(0, 0, containerGui.width, containerGui.height);
-        return new Rectangle(0, 0, width, height);
+        return new Rectangle(0, 0, width, height);*/
     }
 
     @Override

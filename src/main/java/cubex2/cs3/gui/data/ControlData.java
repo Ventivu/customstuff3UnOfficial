@@ -3,6 +3,7 @@ package cubex2.cs3.gui.data;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.util.NBTData;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ControlData implements NBTData
@@ -29,7 +30,7 @@ public abstract class ControlData implements NBTData
         return true;
     }
 
-    public abstract Control addToWindow(Window window);
+    public abstract Control addToWindow(Window window, IInventory slotInv);
 
     protected abstract String getControlType();
 

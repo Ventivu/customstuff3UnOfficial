@@ -25,7 +25,7 @@ public class WindowNormal extends Window
 
         for (ControlData data : container.guiData.controls)
         {
-            data.addToWindow(this).controlTag = data;
+            data.addToWindow(this, null).controlTag = data;
         }
     }
 
