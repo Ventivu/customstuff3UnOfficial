@@ -17,18 +17,5 @@ public class ScriptableContentPack
         this.scope = scope;
     }
 
-    /**
-     * Adds a fuel for the vanilla furnace.
-     *
-     * @param alias
-     *         The stack.
-     * @param duration
-     *         The duration in ticks.
-     */
-    public void addFuel(String alias, int duration)
-    {
-        //Fuel fuel = new Fuel(pack.aliasRegistry.getAlias(stack), duration, pack);
-        //fuel.apply();
-    }
 }
 

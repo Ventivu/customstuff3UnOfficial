@@ -18,6 +18,20 @@ public class ScriptableInventory
     }
 
     /**
+     * Gets the stack in the given slot.
+     *
+     * @param slot The slot id.
+     * @return The itemstack or null if the slot is empty
+     */
+    public ScriptableItemStack getStack(int slot)
+    {
+        ItemStack stack = inv.getStack(slot);
+        if (stack != null)
+            return new ScriptableItemStack(stack);
+        return null;
+    }
+
+    /**
      * Clear the inventory.
      */
     public void clear()
@@ -214,6 +228,7 @@ public class ScriptableInventory
     }
 
     // TODO return num moved
+
     /**
      * Move as many items as possible from one slot to another.
      *

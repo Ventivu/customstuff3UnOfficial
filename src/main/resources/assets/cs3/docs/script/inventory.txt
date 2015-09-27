@@ -35,3 +35,4 @@ ELEM setStringData setStringData
 ELEM canEfficientlyBreak canEfficientlyBreak
 ELEM canHarvest canHarvest
 ELEM isFuel isFuel
+ELEM getStack getStack
