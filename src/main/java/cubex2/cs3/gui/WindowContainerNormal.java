@@ -25,6 +25,7 @@ public class WindowContainerNormal extends WindowContainer
         this.container = (GuiContainerAttributes) gui.container;
         this.gui = gui;
         this.slotInv = slotInv;
+        drawBackground = false;
 
         for (ControlData data : container.guiData.controls)
         {
@@ -48,6 +49,18 @@ public class WindowContainerNormal extends WindowContainer
                 }
             }
         }
+    }
+
+    @Override
+    public void draw(int mouseX, int mouseY, float renderTick)
+    {
+        if (container.background != null)
+        {
+            mc.renderEngine.bindTexture(container.background);
+            drawTexturedModalRect(bounds, container.bgU, container.bgV);
+        }
+
+        super.draw(mouseX, mouseY, renderTick);
     }
 
     @Override

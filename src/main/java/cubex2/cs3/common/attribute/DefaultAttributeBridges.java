@@ -17,6 +17,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.Map;
 
@@ -62,5 +63,6 @@ public abstract class DefaultAttributeBridges
         register(GuiData.class, GuiDataBridge.class);
         register(ShiftClickRules.class, ShiftClickRulesBridge.class);
         register(FurnaceModules.class, FurnaceModulesBridge.class);
+        register(ResourceLocation.class, ResourceLocationBridge.class);
     }
 }

@@ -37,6 +37,8 @@ public class GuiBase extends GuiScreen
     public static boolean isContainerGuiOpen = false;
     static GuiContainerBase containerGui;
 
+    public static int tickCounter;
+
     private GuiBase()
     {
         INSTANCE = this;
@@ -121,6 +123,8 @@ public class GuiBase extends GuiScreen
     @Override
     public void updateScreen()
     {
+        tickCounter++;
+
         dWheel = Mouse.getDWheel() / 120;
         window.onUpdate();
     }

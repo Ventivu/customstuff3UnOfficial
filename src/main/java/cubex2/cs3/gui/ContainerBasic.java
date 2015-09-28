@@ -1,16 +1,16 @@
 package cubex2.cs3.gui;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import cubex2.cs3.common.WrappedGui;
 import cubex2.cs3.gui.attributes.GuiContainerAttributes;
 import cubex2.cs3.gui.data.*;
 import cubex2.cs3.tileentity.TileEntityInventory;
 import cubex2.cs3.tileentity.data.FurnaceModule;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.tileentity.TileEntityFurnace;
 
 import java.util.List;
 
@@ -54,7 +54,10 @@ public class ContainerBasic extends Container
             {
                 if (iter == 0 && cData instanceof SlotData)
                 {
-                    addSlotToContainer(new Slot(slotInv, nextSlot++, cData.x + 1, cData.y + 1));
+                    if (((SlotData) cData).furnaceOutput)
+                        addSlotToContainer(new SlotFurnace(player, slotInv, nextSlot++, cData.x + 1, cData.y + 1));
+                    else
+                        addSlotToContainer(new Slot(slotInv, nextSlot++, cData.x + 1, cData.y + 1));
                 } else if (iter == 1 && cData instanceof PlayerInventoryData)
                 {
                     for (int i = 0; i < 3; ++i)
@@ -181,6 +184,11 @@ public class ContainerBasic extends Container
             boolean ruleApplied = false;
             for (ShiftClickRule rule : container.shiftClickRules.list)
             {
+                if (rule.fuelOnly && !TileEntityFurnace.isItemFuel(itemstack1))
+                    continue;
+                if (rule.furnaceInputOnly && FurnaceRecipes.smelting().getSmeltingResult(itemstack1) == null)
+                    continue;
+
                 int start = rule.fromStart;
                 int end = rule.fromEnd;
                 if (rule.fromInv)
@@ -205,6 +213,7 @@ public class ContainerBasic extends Container
                     {
                         return null;
                     }
+                    break;
                 }
             }
 
@@ -232,6 +241,13 @@ public class ContainerBasic extends Container
             {
                 slot.onSlotChanged();
             }
+
+            if (itemstack1.stackSize == itemstack.stackSize)
+            {
+                return null;
+            }
+
+            slot.onPickupFromSlot(player, itemstack1);
         }
 
         return itemstack;

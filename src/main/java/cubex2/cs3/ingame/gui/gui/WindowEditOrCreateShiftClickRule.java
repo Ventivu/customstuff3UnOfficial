@@ -20,10 +20,12 @@ public class WindowEditOrCreateShiftClickRule extends Window
     private NumericUpDown nbFromEnd;
     private NumericUpDown nbToStart;
     private NumericUpDown nbToEnd;
+    private CheckBox cbFuelOnly;
+    private CheckBox cbInputOnly;
 
     public WindowEditOrCreateShiftClickRule(WrappedGui gui, ShiftClickRule rule)
     {
-        super("Edit Shift-Click Rule", EDIT | CANCEL, 150, 220);
+        super("Edit Shift-Click Rule", EDIT | CANCEL, 150, 230);
         this.gui = gui;
         editingRule = rule;
         initControls();
@@ -31,7 +33,7 @@ public class WindowEditOrCreateShiftClickRule extends Window
 
     public WindowEditOrCreateShiftClickRule(WrappedGui gui)
     {
-        super("New Shift-Click Rule", CREATE | CANCEL, 150, 220);
+        super("New Shift-Click Rule", CREATE | CANCEL, 150, 230);
         this.gui = gui;
         initControls();
     }
@@ -48,6 +50,8 @@ public class WindowEditOrCreateShiftClickRule extends Window
         nbToStart = row(numericUpDown());
         row("To End:");
         nbToEnd = row(numericUpDown());
+        cbFuelOnly = row(checkBox("Fuel Only"));
+        cbInputOnly = row(checkBox("Furnace Input Only"));
 
         if (editingRule != null)
         {
@@ -57,6 +61,8 @@ public class WindowEditOrCreateShiftClickRule extends Window
             cbToInv.setIsChecked(editingRule.toInv);
             nbToStart.setValue(editingRule.toStart);
             nbToEnd.setValue(editingRule.toEnd);
+            cbFuelOnly.setIsChecked(editingRule.fuelOnly);
+            cbInputOnly.setIsChecked(editingRule.furnaceInputOnly);
         }
     }
 
@@ -71,12 +77,15 @@ public class WindowEditOrCreateShiftClickRule extends Window
             editingRule.toInv = cbToInv.getIsChecked();
             editingRule.toStart = nbToStart.getValue();
             editingRule.toEnd = nbToEnd.getValue();
+            editingRule.fuelOnly = cbFuelOnly.getIsChecked();
+            editingRule.furnaceInputOnly = cbInputOnly.getIsChecked();
 
             gui.getPack().save();
             GuiBase.openPrevWindow();
         } else if (c == btnCreate)
         {
-            ShiftClickRule rule = new ShiftClickRule(cbFromInv.getIsChecked(), nbFromStart.getValue(), nbFromEnd.getValue(), cbToInv.getIsChecked(), nbToStart.getValue(), nbToEnd.getValue());
+            ShiftClickRule rule = new ShiftClickRule(cbFromInv.getIsChecked(), nbFromStart.getValue(), nbFromEnd.getValue(),
+                    cbToInv.getIsChecked(), nbToStart.getValue(), nbToEnd.getValue(), cbFuelOnly.getIsChecked(), cbInputOnly.getIsChecked());
             ((GuiContainerAttributes) gui.container).shiftClickRules.list.add(rule);
 
             gui.getPack().save();

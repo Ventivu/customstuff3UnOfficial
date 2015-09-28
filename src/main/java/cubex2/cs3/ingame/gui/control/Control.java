@@ -359,6 +359,11 @@ public abstract class Control
         }
     }
 
+    public void drawTexturedModalRect(Rectangle rect, int u, int v)
+    {
+        drawTexturedModalRect(rect.getX(), rect.getY(), u, v, rect.getWidth(), rect.getHeight());
+    }
+
     public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height)
     {
         float f = 0.00390625F;

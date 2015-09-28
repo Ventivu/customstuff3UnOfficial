@@ -1,5 +1,6 @@
 package cubex2.cs3.ingame.gui.control;
 
+import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.tileentity.TileEntityInventory;
 import net.minecraft.util.ResourceLocation;
 
@@ -19,7 +20,7 @@ public class CookProgressBar extends ImageProgressBar
     public int getProgress()
     {
         if (tile == null)
-            return getMaxProgress() / 2;
+            return GuiBase.tickCounter % (getMaxProgress() +1);
         return tile.getCookProgressScaled(name, getMaxProgress());
     }
 }
