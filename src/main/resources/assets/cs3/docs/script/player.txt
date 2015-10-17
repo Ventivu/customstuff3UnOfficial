@@ -36,6 +36,9 @@ ELEM isInCreative isInCreative
 ELEM getInventory getInventory
 ELEM getCurrentSlot getCurrentSlot
 ELEM openEnderChest openEnderChest
+ELEM openGui openGui
+ELEM openItemGui openItemGui
+ELEM openBlockGui openBlockGui
 
 ELEM_PREFIX script/
 

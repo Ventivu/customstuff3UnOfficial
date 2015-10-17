@@ -44,22 +44,28 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
     }
 
     /**
-     * Opens a gui for the player.
-     *
-     * @param guiName  The name of the gui used for the name-attribute in the gui-file
-     * @param position The position of the block to open a gui for.
+     * Opens a client-only gui for the player
      */
-    public void openGui(String guiName, ScriptablePosition position)
+    public void openGui(String guiName)
     {
-        //openGui(guiName, (int) position.x, (int) position.y, (int) position.z);
+        BaseContentPack pack = JavaScriptHelper.executingPack;
+        WrappedGui gui = ((GuiRegistry) pack.getContentRegistry(WrappedGui.class)).getGui(guiName);
+        while (GuiBase.INSTANCE.window instanceof WindowNormal)
+            GuiBase.openPrevWindow();
+
+        if (gui.getType() == EnumGuiType.NORMAL && player.worldObj.isRemote)
+        {
+            FMLClientHandler.instance().showGuiScreen(GuiBase.INSTANCE);
+            GuiBase.openWindow(gui.getType().createWindow(gui));
+        }
     }
 
     /**
-     * Opens a gui for the player.
+     * Opens an item inventory gui for the player.
      *
-     * @param guiName The name of the gui used for the name-attribute in the gui-file
+     * @param slotId The id of the slot of the itemstack
      */
-    public void openGui(String guiName, int slotId)
+    public void openItemGui(String guiName, int slotId)
     {
         BaseContentPack pack = JavaScriptHelper.executingPack;
         WrappedGui gui = ((GuiRegistry) pack.getContentRegistry(WrappedGui.class)).getGui(guiName);
@@ -77,7 +83,25 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
         }
     }
 
-    public void openGui(String guiName, int x, int y, int z)
+    /**
+     * Opens a block inventory gui for the player.
+     *
+     * @param position The position of the block to open a gui for.
+     */
+    public void openBlockGui(String guiName, ScriptablePosition position)
+    {
+        openBlockGui(guiName, (int) position.x, (int) position.y, (int) position.z);
+    }
+
+    /**
+     * Opens a block inventory gui for the player.
+     *
+     * @param guiName The name of the gui used for the name-attribute in the gui-file
+     * @param x       The x-position of the block
+     * @param y       The y-position of the block
+     * @param z       The z-position of the block
+     */
+    public void openBlockGui(String guiName, int x, int y, int z)
     {
         BaseContentPack pack = JavaScriptHelper.executingPack;
         WrappedGui gui = ((GuiRegistry) pack.getContentRegistry(WrappedGui.class)).getGui(guiName);
