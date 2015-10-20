@@ -7,7 +7,7 @@ import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
 
-public class WindowContentPacks extends Window implements IListBoxItemClickListener<BaseContentPack>
+public class WindowContentPacks extends Window implements IListBoxItemClickListener<BaseContentPack>, IWindowClosedListener
 {
     private ListBox<BaseContentPack> lbPacks;
 
@@ -28,7 +28,7 @@ public class WindowContentPacks extends Window implements IListBoxItemClickListe
     {
         if (c == btnNew)
         {
-            GuiBase.openWindow(new WindowNewPack(lbPacks));
+            GuiBase.openWindow(new WindowNewPack());
         } else
         {
             handleDefaultButtonClick(c);
@@ -42,5 +42,11 @@ public class WindowContentPacks extends Window implements IListBoxItemClickListe
         {
             GuiBase.openWindow(new WindowEditPack(item));
         }
+    }
+
+    @Override
+    public void windowClosed(Window window)
+    {
+        lbPacks.updateElements(BaseContentPackLoader.instance().getContentPacks());
     }
 }

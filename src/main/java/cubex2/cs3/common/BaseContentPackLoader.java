@@ -44,6 +44,17 @@ public class BaseContentPackLoader
         return null;
     }
 
+    public BaseContentPack getContentPackById(String id)
+    {
+        for (BaseContentPack pack : contentPacks)
+        {
+            if (pack.id.equals(id))
+                return pack;
+        }
+
+        return null;
+    }
+
     public void createContentPack(String name, String id)
     {
         File directory = new File(Directories.MODS, id);

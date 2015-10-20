@@ -16,12 +16,9 @@ public class WindowNewPack extends Window implements IValidityProvider
     private TextBox tbName;
     private TextBox tbId;
 
-    private ListBox<BaseContentPack> parentListBox;
-
-    public WindowNewPack(ListBox<BaseContentPack> listBox)
+    public WindowNewPack()
     {
         super("New Content Pack", CREATE | CANCEL, 180, 201);
-        parentListBox = listBox;
 
         lblName = label("Name:").at(7, 7).add();
         tbName = textBox().below(lblName).fillWidth(7).height(17).add();
@@ -41,7 +38,6 @@ public class WindowNewPack extends Window implements IValidityProvider
         if (c == btnCreate)
         {
             BaseContentPackLoader.instance().createContentPack(tbName.getText().trim(), tbId.getText().trim());
-            parentListBox.updateElements(BaseContentPackLoader.instance().getContentPacks());
             GuiBase.openPrevWindow();
         } else
         {

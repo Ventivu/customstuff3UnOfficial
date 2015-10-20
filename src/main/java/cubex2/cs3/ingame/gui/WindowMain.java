@@ -10,6 +10,7 @@ public class WindowMain extends Window
     private Button btnClose;
     private Button btnContentPacks;
     private Button btnJSDoc;
+    private Button btnDocs;
 
     public WindowMain()
     {
@@ -18,6 +19,7 @@ public class WindowMain extends Window
         btnClose = button("Close").bottom(7).fillWidth(7).add();
         btnContentPacks = button("Content Packs").top(7).fillWidth(7).add();
         btnJSDoc = button("JavaScript").top(btnContentPacks, 3).fillWidth(7).add();
+        btnDocs = button("Documentation").top(btnJSDoc, 3).fillWidth(7).add();
     }
 
     @Override
@@ -32,6 +34,9 @@ public class WindowMain extends Window
         } else if (c == btnJSDoc)
         {
             GuiBase.openWindow(new WindowDocs("JavaScript Objects", ParsedDocFile.fromPath("objects.txt")));
+        } else if (c == btnDocs)
+        {
+            GuiBase.openWindow(new WindowDocs("JavaScript Objects", ParsedDocFile.fromPath("main.txt")));
         }
     }
 }

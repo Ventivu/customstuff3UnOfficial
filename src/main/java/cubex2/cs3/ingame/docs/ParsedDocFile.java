@@ -50,22 +50,30 @@ public class ParsedDocFile
 
             if (isText && line.startsWith("}--"))
             {
+                if (text.endsWith("\n"))
+                    text = text.substring(0, text.length() - 1);
                 doc.elements.add(new DocLabel(text));
 
                 text = "";
                 isText = false;
             } else if (isText)
             {
-                if (text.length() > 0)
-                    text += "\n";
+                if (line.endsWith("\\"))
+                {
+                    line = line.substring(0, line.length() - 1);
+                } else
+                {
+                    line += "\n";
+                }
                 text += line;
+
             } else if (line.startsWith("TEXT --{"))
             {
                 isText = true;
             } else if (line.startsWith("BUTTON"))
             {
                 String[] parts = parseLine(line);
-                doc.elements.add(new DocButton(parts[1], parts[2] + ".txt"));
+                doc.elements.add(new DocButton(parts[1], parts.length > 2 ? parts[2] + ".txt" : ""));
             } else if (line.startsWith("SCRIPT_OBJECTS"))
             {
                 String[] parts = parseLine(line);

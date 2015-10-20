@@ -1,6 +1,7 @@
 package cubex2.cs3.ingame.gui.control;
 
 import cubex2.cs3.ingame.docs.ParsedDocFile;
+import cubex2.cs3.ingame.docs.WindowRegistry;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.common.WindowDocs;
 
@@ -19,10 +20,10 @@ public class ButtonDoc extends Button
     {
         super.mouseDown(mouseX, mouseY, button);
 
-        if (button == 0)
+        if (button == 0 && path != null && path.length() > 0)
         {
-            GuiBase.openWindow(new WindowDocs("", ParsedDocFile.fromPath(path)));
-            System.out.println("BLA");
+            if (!path.startsWith("::") || !WindowRegistry.openWindow(path))
+                GuiBase.openWindow(new WindowDocs("", ParsedDocFile.fromPath(path)));
         }
     }
 }
