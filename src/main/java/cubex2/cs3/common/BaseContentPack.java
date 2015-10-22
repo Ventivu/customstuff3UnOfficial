@@ -27,6 +27,8 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
     private final Map<String, ContentRegistry> nameToRegistryMap = Maps.newHashMap();
     private boolean initialized = false;
 
+    private boolean doSave = true;
+
     public BaseContentPack(File directory, String name, String id)
     {
         this.directory = directory;
@@ -110,7 +112,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
 
     public void save()
     {
-        if (!initialized || isZipped())
+        if (!initialized || isZipped() || !doSave)
             return;
 
         NBTTagCompound compound = new NBTTagCompound();
@@ -160,6 +162,12 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
                 content.postInit();
             }
         }
+
+        doSave = false;
+        postponeHandler.executePostponedTasks();
+        doSave = true;
+
+        save();
     }
 
     @Override

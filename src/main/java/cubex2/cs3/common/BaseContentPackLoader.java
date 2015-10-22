@@ -94,6 +94,5 @@ public class BaseContentPackLoader
     public void onPostInitPack(ICSMod pack)
     {
         contentPackMap.get(pack).postInit();
-        contentPackMap.get(pack).postponeHandler.executePostponedTasks();
     }
 }
