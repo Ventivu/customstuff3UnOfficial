@@ -5,6 +5,7 @@ import cubex2.cs3.ingame.gui.ISelectElementCallback;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.Tab;
+import cubex2.cs3.ingame.gui.control.TabChangedListener;
 import cubex2.cs3.ingame.gui.control.TabControl;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
@@ -15,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.List;
 
-public class WindowSelectIcon extends Window implements IListBoxItemClickListener<ResourceLocation>
+public class WindowSelectIcon extends Window implements IListBoxItemClickListener<ResourceLocation>, TabChangedListener
 {
     private ListBox<ResourceLocation> lbPack;
     private ListBox<ResourceLocation> lbAll;
@@ -30,6 +31,7 @@ public class WindowSelectIcon extends Window implements IListBoxItemClickListene
         this.callback = callback;
 
         tabControl = tabControl(70, 20).fill().add();
+        tabControl.listener = this;
         Tab packTab = tabControl.addTab("Pack");
         Tab allTab = tabControl.addTab("All");
 
@@ -43,7 +45,7 @@ public class WindowSelectIcon extends Window implements IListBoxItemClickListene
         desc.filter = Filter.RESOURCE_LOCATION;
         desc.listBoxItemMeta = 1;
         lbPack = packTab.listBox(desc).left(7).top(7).right(7).add();
-        lbPack.getSearchBox().setFocused(true);
+        claimFocus(lbPack.getSearchBox());
 
         ListBoxDescription<ResourceLocation> desc1 = new ListBoxDescription<ResourceLocation>(7, 7);
         desc1.elementWidth = 22;
@@ -55,7 +57,6 @@ public class WindowSelectIcon extends Window implements IListBoxItemClickListene
         desc1.filter = Filter.RESOURCE_LOCATION;
         desc1.listBoxItemMeta = 1;
         lbAll = allTab.listBox(desc1).left(7).top(7).right(7).add();
-        lbAll.getSearchBox().setFocused(true);
 
         btnSelect.setEnabled(false);
     }
@@ -93,5 +94,14 @@ public class WindowSelectIcon extends Window implements IListBoxItemClickListene
         otherLB.removeSelection();
 
         selectedTexture = ClientHelper.resourceToIconString(listBox.getSelectedItem());
+    }
+
+    @Override
+    public void tabChanged(TabControl tabControl, Tab tab)
+    {
+        if (tab.title.equals("Pack"))
+            claimFocus(lbPack.getSearchBox());
+        else
+            claimFocus(lbAll.getSearchBox());
     }
 }

@@ -302,7 +302,7 @@ public class ListBox<T> extends ControlContainer implements IValueListener<Slide
             if (!prev.equals(now))
             {
                 updateElements(allElements, filter, now);
-                tbSearch.setFocused(true);
+                rootControl.claimFocus(tbSearch);
             }
         }
     }

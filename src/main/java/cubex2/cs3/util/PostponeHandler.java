@@ -52,7 +52,6 @@ public class PostponeHandler
                 System.err.println("Postponed task failed!");
             }
         }
-
         postponedTasks.clear();
     }
 }

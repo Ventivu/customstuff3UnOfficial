@@ -5,6 +5,7 @@ import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Color;
 import cubex2.cs3.lib.Textures;
 import cubex2.cs3.util.GuiHelper;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -19,8 +20,9 @@ public abstract class Window extends ControlContainer implements IValueListener
     protected static final int EDIT = 32;
     protected static final int SELECT = 64;
 
-
+    public String title;
     public String tag = null;
+    public boolean drawSlots = false;
 
     protected Button btnBack;
     protected Button btnCancel;
@@ -31,12 +33,11 @@ public abstract class Window extends ControlContainer implements IValueListener
     protected Button btnSelect;
     protected Button btnPlus;
 
-    public boolean drawSlots = false;
     protected boolean drawBackground = true;
 
     private final int usedControls;
-
-    public String title;
+    private Control focusedControl = null;
+    public List<Control> tabStopControls = Lists.newArrayList();
 
     private List<IValidityControl> validityControls = Lists.newArrayList();
 
@@ -71,43 +72,118 @@ public abstract class Window extends ControlContainer implements IValueListener
 
         if ((usedControls & BACK) == BACK)
         {
-            btnBack = button("Back").right(7).bottom(7).add();
+            btnBack = button(underline("Back", 2)).right(7).bottom(7).add();
         }
         if ((usedControls & CANCEL) == CANCEL)
         {
-            btnCancel = button("Cancel").right(7).bottom(7).add();
+            btnCancel = button(underline("Cancel", 0)).right(7).bottom(7).add();
         }
         if ((usedControls & SELECT) == SELECT)
         {
-            btnSelect = button("Select").left(7).bottom(7).add();
+            btnSelect = button(underline("Select", 0)).left(7).bottom(7).add();
         }
         int xOffset = 0;
         if ((usedControls & NEW) == NEW)
         {
-            btnNew = button("New").left(7 + xOffset).bottom(7).add();
+            btnNew = button(underline("New", 0)).left(7 + xOffset).bottom(7).add();
             xOffset += 63;
         }
         if ((usedControls & CREATE) == CREATE)
         {
-            btnCreate = button("Create").left(7 + xOffset).bottom(7).add();
+            btnCreate = button(underline("Create", 1)).left(7 + xOffset).bottom(7).add();
             xOffset += 63;
         }
         if ((usedControls & EDIT) == EDIT)
         {
-            btnEdit = button("Edit").left(7 + xOffset).bottom(7).add();
+            btnEdit = button(underline("Edit", 0)).left(7 + xOffset).bottom(7).add();
             xOffset += 63;
         }
         if ((usedControls & DELETE) == DELETE)
         {
-            btnDelete = button("Delete").left(7 + xOffset).bottom(7).add();
+            btnDelete = button(underline("Delete", 0)).left(7 + xOffset).bottom(7).add();
             xOffset += 63;
         }
+    }
+
+    private String underline(String s, int pos)
+    {
+        return s.substring(0, pos) + "\u00a7n" + s.substring(pos, pos + 1) + "\u00a7r" + s.substring(pos + 1);
     }
 
     public void addValidityControl(IValidityControl vc)
     {
         validityControls.add(vc);
         vc.setValueChangedListener(this);
+    }
+
+    @Override
+    public void keyTyped(char c, int key)
+    {
+        if (key == Keyboard.KEY_E && Keyboard.isKeyDown(Keyboard.KEY_LMENU))
+        {
+            if (btnEdit != null && btnEdit.isEnabled())
+                handleDefaultButtonClick(btnEdit);
+        } else if (key == Keyboard.KEY_C && Keyboard.isKeyDown(Keyboard.KEY_LMENU))
+        {
+            if (btnCancel != null && btnCancel.isEnabled())
+                handleDefaultButtonClick(btnCancel);
+            else if (btnBack != null && btnBack.isEnabled())
+                handleDefaultButtonClick(btnBack);
+        } else if (key == Keyboard.KEY_D && Keyboard.isKeyDown(Keyboard.KEY_LMENU))
+        {
+            if (btnDelete != null && btnDelete.isEnabled())
+                controlClicked(btnDelete, btnDelete.getX() + 1, btnDelete.getY() + 1);
+        } else if (key == Keyboard.KEY_N && Keyboard.isKeyDown(Keyboard.KEY_LMENU))
+        {
+            if (btnNew != null && btnNew.isEnabled())
+                controlClicked(btnNew, btnNew.getX() + 1, btnNew.getY() + 1);
+        } else if (key == Keyboard.KEY_R && Keyboard.isKeyDown(Keyboard.KEY_LMENU))
+        {
+            if (btnCreate != null && btnCreate.isEnabled())
+                controlClicked(btnCreate, btnCreate.getX() + 1, btnCreate.getY() + 1);
+        } else if (key == Keyboard.KEY_S && Keyboard.isKeyDown(Keyboard.KEY_LMENU))
+        {
+            if (btnSelect != null && btnSelect.isEnabled())
+                controlClicked(btnSelect, btnSelect.getX() + 1, btnSelect.getY() + 1);
+        } else if (key == Keyboard.KEY_TAB)
+        {
+            if (tabStopControls.isEmpty()) return;
+
+            Control next;
+            if (focusedControl == null || !tabStopControls.contains(focusedControl))
+                next = tabStopControls.get(0);
+            else
+                next = tabStopControls.get((tabStopControls.indexOf(focusedControl) + 1) % tabStopControls.size());
+            claimFocus(next);
+        } else
+        {
+            super.keyTyped(c, key);
+        }
+    }
+
+    public Control getFocusedControl()
+    {
+        return focusedControl;
+    }
+
+    public boolean claimFocus(Control c)
+    {
+        if (focusedControl != null && !focusedControl.canReleaseFocus())
+            return false;
+        if (focusedControl != null)
+            focusedControl.onUnfocus();
+        focusedControl = c;
+        if (focusedControl != null)
+            focusedControl.onFocus();
+        return true;
+    }
+
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int button, boolean intoControl)
+    {
+        claimFocus(null);
+
+        super.mouseClicked(mouseX, mouseY, button, intoControl);
     }
 
     @Override

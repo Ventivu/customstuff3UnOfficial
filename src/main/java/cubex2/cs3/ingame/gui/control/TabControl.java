@@ -20,6 +20,7 @@ public class TabControl extends Control
     private int maxPossibleTabs;
     private int scroll = 0;
     private int maxScroll;
+    public TabChangedListener listener;
 
     public TabControl(int tabWidth, int tabHeight, int width, int height, Anchor anchor, int offsetX, int offsetY, Control parent)
     {
@@ -69,6 +70,8 @@ public class TabControl extends Control
             if (clickedTab < tabs.size())
             {
                 activeTab = tabs.get(clickedTab);
+                if (listener != null)
+                    listener.tabChanged(this, activeTab);
             }
         } else if (mouseX >= getX() - tabWidth / 2 - 4 && mouseX < getX() - tabWidth / 2 + 15 && mouseY >= getY() - SCROLL_BUTTON_HEIGHT && mouseY < getY() && scroll > 0)
         {

@@ -40,6 +40,11 @@ public class ControlContainer extends Control
             ((Window) rootControl).addValidityControl((IValidityControl) c);
         }
 
+        if (c.tabStop)
+        {
+            rootControl.tabStopControls.add(c);
+        }
+
         controls.add(c);
         lastControl = c;
     }

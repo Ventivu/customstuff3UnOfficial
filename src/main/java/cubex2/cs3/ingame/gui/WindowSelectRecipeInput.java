@@ -3,18 +3,18 @@ package cubex2.cs3.ingame.gui;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.control.Control;
 import cubex2.cs3.ingame.gui.control.Tab;
+import cubex2.cs3.ingame.gui.control.TabChangedListener;
 import cubex2.cs3.ingame.gui.control.TabControl;
-import cubex2.cs3.ingame.gui.control.TextBox;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
+import cubex2.cs3.util.Filter;
 import cubex2.cs3.util.ItemStackHelper;
 import cubex2.cs3.util.OreDictionaryClass;
 import cubex2.cs3.util.RecipeInput;
-import cubex2.cs3.util.Filter;
 import net.minecraft.item.ItemStack;
 
-public class WindowSelectRecipeInput extends Window implements IListBoxItemClickListener
+public class WindowSelectRecipeInput extends Window implements IListBoxItemClickListener, TabChangedListener
 {
     private BaseContentPack pack;
     private ListBox<ItemStack> lbItems;
@@ -41,7 +41,7 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         desc.hasSearchBar = true;
         desc.filter = Filter.ITEM_STACK;
         lbItems = itemTab.listBox(desc).left(7).top(7).right(7).add();
-        lbItems.getSearchBox().setFocused(true);
+        claimFocus(lbItems.getSearchBox());
 
         ListBoxDescription<OreDictionaryClass> desc1 = new ListBoxDescription<OreDictionaryClass>(7, 7);
         desc1.elementWidth = 22;
@@ -53,7 +53,6 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         desc1.hasSearchBar = true;
         desc1.filter = Filter.ORE_CLASS;
         lbOreDictClasses = oreTab.listBox(desc1).left(7).top(7).right(7).add();
-        lbOreDictClasses.getSearchBox().setFocused(true);
 
         btnSelect.setEnabled(false);
     }
@@ -88,5 +87,14 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         otherListBox.removeSelection();
 
         selectedInput = listBox.getSelectedItem();
+    }
+
+    @Override
+    public void tabChanged(TabControl tabControl, Tab tab)
+    {
+        if (tab.title.equals("Items"))
+            claimFocus(lbItems.getSearchBox());
+        else
+            claimFocus(lbOreDictClasses.getSearchBox());
     }
 }

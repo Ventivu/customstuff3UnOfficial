@@ -72,6 +72,8 @@ public abstract class Control
 
     public Object controlTag;
 
+    public boolean tabStop = false;
+
     public Control(int width, int height, Control parent)
     {
         this(width, height, null, parent);
@@ -210,6 +212,32 @@ public abstract class Control
         // apply offset
         bounds.setX(bounds.getX() + offsetX);
         bounds.setY(bounds.getY() + offsetY);
+    }
+
+    public boolean hasFocus()
+    {
+        return rootControl.getFocusedControl() == this;
+    }
+
+    public boolean canReleaseFocus()
+    {
+        return true;
+    }
+
+    /**
+     * Called when the control receives the focus
+     */
+    public void onFocus()
+    {
+
+    }
+
+    /**
+     * Called when the control loses the focus
+     */
+    public void onUnfocus()
+    {
+
     }
 
     /**

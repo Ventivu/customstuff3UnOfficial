@@ -25,15 +25,15 @@ public class WindowSelectTexture extends Window implements IListBoxItemClickList
         this.callback = callback;
 
         ListBoxDescription<ResourceLocation> desc = new ListBoxDescription<ResourceLocation>(7, 7);
-        desc.elementWidth = 128+6;
-        desc.elementHeight = 64+6;
+        desc.elementWidth = 128 + 6;
+        desc.elementHeight = 64 + 6;
         desc.columns = 1;
         desc.rows = 2;
         desc.elements = textures;
         desc.hasSearchBar = true;
         desc.filter = Filter.RESOURCE_LOCATION;
         listBox = listBox(desc).left(7).top(7).right(7).add();
-        listBox.getSearchBox().setFocused(true);
+        claimFocus(listBox.getSearchBox());
 
         btnSelect.setEnabled(false);
     }

@@ -56,7 +56,7 @@ public class NumericUpDown extends ControlContainer
     {
         super.mouseClicked(mouseX, mouseY, button, intoControl);
 
-        if (!tb.isFocused())
+        if (!tb.hasFocus())
         {
             updateControls();
         }
