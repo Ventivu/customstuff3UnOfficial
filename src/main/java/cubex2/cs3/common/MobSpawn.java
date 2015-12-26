@@ -2,8 +2,6 @@ package cubex2.cs3.common;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import cubex2.cs3.common.BaseContent;
-import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.lib.CreatureTypes;
 import cubex2.cs3.util.IPurposeStringProvider;
 import cubex2.cs3.util.StringProviderPurpose;
@@ -65,6 +63,9 @@ public class MobSpawn extends BaseContent implements IPurposeStringProvider
 
             for (BiomeGenBase biome : biomes)
             {
+                if (biome == null)
+                    continue;
+
                 List<BiomeGenBase.SpawnListEntry> spawns = biome.getSpawnableList(type);
 
                 BiomeGenBase.SpawnListEntry entry = new BiomeGenBase.SpawnListEntry(clazz, rate, min, max);
