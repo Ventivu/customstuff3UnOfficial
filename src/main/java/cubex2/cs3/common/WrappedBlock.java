@@ -155,7 +155,7 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
         return shouldSideBeRenderedDefault(world, x, y, z, side);
     }
 
-    private boolean shouldSideBeRenderedDefault(IBlockAccess world, int x, int y, int z, int side)
+    public boolean shouldSideBeRenderedDefault(IBlockAccess world, int x, int y, int z, int side)
     {
         return side == 0 && block.getBlockBoundsMinY() > 0.0D ? true : side == 1 && block.getBlockBoundsMaxY() < 1.0D ? true : side == 2 && block.getBlockBoundsMinZ() > 0.0D ? true : side == 3 && block.getBlockBoundsMaxZ() < 1.0D ? true : side == 4 && block.getBlockBoundsMinX() > 0.0D ? true : side == 5 && block.getBlockBoundsMaxX() < 1.0D ? true : !world.getBlock(x, y, z).isOpaqueCube();
     }

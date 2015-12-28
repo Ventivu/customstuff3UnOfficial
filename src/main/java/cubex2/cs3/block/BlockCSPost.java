@@ -29,12 +29,10 @@ public class BlockCSPost extends BlockCSFacing
         if (meta == 0 || meta == 1)
         {
             this.setBlockBounds(0.5f - thickness / 2, 0.0f, 0.5f - thickness / 2, 0.5f + thickness / 2, 1.0f, 0.5f + thickness / 2);
-        }
-        else if (meta == 2 || meta == 3)
+        } else if (meta == 2 || meta == 3)
         {
             this.setBlockBounds(0.5f - thickness / 2, 0.5f - thickness / 2, 0.0f, 0.5f + thickness / 2, 0.5f + thickness / 2, 1.0f);
-        }
-        else if (meta == 4 || meta == 5)
+        } else if (meta == 4 || meta == 5)
         {
             this.setBlockBounds(0.0f, 0.5f - thickness / 2, 0.5f - thickness / 2, 1.0f, 0.5f + thickness / 2, 0.5f + thickness / 2);
         }
@@ -81,5 +79,11 @@ public class BlockCSPost extends BlockCSFacing
     public float getThickness()
     {
         return container.thickness;
+    }
+
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
+    {
+        return wrappedBlock.shouldSideBeRenderedDefault(world, x, y, z, side);
     }
 }

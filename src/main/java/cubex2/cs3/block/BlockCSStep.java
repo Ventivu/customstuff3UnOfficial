@@ -81,15 +81,18 @@ public class BlockCSStep extends BlockCS
     @Override
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
     {
-        if (side != 1 && side != 0 && !super.shouldSideBeRendered(world, x, y, z, side))
+        if (side != 1 && side != 0 && !wrappedBlock.shouldSideBeRenderedDefault(world, x, y, z, side))
             return false;
         else
         {
             int var6 = x + Facing.offsetsXForSide[Facing.oppositeSide[side]];
             int var7 = y + Facing.offsetsYForSide[Facing.oppositeSide[side]];
             int var8 = z + Facing.offsetsZForSide[Facing.oppositeSide[side]];
-            boolean var9 = (world.getBlockMetadata(var6, var7, var8) & 8) != 0;
-            return !var9 ? side == 1 ? true : side == 0 && super.shouldSideBeRendered(world, x, y, z, side) ? true : world.getBlock(x, y, z) != this || (world.getBlockMetadata(x, y, z) & 8) != 0 : side == 0 ? true : side == 1 && super.shouldSideBeRendered(world, x, y, z, side) ? true : world.getBlock(x, y, z) != this || (world.getBlockMetadata(x, y, z) & 8) == 0;
+            boolean topHalf = (world.getBlockMetadata(var6, var7, var8) & 8) != 0;
+            if (!topHalf)
+                return side == 1 || (side == 0 && wrappedBlock.shouldSideBeRenderedDefault(world, x, y, z, side) || (world.getBlock(x, y, z) != this || (world.getBlockMetadata(x, y, z) & 8) != 0));
+            else
+                return side == 0 || (side == 1 && wrappedBlock.shouldSideBeRenderedDefault(world, x, y, z, side) || (world.getBlock(x, y, z) != this || (world.getBlockMetadata(x, y, z) & 8) == 0));
         }
     }
 
