@@ -6,6 +6,6 @@ public class WindowEditTexturesPost extends WindowEditTexturesFacing
 {
     public WindowEditTexturesPost(WrappedBlock block)
     {
-        super(block, false, true, true);
+        super(block, false, true, false);
     }
 }
