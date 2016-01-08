@@ -35,6 +35,11 @@ public class BlockCS extends Block implements IBlockCS
         container = wrappedBlock.container;
     }
 
+    public int getMetaForFlowerGen(int itemMeta)
+    {
+        return itemMeta;
+    }
+
     @Override
     public boolean isOpaqueCube()
     {

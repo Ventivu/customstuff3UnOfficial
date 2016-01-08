@@ -23,6 +23,12 @@ public class BlockCSFlat extends BlockCSFacing
     }
 
     @Override
+    public int getMetaForFlowerGen(int itemMeta)
+    {
+        return 1;
+    }
+
+    @Override
     public IIcon getIcon(int side, int meta)
     {
         return wrappedBlock.getIcon(0, meta);
@@ -76,24 +82,18 @@ public class BlockCSFlat extends BlockCSFacing
         }
     }
 
+
     @Override
     public boolean canBlockStay(World world, int x, int y, int z)
     {
         int meta = world.getBlockMetadata(x, y, z) & 7;
+        return canBlockStay(world, x, y, z, meta);
+    }
 
-        if (meta == 0)
-            return world.isSideSolid(x, y + 1, z, ForgeDirection.UP);
-        if (meta == 1)
-            return world.isSideSolid(x, y - 1, z, ForgeDirection.DOWN);
-        if (meta == 2)
-            return world.isSideSolid(x, y, z + 1, ForgeDirection.SOUTH);
-        if (meta == 3)
-            return world.isSideSolid(x, y, z - 1, ForgeDirection.NORTH);
-        if (meta == 4)
-            return world.isSideSolid(x + 1, y, z, ForgeDirection.EAST);
-        if (meta == 5)
-            return world.isSideSolid(x - 1, y, z, ForgeDirection.WEST);
-        return true;
+    public boolean canBlockStay(World world, int x, int y, int z, int meta)
+    {
+        ForgeDirection dir = ForgeDirection.getOrientation(meta).getOpposite();
+        return world.isSideSolid(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir);
     }
 
     @Override

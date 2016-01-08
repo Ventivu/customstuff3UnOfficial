@@ -1,5 +1,7 @@
 package cubex2.cs3.worldgen;
 
+import cubex2.cs3.block.BlockCS;
+import cubex2.cs3.block.BlockCSFlat;
 import cubex2.cs3.common.WrappedWorldGen;
 import cubex2.cs3.util.SimulatedWorld;
 import cubex2.cs3.worldgen.attributes.WorldGenFlowerAttributes;
@@ -50,6 +52,10 @@ public class WorldGenCSFlower extends WorldGenCS
     {
         Block block = Block.getBlockFromItem(container.generatedBlock.getItem());
         int meta = container.generatedBlock.getItemDamage();
+        if (block instanceof BlockCS)
+        {
+            meta = ((BlockCS) block).getMetaForFlowerGen(meta);
+        }
 
         for (int i = 0; i < worldGen.blockRate; ++i)
         {
@@ -57,9 +63,14 @@ public class WorldGenCSFlower extends WorldGenCS
             int genY = y + random.nextInt(4) - random.nextInt(4);
             int genZ = z + random.nextInt(8) - random.nextInt(8);
 
-            if (world.isAirBlock(genX, genY, genZ) && canPlaceBlock(world, genX, genY - 1, genZ))
+
+            if (world.isAirBlock(genX, genY, genZ))
             {
-                world.setBlock(genX, genY, genZ, block, meta, 2);
+                boolean canStay = block instanceof BlockCSFlat ? ((BlockCSFlat) block).canBlockStay(world, genX, genY, genZ, meta) : block.canBlockStay(world, genX, genY, genZ);
+                if (canStay && canPlaceBlock(world, genX, genY - 1, genZ))
+                {
+                    world.setBlock(genX, genY, genZ, block, meta, 2);
+                }
             }
         }
     }
@@ -67,7 +78,7 @@ public class WorldGenCSFlower extends WorldGenCS
     private boolean canPlaceBlock(World world, int x, int y, int z)
     {
         Block block = world.getBlock(x, y, z);
-        if (block != null && block.canBlockStay(world, x, y + 1, z))
+        if (block != null)
         {
             int meta = world.getBlockMetadata(x, y, z);
             return canReplaceBlock(world.provider.dimensionId, block, meta);
