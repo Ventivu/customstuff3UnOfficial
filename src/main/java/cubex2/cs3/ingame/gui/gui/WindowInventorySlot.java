@@ -25,7 +25,7 @@ public class WindowInventorySlot extends WindowEditOrCreateControl<InventorySlot
     {
         super.initControls(hasSize);
 
-        cbFurnaceOutput = row(checkBox("Furnace Output", data.furnaceOutput));
+        cbFurnaceOutput = row(checkBox("Furnace Output", data != null && data.furnaceOutput));
     }
 
     @Override
