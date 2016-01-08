@@ -10,6 +10,7 @@ import cubex2.cs3.gui.data.ControlData;
 import cubex2.cs3.ingame.gui.GuiBase;
 import cubex2.cs3.ingame.gui.Window;
 import cubex2.cs3.ingame.gui.control.Control;
+import cubex2.cs3.util.ClientHelper;
 import cubex2.cs3.util.JavaScriptHelper;
 
 public class WindowNormal extends Window
@@ -40,7 +41,7 @@ public class WindowNormal extends Window
                 ButtonData data = (ButtonData) c.controlTag;
                 if (data.onClicked != null && data.onClicked.script != null)
                 {
-                    ITriggerData trigger = new TriggerData("onClicked", TriggerType.GUI).setPlayer(mc.thePlayer);
+                    ITriggerData trigger = new TriggerData("onClicked", TriggerType.GUI).setPlayer(ClientHelper.getPlayer());
                     JavaScriptHelper.executeTrigger(data.onClicked.script, trigger, gui.getPack());
                 }
             }

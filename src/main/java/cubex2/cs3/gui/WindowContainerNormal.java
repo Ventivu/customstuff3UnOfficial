@@ -9,6 +9,7 @@ import cubex2.cs3.gui.data.ButtonData;
 import cubex2.cs3.gui.data.ControlData;
 import cubex2.cs3.ingame.gui.WindowContainer;
 import cubex2.cs3.ingame.gui.control.Control;
+import cubex2.cs3.util.ClientHelper;
 import cubex2.cs3.util.JavaScriptHelper;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -44,7 +45,7 @@ public class WindowContainerNormal extends WindowContainer
                 ButtonData data = (ButtonData) c.controlTag;
                 if (data.onClicked != null && data.onClicked.script != null)
                 {
-                    ITriggerData trigger = new TriggerData("onClicked", TriggerType.GUI).setPlayer(mc.thePlayer);
+                    ITriggerData trigger = new TriggerData("onClicked", TriggerType.GUI).setPlayer(ClientHelper.getPlayer());
                     JavaScriptHelper.executeTrigger(data.onClicked.script, trigger, gui.getPack());
                 }
             }
@@ -66,6 +67,6 @@ public class WindowContainerNormal extends WindowContainer
     @Override
     public Container getContainer()
     {
-        return new ContainerBasic(gui, mc.thePlayer, slotInv);
+        return new ContainerBasic(gui, ClientHelper.getPlayer(), slotInv);
     }
 }
