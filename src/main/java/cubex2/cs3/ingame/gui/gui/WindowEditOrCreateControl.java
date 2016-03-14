@@ -44,6 +44,8 @@ public abstract class WindowEditOrCreateControl<T extends Control, U extends Con
             nupWidth.setValue(width);
             nupHeight.setValue(height);
         }
+
+        data = createData();
     }
 
     public WindowEditOrCreateControl(String title, WrappedGui gui, Window window, T control, U data)

@@ -158,12 +158,18 @@ public class WindowEditUserGui extends Window
     {
         btnAddButton.setEnabled(value);
         btnAddLabel.setEnabled(value);
-        btnAddPlayerInventory.setEnabled(value);
-        btnAddSlot.setEnabled(value);
-        btnAddCookProgress.setEnabled(value);
-        btnAddFuelProgress.setEnabled(value);
+        setEnabled(btnAddPlayerInventory, value);
+        setEnabled(btnAddSlot, value);
+        setEnabled(btnAddCookProgress, value);
+        setEnabled(btnAddFuelProgress, value);
         btnMode.setEnabled(value);
         btnBack.setEnabled(value);
+    }
+
+    private void setEnabled(Control c, boolean value)
+    {
+        if (c != null)
+            c.setEnabled(value);
     }
 
     @Override
