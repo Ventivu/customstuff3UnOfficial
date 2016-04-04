@@ -36,7 +36,7 @@ public class ItemCSStep extends ItemCSBlock
     @Override
     public String getUnlocalizedName(ItemStack itemstack)
     {
-        return block.getUnlocalizedName();
+        return block.getUnlocalizedName() + itemstack.getItemDamage();
     }
 
     @Override
