@@ -10,9 +10,7 @@ import cubex2.cs3.lib.Textures;
 import cubex2.cs3.lib.Validators;
 import net.minecraft.item.ItemStack;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
 
 public class WindowEditOrCreateTradeRecipe extends WindowEditOrCreate<TradeRecipe> implements IWindowClosedListener<WindowSelectItem>
 {
@@ -82,7 +80,7 @@ public class WindowEditOrCreateTradeRecipe extends WindowEditOrCreate<TradeRecip
 
         label = label("Chance").below(dbProfession, 5).add();
 
-        tbChance = textBox().below(label).width(30).add();
+        tbChance = textBox().below(label).width(60).add();
         tbChance.setText("0.0");
         tbChance.setValidityProvider(TextBoxValidators.FLOAT_ZERO_ONE);
 
@@ -92,6 +90,7 @@ public class WindowEditOrCreateTradeRecipe extends WindowEditOrCreate<TradeRecip
             input2.setItemStack(editingContent.input2);
             result.setItemStack(editingContent.result);
             dbProfession.setSelectedValue(editingContent.profession);
+            tbChance.setText(editingContent.chance + "");
         }
 
         updateButtons();
