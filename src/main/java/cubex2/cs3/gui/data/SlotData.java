@@ -8,15 +8,17 @@ import net.minecraft.nbt.NBTTagCompound;
 public class SlotData extends ControlData
 {
     public boolean furnaceOutput = false;
+    public String recipeList = "vanilla";
 
     public SlotData()
     {
     }
 
-    public SlotData(int x, int y, boolean furnaceOutput)
+    public SlotData(int x, int y, boolean furnaceOutput, String recipeList)
     {
         super(x, y, 0, 0);
         this.furnaceOutput = furnaceOutput;
+        this.recipeList = recipeList;
     }
 
     @Override
@@ -43,6 +45,7 @@ public class SlotData extends ControlData
         super.writeToNBT(compound);
 
         compound.setBoolean("FurnaceOutput", furnaceOutput);
+        compound.setString("RecipeList", recipeList);
     }
 
     @Override
@@ -51,5 +54,7 @@ public class SlotData extends ControlData
         super.readFromNBT(compound);
 
         furnaceOutput = compound.getBoolean("FurnaceOutput");
+        if (compound.hasKey("RecipeList"))
+            recipeList = compound.getString("RecipeList");
     }
 }

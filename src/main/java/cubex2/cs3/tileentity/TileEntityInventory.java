@@ -97,7 +97,7 @@ public class TileEntityInventory extends TileEntityCS implements IInventory
                 {
                     if (data.burnTime == 0 && canSmelt(module))
                     {
-                        data.currentBurnTime = data.burnTime = TileEntityFurnace.getItemBurnTime(inventoryContents[module.fuelSlot]);
+                        data.currentBurnTime = data.burnTime = invContainer.getPack().fuelHandler.getItemBurnTime(inventoryContents[module.fuelSlot], module.fuelList);
 
                         if (data.burnTime > 0)
                         {
@@ -149,7 +149,7 @@ public class TileEntityInventory extends TileEntityCS implements IInventory
     {
         if (this.canSmelt(module))
         {
-            ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(this.inventoryContents[module.inputSlot]);
+            ItemStack itemstack = invContainer.getPack().smeltingRecipeHandler.getSmeltingResult(inventoryContents[module.inputSlot], module.recipeList);
 
             if (this.inventoryContents[module.outputSlot] == null)
             {
@@ -180,7 +180,7 @@ public class TileEntityInventory extends TileEntityCS implements IInventory
             return false;
         } else
         {
-            ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(this.inventoryContents[module.inputSlot]);
+            ItemStack itemstack = invContainer.getPack().smeltingRecipeHandler.getSmeltingResult(inventoryContents[module.inputSlot], module.recipeList);
             if (itemstack == null) return false;
             if (this.inventoryContents[module.outputSlot] == null) return true;
             if (!this.inventoryContents[module.outputSlot].isItemEqual(itemstack)) return false;

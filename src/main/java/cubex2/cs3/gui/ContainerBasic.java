@@ -1,13 +1,15 @@
 package cubex2.cs3.gui;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import cubex2.cs3.common.WrappedGui;
 import cubex2.cs3.gui.attributes.GuiContainerAttributes;
 import cubex2.cs3.gui.data.*;
 import cubex2.cs3.tileentity.TileEntityInventory;
 import cubex2.cs3.tileentity.data.FurnaceModule;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.*;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -54,8 +56,9 @@ public class ContainerBasic extends Container
             {
                 if (iter == 0 && cData instanceof SlotData)
                 {
-                    if (((SlotData) cData).furnaceOutput)
-                        addSlotToContainer(new SlotFurnace(player, slotInv, nextSlot++, cData.x + 1, cData.y + 1));
+                    SlotData slotData = (SlotData) cData;
+                    if (slotData.furnaceOutput)
+                        addSlotToContainer(new SlotFurnaceOutput(gui.getPack(), slotData.recipeList, player, slotInv, nextSlot++, cData.x + 1, cData.y + 1));
                     else
                         addSlotToContainer(new Slot(slotInv, nextSlot++, cData.x + 1, cData.y + 1));
                 } else if (iter == 1 && cData instanceof PlayerInventoryData)
@@ -184,9 +187,9 @@ public class ContainerBasic extends Container
             boolean ruleApplied = false;
             for (ShiftClickRule rule : container.shiftClickRules.list)
             {
-                if (rule.fuelOnly && !TileEntityFurnace.isItemFuel(itemstack1))
+                if (rule.fuelOnly && !gui.getPack().fuelHandler.isItemFuel(itemstack1, rule.fuelList))
                     continue;
-                if (rule.furnaceInputOnly && FurnaceRecipes.smelting().getSmeltingResult(itemstack1) == null)
+                if (rule.furnaceInputOnly && gui.getPack().smeltingRecipeHandler.getSmeltingResult(itemstack1, rule.recipeList) == null)
                     continue;
 
                 int start = rule.fromStart;

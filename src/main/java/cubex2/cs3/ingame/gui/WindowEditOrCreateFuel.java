@@ -1,26 +1,30 @@
 package cubex2.cs3.ingame.gui;
 
+import com.google.common.collect.Lists;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.common.Fuel;
-import cubex2.cs3.ingame.gui.control.ItemDisplay;
-import cubex2.cs3.ingame.gui.control.NumericUpDown;
+import cubex2.cs3.ingame.gui.control.*;
 import cubex2.cs3.lib.Strings;
+import cubex2.cs3.lib.TextBoxValidators;
 import cubex2.cs3.lib.Validators;
+import cubex2.cs3.registry.FuelRegistry;
 import net.minecraft.item.ItemStack;
 
-public class WindowEditOrCreateFuel extends WindowEditOrCreate<Fuel> implements IWindowClosedListener<WindowSelectItem>
+public class WindowEditOrCreateFuel extends WindowEditOrCreate<Fuel> implements IWindowClosedListener<Window>
 {
     private ItemDisplay itemDisplay;
     private NumericUpDown nupDuration;
+    private TextBox tbFuelList;
+    private Button btnSelectList;
 
     public WindowEditOrCreateFuel(BaseContentPack pack)
     {
-        super("New Fuel", 180, 100, pack);
+        super("New Fuel", 180, 135, pack);
     }
 
     public WindowEditOrCreateFuel(Fuel fuel, BaseContentPack pack)
     {
-        super("Edit Fuel", 180, 100, fuel, pack);
+        super("Edit Fuel", 180, 135, fuel, pack);
     }
 
     @Override
@@ -35,12 +39,38 @@ public class WindowEditOrCreateFuel extends WindowEditOrCreate<Fuel> implements 
         itemDisplay.setDrawSlotBackground();
         itemDisplay.useSelectItemDialog(false);
         itemDisplay.setValidatorFunc(Validators.ITEM_DISPLAY_NOT_NULL);
-        if (editingContent != null)
-            itemDisplay.setItemStack(editingContent.stack);
+
+        label("Fuel List:").left(7).top(nupDuration, 8).add();
 
         if (editingContent != null)
         {
+            itemDisplay.setItemStack(editingContent.stack);
             nupDuration.setValue(editingContent.duration);
+
+            tbFuelList = textBox().below(lastControl).fillWidth(7).add();
+            tbFuelList.setText(editingContent.fuelList);
+        } else
+        {
+            tbFuelList = textBox().below(lastControl).left(7).right(70).add();
+            tbFuelList.setText("vanilla");
+
+            btnSelectList = button("Select").rightTo(tbFuelList).add();
+        }
+
+        tbFuelList.setValidityProvider(TextBoxValidators.NOT_EMPTY);
+        tbFuelList.setEnabled(editingContent == null);
+    }
+
+    @Override
+    protected void controlClicked(Control c, int mouseX, int mouseY)
+    {
+        if (c == btnSelectList)
+        {
+            String[] fuelLists = ((FuelRegistry) pack.getContentRegistry(Fuel.class)).getFuelLists();
+            GuiBase.openWindow(new WindowSelectString("Select Fuel List", Lists.newArrayList(fuelLists)));
+        } else
+        {
+            super.controlClicked(c, mouseX, mouseY);
         }
     }
 
@@ -49,7 +79,7 @@ public class WindowEditOrCreateFuel extends WindowEditOrCreate<Fuel> implements 
     {
         ItemStack stack = itemDisplay.getItemStack();
         int duration = nupDuration.getValue();
-        return new Fuel(stack, duration, pack);
+        return new Fuel(tbFuelList.getText(), stack, duration, pack);
     }
 
     @Override
@@ -60,11 +90,14 @@ public class WindowEditOrCreateFuel extends WindowEditOrCreate<Fuel> implements 
     }
 
     @Override
-    public void windowClosed(WindowSelectItem window)
+    public void windowClosed(Window window)
     {
-        if (window.getSelectedStack() != null)
-            itemDisplay.setItemStack(window.getSelectedStack());
+        if (window instanceof WindowSelectString)
+        {
+            WindowSelectString wdw = (WindowSelectString) window;
 
-        btnCreate.setEnabled(itemDisplay.getItemStack() != null);
+            if (wdw.getSelectedElement() != null)
+                tbFuelList.setText(wdw.getSelectedElement());
+        }
     }
 }

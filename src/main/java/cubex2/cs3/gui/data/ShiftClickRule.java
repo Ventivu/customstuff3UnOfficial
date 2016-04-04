@@ -17,11 +17,14 @@ public class ShiftClickRule implements NBTData, IPurposeStringProvider
     public boolean fuelOnly = false;
     public boolean furnaceInputOnly = false;
 
+    public String fuelList = "vanilla";
+    public String recipeList = "vanilla";
+
     public ShiftClickRule()
     {
     }
 
-    public ShiftClickRule(boolean fromInv, int fromStart, int fromEnd, boolean toInv, int toStart, int toEnd, boolean fuelOnly, boolean furnaceInputOnly)
+    public ShiftClickRule(boolean fromInv, int fromStart, int fromEnd, boolean toInv, int toStart, int toEnd, boolean fuelOnly, boolean furnaceInputOnly, String fuelList, String recipeList)
     {
         this.fromInv = fromInv;
         this.fromStart = fromStart;
@@ -31,6 +34,8 @@ public class ShiftClickRule implements NBTData, IPurposeStringProvider
         this.toEnd = toEnd;
         this.fuelOnly = fuelOnly;
         this.furnaceInputOnly = furnaceInputOnly;
+        this.fuelList = fuelList;
+        this.recipeList = recipeList;
     }
 
     @Override
@@ -44,6 +49,8 @@ public class ShiftClickRule implements NBTData, IPurposeStringProvider
         compound.setInteger("ToEnd", toEnd);
         compound.setBoolean("FuelOnly", fuelOnly);
         compound.setBoolean("FurnaceInputOnly",furnaceInputOnly);
+        compound.setString("FuelList", fuelList);
+        compound.setString("RecipeList", recipeList);
     }
 
     @Override
@@ -57,6 +64,10 @@ public class ShiftClickRule implements NBTData, IPurposeStringProvider
         toEnd = compound.getInteger("ToEnd");
         fuelOnly = compound.getBoolean("FuelOnly");
         furnaceInputOnly = compound.getBoolean("FurnaceInputOnly");
+        if (compound.hasKey("RecipeList"))
+            recipeList = compound.getString("RecipeList");
+        if (compound.hasKey("FuelList"))
+            fuelList = compound.getString("FuelList");
     }
 
     @Override

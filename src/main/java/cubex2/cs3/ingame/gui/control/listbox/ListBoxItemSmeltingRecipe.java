@@ -12,8 +12,9 @@ public class ListBoxItemSmeltingRecipe extends ListBoxItem<SmeltingRecipe>
     {
         super(value, idx, width, height, anchor, offsetX, offsetY, parent);
 
-        itemDisplay(value.input).left(3).centerVert().add();
-        itemDisplay(value.result).left(55).centerVert().add();
-        pictureBox(Textures.CONTROLS, 218, 18).left(27).centerVert().size(22, 15).add();
+        itemDisplay(value.input).left(3).top(3).add();
+        itemDisplay(value.result).left(55).top(3).add();
+        pictureBox(Textures.CONTROLS, 218, 18).left(27).top(4).size(22, 15).add();
+        label(value.recipeList).fillWidth(3).left(3).bottom(2).add().setCentered();
     }
 }

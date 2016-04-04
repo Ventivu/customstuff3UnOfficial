@@ -1,8 +1,10 @@
 package cubex2.cs3.ingame.gui;
 
-import cubex2.cs3.common.Fuel;
 import cubex2.cs3.common.BaseContentPack;
+import cubex2.cs3.common.Fuel;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
+
+import java.util.Comparator;
 
 public class WindowFuels extends WindowContentList<Fuel>
 {
@@ -16,6 +18,15 @@ public class WindowFuels extends WindowContentList<Fuel>
     {
         desc.rows = 7;
         desc.elementHeight = 22;
+        desc.sorted = true;
+        desc.comparator = new Comparator<Fuel>()
+        {
+            @Override
+            public int compare(Fuel o1, Fuel o2)
+            {
+                return o1.fuelList.compareTo(o2.fuelList);
+            }
+        };
     }
 
     @Override

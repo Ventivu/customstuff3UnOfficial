@@ -27,6 +27,9 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
     private final Map<String, ContentRegistry> nameToRegistryMap = Maps.newHashMap();
     private boolean initialized = false;
 
+    public final SmeltingRecipeHandler smeltingRecipeHandler = new SmeltingRecipeHandler(this);
+    public final FuelHandler fuelHandler = new FuelHandler(this);
+
     private boolean doSave = true;
 
     public BaseContentPack(File directory, String name, String id)

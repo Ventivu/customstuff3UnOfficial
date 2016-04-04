@@ -12,10 +12,12 @@ public class SmeltingRecipe extends BaseContent
 {
     public ItemStack input;
     public ItemStack result;
+    public String recipeList = "vanilla";
 
-    public SmeltingRecipe(ItemStack input, ItemStack result, BaseContentPack pack)
+    public SmeltingRecipe(String recipeList, ItemStack input, ItemStack result, BaseContentPack pack)
     {
         super(pack);
+        this.recipeList = recipeList;
         this.input = input;
         this.result = result;
     }
@@ -28,8 +30,14 @@ public class SmeltingRecipe extends BaseContent
     @Override
     public void apply()
     {
-        GameRegistry.addSmelting(input, result, 0.0f);
+        apply_do();
         super.apply();
+    }
+
+    private void apply_do()
+    {
+        if (recipeList.equals("vanilla"))
+            GameRegistry.addSmelting(input, result, 0.0f);
     }
 
     @Override
@@ -41,14 +49,17 @@ public class SmeltingRecipe extends BaseContent
 
     private void remove_do()
     {
-        Map<?, ?> smeltingList = FurnaceRecipes.smelting().getSmeltingList();
-        for (Object o : smeltingList.keySet())
+        if (recipeList.equals("vanilla"))
         {
-            ItemStack stack = (ItemStack) o;
-            if (stack.getItem() == input.getItem() && stack.getItemDamage() == input.getItemDamage())
+            Map<?, ?> smeltingList = FurnaceRecipes.smelting().getSmeltingList();
+            for (Object o : smeltingList.keySet())
             {
-                smeltingList.remove(o);
-                break;
+                ItemStack stack = (ItemStack) o;
+                if (stack.getItem() == input.getItem() && stack.getItemDamage() == input.getItemDamage())
+                {
+                    smeltingList.remove(o);
+                    break;
+                }
             }
         }
     }
@@ -57,10 +68,9 @@ public class SmeltingRecipe extends BaseContent
     public void edit()
     {
         remove_do();
-        GameRegistry.addSmelting(input, result, 0.0f);
+        apply_do();
         super.edit();
     }
-
 
 
     @Override
@@ -68,6 +78,7 @@ public class SmeltingRecipe extends BaseContent
     {
         compound.setTag("Input", ItemStackHelper.writeToNBTNamed(input));
         compound.setTag("Result", ItemStackHelper.writeToNBTNamed(result));
+        compound.setString("RecipeList", recipeList);
     }
 
     @Override
@@ -75,7 +86,20 @@ public class SmeltingRecipe extends BaseContent
     {
         input = ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Input"));
         result = ItemStackHelper.readFromNBTNamed(compound.getCompoundTag("Result"));
+        if (compound.hasKey("RecipeList"))
+            recipeList = compound.getString("RecipeList");
 
         return input != null && result != null;
+    }
+
+    public ItemStack getResult(ItemStack stack, String list)
+    {
+        if (!list.equals(recipeList) || stack == null || !compareItemStacks(stack, input)) return null;
+        return result;
+    }
+
+    private boolean compareItemStacks(ItemStack stack1, ItemStack stack2)
+    {
+        return stack2.getItem() == stack1.getItem() && (stack2.getItemDamage() == 32767 || stack2.getItemDamage() == stack1.getItemDamage());
     }
 }
