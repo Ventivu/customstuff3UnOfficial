@@ -171,7 +171,8 @@ public class ClientHelper
 
         for (String file : files)
         {
-            icons.add(new ResourceLocation(file));
+            if (file.endsWith(".png"))
+                icons.add(new ResourceLocation(file));
         }
 
         return icons;
@@ -254,7 +255,7 @@ public class ClientHelper
         mc.renderEngine.bindTexture(location);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glScalef(1f / 256 * width, 1f / 256 * height, 1.0F);
-        GuiBase.INSTANCE.drawTexturedModalRect((int)(x * 256f / width), (int)(y * 256f / height), 0, 0, 256, 256);
+        GuiBase.INSTANCE.drawTexturedModalRect((int) (x * 256f / width), (int) (y * 256f / height), 0, 0, 256, 256);
         GL11.glScalef(256 * width, 256 * height, 1.0F);
 
         GL11.glDisable(GL11.GL_BLEND);
