@@ -8,7 +8,7 @@ import cubex2.cs3.ingame.gui.control.Control;
 
 public class WindowDocs extends Window
 {
-    private static final boolean RELOAD = true;
+    private static final boolean RELOAD = false;
     private final ParsedDocFile docFile;
     private Button btnReload;
 

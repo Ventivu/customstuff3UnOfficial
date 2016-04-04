@@ -79,7 +79,7 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
         } else if (gui.getType() == EnumGuiType.CONTAINER && !player.worldObj.isRemote)
         {
             PacketOpenCustomGuiServer.openGuiOnServer((EntityPlayerMP) player, new PacketOpenUserContainerGuiClient(gui, slotId),
-                    new ContainerBasic(gui, player, new InventoryItemStack(gui, player, slotId)));
+                                                      new ContainerBasic(gui, player, new InventoryItemStack(gui, player, slotId)));
         }
     }
 
@@ -118,7 +118,7 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
             if (te != null && te instanceof TileEntityInventory)
             {
                 PacketOpenCustomGuiServer.openGuiOnServer((EntityPlayerMP) player, new PacketOpenUserContainerGuiClient(gui, x, y, z),
-                        new ContainerBasic(gui, player, (IInventory) te));
+                                                          new ContainerBasic(gui, player, (IInventory) te));
             } else
             {
                 player.addChatMessage(new ChatComponentText("ERROR: Block has no tile entity of type 'inventory'"));
@@ -558,6 +558,16 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
     public boolean isInCreative()
     {
         return player.capabilities.isCreativeMode;
+    }
+
+    /**
+     * Damages the item currently hold by the player.
+     *
+     * @param amount The amount of damage to add to the item
+     */
+    public void damageCurrentItem(int amount)
+    {
+        getInventory().damageItem(getCurrentSlot(), amount);
     }
 
     /**

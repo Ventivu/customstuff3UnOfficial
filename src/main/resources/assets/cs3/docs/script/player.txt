@@ -39,6 +39,7 @@ ELEM openEnderChest openEnderChest
 ELEM openGui openGui
 ELEM openItemGui openItemGui
 ELEM openBlockGui openBlockGui
+ELEM damageCurrentItem damageCurrentItem
 
 ELEM_PREFIX script/
 
