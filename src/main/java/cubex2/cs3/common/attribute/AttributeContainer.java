@@ -2,19 +2,24 @@ package cubex2.cs3.common.attribute;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cubex2.cs3.common.BaseContentPack;
 import cubex2.cs3.ingame.gui.Window;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class AttributeContainer
 {
     protected final BaseContentPack pack;
     private final Map<Field, AttributeBridge> bridgeMap = Maps.newHashMap();
+
+    private static final HashMap<Class, Field[]> fieldCache = Maps.newHashMap();
 
     public AttributeContainer(BaseContentPack pack)
     {
@@ -50,7 +55,7 @@ public class AttributeContainer
 
     public void writeToNBT(NBTTagCompound compound)
     {
-        Field[] fields = getAttributeFields(ALL_ATTRIBUTES);
+        Field[] fields = getAttributeFields();
 
         for (Field field : fields)
         {
@@ -68,12 +73,34 @@ public class AttributeContainer
                 e.printStackTrace();
             }
         }
+    }
 
+    private Field[] getFields()
+    {
+        Class<?> clazz = getClass();
+
+        if (fieldCache.containsKey(clazz))
+            return fieldCache.get(clazz);
+        else
+        {
+            Field[] classFields = clazz.getFields();
+            List<Field> list = Lists.newArrayList();
+            for (Field field : classFields)
+            {
+                if (field.isAnnotationPresent(Attribute.class))
+                    list.add(field);
+            }
+            Field[] fields = list.toArray(new Field[list.size()]);
+
+            fieldCache.put(clazz, fields);
+
+            return fields;
+        }
     }
 
     public Field[] getAttributeFields(Predicate<Field>... predicates)
     {
-        Iterator<Field> fields = Iterators.forArray(getClass().getFields());
+        Iterator<Field> fields = Iterators.forArray(getFields());
         for (Predicate<Field> pred : predicates)
         {
             fields = Iterators.filter(fields, pred);
@@ -85,7 +112,7 @@ public class AttributeContainer
     {
         try
         {
-            for (Field field : getAttributeFields(ALL_ATTRIBUTES))
+            for (Field field : getAttributeFields())
             {
                 bridgeMap.put(field, getBridge(field));
             }
@@ -157,21 +184,12 @@ public class AttributeContainer
         }
     }
 
-    private static final Predicate<Field> ALL_ATTRIBUTES = new Predicate<Field>()
-    {
-        @Override
-        public boolean apply(Field input)
-        {
-            return input.isAnnotationPresent(Attribute.class);
-        }
-    };
-
     private static final Predicate<Field> ATTRIBUTE_NO_POST_INIT = new Predicate<Field>()
     {
         @Override
         public boolean apply(Field input)
         {
-            return input.isAnnotationPresent(Attribute.class) && !input.getAnnotation(Attribute.class).loadOnPostInit();
+            return !input.getAnnotation(Attribute.class).loadOnPostInit();
         }
     };
 
@@ -180,7 +198,7 @@ public class AttributeContainer
         @Override
         public boolean apply(Field input)
         {
-            return input.isAnnotationPresent(Attribute.class) && input.getAnnotation(Attribute.class).loadOnPostInit();
+            return input.getAnnotation(Attribute.class).loadOnPostInit();
         }
     };
 
@@ -189,7 +207,7 @@ public class AttributeContainer
         @Override
         public boolean apply(Field input)
         {
-            return input.isAnnotationPresent(Attribute.class) && input.getAnnotation(Attribute.class).hasOwnWindow();
+            return input.getAnnotation(Attribute.class).hasOwnWindow();
         }
     };
 
