@@ -322,7 +322,7 @@ public class WrappedItem extends AttributeContent implements Comparable<WrappedI
 
     public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
-        if (container.onRightClick != null && container.onRightClick.script != null)
+        if (container.onEaten != null && container.onEaten.script != null)
         {
             ITriggerData data = new TriggerData("onEaten", TriggerType.ITEM, player.worldObj, player, stack);
             JavaScriptHelper.executeTrigger(container.onEaten.script, data, pack);
