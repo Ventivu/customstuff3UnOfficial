@@ -4,7 +4,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import cubex2.cs3.common.WrappedItem;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -159,7 +158,7 @@ public class ItemCSPickaxe extends ItemPickaxe
     @Override
     public float getDigSpeed(ItemStack stack, Block block, int meta)
     {
-        return block.getMaterial() != Material.iron && block.getMaterial() != Material.anvil && block.getMaterial() != Material.rock ? wrappedItem.getDigSpeed(stack, block, meta) : this.efficiencyOnProperMaterial;
+        return wrappedItem.getDigSpeed(stack, block, meta);
     }
 
     @Override

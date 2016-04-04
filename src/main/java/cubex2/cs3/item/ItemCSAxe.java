@@ -4,7 +4,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import cubex2.cs3.common.WrappedItem;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -159,7 +158,7 @@ public class ItemCSAxe extends ItemAxe
     @Override
     public float getDigSpeed(ItemStack stack, Block block, int meta)
     {
-        return block.getMaterial() != Material.wood && block.getMaterial() != Material.plants && block.getMaterial() != Material.vine ? wrappedItem.getDigSpeed(stack, block, meta) : this.efficiencyOnProperMaterial;
+        return wrappedItem.getDigSpeed(stack, block, meta);
     }
 
     @Override
