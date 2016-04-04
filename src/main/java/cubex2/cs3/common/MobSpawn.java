@@ -128,7 +128,8 @@ public class MobSpawn extends BaseContent implements IPurposeStringProvider
         type = CreatureTypes.getType(compound.getString("Type"));
         biomes = Lists.newArrayList();
         Util.readListFromNBT("Biomes", biomes, Util.NBT_BIOME_READER, compound);
-        return true;
+
+        return !biomes.contains(null);
     }
 
     @Override
