@@ -115,6 +115,9 @@ public class BlockAttributes extends AttributeContainer
     @Attribute(windowClass = Window.class, hasOwnWindow = false)
     public IconWrapper textureWest = new IconWrapper("");
 
+    @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Drop more if tool has fortune")
+    public boolean useFortune = false;
+
     @Attribute(windowClass = WindowEditBoolean.class, additionalInfo = "Block blocks piston")
     public boolean blocksPiston = false;
 

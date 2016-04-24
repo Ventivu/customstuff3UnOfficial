@@ -465,7 +465,7 @@ public class WrappedBlock extends AttributeContent implements Comparable<Wrapped
 
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
     {
-        return container.drop.getDrops(fortune + container.fortuneModifier, random);
+        return container.drop.getDrops(container.useFortune ? fortune + container.fortuneModifier : 0, random);
     }
 
     public int getMobilityFlag()
