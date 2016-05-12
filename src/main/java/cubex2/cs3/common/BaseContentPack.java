@@ -45,6 +45,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         registerContentRegistry(new SmeltingRecipeRegistry(this), SmeltingRecipe.class);
         registerContentRegistry(new ShapedRecipeRegistry(this), ShapedRecipe.class);
         registerContentRegistry(new ShapelessRecipeRegistry(this), ShapelessRecipe.class);
+        registerContentRegistry(new ArmorMaterialRegistry(this), ArmorMaterial.class);
         registerContentRegistry(new ItemRegistry(this), WrappedItem.class);
         registerContentRegistry(new TileEntityRegistry(this), WrappedTileEntity.class);
         registerContentRegistry(new GuiRegistry(this), WrappedGui.class);
@@ -56,7 +57,7 @@ public class BaseContentPack implements IContentPack, IPurposeStringProvider, Co
         registerContentRegistry(new ChestItemRegistry(this), ChestItem.class);
         registerContentRegistry(new MobSpawnRegistry(this), MobSpawn.class);
         registerContentRegistry(new DungeonMobRegistry(this), DungeonMob.class);
-        registerContentRegistry(new ArmorMaterialRegistry(this), ArmorMaterial.class);
+
         registerContentRegistry(new MobDropRegistry(this), MobDrop.class);
     }
 
