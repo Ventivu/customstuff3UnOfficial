@@ -18,7 +18,7 @@ import cubex2.cs3.tileentity.TileEntityInventory;
 import cubex2.cs3.util.GeneralHelper;
 import cubex2.cs3.util.JavaScriptHelper;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -29,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
+import net.minecraftforge.client.ClientCommandHandler;
 
 public class ScriptableEntityPlayer extends ScriptableEntityLiving
 {
@@ -206,10 +207,10 @@ public class ScriptableEntityPlayer extends ScriptableEntityLiving
      */
     public void sendChat(String chat)
     {
-        Minecraft mc = FMLClientHandler.instance().getClient();
-        if (mc != null && !player.worldObj.isRemote)
+        if (player.worldObj.isRemote && player instanceof EntityClientPlayerMP)
         {
-            mc.thePlayer.sendChatMessage(chat);
+            if (ClientCommandHandler.instance.executeCommand(player, chat) != 0) return;
+            ((EntityClientPlayerMP) player).sendChatMessage(chat);
         }
     }
 
