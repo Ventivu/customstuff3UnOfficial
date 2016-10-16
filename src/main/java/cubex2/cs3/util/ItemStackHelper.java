@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemStackHelper
@@ -139,14 +140,14 @@ public class ItemStackHelper
         return stacks;
     }
 
-    public static List<ItemStack> getAllItemStacks()
+    public static ArrayList<ItemStack> getAllItemStacks()
     {
         return getAllItemStacks(true);
     }
 
-    public static List<ItemStack> getAllItemStacks(boolean wildCardStacks)
+    public static ArrayList<ItemStack> getAllItemStacks(boolean wildCardStacks)
     {
-        List<ItemStack> stacks = Lists.newArrayList();
+        ArrayList<ItemStack> stacks = Lists.newArrayList();
 
         for (Object o : GameData.getItemRegistry().getKeys())
         {

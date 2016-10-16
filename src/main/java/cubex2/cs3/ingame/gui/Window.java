@@ -249,8 +249,8 @@ public abstract class Window extends ControlContainer implements IValueListener
 
         if (drawBackground)
         {
+            GL11.glColor4f(1f, 1f, 1f, 1f);
             mc.renderEngine.bindTexture(Textures.BG);
-
             GuiHelper.drawRectSliced(bounds, 0, 0, 256, 256);
         }
 

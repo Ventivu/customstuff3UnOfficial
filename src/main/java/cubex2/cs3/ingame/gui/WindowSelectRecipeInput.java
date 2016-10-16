@@ -1,10 +1,8 @@
 package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.common.BaseContentPack;
-import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.Tab;
-import cubex2.cs3.ingame.gui.control.TabChangedListener;
-import cubex2.cs3.ingame.gui.control.TabControl;
+import cubex2.cs3.ingame.gui.control.*;
+import cubex2.cs3.ingame.gui.control.builder.ItemSelectionArrayBuilder;
 import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
 import cubex2.cs3.ingame.gui.control.listbox.ListBox;
 import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
@@ -17,7 +15,7 @@ import net.minecraft.item.ItemStack;
 public class WindowSelectRecipeInput extends Window implements IListBoxItemClickListener, TabChangedListener
 {
     private BaseContentPack pack;
-    private ListBox<ItemStack> lbItems;
+    private ItemSelectionArray itemsArray;
     private ListBox<OreDictionaryClass> lbOreDictClasses;
     private TabControl tabControl;
     private Object selectedInput = null;
@@ -31,17 +29,10 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
         Tab itemTab = tabControl.addTab("Items");
         Tab oreTab = tabControl.addTab("Ore Classes");
 
-        ListBoxDescription<ItemStack> desc = new ListBoxDescription<ItemStack>(7, 7);
-        desc.elementWidth = 22;
-        desc.elementHeight = 22;
-        desc.columns = 7;
-        desc.rows = 7;
-        desc.elements = ItemStackHelper.getAllItemStacks();
-        desc.listBoxItemMeta = 1;
-        desc.hasSearchBar = true;
-        desc.filter = Filter.ITEM_STACK;
-        lbItems = itemTab.listBox(desc).left(7).top(7).right(7).add();
-        claimFocus(lbItems.getSearchBox());
+        itemsArray = new ItemSelectionArrayBuilder(ItemStackHelper.getAllItemStacks(), defaultBuilderContainer).left(7).top(7).right(7).height(7 * 23 - 5 + 21).add();
+        itemsArray.listener = listener;
+        itemsArray.filter = Filter.ITEM_STACK;
+        claimFocus(itemsArray.getSearchBox());
 
         ListBoxDescription<OreDictionaryClass> desc1 = new ListBoxDescription<OreDictionaryClass>(7, 7);
         desc1.elementWidth = 22;
@@ -82,10 +73,7 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
     @Override
     public void itemClicked(Object item, ListBox listBox, int button)
     {
-        ListBox otherListBox = (listBox.getBounds() == lbItems.getBounds() ? lbOreDictClasses : lbItems);
         btnSelect.setEnabled(listBox.getSelectedIndex() != -1);
-        otherListBox.removeSelection();
-
         selectedInput = listBox.getSelectedItem();
     }
 
@@ -93,8 +81,17 @@ public class WindowSelectRecipeInput extends Window implements IListBoxItemClick
     public void tabChanged(TabControl tabControl, Tab tab)
     {
         if (tab.title.equals("Items"))
-            claimFocus(lbItems.getSearchBox());
+            claimFocus(itemsArray.getSearchBox());
         else
             claimFocus(lbOreDictClasses.getSearchBox());
     }
+
+    private final IValueListener<ItemSelectionArray> listener = new IValueListener<ItemSelectionArray>()
+    {
+        @Override
+        public void onValueChanged(ItemSelectionArray control)
+        {
+            btnSelect.setEnabled(control.getSelectedStack() != null);
+        }
+    };
 }

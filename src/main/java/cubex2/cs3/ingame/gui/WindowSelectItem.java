@@ -1,17 +1,16 @@
 package cubex2.cs3.ingame.gui;
 
 import cubex2.cs3.ingame.gui.control.Control;
-import cubex2.cs3.ingame.gui.control.TextBox;
-import cubex2.cs3.ingame.gui.control.listbox.IListBoxItemClickListener;
-import cubex2.cs3.ingame.gui.control.listbox.ListBox;
-import cubex2.cs3.ingame.gui.control.listbox.ListBoxDescription;
+import cubex2.cs3.ingame.gui.control.IValueListener;
+import cubex2.cs3.ingame.gui.control.ItemSelectionArray;
+import cubex2.cs3.ingame.gui.control.builder.ItemSelectionArrayBuilder;
 import cubex2.cs3.util.Filter;
 import cubex2.cs3.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 
-public class WindowSelectItem extends Window implements IListBoxItemClickListener<ItemStack>
+public class WindowSelectItem extends Window
 {
-    private ListBox<ItemStack> lbItems;
+    private ItemSelectionArray itemsArray;
     private ItemStack selectedStack = null;
     private boolean wildCardStacks = true;
 
@@ -33,16 +32,10 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         this.wildCardStacks = wildCardStacks;
         this.callback = callback;
 
-        ListBoxDescription<ItemStack> desc = new ListBoxDescription<ItemStack>(7, 7);
-        desc.elementWidth = 22;
-        desc.elementHeight = 22;
-        desc.columns = 7;
-        desc.rows = 7;
-        desc.elements = ItemStackHelper.getAllItemStacks(wildCardStacks);
-        desc.hasSearchBar = true;
-        desc.filter = Filter.ITEM_STACK;
-        lbItems = listBox(desc).left(7).right(7).top(7).add();
-        claimFocus(lbItems.getSearchBox());
+        itemsArray = new ItemSelectionArrayBuilder(ItemStackHelper.getAllItemStacks(wildCardStacks), defaultBuilderContainer).left(7).top(7).right(7).height(7 * 23 - 5 + 21).add();
+        itemsArray.listener = listener;
+        itemsArray.filter = Filter.ITEM_STACK;
+        claimFocus(itemsArray.getSearchBox());
 
 
         btnSelect.setEnabled(false);
@@ -67,6 +60,7 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
             GuiBase.openPrevWindow();
         } else if (c == btnSelect)
         {
+            selectedStack = itemsArray.getSelectedStack();
             if (callback != null)
             {
                 callback.itemSelected(selectedStack);
@@ -78,10 +72,12 @@ public class WindowSelectItem extends Window implements IListBoxItemClickListene
         }
     }
 
-    @Override
-    public void itemClicked(ItemStack item, ListBox<ItemStack> listBox, int button)
+    private final IValueListener<ItemSelectionArray> listener = new IValueListener<ItemSelectionArray>()
     {
-        btnSelect.setEnabled(listBox.getSelectedIndex() != -1);
-        selectedStack = listBox.getSelectedItem();
-    }
+        @Override
+        public void onValueChanged(ItemSelectionArray control)
+        {
+            btnSelect.setEnabled(control.getSelectedStack() != null);
+        }
+    };
 }
